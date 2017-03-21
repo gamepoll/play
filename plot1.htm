@@ -1,0 +1,93 @@
+<head>
+  <!-- Plotly.js -->
+  <script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
+
+</head>
+
+<body>
+<div id="myDiv" style="height:500px; width:900px"></div>
+	  <script>
+    <!-- JAVASCRIPT CODE GOES HERE -->
+      function makeplot() {
+
+// codepen.io/plotly/pen/LGppGV
+// stackoverflow.com/questions/40984524
+//the url for jQuery and D3
+var url = "https://spreadsheets.google.com/feeds/list/1PB6rWQ4jULG8LWvqhXqUKLB_nIgl4QdXf-Tza9daP78/oxfnicg/public/values?alt=json";
+	
+//D3 only
+Plotly.d3.json(url, function (error, result) {
+    var x = [], y = [], h1999y=[], h0966y=[], h425y=[], dd=[], standard_deviation = [];
+    for (i = 0; i < result.feed.entry.length; i += 1) {
+            x.push(result.feed.entry[i].gsx$b.$t);
+            y.push(result.feed.entry[i].gsx$h1099.$t);
+		 		h1999y.push(result.feed.entry[i].gsx$h1999.$t);
+		 		h0966y.push(result.feed.entry[i].gsx$h0966.$t);
+		 		h425y.push(result.feed.entry[i].gsx$h425.$t);
+		      dd.push(result.feed.entry[i].gsx$date.$t);
+    } console.log("Head111");
+    console.log( 'X',x, 'YY',y, 'SD',standard_deviation );
+    makePlotly( x, y, h1999y, h0966y,h425y, dd, standard_deviation );
+});
+	
+};
+
+function makePlotly( x, y, h1999y, h0966y,h425y, dd,standard_deviation ){
+    var plotDiv = document.getElementById("plot");
+    var traces = {
+        x: x, 
+        y: y,
+		  name: "h1099",
+		  text: dd
+    };
+
+	 var traces2 = {
+        x: x, 
+        y: h1999y,
+		  text: dd,
+		  name: "h1999",
+		   mode: 'lines+markers',
+  			marker: {
+    			color: 'rgb(128, 0, 128)',
+    			size: 5
+  			},
+		  xaxis: 'x2',
+  		  yaxis: 'y2'
+    };
+	
+	 var traces3 = {
+        x: x, 
+        y: h0966y,
+		  name: "h0966",
+		  text: dd
+    };
+	
+	 var traces4 = {
+        x: x, 
+        y: h425y,
+		  name: "h425",
+		  text: dd
+    };
+	
+	var data = [traces, traces2, traces3, traces4];
+
+	var layout = {
+  xaxis: {domain: [0, 0.45]},
+  yaxis: {domain: [0, 1]},
+
+  xaxis2: {domain: [0.55, 1]},
+  yaxis2: {
+    domain: [0, 1],
+    anchor: 'x2'
+    }
+  };
+	
+
+    Plotly.newPlot('myDiv', data, layout);
+};
+  makeplot();
+
+
+  </script>
+	
+</body>
