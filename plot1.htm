@@ -7,10 +7,11 @@
 </head>
 
 <body>
-<div id="myDiv" style="height:500px; width:900px"></div>
-<div id="myDiv1" style="height:500px; width:900px"></div>
 <img id="jpg-export"></img>
 <img id="jpg-export2"></img>
+<div id="myDiv" style="height:500px; width:900px"></div>
+<div id="myDiv1" style="height:500px; width:900px"></div>
+
 	  <script>
     <!-- JAVASCRIPT CODE GOES HERE -->
       function makeplot() {
@@ -97,7 +98,7 @@ function makePlotly2( x, y, bochky,  standard_deviation ){
          .then(
             function(url)
          {
-             img_jpg.attr("src", url);
+             img_jpg.attr("src", url);return 1;
 //             return Plotly.toImage(gd,{format:'jpeg',height:400,width:400});
          }
          )
@@ -168,7 +169,7 @@ function makePlotly( x, y, h1999y, h0966y,h425y, dd,standard_deviation ){
          .then(
             function(url)
          {
-             img_jpg.attr("src", url);
+             img_jpg.attr("src", url);return1;
 //             return Plotly.toImage(gd,{format:'jpeg',height:400,width:400});
          }
          )
