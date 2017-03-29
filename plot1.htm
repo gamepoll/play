@@ -9,6 +9,8 @@
 <body>
 <div id="myDiv" style="height:500px; width:900px"></div>
 <div id="myDiv1" style="height:500px; width:900px"></div>
+<img id="jpg-export"></img>
+<img id="jpg-export2"></img>
 	  <script>
     <!-- JAVASCRIPT CODE GOES HERE -->
       function makeplot() {
@@ -82,8 +84,25 @@ function makePlotly2( x, y, bochky,  standard_deviation ){
     side: 'right'
   }
   };
+    var d3 = Plotly.d3;
+    var img_jpg= d3.select('#jpg-export');
+	
+    Plotly.newPlot('myDiv1', data, layout)
+	// static image in jpg format
 
-    Plotly.newPlot('myDiv1', data, layout);
+    .then(
+    function(gd)
+     {
+      Plotly.toImage(gd,{height:500,width:900})
+         .then(
+            function(url)
+         {
+             img_jpg.attr("src", url);
+//             return Plotly.toImage(gd,{format:'jpeg',height:400,width:400});
+         }
+         )
+    });
+
 };
 
 function makePlotly( x, y, h1999y, h0966y,h425y, dd,standard_deviation ){
@@ -136,8 +155,25 @@ function makePlotly( x, y, h1999y, h0966y,h425y, dd,standard_deviation ){
     }
   };
 	
+    var d3 = Plotly.d3;
+    var img_jpg= d3.select('#jpg-export2');
+	
+    Plotly.newPlot('myDiv', data, layout)
+	// static image in jpg format
 
-    Plotly.newPlot('myDiv', data, layout);
+    .then(
+    function(gd)
+     {
+      Plotly.toImage(gd,{height:500,width:900})
+         .then(
+            function(url)
+         {
+             img_jpg.attr("src", url);
+//             return Plotly.toImage(gd,{format:'jpeg',height:400,width:400});
+         }
+         )
+    });
+	
 };
   makeplot();
 
