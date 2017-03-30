@@ -2,8 +2,10 @@
   <title>jPlot 5.1 - Default functionality</title>
 
   <!-- Plotly.js -->
-  <script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
-
+  <!--script src="https://cdn.plot.ly/plotly-latest.min.js"></script-->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/d3/3.5.6/d3.min.js"> </script>
+  <script src="https://code.jquery.com/jquery-2.1.4.min.js"> </script>
+  <script src="https://d14fo0winaifog.cloudfront.net/plotly-basic.js"> </script>
 </head>
 
 <body>
@@ -18,6 +20,7 @@
 
 // codepen.io/plotly/pen/LGppGV
 // stackoverflow.com/questions/40984524
+// http://www.computerworld.com/article/2952180
 //the url for jQuery and D3
 var url = "https://spreadsheets.google.com/feeds/list/1PB6rWQ4jULG8LWvqhXqUKLB_nIgl4QdXf-Tza9daP78/oxfnicg/public/values?alt=json";
 
@@ -85,12 +88,13 @@ function makePlotly2( x, y, bochky,  standard_deviation ){
     side: 'right'
   }
   };
-    var d3 = Plotly.d3;
-    var img_jpg= d3.select('#jpg-export');
-	
-    Plotly.newPlot('myDiv1', data, layout)
+//    var d3 = Plotly.d3;
+//    var img_jpg= d3.select('#jpg-export');
+
+    Plotly.plot('myDiv1', data, layout);
+/*    Plotly.newPlot('myDiv1', data, layout)
 	// static image in jpg format
-/*
+
     .then(
     function(gd)
      {
@@ -102,7 +106,7 @@ function makePlotly2( x, y, bochky,  standard_deviation ){
 //             return Plotly.toImage(gd,{format:'jpeg',height:400,width:400});
          }
          )
-    }) */;
+    }) ;*/
 
 };
 
@@ -156,11 +160,12 @@ function makePlotly( x, y, h1999y, h0966y,h425y, dd,standard_deviation ){
     }
   };
 	
-    var d3 = Plotly.d3;
-    var img_jpg= d3.select('#jpg-export2');
-	
-    Plotly.newPlot('myDiv', data, layout)
-/*	// static image in jpg format
+//    var d3 = Plotly.d3;
+//    var img_jpg= d3.select('#jpg-export2');
+
+    Plotly.plot('myDiv', data, layout)
+/*    Plotly.newPlot('myDiv', data, layout)
+	// static image in jpg format
 
     .then(
     function(gd)
@@ -173,7 +178,7 @@ function makePlotly( x, y, h1999y, h0966y,h425y, dd,standard_deviation ){
 //             return Plotly.toImage(gd,{format:'jpeg',height:400,width:400});
          }
          )
-    })*/;
+    });*/
 	
 };
   makeplot();
