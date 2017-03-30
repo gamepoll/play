@@ -8,7 +8,6 @@
 
 <body>
 <div id="myDiv" style="height:500px; width:900px"></div>
-<div id="myDiv1" style="height:500px; width:900px"></div>
 	  <script>
     <!-- JAVASCRIPT CODE GOES HERE -->
       function makeplot() {
@@ -16,8 +15,7 @@
 // stackoverflow.com/questions/40984524
 //the url for jQuery and D3
 var url = "https://spreadsheets.google.com/feeds/list/1PB6rWQ4jULG8LWvqhXqUKLB_nIgl4QdXf-Tza9daP78/oxfnicg/public/values?alt=json";
-var url2 = "https://spreadsheets.google.com/feeds/list/1PB6rWQ4jULG8LWvqhXqUKLB_nIgl4QdXf-Tza9daP78/o7lhxur/public/values?alt=json";
-			
+	
 //D3 only
 Plotly.d3.json(url, function (error, result) {
     var x = [], y = [], h1999y=[], h0966y=[], h425y=[], dd=[], standard_deviation = [];
@@ -28,56 +26,11 @@ Plotly.d3.json(url, function (error, result) {
 		 		h0966y.push(result.feed.entry[i].gsx$h0966.$t);
 		 		h425y.push(result.feed.entry[i].gsx$h425.$t);
 		      dd.push(result.feed.entry[i].gsx$date.$t);
-    } console.log("Head11");console.log(result.feed.entry.length);
-//    console.log( 'X',x, 'YY',y, 'SD',standard_deviation );
+    } console.log("Head111");
+    console.log( 'X',x, 'YY',y, 'SD',standard_deviation );
     makePlotly( x, y, h1999y, h0966y,h425y, dd, standard_deviation );
 });
-	console.log("Head112")
-			
-Plotly.d3.json(url2, function (error, result) {
-    var x = [], y = [],  bochky=[],  standard_deviation = [];
-    for (i = 0; i < result.feed.entry.length; i += 1) {
-            x.push(result.feed.entry[i].gsx$date.$t);
-            y.push(result.feed.entry[i].gsx$tsxbockhk.$t);
-		 		bochky.push(result.feed.entry[i].gsx$bochk.$t);
-    } console.log("Head22");console.log(result.feed.entry.length);
-    console.log( 'X',x, 'YY',y, 'SD',standard_deviation );
-    makePlotly2( x, y, bochky, standard_deviation );
-});
-			
-};
-function makePlotly2( x, y, bochky,  standard_deviation ){
-    var plotDiv = document.getElementById("plot");
-    var traces = {
-        x: x, 
-        y: y,
-		  name: "tsxbockhk"
-    };
-	 var traces2 = {
-        x: x, 
-        y: bochky,
-		  name: "bochky",
-		   mode: 'lines+markers',
-  			marker: {
-    			color: 'rgb(128, 0, 128)',
-    			size: 5
-  			},
-  		  yaxis: 'y2'
-    };
 	
-	var data = [traces, traces2];
-	var layout = {
-  title: 'tsxbochk',
-  yaxis: {title: 't-b'},
-  yaxis2: {
-    title: 'bochk',
-    titlefont: {color: 'rgb(148, 103, 189)'},
-    tickfont: {color: 'rgb(148, 103, 189)'},
-    overlaying: 'y',
-    side: 'right'
-  }
-  };
-    Plotly.newPlot('myDiv1', data, layout);
 };
 function makePlotly( x, y, h1999y, h0966y,h425y, dd,standard_deviation ){
     var plotDiv = document.getElementById("plot");
