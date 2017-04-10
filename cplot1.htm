@@ -1,0 +1,192 @@
+
+<head>
+  <title>jPlotC 5.1 - Default functionality</title>
+
+  <!-- Plotly.js -->
+  <!--script src="https://cdn.plot.ly/plotly-latest.min.js"></script-->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/d3/3.5.6/d3.min.js"> </script>
+  <script src="https://code.jquery.com/jquery-2.1.4.min.js"> </script>
+  <script src="https://d14fo0winaifog.cloudfront.net/plotly-basic.js"> </script>
+</head>
+
+<body>
+<img id="jpg-export"></img>
+<img id="jpg-export2"></img>
+<div id="myDiv" style="height:500px; width:900px"></div>
+<div id="myDiv1" style="height:500px; width:900px"></div>
+
+	  <script>
+    <!-- JAVASCRIPT CODE GOES HERE -->
+      function makeplot() {
+
+// codepen.io/plotly/pen/LGppGV
+// stackoverflow.com/questions/40984524
+// http://www.computerworld.com/article/2952180
+//the url for jQuery and D3
+var url = "https://spreadsheets.google.com/feeds/list/1NYOFCAHvMkyOxItQqqhFLvna-yXnMheQbuxVPMV43Dk/oxfnicg/public/values?alt=json";
+
+var url2 = "https://spreadsheets.google.com/feeds/list/1NYOFCAHvMkyOxItQqqhFLvna-yXnMheQbuxVPMV43Dk/o7lhxur/public/values?alt=json";
+			
+//D3 only
+Plotly.d3.json(url, function (error, result) {
+    var x = [], y = [], h1999y=[], h0966y=[], h425y=[], dd=[], standard_deviation = [];
+    for (i = 0; i < result.feed.entry.length; i += 1) {
+            x.push(result.feed.entry[i].gsx$b.$t);
+            y.push(result.feed.entry[i].gsx$h1099.$t);
+		 		h1999y.push(result.feed.entry[i].gsx$h1999.$t);
+		 		h0966y.push(result.feed.entry[i].gsx$h0966.$t);
+		 		h425y.push(result.feed.entry[i].gsx$h425.$t);
+		      dd.push(result.feed.entry[i].gsx$date.$t);
+    } console.log("Head11");console.log(result.feed.entry.length);
+//    console.log( 'X',x, 'YY',y, 'SD',standard_deviation );
+    makePlotly( x, y, h1999y, h0966y,h425y, dd, standard_deviation );
+});
+	console.log("Head112")
+			
+Plotly.d3.json(url2, function (error, result) {
+    var x = [], y = [],  bochky=[],  standard_deviation = [];
+    for (i = 0; i < result.feed.entry.length; i += 1) {
+            x.push(result.feed.entry[i].gsx$date.$t);
+            y.push(result.feed.entry[i].gsx$tsxbockhk.$t);
+		 		bochky.push(result.feed.entry[i].gsx$bochk.$t);
+    } console.log("Head22");console.log(result.feed.entry.length);
+    console.log( 'X',x, 'YY',y, 'SD',standard_deviation );
+    makePlotly2( x, y, bochky, standard_deviation );
+});
+			
+};
+
+function makePlotly2( x, y, bochky,  standard_deviation ){
+    var plotDiv = document.getElementById("plot");
+    var traces = {
+        x: x, 
+        y: y,
+		  name: "tsxbockhk"
+    };
+
+	 var traces2 = {
+        x: x, 
+        y: bochky,
+		  name: "bochky",
+		   mode: 'lines+markers',
+  			marker: {
+    			color: 'rgb(128, 0, 128)',
+    			size: 5
+  			},
+  		  yaxis: 'y2'
+    };
+	
+	var data = [traces, traces2];
+
+	var layout = {
+  title: 'tsxbochk',
+  yaxis: {title: 't-b'},
+  yaxis2: {
+    title: 'bochk',
+    titlefont: {color: 'rgb(148, 103, 189)'},
+    tickfont: {color: 'rgb(148, 103, 189)'},
+    overlaying: 'y',
+    side: 'right'
+  }
+  };
+//    var d3 = Plotly.d3;
+//    var img_jpg= d3.select('#jpg-export');
+
+    Plotly.plot('myDiv1', data, layout);
+/*    Plotly.newPlot('myDiv1', data, layout)
+	// static image in jpg format
+
+    .then(
+    function(gd)
+     {
+      Plotly.toImage(gd,{height:500,width:900})
+         .then(
+            function(url)
+         {
+             img_jpg.attr("src", url);return 1;
+//             return Plotly.toImage(gd,{format:'jpeg',height:400,width:400});
+         }
+         )
+    }) ;*/
+
+};
+
+function makePlotly( x, y, h1999y, h0966y,h425y, dd,standard_deviation ){
+    var plotDiv = document.getElementById("plot");
+    var traces = {
+        x: x, 
+        y: y,
+		  name: "h1099",
+		  text: dd
+    };
+
+	 var traces2 = {
+        x: x, 
+        y: h1999y,
+		  text: dd,
+		  name: "h1999",
+		   mode: 'lines+markers',
+  			marker: {
+    			color: 'rgb(128, 0, 128)',
+    			size: 5
+  			},
+		  xaxis: 'x2',
+  		  yaxis: 'y2'
+    };
+	
+	 var traces3 = {
+        x: x, 
+        y: h0966y,
+		  name: "h0966",
+		  text: dd
+    };
+	
+	 var traces4 = {
+        x: x, 
+        y: h425y,
+		  name: "h425",
+		  text: dd
+    };
+	
+	var data = [traces, traces2, traces3, traces4];
+
+	var layout = {
+  xaxis: {domain: [0, 0.45]},
+  yaxis: {domain: [0, 1]},
+
+  xaxis2: {domain: [0.55, 1]},
+  yaxis2: {
+    domain: [0, 1],
+    anchor: 'x2'
+    }
+  };
+	
+//    var d3 = Plotly.d3;
+//    var img_jpg= d3.select('#jpg-export2');
+
+    Plotly.plot('myDiv', data, layout)
+/*    Plotly.newPlot('myDiv', data, layout)
+	// static image in jpg format
+
+    .then(
+    function(gd)
+     {
+      Plotly.toImage(gd,{height:500,width:900})
+         .then(
+            function(url)
+         {
+             img_jpg.attr("src", url);return1;
+//             return Plotly.toImage(gd,{format:'jpeg',height:400,width:400});
+         }
+         )
+    });*/
+	
+};
+  makeplot();
+
+
+
+  </script>
+	
+</body>
+script.google.com/macros/s/AKfycbw_R11-s8IQPBJ87VDg2MKXQk627ztHSV0wQLGMc0YozIJ92A4/exec?action=get&mode=base
