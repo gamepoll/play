@@ -10,6 +10,11 @@
 </head>
 
 <body>
+<span class="clock"></span>
+<p/>
+<button onclick="myTrigger()">Click Tick</button>
+<p id="demo"></p> 
+	
 <img id="jpg-export"></img>
 <img id="jpg-export2"></img>
 <div id="myDiv" style="height:500px; width:900px"></div>
@@ -17,6 +22,23 @@
 
 	  <script>
     <!-- JAVASCRIPT CODE GOES HERE -->
+jQuery(function($) {
+  setInterval(function() {
+    var date = new Date(),
+        time = date.toLocaleTimeString();
+    $(".clock").html(time);
+  }, 1000);
+});
+
+function myTrigger() {
+	var d=new Date();
+ 
+	$.get( "https://script.google.com/macros/s/AKfycbw_R11-s8IQPBJ87VDg2MKXQk627ztHSV0wQLGMc0YozIJ92A4/exec?action=get&mode=base", function( data ) {
+	$('#demo').html(data + "@" + d.getHours() + ":" + d.getMinutes() );
+            });
+};	  
+
+// Main()
       function makeplot() {
 
 // codepen.io/plotly/pen/LGppGV
