@@ -8,7 +8,9 @@
   <script src="//code.jquery.com/ui/1.11.4/jquery-ui.js"></script>
   <link rel="stylesheet" href="/resources/demos/style.css">
 
-  <script src="https://rawgit.com/kangax/fabric.js/master/dist/fabric.js"></script>
+  <!-- https://github.com/kangax/fabric.js/blob/master/dist/fabric.js -->
+  <!--script src="https://rawgit.com/kangax/fabric.js/master/dist/fabric.js"></script-->
+  <script src="https://rawgit.com/kangax/fabric.js/ff21b07be46796037ef89717773443920051acc2/dist/fabric.js"></script>
   <script>
   $(function() {
     $( "#slider" ).slider();
@@ -294,9 +296,8 @@ button_vexpx.addEventListener('click', function() {
 <canvas id="c1" width="750" height="420" style="border:1px solid #ccc"></canvas>
 
 <script>
-      (function() {
 
-        var canvas1 = new fabric.Canvas('c1', {
+var canvas1 = new fabric.Canvas('c1', {
         selection : false,
         controlsAboveOverlay:true,
         centeredScaling:true,
@@ -431,7 +432,7 @@ String.prototype.replaceAll = function (strTarget, strSubString, caseSensitive) 
     return (strText);
 };
 /////////////
-      })();
+
 </script>
 <br />
 <br />
