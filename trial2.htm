@@ -1,0 +1,49 @@
+<head>
+  <link rel="stylesheet" href="//code.jquery.com/ui/1.11.4/themes/smoothness/jquery-ui.css">
+  <script src="//code.jquery.com/jquery-1.10.2.js"></script>
+  <script src="//code.jquery.com/ui/1.11.4/jquery-ui.js"></script>
+  <link rel="stylesheet" href="/resources/demos/style.css">
+
+  <script src="https://rawgit.com/kangax/fabric.js/master/dist/fabric.js"></script>
+
+</head>
+
+<body>
+<canvas id="c1" width="750" height="420" style="border:1px solid #ccc"></canvas>
+
+<script>
+
+
+var canvas1 = new fabric.Canvas('c1', {
+        selection : false,
+        controlsAboveOverlay:true,
+        centeredScaling:true,
+        allowTouchScrolling: true
+    });
+
+
+
+var line = new fabric.Line([7, 130, 500, 7], {
+    selectable:false,
+  left: 10,
+  top: 140,
+  stroke: 'rgba(0,055,0,0.5)',
+  strokeWidth: 2,
+  angle: 14,
+  originX: 'left',
+  originY: 'bottom'
+});
+canvas1.add(line);
+
+canvas1.setBackgroundImage('http://stockcharts.com/c-sc/sc?s=$tsx:$hsi&p=D&&yr=10&i=0&r=0999', canvas1.renderAll.bind(canvas1), {
+    backgroundImageOpacity: 0.5,
+    backgroundImageStretch: false
+});
+
+
+
+
+</script>
+
+
+</body>
