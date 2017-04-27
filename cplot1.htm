@@ -4,6 +4,8 @@
 
   <!-- Plotly.js -->
   <!--script src="https://cdn.plot.ly/plotly-latest.min.js"></script-->
+  <!--sheet id lookup	spreadsheets.google.com/feeds/worksheets/spreadsheetId/public/basic-->
+  <!--sheet 2 json	spreadsheets.google.com/feeds/list/1PB6rWQ4jULG8LWvqhXqUKLB_nIgl4QdXf-Tza9daP78/otqdodd/public/values?alt=json-->
   <script src="https://cdnjs.cloudflare.com/ajax/libs/d3/3.5.6/d3.min.js"> </script>
   <script src="https://code.jquery.com/jquery-2.1.4.min.js"> </script>
   <script src="https://d14fo0winaifog.cloudfront.net/plotly-basic.js"> </script>
@@ -212,3 +214,66 @@ function makePlotly( x, y, h1999y, h0966y,h425y, dd,standard_deviation ){
 	
 </body>
 script.google.com/macros/s/AKfycbw_R11-s8IQPBJ87VDg2MKXQk627ztHSV0wQLGMc0YozIJ92A4/exec?action=get&mode=base
+<br />
+function makeplot() {
+
+
+	var url2 = "https://spreadsheets.google.com/feeds/list/1NYOFCAHvMkyOxItQqqhFLvna-yXnMheQbuxVPMV43Dk/o7lhxur/public/values?alt=json";
+					
+	Plotly.d3.json(url2, function (error, result) {
+    var x = [], y = [],  bochky=[];
+    for (i = 0; i < result.feed.entry.length; i += 1) {
+            x.push(result.feed.entry[i].gsx$date.$t);
+            y.push(result.feed.entry[i].gsx$tsxbockhk.$t);
+		 		bochky.push(result.feed.entry[i].gsx$bochk.$t);
+    } 
+		    makePlotly2( x, y, bochky, "tsxbockhk", "bochky", "myDiv1");
+	});
+};
+
+
+function makePlotly2( x, y, y2, yname, y2name, divname){
+    var traces = {
+        x: x, 
+        y: y,
+		  name: yname
+    };
+
+	 var traces2 = {
+        x: x, 
+        y: y2,
+		  name: y2name,
+		   mode: 'lines+markers',
+  			marker: {
+    			color: 'rgb(128, 0, 128)',
+    			size: 5
+  			},
+  		  yaxis: 'y2'
+    };
+	
+	var data = [traces, traces2];
+
+	var layout = {
+  title: yname,
+  yaxis: {title: yname},
+  yaxis2: {
+    title: y2name,
+    titlefont: {color: 'rgb(148, 103, 189)'},
+    tickfont: {color: 'rgb(148, 103, 189)'},
+    overlaying: 'y',
+    side: 'right'
+  }
+  };
+
+
+    Plotly.plot(divname, data, layout);
+
+};
+
+makeplot();
+
+
+
+
+
+
