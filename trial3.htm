@@ -1,0 +1,50 @@
+<head>
+  <!-- Plotly.js -->
+  <!--script src="https://cdn.plot.ly/plotly-latest.min.js"></script-->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/d3/3.5.6/d3.min.js"> </script>
+  <script src="https://code.jquery.com/jquery-2.1.4.min.js"> </script>
+
+<p id="demo"></p> 
+	
+<div id="output">
+    <script id="map" type="text/javascript" src="https://cdn.plot.ly/plotly-latest.min.js"></script>
+</div>
+	
+	
+</head>
+
+
+<body>
+<div id="myDiv1" style="height:400px; width:800px"></div>
+
+<script>
+	function iOSversion() {
+		if (/iP(hone|od|ad)/.test(navigator.platform)) {
+			// supports iOS 2.0 and later: <http://bit.ly/TJjs1V>
+			var v = (navigator.appVersion).match(/OS (\d+)_(\d+)_?(\d+)?/);
+			return [parseInt(v[1], 10), parseInt(v[2], 10), parseInt(v[3] || 0, 10)];
+		}
+	}
+
+	ver = iOSversion(); 
+
+	if (!ver) {
+		$('#demo').html('This is NOT running iOS ' );
+  } else if (ver[0]<=5) {
+	  $('#demo').html('This is running iOS < 6' );
+    var s = document.createElement("script");
+    s.type = "text/javascript";
+    s.src = "https://d14fo0winaifog.cloudfront.net/plotly-basic.js";
+    s.innerHTML = null;
+    s.id = "map";
+    document.getElementById("output").innerHTML = "";
+    document.getElementById("output").appendChild(s);
+  } else {
+	  $('#demo').html('This is running iOS > 6' );
+  };
+
+
+
+function makeplot() { var url2 = "https://spreadsheets.google.com/feeds/list/1NYOFCAHvMkyOxItQqqhFLvna-yXnMheQbuxVPMV43Dk/o7lhxur/public/values?alt=json"; Plotly.d3.json(url2, function (error, result) { var x = [], y = [], bochky=[]; for (i = 0; i < result.feed.entry.length; i += 1) { x.push(result.feed.entry[i].gsx$date.$t); y.push(result.feed.entry[i].gsx$tsxbockhk.$t); bochky.push(result.feed.entry[i].gsx$bochk.$t); } makePlotly2( x, y, bochky, "tsxbockhk", "bochky", "myDiv1"); }); }; function makePlotly2( x, y, y2, yname, y2name, divname){ var traces = { x: x, y: y, name: yname }; var traces2 = { x: x, y: y2, name: y2name, mode: 'lines+markers', marker: { color: 'rgb(128, 0, 128)', size: 5 }, yaxis: 'y2' }; var data = [traces, traces2]; var layout = { title: yname, yaxis: {title: yname}, yaxis2: { title: y2name, titlefont: {color: 'rgb(148, 103, 189)'}, tickfont: {color: 'rgb(148, 103, 189)'}, overlaying: 'y', side: 'right' } }; Plotly.plot(divname, data, layout); }; makeplot();
+</script>
+</body>
