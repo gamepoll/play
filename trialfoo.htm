@@ -1,7 +1,12 @@
 <head>
   <!-- Plotly.js -->
-	  <script src="https://code.jquery.com/jquery-2.1.4.min.js"> </script>
-  <script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
+  <!-- Plotly.js -->
+  <!--script src="https://cdn.plot.ly/plotly-latest.min.js"></script-->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/d3/3.5.6/d3.min.js"> </script>
+  <script src="https://code.jquery.com/jquery-2.1.4.min.js"> </script>
+<div id="output">
+    <script id="map" type="text/javascript" src="https://d14fo0winaifog.cloudfront.net/plotly-basic.js"></script>
+</div>
 </head>
 
 <body>
@@ -10,49 +15,84 @@
 	
 <br />
 <input id="text1" value="bochk" style="width: 100px;" />
-<input id="text2" value="bochk" style="width: 100px;" />
+<input hidden id="text2" value="gsx$bochk" style="width: 100px;" />
+
 <input type="button" value="BOCHK <=" id="button_2388" />
+<input type="button" value="SunEV <=" id="button_8008" />
 <input type="button" value="AAC Acoustic <=" id="button_2018" />
 <input type="button" value="Suny Optics <=" id="button_2382" />
 <input type="button" value="BYD etron <=" id="button_0285" />
 <br />
 __________<input type="button" value="Vep-Bdx =>" id="button_vb" />
-<input type="button" value="Vx-Tx =>" id="button_vut" />
+<input type="button" value="Vx-Tx =>" id="button_vt" />
 
 
 <div id="myDiv1" style="height:400px; width:1000px"></div>
 
-<script>
+<script>	
+	function iOSversion() {
+		if (/iP(hone|od|ad)/.test(navigator.platform)) {
+			// supports iOS 2.0 and later: <http://bit.ly/TJjs1V>
+			var v = (navigator.appVersion).match(/OS (\d+)_(\d+)_?(\d+)?/);
+			return [parseInt(v[1], 10), parseInt(v[2], 10), parseInt(v[3] || 0, 10)];
+		}
+	}
+
+	ver = iOSversion(); 
+
+    var s = document.createElement("script");
+    s.type = "text/javascript";
+
+
+  if (!ver) {
+		$('#demo').html('This is NOT running iOS ' );
+		s.src = "https://cdn.plot.ly/plotly-latest.min.js";
+  } else if (ver[0]<=5) {
+	  $('#demo').html('This is running iOS < 6' );
+  } else {
+	  $('#demo').html('This is running iOS > 6' );
+	  s.src = "https://cdn.plot.ly/plotly-latest.min.js";
+  };
+    s.innerHTML = null;
+    s.id = "map";
+    document.getElementById("output").innerHTML = "";
+    document.getElementById("output").appendChild(s);
+
+
+
+
+
 $("#button_2388").on("click", function() { $("#text1").val("Bochk"); $("#text2").val("gsx$bochk");});
-$('#button_2018').on('click', function() { $('#text1').val("tcehy"); });
-$('#button_2382').on('click', function() { $('#text1').val("pek"); });
-$('#button_0285').on('click', function() { $('#text1').val("byd"); });
+$("#button_8008").on("click", function() { $("#text1").val("Sunv"); $("#text2").val("gsx$sunv");});
+$('#button_2018').on('click', function() { $('#text1').val("Aact"); $("#text2").val("gsx$aact");});
+$('#button_2382').on('click', function() { $('#text1').val("Suno"); $("#text2").val("gsx$suno");});
+$('#button_0285').on('click', function() { $('#text1').val("Byee"); $("#text2").val("gsx$sunv");});
 $("#button_vb").on("click", function() { makeplot(); });
+$("#button_vt").on("click", function() { makeplot(); });
 
 
 function makeplot() { 	
 	var url2 = "https://spreadsheets.google.com/feeds/list/1NYOFCAHvMkyOxItQqqhFLvna-yXnMheQbuxVPMV43Dk/o7lhxur/public/values?alt=json"; 
 	var foo = $("#text2").val();
+	
 	Plotly.d3.json(url2, function (error, result) { 
 		var x = [], y = [], y2=[], y3=[]; 
 		for (i = 0; i < result.feed.entry.length; i += 1) { 
-			var source = result.feed.entry[i];
 			x.push(result.feed.entry[i].gsx$date.$t); 
 //			y.push(result.feed.entry[i].gsx$tsxbockhk.$t); 
 // http://bl.ocks.org/tmaybe/6246014
 			y.push(result.feed.entry[i].gsx$tsx.$t/result.feed.entry[i][$("#text2").val()].$t); 
-			y2.push(result.feed.entry[i].gsx$bochk.$t); 
-			y3.push(result.feed.entry[i].gsx$tsx.$t); 
+			y2.push(result.feed.entry[i].gsx$tenc.$t/result.feed.entry[i][$("#text2").val()].$t); 
+			y3.push(result.feed.entry[i][$("#text2").val()].$t); 
 		} 
-		makePlotly2( x, y, y2, y3,"tsx" + $("#text1").val(), "bochky", "tsx","myDiv1"); 
+		makePlotly2( x, y, y2, y3,"Tsx" + $("#text1").val(), "Tenc" + $("#text1").val(), $("#text1").val(),"myDiv1"); 
 	}); 
 }; 
 
 function makePlotly2( x, y, y2, y3, yname, y2name, y3name, divname){
-	Plotly.purge(divname);
 	var traces = { x: x, y: y, name: yname }; 
 	var traces2 = { x: x, y: y2, name: y2name, 
-						mode: 'lines+markers', 
+						//mode: 'lines+markers', 
 						marker: { color: 'rgb(128, 0, 128)', size: 5 }, 
 						yaxis: 'y2' 
 					  }; 
@@ -66,16 +106,14 @@ function makePlotly2( x, y, y2, y3, yname, y2name, y3name, divname){
 					  yaxis: {/*title: yname*/}, 
 					  yaxis2: {// title: y2name, 
 
-								  overlaying: 'y', side: 'right' } ,
+								  overlaying: 'y', side: 'left' } ,
 					  yaxis3: {
 
-								  overlaying: 'y', side: 'left' } ,
+								  overlaying: 'y', side: 'right' } ,
 					 }; 
-	Plotly.plot(divname, data, layout); 
+	Plotly.newPlot(divname, data, layout); Plotly.purge;
 }; 
 
-//makeplot();
-
+makeplot();
 </script>
-
 </body>
