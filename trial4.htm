@@ -1,3 +1,4 @@
+
 <head>
   <!-- Plotly.js -->
   <!-- Plotly.js -->
@@ -10,40 +11,43 @@
 </head>
 
 <body>
-	
+<span class="clock"></span>
+<p/>
+<button onclick="myTrigger()">Click Tick</button>
 <p id="demo"></p> 
 	
 <br />
-<input id="text1" value="bochk" style="width: 100px;" />
-<input  id="text2" value="gsx$bochk" style="width: 100px;" />
+<input hidden id="text1" value="bochk" style="width: 100px;" />
+<input hidden id="text2" value="gsx$bochk" style="width: 100px;" />
 <select id="dropdown_change">
  
-      <option value="gsx$bochk">BOCHK</option>
+      <option value="gsx$bochk">Bochk</option>
  
-      <option value="gsx$sunv">SunEV</option>
+      <option value="gsx$sunv">Sunv</option>
  
-      <option value="gsx$aact">AAC Acoustic</option>
+      <option value="gsx$aact">Aact</option>
  
-      <option value="gsx$suno">Suny Optics</option>
+      <option value="gsx$suno">Suno</option>
   
-      <option value="gsx$igg">IGG</option>
+      <option value="gsx$igg">Igg</option>
 
  
 </select>
-<input type="button" value="BOCHK <=" id="button_2388" />
-<input type="button" value="SunEV <=" id="button_8008" />
-<input type="button" value="AAC Acoustic <=" id="button_2018" />
-<input type="button" value="Suny Optics <=" id="button_2382" />
-<input type="button" value="BYD etron <=" id="button_0285" />
+<input hidden type="button" value="BOCHK <=" id="button_2388" />
+<input hidden type="button" value="SunEV <=" id="button_8008" />
+<input hidden type="button" value="AAC Acoustic <=" id="button_2018" />
+<input hidden type="button" value="Suny Optics <=" id="button_2382" />
+<input hidden type="button" value="BYD etron <=" id="button_0285" />
 <br />
 __________<input type="button" value="Vep-Bdx =>" id="button_vb" />
 <input type="button" value="Vx-Tx =>" id="button_vt" />
 
 
 <div id="myDiv1" style="height:400px; width:1000px"></div>
-	<script>	
+<script>
 		//http://jsfiddle.net/javabeat/m2W2w/
 		//http://jsfiddle.net/spliter/5xVDq/
+      //http://jsfiddle.net/mplungjan/eqffs/
   function iOSversion() {
 		if (/iP(hone|od|ad)/.test(navigator.platform)) {
 			// supports iOS 2.0 and later: <http://bit.ly/TJjs1V>
@@ -72,19 +76,34 @@ __________<input type="button" value="Vep-Bdx =>" id="button_vb" />
     document.getElementById("output").innerHTML = "";
     document.getElementById("output").appendChild(s);
 
+// Manual Script
+jQuery(function($) {
+  setInterval(function() {
+    var date = new Date(),
+        time = date.toLocaleTimeString();
+    $(".clock").html(time);
+  }, 1000);
+});
 
+function myTrigger() {
+	var d=new Date();
+ 
+	$.get( "https://script.google.com/macros/s/AKfycbw_R11-s8IQPBJ87VDg2MKXQk627ztHSV0wQLGMc0YozIJ92A4/exec?action=get&mode=base", function( data ) {
+	$('#demo').html(data + "@" + d.getHours() + ":" + d.getMinutes() );
+            });
+};
 
      $("#dropdown_change").change(function(){
-
+dc=document.getElementById("dropdown_change")
 //       alert("Selected value is : " + document.getElementById("dropdown_change").value);
-       $("#text2").val(document.getElementById("dropdown_change").value);
+       $("#text2").val(dc.value);
 		     });
 
-$("#button_2388").on("click", function() { $("#text1").val("Bochk"); $("#text2").val("gsx$bochk");});
-$("#button_8008").on("click", function() { $("#text1").val("Sunv"); $("#text2").val("gsx$sunv");});
-$('#button_2018').on('click', function() { $('#text1').val("Aact"); $("#text2").val("gsx$aact");});
-$('#button_2382').on('click', function() { $('#text1').val("Suno"); $("#text2").val("gsx$suno");});
-$('#button_0285').on('click', function() { $('#text1').val("Byee"); $("#text2").val("gsx$sunv");});
+//$("#button_2388").on("click", function() { $("#text1").val("Bochk"); $("#text2").val("gsx$bochk");});
+//$("#button_8008").on("click", function() { $("#text1").val("Sunv"); $("#text2").val("gsx$sunv");});
+//$('#button_2018').on('click', function() { $('#text1').val("Aact"); $("#text2").val("gsx$aact");});
+//$('#button_2382').on('click', function() { $('#text1').val("Suno"); $("#text2").val("gsx$suno");});
+//$('#button_0285').on('click', function() { $('#text1').val("Byee"); $("#text2").val("gsx$sunv");});
 $("#button_vb").on("click", function() { makeplot(); });
 $("#button_vt").on("click", function() { makeplot(); });
 
@@ -92,6 +111,7 @@ $("#button_vt").on("click", function() { makeplot(); });
 function makeplot() { 	
 	var url2 = "https://spreadsheets.google.com/feeds/list/1NYOFCAHvMkyOxItQqqhFLvna-yXnMheQbuxVPMV43Dk/o7lhxur/public/values?alt=json"; 
 	var foo = $("#text2").val();
+	dc=document.getElementById("dropdown_change")
 	
 	Plotly.d3.json(url2, function (error, result) { 
 		var x = [], y = [], y2=[], y3=[]; 
@@ -103,7 +123,8 @@ function makeplot() {
 			y2.push(result.feed.entry[i].gsx$tenc.$t/result.feed.entry[i][$("#text2").val()].$t); 
 			y3.push(result.feed.entry[i][$("#text2").val()].$t); 
 		} 
-		makePlotly2( x, y, y2, y3,"Tsx" + $("#text1").val(), "Tenc" + $("#text1").val(), $("#text1").val(),"myDiv1"); 
+		//makePlotly2( x, y, y2, y3,"Tsx" + $("#text1").val(), "Tenc" + $("#text1").val(), $("#text1").val(),"myDiv1"); 
+		makePlotly2( x, y, y2, y3,"Tsx" + dc.options[dc.selectedIndex].text, "Tenc" + dc.options[dc.selectedIndex].text, dc.options[dc.selectedIndex].text,"myDiv1");
 	}); 
 }; 
 
@@ -133,5 +154,5 @@ function makePlotly2( x, y, y2, y3, yname, y2name, y3name, divname){
 }; 
 
 makeplot();
-	</script>
+</script>
 </body>
