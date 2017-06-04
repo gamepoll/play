@@ -99,10 +99,12 @@ __________<input type="button" value="Tao <=" id="button_tao" />
 <input type="button" value="Tail =>" id="button_tail" />      
 <input type="button" value="Vep-Bdx =>" id="button_vb" />
 <input type="button" value="Vx-Tx-Ux =>" id="button_vut" />
+<input type="button" value="Rd-Fd =>" id="button_rf" />
 <input type="button" value="Long Tail =>" id="button_ltail" />
 <input type="button" value="Short Tail =>" id="button_stail" />
 <input type="button" value="Long Tail(W) =>" id="button_ltailw" />
 <input type="button" value="Vwesx =>" id="button" />
+<input type="button" value="Fdpix =>" id="button_fd" />
 <br />
 <br />
 <br />
@@ -381,6 +383,21 @@ $('#button').on('click', function () {
 
 });
 
+$('#button_fd').on('click', function () {
+        var text2 = $('#text2');
+        
+        var staticstring2 = "http://stockcharts.com/c-sc/sc?s=bang&p=W&&yr=18&i=0&r=0999";
+        
+        
+        text2.val(staticstring2.replaceAll("bang", text1.value, true));
+
+        canvas1.setBackgroundImage(text2.val(), canvas1.renderAll.bind(canvas1), {
+    backgroundImageOpacity: 0.5,
+    backgroundImageStretch: false
+    });
+
+});
+  
 $('#button_stail').on('click', function () {
         var text2 = $('#text2');
         
@@ -414,7 +431,7 @@ $('#button_ltail').on('click', function () {
 $('#button_ltailw').on('click', function () {
         var text2 = $('#text2');
         
-        var staticstring2 = "http://stockcharts.com/c-sc/sc?s=bang&p=DW&&yr=16&i=0&r=0999";
+        var staticstring2 = "http://stockcharts.com/c-sc/sc?s=bang&p=W&&yr=16&i=0&r=0999";
         
         
         text2.val(staticstring2.replaceAll("bang", text1.value, true));
@@ -953,6 +970,53 @@ ____________________1.255 0.611__________________________ <=> !!!!!
 
 
 <script>
+$('#button_rf').on('click', function () {
+        var textbb = "bang";
+        var text1 = $('#text1');
+        var text4 = $('#text4');
+        
+        var staticstring2 = "http://stockcharts.com/c-sc/sc?chart=fdpix:bang,uu[460,a]wallyyay[d20010101][pb50!b200!f]&r=pang";
+        
+        
+        text4.val(staticstring2.replaceAll("bang", text1.val(), true));
+        text4.val(text4.val().replaceAll("pang", Math.floor(Math.random() * (100 + 1) + 0), true));
+
+        document.getElementById('img_dual').src=text4.val();
+
+        var staticstring2 = "http://stockcharts.com/c-sc/sc?chart=rdpix:bang,uu[460,a]wallyyay[d20010101][pb50!b200!f]&r=pang";
+        
+        
+        text4.val(staticstring2.replaceAll("bang", text1.val(), true));
+        text4.val(text4.val().replaceAll("pang", Math.floor(Math.random() * (100 + 1) + 0), true));
+
+        document.getElementById('img_dualplus').src=text4.val();
+        
+        var staticstring2 = "http://stockcharts.com/c-sc/sc?chart=bang,uu[460,a]daclyyay[dc][pb50!b200!f]&r=pang";
+        
+        
+        text4.val(staticstring2.replaceAll("bang", text1.val(), true));
+        text4.val(text4.val().replaceAll("pang", Math.floor(Math.random() * (100 + 1) + 0), true));
+
+        document.getElementById('img_dual_raw').src=text4.val();
+        
+        var staticstring2 = "http://stockcharts.com/c-sc/sc?chart=rdpix:bang,uu[460,a]daclyyay[dc][pb50!b200!f]&r=pang";
+        
+        
+        text4.val(staticstring2.replaceAll("bang", text1.val(), true));
+        text4.val(text4.val().replaceAll("pang", Math.floor(Math.random() * (100 + 1) + 0), true));
+
+        document.getElementById('img_dual++').src=text4.val();
+  
+        var staticstring2 = "http://stockcharts.com/c-sc/sc?chart=fdpix:bang,uu[460,a]daclyyay[dc][pb50!b200!f]&r=pang";
+        
+        
+        text4.val(staticstring2.replaceAll("bang", text1.val(), true));
+        text4.val(text4.val().replaceAll("pang", Math.floor(Math.random() * (100 + 1) + 0), true));
+
+        document.getElementById('img_dual+++').src=text4.val();
+        
+});
+  
 $('#button_vut').on('click', function () {
         var textbb = "bang";
         var text1 = $('#text1');
