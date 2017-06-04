@@ -101,6 +101,7 @@ __________<input type="button" value="Tao <=" id="button_tao" />
 <input type="button" value="Vx-Tx-Ux =>" id="button_vut" />
 <input type="button" value="Long Tail =>" id="button_ltail" />
 <input type="button" value="Short Tail =>" id="button_stail" />
+<input type="button" value="Long Tail(W) =>" id="button_ltailw" />
 <input type="button" value="Vwesx =>" id="button" />
 <br />
 <br />
@@ -410,6 +411,21 @@ $('#button_ltail').on('click', function () {
 
 });
 
+$('#button_ltailw').on('click', function () {
+        var text2 = $('#text2');
+        
+        var staticstring2 = "http://stockcharts.com/c-sc/sc?s=bang&p=DW&&yr=16&i=0&r=0999";
+        
+        
+        text2.val(staticstring2.replaceAll("bang", text1.value, true));
+
+        canvas1.setBackgroundImage(text2.val(), canvas1.renderAll.bind(canvas1), {
+    backgroundImageOpacity: 0.5,
+    backgroundImageStretch: false
+    });
+
+});  
+  
 $('#button_tail').on('click', function () {
         var text2 = $('#text2');
         
