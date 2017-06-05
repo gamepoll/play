@@ -80,13 +80,26 @@ __________<input type="button" value="Tao <=" id="button_tao" />
 <input type="button" value="Cgg <=" id="button_cgg" />
 <input type="button" value="Bp <=" id="button_bp" />
 <br />
+<select id="dropdown_change">
+ 
+      <option value="veiex">EM</option>
+ 
+      <option value="ewh">ehk</option>
+ 
+      <option value="yao">ehkce</option>
+  
+      <option value="$nifty">indy</option>
 
+      <option value="asmiy">asm</option>
+</select>
+<br />
+      
 <br />
 <input type="button" value="Won =>" id="button_won" />
 <input type="button" value="Pre Rdpix =>" id="button_pre_rdpix" />
 <input type="button" value="Pre Vexpx =>" id="button_pre_vexpx" />
 <input type="button" value="Pre Dax =>" id="button_pre_dax" />
-<input type="button" value="Pre Gdm =>" id="button_pre_gdm" />
+<input type="button" value="Pre TcehyGdm =>" id="button_pre_gdm" />
 <input type="button" value="Pre Orcl =>" id="button_pre_orcl" />
 <br />
 <input type="button" value="Pre Bdx =>" id="button_pre_bdx" />
@@ -350,13 +363,16 @@ $('#button_cea').on('click', function() { $('#text1').val("cea"); });
 $('#button_cgg').on('click', function() { $('#text1').val("jinff"); });
 $('#button_bp').on('click', function() { $('#text1').val("$xbp"); });
 
-
+$("#dropdown_change").change(function(){
+      dc=document.getElementById("dropdown_change")
+       $("#text1").val(dc.value);
+});
 
 $('#button_won').on('click', function() { $('#text1').val("$one"); });
 $('#button_pre_rdpix').on('click', function() { $('#text1').val("rdpix"+":"+text1.value); });
 $('#button_pre_vexpx').on('click', function() { $('#text1').val("vexpx"+":"+text1.value); });
 $('#button_pre_dax').on('click', function() { $('#text1').val("$dax"+":"+text1.value); });
-$('#button_pre_gdm').on('click', function() { $('#text1').val("$gdm"+":"+text1.value); });
+$('#button_pre_gdm').on('click', function() { $('#text1').val("tcehy"+":"+text1.value); });
 $('#button_pre_orcl').on('click', function() { $('#text1').val("orcl"+":"+text1.value); });
 
 
