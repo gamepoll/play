@@ -221,7 +221,7 @@ button_fdpix.addEventListener('click', function() {
 
     var url2='bang';
 
-    var staticstring2 = "http://stockcharts.com/c-sc/sc?s=fdpix:bang&p=D&&yr=7&i=0&r=0999";
+    var staticstring2 = "http://stockcharts.com/c-sc/sc?s=fdpix:bang&p=W&&yr=17&i=0&r=0999";
     url2=staticstring2.replaceAll("bang", text1.value, true);
 
 //  text1.value=url2;
@@ -386,7 +386,7 @@ $('#button').on('click', function () {
 $('#button_fd').on('click', function () {
         var text2 = $('#text2');
         
-        var staticstring2 = "http://stockcharts.com/c-sc/sc?s=bang&p=W&&yr=18&i=0&r=0999";
+        var staticstring2 = "http://stockcharts.com/c-sc/sc?s=fdpix:bang&p=W&&yr=18&i=0&r=0999";
         
         
         text2.val(staticstring2.replaceAll("bang", text1.value, true));
