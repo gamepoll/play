@@ -95,7 +95,31 @@ __________<select id="dropdown_change">
       <option value="ahchf">anhui</option>      
 </select>
 <br />
+__________<select id="dropdown_change1">
+ 
+      <option value="smi">smi</option>
+ 
+      <option value="lvs">sands</option>
+ 
+      <option value="wynn">wynn</option>
+    
+      <option value="amzn">amazon</option>
+
+      <option value="goog">google</option>
       
+      <option value="fb">fb</option>      
+
+      <option value="cichf">bankconst</option>
+      
+      <option value="bachf">bankchi</option>      
+
+      <option value="snp">386hk</option>
+      
+      <option value="$ftx">A50</option>      
+      
+      <option value="byddy">BYD</option>      
+</select>
+<br />      
 <br />
 <input type="button" value="Won =>" id="button_won" />
 <input type="button" value="Pre Rdpix =>" id="button_pre_rdpix" />
@@ -370,6 +394,11 @@ $("#dropdown_change").change(function(){
        $("#text1").val(dc.value);
 });
 
+$("#dropdown_change1").change(function(){
+      dc=document.getElementById("dropdown_change1")
+       $("#text1").val(dc.value);
+});
+  
 $('#button_won').on('click', function() { $('#text1').val("$one"); });
 $('#button_pre_rdpix').on('click', function() { $('#text1').val("rdpix"+":"+text1.value); });
 $('#button_pre_vexpx').on('click', function() { $('#text1').val("vexpx"+":"+text1.value); });
