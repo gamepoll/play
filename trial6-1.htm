@@ -1,0 +1,191 @@
+<!doctype html>
+<html lang="en">
+
+
+
+
+<head>
+  <meta charset="utf-8">
+  <title>jTrial 6.0 - Default functionality</title>
+
+  <!-- Plotly.js -->
+  <!-- Plotly.js -->
+  <!--script src="https://cdn.plot.ly/plotly-latest.min.js"></script-->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/d3/3.5.6/d3.min.js"> </script>
+  <script src="https://code.jquery.com/jquery-2.1.4.min.js"> </script>
+<div id="output">
+    <script id="map" type="text/javascript" src="https://d14fo0winaifog.cloudfront.net/plotly-basic.js"></script>
+</div>
+</head>
+
+<body>
+<span class="clock"></span>
+<p/>
+<button onclick="myTrigger()">Click Tick</button>
+<p id="demo"></p> 
+	
+<br />
+<input id="text1" value="0388" style="width: 150px;" />  
+<input type="button" value="2328 <=" id="button_2328" />
+
+<br />
+__________<input type="button" value="Vep-Bdx =>" id="button_vb" />
+<input type="button" value="Vx-Tx =>" id="button_vt" />
+
+
+<div id="myDiv1" style="height:400px; width:1100px"></div>
+	
+<div id="myDiv2" style="height:400px; width:1100px"></div>	
+
+
+
+
+
+
+<script>
+$('#button_2328').on('click', function() { $('#text1').val("2328"); });
+
+
+  function iOSversion() {
+		if (/iP(hone|od|ad)/.test(navigator.platform)) {
+			// supports iOS 2.0 and later: <http://bit.ly/TJjs1V>
+			var v = (navigator.appVersion).match(/OS (\d+)_(\d+)_?(\d+)?/);
+			return [parseInt(v[1], 10), parseInt(v[2], 10), parseInt(v[3] || 0, 10)];
+		}
+	}
+
+	ver = iOSversion(); 
+
+    var s = document.createElement("script");
+    s.type = "text/javascript";
+
+
+  if (!ver) {
+		$('#demo').html('This is NOT running iOS ' );
+		s.src = "https://cdn.plot.ly/plotly-latest.min.js";
+  } else if (ver[0]<=5) {
+	  $('#demo').html('This is running iOS < 6' );
+  } else {
+	  $('#demo').html('This is running iOS > 6' );
+	  s.src = "https://cdn.plot.ly/plotly-latest.min.js";
+  };
+    s.innerHTML = null;
+    s.id = "map";
+    document.getElementById("output").innerHTML = "";
+    document.getElementById("output").appendChild(s);
+
+// Manual Script
+jQuery(function($) {
+  setInterval(function() {
+    var date = new Date(),
+        time = date.toLocaleTimeString();
+    $(".clock").html(time);
+  }, 1000);
+});
+
+function myTrigger() {
+	var d=new Date();
+ 
+//	$.get( "https://script.google.com/macros/s/AKfycbw_R11-s8IQPBJ87VDg2MKXQk627ztHSV0wQLGMc0YozIJ92A4/exec?action=get&mode=base", function( data ) {
+// for file hhh
+//	$.get( "https://script.google.com/macros/s/AKfycbx6cw5tgL5eshOX8lsrGLSpU3WGAz59BWmWFKxlnRb-DRWNp9Uh/exec?action=get&mode=base", function( data ) {
+	$.get( "https://script.google.com/macros/s/AKfycbx6cw5tgL5eshOX8lsrGLSpU3WGAz59BWmWFKxlnRb-DRWNp9Uh/exec?action=get&mode=plot6&code="+$('#text1').val(), function( data ) {	
+	$('#demo').html(data + "@" + d.getHours() + ":" + d.getMinutes() );
+            });
+};
+
+     $("#dropdown_change").change(function(){
+dc=document.getElementById("dropdown_change")
+//       alert("Selected value is : " + document.getElementById("dropdown_change").value);
+       $("#text2").val(dc.value);
+		     });
+
+//$("#button_2388").on("click", function() { $("#text1").val("Bochk"); $("#text2").val("gsx$bochk");});
+//$("#button_8008").on("click", function() { $("#text1").val("Sunv"); $("#text2").val("gsx$sunv");});
+//$('#button_2018').on('click', function() { $('#text1').val("Aact"); $("#text2").val("gsx$aact");});
+//$('#button_2382').on('click', function() { $('#text1').val("Suno"); $("#text2").val("gsx$suno");});
+//$('#button_0285').on('click', function() { $('#text1').val("Byee"); $("#text2").val("gsx$sunv");});
+$("#button_vb").on("click", function() { makeplot(); });
+$("#button_vt").on("click", function() { makeplot(); });
+
+
+function makeplot() {
+	//var url2 = "https://spreadsheets.google.com/feeds/list/1NYOFCAHvMkyOxItQqqhFLvna-yXnMheQbuxVPMV43Dk/o7lhxur/public/values?alt=json"; 
+	// for file hhh
+	// var url2 = "https://spreadsheets.google.com/feeds/list/1bn8v2viL4MM7uQpS0iKquWvtH6qt1QMaSRK2WpvbON4/o7lhxur/public/values?alt=json"; 
+	// hhh.Sheet6 -spreadsheets.google.com/feeds/worksheets/spreadsheetId/public/basic
+	// fields - spreadsheets.google.com/feeds/list/spreadsheetId/oz0xn5d/public/values?alt=json
+	var url2 = "https://spreadsheets.google.com/feeds/list/1bn8v2viL4MM7uQpS0iKquWvtH6qt1QMaSRK2WpvbON4/oz0xn5d/public/values?alt=json"; 
+	//var foo = $("#text2").val();
+	//dc=document.getElementById("dropdown_change")
+	
+	Plotly.d3.json(url2, function (error, result) { 
+		var x = [], y = [], y2=[], y3=[]; 
+		for (i = 0; i < result.feed.entry.length; i += 1) { 
+			x.push(result.feed.entry[i].gsx$date_3.$t); 
+//			y.push(result.feed.entry[i].gsx$tsxbockhk.$t); 
+// http://bl.ocks.org/tmaybe/6246014
+			y.push(result.feed.entry[i].gsx$bdx.$t/result.feed.entry[i].gsx$hk_3.$t); 
+			y2.push(result.feed.entry[i].gsx$hk_3.$t); 
+			y3.push(result.feed.entry[i].gsx$bdx.$t); 
+		} 
+		//makePlotly2( x, y, y2, y3,"Tsx" + $("#text1").val(), "Tenc" + $("#text1").val(), $("#text1").val(),"myDiv1"); 
+		makePlotly2( x, y, y2, y3,"Bdx" + $("#text1").val(), $("#text1").val()+"", "Bdx","myDiv1");
+	}); 
+}; 
+
+function makePlotly2( x, y, y2, y3, yname, y2name, y3name, divname){
+	var traces = { x: x, y: y, name: yname }; 
+	var traces2 = { x: x, y: y2, name: y2name, 
+						//mode: 'lines+markers', 
+						marker: { color: 'rgb(128, 0, 128)', size: 5 }, 
+						yaxis: 'y2' 
+					  }; 
+	var traces3 = { x: x, y: y3, name: y3name, 
+						mode: 'lines+markers', 
+						marker: {  size: 5 }, 
+						yaxis: 'y3' 
+					  };
+	var data = [traces, traces2, traces3]; 
+	var layout = { title: yname, 
+					  yaxis: {/*title: yname*/}, 
+					  yaxis2: {// title: y2name, 
+
+								  overlaying: 'y', side: 'left' } ,
+					  yaxis3: {
+
+								  overlaying: 'y', side: 'right' } ,
+					 }; 
+	Plotly.newPlot(divname, data, layout); Plotly.purge;
+}; 
+
+function makeplot1() {
+	//var url2 = "https://spreadsheets.google.com/feeds/list/1NYOFCAHvMkyOxItQqqhFLvna-yXnMheQbuxVPMV43Dk/o7lhxur/public/values?alt=json"; 
+	// for file hhh
+	// var url2 = "https://spreadsheets.google.com/feeds/list/1bn8v2viL4MM7uQpS0iKquWvtH6qt1QMaSRK2WpvbON4/o7lhxur/public/values?alt=json"; 
+	// hhh.Sheet6 -spreadsheets.google.com/feeds/worksheets/spreadsheetId/public/basic
+	// fields - spreadsheets.google.com/feeds/list/spreadsheetId/oz0xn5d/public/values?alt=json
+	var url2 = "https://spreadsheets.google.com/feeds/list/1bn8v2viL4MM7uQpS0iKquWvtH6qt1QMaSRK2WpvbON4/oz0xn5d/public/values?alt=json"; 
+	//var foo = $("#text2").val();
+	//dc=document.getElementById("dropdown_change")
+	
+	Plotly.d3.json(url2, function (error, result) { 
+		var x = [], y = [], y2=[], y3=[]; 
+		for (i = 0; i < result.feed.entry.length; i += 1) { 
+			x.push(result.feed.entry[i].gsx$date_4.$t); 
+//			y.push(result.feed.entry[i].gsx$tsxbockhk.$t); 
+// http://bl.ocks.org/tmaybe/6246014
+			y.push(result.feed.entry[i].gsx$vwesx.$t/result.feed.entry[i].gsx$yy.$t); 
+			y2.push(result.feed.entry[i].gsx$hk_3.$t); 
+			y3.push(result.feed.entry[i].gsx$vwesx.$t); 
+		} 
+		//makePlotly2( x, y, y2, y3,"Tsx" + $("#text1").val(), "Tenc" + $("#text1").val(), $("#text1").val(),"myDiv1"); 
+		makePlotly2( x, y, y2, y3,"Vwesx" + $("#text1").val(), $("#text1").val()+"", "Vwesx","myDiv2");
+	}); 
+}; 
+
+makeplot();
+makeplot1();
+
+</script>
+</body>
