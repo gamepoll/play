@@ -3,7 +3,6 @@
 
 
 
-
 <head>
   <meta charset="utf-8">
   <title>jTrial 6.1 - Default functionality</title>
@@ -31,15 +30,41 @@
 <br />
 __________<input type="button" value="Vep-Bdx =>" id="button_vb" />
 <input type="button" value="Vx-Tx =>" id="button_vt" />
+<br />
+<br />
+__________<select id="dropdown_change">
+  
+      <option value="Vwesx">Vwesx</option>
+ 
+	   <option value="bdx">bdx</option>
+	
+      <option value="0700.hk">Tencent</option>
+ 
+      <option value="Fdpix">Fdpix</option>
+  
+      <option value="Rdpix">Rdpix</option>
 
+ 
+</select>
+<br />
+<br />
+__________<select id="dropdown_change1">
+ 
+      <option value="bdx">bdx</option>
+ 
+      <option value="Vwesx">Vwesx</option>
+ 
+      <option value="0700.hk">Tencent</option>
+ 
+      <option value="Fdpix">Fdpix</option>
+  
+      <option value="Rdpix">Rdpix</option>
 
+ 
+</select>
 <div id="myDiv1" style="height:400px; width:1100px"></div>
 	
 <div id="myDiv2" style="height:400px; width:1100px"></div>	
-
-
-
-
 
 
 <script>
@@ -85,11 +110,13 @@ jQuery(function($) {
 
 function myTrigger() {
 	var d=new Date();
+	dc=document.getElementById("dropdown_change")
+	dc1=document.getElementById("dropdown_change1")
  
 //	$.get( "https://script.google.com/macros/s/AKfycbw_R11-s8IQPBJ87VDg2MKXQk627ztHSV0wQLGMc0YozIJ92A4/exec?action=get&mode=base", function( data ) {
 // for file hhh
 //	$.get( "https://script.google.com/macros/s/AKfycbx6cw5tgL5eshOX8lsrGLSpU3WGAz59BWmWFKxlnRb-DRWNp9Uh/exec?action=get&mode=base", function( data ) {
-	$.get( "https://script.google.com/macros/s/AKfycbx6cw5tgL5eshOX8lsrGLSpU3WGAz59BWmWFKxlnRb-DRWNp9Uh/exec?action=get&mode=plot6&code="+$('#text1').val(), function( data ) {	
+	$.get( "https://script.google.com/macros/s/AKfycbx6cw5tgL5eshOX8lsrGLSpU3WGAz59BWmWFKxlnRb-DRWNp9Uh/exec?action=get&mode=plot6&code="+$('#text1').val()+"&code1="+dc.value+"&code2="+dc1.value, function( data ) {	
 	$('#demo').html(data + "@" + d.getHours() + ":" + d.getMinutes() );
             });
 };
@@ -105,8 +132,8 @@ dc=document.getElementById("dropdown_change")
 //$('#button_2018').on('click', function() { $('#text1').val("Aact"); $("#text2").val("gsx$aact");});
 //$('#button_2382').on('click', function() { $('#text1').val("Suno"); $("#text2").val("gsx$suno");});
 //$('#button_0285').on('click', function() { $('#text1').val("Byee"); $("#text2").val("gsx$sunv");});
-$("#button_vb").on("click", function() { makeplot(); });
-$("#button_vt").on("click", function() { makeplot(); });
+$("#button_vb").on("click", function() { makeplot(); makeplot1(); });
+$("#button_vt").on("click", function() { makeplot(); makeplot1(); });
 
 
 function makeplot() {
@@ -125,12 +152,12 @@ function makeplot() {
 			x.push(result.feed.entry[i].gsx$date_3.$t); 
 //			y.push(result.feed.entry[i].gsx$tsxbockhk.$t); 
 // http://bl.ocks.org/tmaybe/6246014
-			y.push(result.feed.entry[i].gsx$bdx.$t/result.feed.entry[i].gsx$hk_3.$t); 
-			y2.push(result.feed.entry[i].gsx$hk_3.$t); 
-			y3.push(result.feed.entry[i].gsx$bdx.$t); 
+			y.push(result.feed.entry[i].gsx$v1.$t/result.feed.entry[i].gsx$hk_3.$t); 
+			y2.push(result.feed.entry[i].gsx$v1.$t); 
+			y3.push(result.feed.entry[i].gsx$hk_3.$t); 
 		} 
 		//makePlotly2( x, y, y2, y3,"Tsx" + $("#text1").val(), "Tenc" + $("#text1").val(), $("#text1").val(),"myDiv1"); 
-		makePlotly2( x, y, y2, y3,"Bdx" + $("#text1").val(), $("#text1").val()+"", "Bdx","myDiv1");
+		makePlotly2( x, y, y2, y3,result.feed.entry[1].gsx$hk_2.$t + result.feed.entry[0].gsx$hk_2.$t, result.feed.entry[1].gsx$hk_2.$t+"", result.feed.entry[0].gsx$hk_2.$t,"myDiv1");
 	}); 
 }; 
 
@@ -175,12 +202,12 @@ function makeplot1() {
 			x.push(result.feed.entry[i].gsx$date_4.$t); 
 //			y.push(result.feed.entry[i].gsx$tsxbockhk.$t); 
 // http://bl.ocks.org/tmaybe/6246014
-			y.push(result.feed.entry[i].gsx$vwesx.$t/result.feed.entry[i].gsx$yy.$t); 
-			y2.push(result.feed.entry[i].gsx$yy.$t); 
-			y3.push(result.feed.entry[i].gsx$vwesx.$t); 
+			y.push(result.feed.entry[i].gsx$v2.$t/result.feed.entry[i].gsx$yy.$t); 
+			y2.push(result.feed.entry[i].gsx$v2.$t); 
+			y3.push(result.feed.entry[i].gsx$yy.$t); 
 		} 
 		//makePlotly2( x, y, y2, y3,"Tsx" + $("#text1").val(), "Tenc" + $("#text1").val(), $("#text1").val(),"myDiv1"); 
-		makePlotly2( x, y, y2, y3,"Vwesx" + $("#text1").val(), $("#text1").val()+"", "Vwesx","myDiv2");
+		makePlotly2( x, y, y2, y3,result.feed.entry[2].gsx$hk_2.$t + result.feed.entry[0].gsx$hk_2.$t, result.feed.entry[2].gsx$hk_2.$t+"", result.feed.entry[0].gsx$hk_2.$t,"myDiv2");
 	}); 
 }; 
 
