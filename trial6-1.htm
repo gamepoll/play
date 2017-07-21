@@ -150,7 +150,7 @@ function makeplot() {
 	Plotly.d3.json(url2, function (error, result) { 
 		var x = [], y = [], y2=[], y3=[]; 
 		for (i = 0; i < result.feed.entry.length; i += 1) { 
-			x.push(result.feed.entry[i].gsx$date_3.$t); 
+			x.push(new Date(result.feed.entry[i].gsx$date_3.$t)); 
 //			y.push(result.feed.entry[i].gsx$tsxbockhk.$t); 
 // http://bl.ocks.org/tmaybe/6246014
 			y.push(result.feed.entry[i].gsx$v1.$t/result.feed.entry[i].gsx$hk_3.$t); 
@@ -163,6 +163,31 @@ function makeplot() {
 }; 
 
 function makePlotly2( x, y, y2, y3, yname, y2name, y3name, divname){
+	var selectorOptions = {
+    buttons: [{
+        step: 'year',
+        stepmode: 'backward',
+        count: 2,
+        label: '2y'
+    }, {
+        step: 'year',
+        stepmode: 'backward',
+        count: 4,
+        label: '4y'
+    }, {
+        step: 'year',
+        stepmode: 'backward',
+        count: 6,
+        label: '6y'
+    }, {
+        step: 'year',
+        stepmode: 'backward',
+        count: 8,
+        label: '8y'
+    }, {
+        step: 'all',
+    }],
+};
 	var traces = { x: x, y: y, name: yname }; 
 	var traces2 = { x: x, y: y2, name: y2name, 
 						//mode: 'lines+markers', 
@@ -177,6 +202,10 @@ function makePlotly2( x, y, y2, y3, yname, y2name, y3name, divname){
 					  };
 	var data = [traces, traces2, traces3]; 
 	var layout = { title: yname, 
+					  xaxis: {
+            rangeselector: selectorOptions
+ //           ,rangeslider: {}
+        },
 					  yaxis: {/*title: yname*/}, 
 					  yaxis2: {// title: y2name, 
 
@@ -201,7 +230,7 @@ function makeplot1() {
 	Plotly.d3.json(url2, function (error, result) { 
 		var x = [], y = [], y2=[], y3=[]; 
 		for (i = 0; i < result.feed.entry.length; i += 1) { 
-			x.push(result.feed.entry[i].gsx$date_4.$t); 
+			x.push(new Date(result.feed.entry[i].gsx$date_4.$t)); 
 //			y.push(result.feed.entry[i].gsx$tsxbockhk.$t); 
 // http://bl.ocks.org/tmaybe/6246014
 			y.push(result.feed.entry[i].gsx$v2.$t/result.feed.entry[i].gsx$yy.$t); 
