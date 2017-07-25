@@ -27,6 +27,11 @@
 <input id="text1" value="0388" style="width: 150px;" />  
 <input type="button" value="2328 <=" id="button_2328" />
 
+
+<br />
+__________<select id="dropdown">
+</select>	
+	
 <br />
 __________<input type="button" value="Vep-Bdx =>" id="button_vb" />
 <input type="button" value="Vx-Tx =>" id="button_vt" />
@@ -66,6 +71,7 @@ __________<select id="dropdown_change1">
 <div id="myDiv1" style="height:400px; width:1100px"></div>
 	
 <div id="myDiv2" style="height:400px; width:1100px"></div>	
+
 
 
 <script>
@@ -122,6 +128,11 @@ function myTrigger() {
             });
 };
 
+$("#dropdown").change(function(){
+      dc=document.getElementById("dropdown")
+		$("#text1").val(dc.value);
+});
+
      $("#dropdown_change").change(function(){
 dc=document.getElementById("dropdown_change")
 //       alert("Selected value is : " + document.getElementById("dropdown_change").value);
@@ -156,7 +167,19 @@ function makeplot() {
 			y.push(result.feed.entry[i].gsx$v1.$t/result.feed.entry[i].gsx$hk_3.$t); 
 			y2.push(result.feed.entry[i].gsx$v1.$t); 
 			y3.push(result.feed.entry[i].gsx$hk_3.$t); 
-		} 
+		} ;
+		var pu1 = [], pu2 = [];
+		for (i = 0; i < result.feed.entry.length; i += 1) { 
+			pu1.push(result.feed.entry[i].gsx$pullupname.$t); 
+			pu2.push(result.feed.entry[i].gsx$pullupcode.$t); 
+		};
+		dc=document.getElementById("dropdown")
+
+// Loop through the array
+for (var i = 0; i < pu1.length; ++i) {
+    // Append the element to the end of Array list
+    dc[dc.length] = new Option(pu1[i], pu2[i]);
+}
 		//makePlotly2( x, y, y2, y3,"Tsx" + $("#text1").val(), "Tenc" + $("#text1").val(), $("#text1").val(),"myDiv1"); 
 		makePlotly2( x, y, y2, y3,result.feed.entry[1].gsx$hk_2.$t + result.feed.entry[0].gsx$hk_2.$t, result.feed.entry[1].gsx$hk_2.$t+"", result.feed.entry[0].gsx$hk_2.$t,"myDiv1");
 	}); 
