@@ -6,6 +6,9 @@
   <link rel="stylesheet" href="//code.jquery.com/ui/1.11.4/themes/smoothness/jquery-ui.css">
   <script src="//code.jquery.com/jquery-1.10.2.js"></script>
   <script src="//code.jquery.com/ui/1.11.4/jquery-ui.js"></script>
+  
+  <script type="text/javascript" src="https://d14fo0winaifog.cloudfront.net/plotly-basic.js"></script>
+  
   <link rel="stylesheet" href="/resources/demos/style.css">
 
   <!-- https://github.com/kangax/fabric.js/blob/master/dist/fabric.js -->
@@ -587,6 +590,8 @@ ___________<input type="button" value="175 <=" id="button_175" />
 <input type="button" value="1083 <=" id="button_1083" />
 <input type="button" value="2314 <=" id="button_2314" />
 <br />
+__________<select id="dropdown">
+</select>
 <input type="button" value="327 <=" id="button_327" />
 <input type="button" value="8102/3823 <=" id="button_8102" />
 <input type="button" value="2005 <=" id="button_2005" />
@@ -766,7 +771,36 @@ canvas_yao.setBackgroundImage('http://stockcharts.com/c-sc/sc?s=$tsx:yao&p=D&&yr
       })();
 </script>
 
+<script>
+var url2 = "https://spreadsheets.google.com/feeds/list/1bn8v2viL4MM7uQpS0iKquWvtH6qt1QMaSRK2WpvbON4/oz0xn5d/public/values?alt=json"; 
+	//var foo = $("#text2").val();
+	//dc=document.getElementById("dropdown_change")
+	
+	Plotly.d3.json(url2, function (error, result) { 
 
+		var pu1 = [], pu2 = [];
+		for (i = 0; i < result.feed.entry.length; i += 1) { 
+			pu1.push(result.feed.entry[i].gsx$pullupname.$t); 
+			pu2.push(result.feed.entry[i].gsx$pullupcode.$t); 
+		};
+		dc=document.getElementById("dropdown")
+
+// Loop through the array
+for (var i = 0; i < pu1.length; ++i) {
+    // Append the element to the end of Array list
+    dc[dc.length] = new Option(pu1[i], pu2[i]);
+}
+	}) 
+
+$("#dropdown").change(function(){
+      dc=document.getElementById("dropdown")
+		$("#text3").val(dc.value);
+});
+
+  
+  
+  
+</script>  
 
 
 <br>
