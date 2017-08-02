@@ -150,6 +150,7 @@ __________<select id="dropdown_change1">
 <input type="button" value="Vep-Bdx =>" id="button_vb" />
 <input type="button" value="Vx-Tx-Ux =>" id="button_vut" />
 <input type="button" value="Rd-Fd =>" id="button_rf" />
+<input type="button" value="Tcy-Fd =>" id="button_tf" />
 <input type="button" value="Long Tail =>" id="button_ltail" />
 <input type="button" value="Short Tail =>" id="button_stail" />
 <input type="button" value="Long Tail(W) =>" id="button_ltailw" />
@@ -1060,6 +1061,53 @@ ____________________1.255 0.611__________________________ <=> !!!!!
 
 
 <script>
+$('#button_tf').on('click', function () {
+        var textbb = "bang";
+        var text1 = $('#text1');
+        var text4 = $('#text4');
+        
+        var staticstring2 = "http://stockcharts.com/c-sc/sc?chart=tcehy:bang,uu[460,a]wallyyay[d20010101][pb50!b200!f]&r=pang";
+        
+        
+        text4.val(staticstring2.replaceAll("bang", text1.val(), true));
+        text4.val(text4.val().replaceAll("pang", Math.floor(Math.random() * (100 + 1) + 0), true));
+
+        document.getElementById('img_dual').src=text4.val();
+
+        var staticstring2 = "http://stockcharts.com/c-sc/sc?chart=fdpix:bang,uu[460,a]wallyyay[d20010101][pb50!b200!f]&r=pang";
+        
+        
+        text4.val(staticstring2.replaceAll("bang", text1.val(), true));
+        text4.val(text4.val().replaceAll("pang", Math.floor(Math.random() * (100 + 1) + 0), true));
+
+        document.getElementById('img_dualplus').src=text4.val();
+        
+        var staticstring2 = "http://stockcharts.com/c-sc/sc?chart=bang,uu[460,a]daclyyay[dc][pb50!b200!f]&r=pang";
+        
+        
+        text4.val(staticstring2.replaceAll("bang", text1.val(), true));
+        text4.val(text4.val().replaceAll("pang", Math.floor(Math.random() * (100 + 1) + 0), true));
+
+        document.getElementById('img_dual_raw').src=text4.val();
+        
+        var staticstring2 = "http://stockcharts.com/c-sc/sc?chart=tcehy:bang,uu[460,a]daclyyay[dc][pb50!b200!f]&r=pang";
+        
+        
+        text4.val(staticstring2.replaceAll("bang", text1.val(), true));
+        text4.val(text4.val().replaceAll("pang", Math.floor(Math.random() * (100 + 1) + 0), true));
+
+        document.getElementById('img_dual++').src=text4.val();
+  
+        var staticstring2 = "http://stockcharts.com/c-sc/sc?chart=fdpix:bang,uu[460,a]daclyyay[dc][pb50!b200!f]&r=pang";
+        
+        
+        text4.val(staticstring2.replaceAll("bang", text1.val(), true));
+        text4.val(text4.val().replaceAll("pang", Math.floor(Math.random() * (100 + 1) + 0), true));
+
+        document.getElementById('img_dual+++').src=text4.val();
+        
+});	
+	
 $('#button_rf').on('click', function () {
         var textbb = "bang";
         var text1 = $('#text1');
