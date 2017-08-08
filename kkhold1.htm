@@ -9,14 +9,18 @@
   
 </head>
 <body>
-<img src="http://charts.aastocks.com/servlet/Charts?com=100&stockid=110000&period=46&type=1&" >
-<img src="http://charts.aastocks.com/servlet/Charts?com=100&stockid=110010&period=46&type=1&" >
+	
+source: <a href="https://docs.google.com/spreadsheets/d/1r76xV7H5XLEgxszAD-xwG5FPs6y7ml5hcI6Q9Q5BmRo/edit#gid=0">KKcloud</a>
+<br>
+<br>	
+<img src="http://charts.aastocks.com/servlet/Charts?com=100&stockid=110000&period=46&type=1&scheme=3" >
+<img src="http://charts.aastocks.com/servlet/Charts?com=100&stockid=110010&period=46&type=1&scheme=3" >
 
 <br>
-<img src="http://charts.aastocks.com/servlet/Charts?com=100&stockid=AAPL.US&period=46&type=1">
-<img src="http://charts.aastocks.com/servlet/Charts?com=100&stockid=GOOG.US&period=46&type=1">
-<img src="http://charts.aastocks.com/servlet/Charts?com=100&stockid=FB.US&period=46&type=1">
-<img src="http://charts.aastocks.com/servlet/Charts?com=100&stockid=AMZN.US&period=46&type=1">
+<img src="http://charts.aastocks.com/servlet/Charts?com=100&stockid=AAPL.US&period=46&type=1&scheme=3">
+<img src="http://charts.aastocks.com/servlet/Charts?com=100&stockid=GOOG.US&period=46&type=1&scheme=3">
+<img src="http://charts.aastocks.com/servlet/Charts?com=100&stockid=FB.US&period=46&type=1&scheme=3">
+<img src="http://charts.aastocks.com/servlet/Charts?com=100&stockid=AMZN.US&period=46&type=1&scheme=3">
 <br>
 
 
@@ -24,27 +28,27 @@
   <div class="anotherclass">
     KK Holding
   </div>
-  
   <script>
-var url2 = "https://spreadsheets.google.com/feeds/list/1bn8v2viL4MM7uQpS0iKquWvtH6qt1QMaSRK2WpvbON4/oz0xn5d/public/values?alt=json"; 
+// sheet - KKcloud -docs.google.com/spreadsheets/d/1r76xV7H5XLEgxszAD-xwG5FPs6y7ml5hcI6Q9Q5BmRo/edit#gid=0
+var url2 = "https://spreadsheets.google.com/feeds/list/1r76xV7H5XLEgxszAD-xwG5FPs6y7ml5hcI6Q9Q5BmRo/od6/public/values?alt=json"; 
 
 	Plotly.d3.json(url2, function (error, result) { 
 
 		var pu2 = [];
 		for (i = 0; i < result.feed.entry.length; i += 1) { 
-			pu2.push(result.feed.entry[i].gsx$pullupcode.$t); 
+			pu2.push(result.feed.entry[i].gsx$kkcode.$t); 
 		};
 		
 		var staticstring1 = '<img src="http://charts.aastocks.com/servlet/Charts?fontsize=12&15MinDelay=T&lang=1&titlestyle=1&vol=1&Indicator=1&indpara1=10&indpara2=20&indpara3=50&indpara4=100&indpara5=150&subChart1=11&ref1para1=14&ref1para2=0&ref1para3=0&scheme=1&com=100&chartwidth=595&chartheight=480&stockid=bang.HK&period=46&type=1&">';
 
 		
-	for (var i = 0; i < 10; ++i) {
+	for (var i = 0; i < 11; ++i) {
 			if ( i % 2 == 0 ) {$('.anotherclass').append('<br>');};										  
 		    $('.anotherclass').append(staticstring1.replace("bang", pu2[i]));
 		}
 	});
 												  
-														  
+																					  
   </script> 
  </body> 
  
