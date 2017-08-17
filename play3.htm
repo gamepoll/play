@@ -189,7 +189,7 @@ var text1 = document.getElementById('text1');
 var buttonbb = document.getElementById('buttonbb');
 buttonbb.addEventListener('click', function() {
 //    var url1='http://stockcharts.com/c-sc/sc?s=vwesx:cichf&p=D&&yr=7&i=0&r=0999';
-  var url1='http://stockcharts.com/c-sc/sc?s=$tsx:yao&p=D&&yr=7&i=0&r=0999';
+/*  var url1='http://stockcharts.com/c-sc/sc?s=$tsx:yao&p=D&&yr=7&i=0&r=0999';
   var url2='bang';
   if(canvas.backgroundColor != '#303030') {
     var staticstring2 = "http://stockcharts.com/c-sc/sc?s=vfisx:bang&p=D&&yr=7&i=0&r=0999";
@@ -200,7 +200,35 @@ buttonbb.addEventListener('click', function() {
     url2=url1; 
     canvas.backgroundColor = '#003030';
   }
+*/
 //  text1.value=url2;
+	
+    switch (canvas.backgroundColor) {
+        case '#013030':
+            url2='http://stockcharts.com/c-sc/sc?s=$tsx:yao&p=D&&yr=7&i=0&r=0999';
+	    canvas.backgroundColor = '#023030'
+            break;
+        case '#023030':
+            url2='http://stockcharts.com/c-sc/sc?s=pngay:cgg.to&p=D&&yr=7&i=0&r=0999';
+	    canvas.backgroundColor = '#033030'
+            break;
+        case '#033030':
+            url2='http://stockcharts.com/c-sc/sc?s=aagiy:pngay&p=D&&yr=7&i=0&r=0999';
+	    canvas.backgroundColor = '#043030'
+            break;
+        case '#043030':
+            url2='http://stockcharts.com/c-sc/sc?s=tcehy:gelyf&p=D&&yr=7&i=0&r=0999';
+	    canvas.backgroundColor = '#053030'
+            break;
+        case '#053030':
+            url2='http://stockcharts.com/c-sc/sc?s=vbk:shi&p=D&&yr=7&i=0&r=0999';
+	    canvas.backgroundColor = '#063030'
+            break;
+        default:
+            url2='http://stockcharts.com/c-sc/sc?s=$tsx:yao&p=D&&yr=7&i=0&r=0999';
+	    canvas.backgroundColor = '#013030'
+    }	
+	
   canvas.setBackgroundImage(url2, canvas.renderAll.bind(canvas), {
     backgroundImageOpacity: 0.5,
     backgroundImageStretch: false
