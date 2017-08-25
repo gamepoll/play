@@ -97,7 +97,10 @@ __________<select id="dropdown_change">
       
       <option value="ahchf">anhui</option> 
       
-      <option value="pngay">ping</option> 
+      <option value="pngay">ping</option>  
+
+      <option value="ppccy">picc</option>
+      
 </select>
 <br />
 __________<select id="dropdown_change1">
@@ -223,6 +226,10 @@ buttonbb.addEventListener('click', function() {
         case '#053030':
             url2='http://stockcharts.com/c-sc/sc?s=vbk:shi&p=D&&yr=7&i=0&r=0999';
 	    canvas.backgroundColor = '#063030'
+            break;
+	case '#063030':
+            url2='http://stockcharts.com/c-sc/sc?s=vexpx:ppccy&p=D&&yr=7&i=0&r=0999';
+	    canvas.backgroundColor = '#073030'
             break;
         default:
             url2='http://stockcharts.com/c-sc/sc?s=$tsx:yao&p=D&&yr=7&i=0&r=0999';
