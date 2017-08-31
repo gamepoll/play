@@ -54,6 +54,7 @@
 <br />
 <input type="button" value="Wonton =>" id="button_wonton" />
 <button id="buttonbb">Click to toggle background!</button> 
+<input type="button" value="Bdx =>" id="button_Bdx" />
 <input type="button" value="Vwesx =>" id="button_vwesx" />
 <input type="button" value="Tsx =>" id="button_tsx" />
 <input type="button" value="Orcl =>" id="button_orcl" />
@@ -257,6 +258,21 @@ button_tsx.addEventListener('click', function() {
     });
 }, false);
 
+var button_bdx = document.getElementById('button_bdx');
+button_bdx.addEventListener('click', function() {
+
+    var url2='bang';
+
+    var staticstring2 = "http://stockcharts.com/c-sc/sc?s=bdx:bang&p=D&&yr=7&i=0&r=0999";
+    url2=staticstring2.replaceAll("bang", text1.value, true);
+
+//  text1.value=url2;
+  canvas.setBackgroundImage(url2, canvas.renderAll.bind(canvas), {
+    backgroundImageOpacity: 0.5,
+    backgroundImageStretch: false
+    });
+}, false);
+		
 var button_vwesx = document.getElementById('button_vwesx');
 button_vwesx.addEventListener('click', function() {
 
