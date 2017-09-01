@@ -172,9 +172,9 @@ function makeplot() {
 			x.push(new Date(result.feed.entry[i].gsx$date_3.$t)); 
 //			y.push(result.feed.entry[i].gsx$tsxbockhk.$t); 
 // http://bl.ocks.org/tmaybe/6246014
-			y.push(result.feed.entry[i].gsx$v1.$t/result.feed.entry[i].gsx$hk_3.$t); 
+			y.push(result.feed.entry[i].gsx$v1.$t/result.feed.entry[i].gsx$yy1.$t); 
 			y2.push(result.feed.entry[i].gsx$v1.$t); 
-			y3.push(result.feed.entry[i].gsx$hk_3.$t); 
+			y3.push(result.feed.entry[i].gsx$yy1.$t); 
 		} ;
 		var pu1 = [], pu2 = [];
 		for (i = 0; i < result.feed.entry.length; i += 1) { 
@@ -189,7 +189,7 @@ for (var i = 0; i < pu1.length; ++i) {
     dc[dc.length] = new Option(pu1[i], pu2[i]);
 }
 		//makePlotly2( x, y, y2, y3,"Tsx" + $("#text1").val(), "Tenc" + $("#text1").val(), $("#text1").val(),"myDiv1"); 
-		makePlotly2( x, y, y2, y3,result.feed.entry[1].gsx$hk_2.$t + result.feed.entry[0].gsx$hk_2.$t, result.feed.entry[1].gsx$hk_2.$t+"", result.feed.entry[0].gsx$hk_2.$t,"myDiv1");
+		makePlotly2( x, y, y2, y3,result.feed.entry[1].gsx$paraxx.$t + result.feed.entry[0].gsx$paraxx.$t, result.feed.entry[1].gsx$paraxx.$t+"", result.feed.entry[0].gsx$paraxx.$t,"myDiv1");
 	}); 
 }; 
 
@@ -269,7 +269,7 @@ function makeplot1() {
 			y3.push(result.feed.entry[i].gsx$yy.$t); 
 		} 
 		//makePlotly2( x, y, y2, y3,"Tsx" + $("#text1").val(), "Tenc" + $("#text1").val(), $("#text1").val(),"myDiv1"); 
-		makePlotly2( x, y, y2, y3,result.feed.entry[2].gsx$hk_2.$t + result.feed.entry[0].gsx$hk_2.$t, result.feed.entry[2].gsx$hk_2.$t+"", result.feed.entry[0].gsx$hk_2.$t,"myDiv2");
+		makePlotly2( x, y, y2, y3,result.feed.entry[2].gsx$paraxx.$t + result.feed.entry[0].gsx$paraxx.$t, result.feed.entry[2].gsx$paraxx.$t+"", result.feed.entry[0].gsx$paraxx.$t,"myDiv2");
 	}); 
 }; 
 
