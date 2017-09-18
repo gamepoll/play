@@ -88,9 +88,9 @@ __________<select id="dropdown_change1">
      <input type="radio" name="rads"  value="blue" />Blue
 </form>
 
-<iframe id="iplot" width="1040" height="480" frameborder="0" seamless="seamless" scrolling="no" src="https://plot.ly/~jackp/10165/.embed" ></iframe>
+<iframe id="iplot" width="1040" height="480" frameborder="0" seamless="seamless" scrolling="no" src="https://plot.ly/~playground/7.embed" ></iframe>
  
-<iframe id="iplot1" width="1040" height="480" frameborder="0" seamless="seamless" scrolling="no" src="https://plot.ly/~jackp/10165/.embed" ></iframe>
+<iframe id="iplot1" width="1040" height="480" frameborder="0" seamless="seamless" scrolling="no" src="https://plot.ly/~streaming-demos/6.embed" ></iframe>
   
 <div id="myDiv1" style="height:400px; width:1100px"></div>
 	
@@ -371,7 +371,7 @@ window.addEventListener('message', function(e) {
 		
 	var message = e.data;
 
-	if( 'data[1].visible' in message.response ){
+	if( 'data[3].visible' in message.response ){
 		var vis = message.response['data[3].visible'];
 		console.log('Average visible', vis);
 		if( vis === undefined ){
