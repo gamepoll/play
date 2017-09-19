@@ -79,7 +79,7 @@ __________<select id="dropdown_change1">
  <label>Moving average window</label>
 <button onclick="toggleAvg()">Toggle</button>
 <input type="range" id="myRange" value="50" min="10" max="90" onchange="applyAvg();">
-<span id="window">50</span>
+<span id="valrg">50</span>
 <br />
 <br />
  <form name="myForm">
@@ -395,7 +395,7 @@ window.addEventListener('message', function(e) {
 	}
 	else{
 		var window = document.getElementById('myRange').value;
-		document.getElementById('window').value = window;
+		$("#valrg").html(window);
 		X = message.response['data[0].x'];
 		Y = message.response['data[0].y'];	
 		if( average ){
