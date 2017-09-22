@@ -402,6 +402,8 @@ window.addEventListener('message', function(e) {
 	else{
 		var window = document.getElementById('myRange').value;
 		$("#valrg").html(window);
+		////
+		applyAvg();
 		X = message.response['data[0].x'];
 		Y = message.response['data[0].y'];	
 		if( average ){
