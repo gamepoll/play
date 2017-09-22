@@ -402,13 +402,11 @@ window.addEventListener('message', function(e) {
 	else{
 		var window = document.getElementById('myRange').value;
 		$("#valrg").html(window);
-		////
-		applyAvg();
 		X = message.response['data[0].x'];
 		Y = message.response['data[0].y'];	
 		if( average ){
 			var arr = movingWindowAvg( Y, Number(window) );		
-			console.log('Recalculated average');
+			console.log('Recalculated average', arr);
 			plot.postMessage({
 				task: 'restyle',
 				update: { y: [arr], x: [X], 'visible':true },
