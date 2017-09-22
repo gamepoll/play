@@ -54,7 +54,8 @@ __________<select id="dropdown_change">
  
       <option value="Vbk">SmallCap</option>
 	
- 
+       <option value="$dax">Dax</option>
+	
 </select>
 <br />
 <br />
@@ -74,7 +75,8 @@ __________<select id="dropdown_change1">
  
       <option value="Vbk">SmallCap</option>
 	
- 
+      <option value="$dax">Dax</option>
+	
 </select>
   
   <br />
@@ -91,9 +93,9 @@ __________<select id="dropdown_change1">
      <input type="radio" name="rads"  value="blue" />Blue
 </form>
 
-<iframe id="iplot" width="1040" height="480" frameborder="0" seamless="seamless" scrolling="no" src="https://plot.ly/~playground/7.embed" ></iframe>
+<iframe id="imyDiv1" width="1040" height="480" frameborder="0" seamless="seamless" scrolling="no" src="https://plot.ly/~playground/7.embed" ></iframe>
  
-<iframe id="iplot1" width="1040" height="480" frameborder="0" seamless="seamless" scrolling="no" src="https://plot.ly/~streaming-demos/6.embed" ></iframe>
+<iframe id="imyDiv2" width="1040" height="480" frameborder="0" seamless="seamless" scrolling="no" src="https://plot.ly/~streaming-demos/6.embed" ></iframe>
   
 <div id="myDiv1" style="height:400px; width:1100px"></div>
 	
@@ -263,17 +265,7 @@ function makePlotly2( x, y, y2, y3, yname, y2name, y3name, divname){
 								  overlaying: 'y', side: 'right' } ,
 					 }; 
 	Plotly.newPlot(divname, data, layout); Plotly.purge;
-  
-  var plot, type;
-var rad = document.myForm.rads;
-var prev = null;
-
-for(var i = 0; i < rad.length; i++) {
-    rad[i].onclick = function() {
-        (prev)? console.log(prev.value):null;
-        if(this !== prev) { prev = this; }
-        color = this.value;
-	        plot = document.getElementById('iplot').contentWindow;
+  	plot = document.getElementById('i'+divname).contentWindow;
         // send a message to the contentWindow
         plot.postMessage(
         {
@@ -282,6 +274,17 @@ for(var i = 0; i < rad.length; i++) {
             'layout': layout
         },
         'https://plot.ly');
+	
+var plot, type;
+var rad = document.myForm.rads;
+var prev = null;
+
+for(var i = 0; i < rad.length; i++) {
+    rad[i].onclick = function() {
+        (prev)? console.log(prev.value):null;
+        if(this !== prev) { prev = this; }
+        color = this.value;
+	        plot = document.getElementById('imyDiv1').contentWindow;
         // send a message to the contentWindow
         plot.postMessage(
         {
@@ -329,7 +332,7 @@ makeplot1();
 // https://github.com/plotly/postMessage-API
 
 var average = false;
-var plot = document.getElementById('iplot').contentWindow;
+var plot = document.getElementById('imyDiv1').contentWindow;
 var X, Y, vis;
 
 var d3_numeric = function(x) {
