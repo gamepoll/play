@@ -134,6 +134,22 @@ __________<select id="dropdown_change1">
       
 
 </select>
+<br />
+__________<select id="dropdown_change2">
+ 
+      <option value="EUO">--$EURUSD</option>
+ 
+      <option value="EPV">--Europe 03101</option>
+ 
+      <option value="EZJ">Japan 7225</option>
+  
+      <option value="CROC">--$AUDUSD</option>
+
+      <option value="SCO">--Oil 3135</option>
+      
+      <option value="YCS">--$JPYUSD</option> 
+      
+</select>
 <br />      
 <br />
 <input type="button" value="Won =>" id="button_won" />
@@ -460,6 +476,11 @@ $("#dropdown_change").change(function(){
 
 $("#dropdown_change1").change(function(){
       dc=document.getElementById("dropdown_change1")
+       $("#text1").val(dc.value);
+});
+	
+$("#dropdown_change2").change(function(){
+      dc=document.getElementById("dropdown_change2")
        $("#text1").val(dc.value);
 });
   
