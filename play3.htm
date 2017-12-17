@@ -256,12 +256,13 @@ buttonbb.addEventListener('click', function() {
 	    canvas.backgroundColor = '#073030'
             break;
         default:
-            url1='http://charts.megahubhk.com/servlets/MHImageChart?sid=1299&mChart2=11&m2p1=7&cmode=1&vol=1&intTech1=1&it1p1=50&it1p5=200&tstyle=2&fsize=10&&cr=106&cwidth=499&cheight=375&lang=1&cperiod=1001030&ctype=1&wm=13&p=';
-		url2='http://stockcharts.com/c-sc/sc?s=$tsx:ewh&p=D&height=410&width=560&yr=21&i=p40545395733&r=0999';
+            url1='http://charts.megahubhk.com/servlets/MHImageChart?sid=1299&mChart2=11&m2p1=7&cmode=1&vol=1&intTech1=1&it1p1=50&it1p5=200&tstyle=2&fsize=10&&cr=106&cwidth=499&cheight=375&lang=1&cperiod=1001030&ctype=1&wm=13&p=pang';
+	    text4.val(url1.replaceAll("pang", Math.floor(Math.random() * (100 + 1) + 0), true));
+		    url2='http://stockcharts.com/c-sc/sc?s=$tsx:ewh&p=D&height=410&width=560&yr=21&i=p40545395733&r=0999';
 	    canvas.backgroundColor = '#013030'
     }	
 	
-  canvas1.setBackgroundImage(url1, canvas1.renderAll.bind(canvas1), {
+  canvas1.setBackgroundImage(text4.val(), canvas1.renderAll.bind(canvas1), {
     backgroundImageOpacity: 0.5,
     backgroundImageStretch: false
     });
