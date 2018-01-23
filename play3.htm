@@ -172,12 +172,12 @@ __________<select id="dropdown_change2">
 <input type="button" value="Vep-Bdx =>" id="button_vb" style="background-color:lightgrey" />
 <input type="button" value="Vx-Tx-Ux =>" id="button_vut" style="background-color:lightgrey" />
 <input type="button" value="Rd-Fd =>" id="button_rf" style="background-color:lightgrey" />
-<input type="button" value="Tcy-Web =>" id="button_tw" style="background-color:lightgrey" />
+<input type="button" value="Tcy-Web2x =>" id="button_tw" style="background-color:lightgrey" />
 <input type="button" value="Long Tail =>" id="button_ltail" />
 <input type="button" value="Short Tail =>" id="button_stail" />
 <input type="button" value="Long Tail(W) =>" id="button_ltailw" />
 <input type="button" value="Vwesx =>" id="button" />
-<input type="button" value="Fdpix =>" id="button_fd" />
+<input type="button" value="Web2x =>" id="button_w2x" />
 <br />
 <br />
 <br />
@@ -531,10 +531,10 @@ $('#button').on('click', function () {
 
 });
 
-$('#button_fd').on('click', function () {
+$('#button_w2x').on('click', function () {
         var text2 = $('#text2');
         
-        var staticstring2 = "http://stockcharts.com/c-sc/sc?s=fdpix:bang&p=W&&yr=18&i=0&r=0999";
+        var staticstring2 = "http://stockcharts.com/c-sc/sc?s=ryccx:bang&p=W&&yr=18&i=0&r=0999";
         
         
         text2.val(staticstring2.replaceAll("bang", text1.value, true));
@@ -1231,7 +1231,7 @@ $('#button_tw').on('click', function () {
 
         document.getElementById('img_dual').src=text4.val();
 
-        var staticstring2 = "http://stockcharts.com/c-sc/sc?chart=kweb:bang,uu[460,a]wallyyay[d20010101][pb50!b200!f]&r=pang";
+        var staticstring2 = "http://stockcharts.com/c-sc/sc?chart=ryccx:bang,uu[460,a]wallyyay[d20010101][pb50!b200!f]&r=pang";
         
         
         text4.val(staticstring2.replaceAll("bang", text1.val(), true));
@@ -1255,7 +1255,7 @@ $('#button_tw').on('click', function () {
 
         document.getElementById('img_dual++').src=text4.val();
   
-        var staticstring2 = "http://stockcharts.com/c-sc/sc?chart=kweb:bang,uu[460,a]daclyyay[dc][pb50!b200!f]&r=pang";
+        var staticstring2 = "http://stockcharts.com/c-sc/sc?chart=ryccx:bang,uu[460,a]daclyyay[dc][pb50!b200!f]&r=pang";
         
         
         text4.val(staticstring2.replaceAll("bang", text1.val(), true));
