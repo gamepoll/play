@@ -56,6 +56,8 @@ __________<select id="dropdown_change">
 	
        <option value="$dax">Dax</option>
 	
+       <option value="$tsx">Tsx</option>
+	
 </select>
 <br />
 <br />
@@ -76,6 +78,8 @@ __________<select id="dropdown_change1">
       <option value="Vbk">SmallCap</option>
 	
       <option value="$dax">Dax</option>
+	
+       <option value="$tsx">Tsx</option>
 	
 </select>
   
@@ -146,6 +150,8 @@ function myTrigger() {
 	var d=new Date();
 	dc=document.getElementById("dropdown_change")
 	dc1=document.getElementById("dropdown_change1")
+	
+	$('#demo').html("Loading ....." + d.getHours() + ":" + d.getMinutes() );
  
 //	$.get( "https://script.google.com/macros/s/AKfycbw_R11-s8IQPBJ87VDg2MKXQk627ztHSV0wQLGMc0YozIJ92A4/exec?action=get&mode=base", function( data ) {
 // for file hhh
