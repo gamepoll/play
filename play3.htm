@@ -544,7 +544,7 @@ $('#buttonbb3').on('click', function() { $('#buttonbb').click(); });
 $('#buttonM').on('click', function() { $('#buttonxx').click();
 				     $('#button_tw').click();
 				     });	
-$('#buttonM1').on('click', function() { $('#button_tw').click();});
+$('#buttonM1').click(function(){ $('#button_tw').click();  $('#buttonM').click();});
 	
 $("#dropdown_change").change(function(){
       dc=document.getElementById("dropdown_change")
