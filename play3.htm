@@ -312,8 +312,9 @@ buttonbb.addEventListener('click', function() {
 		url1='http://stockcharts.com/c-sc/sc?s=$INDIAVIX&p=w&&yr=13&i=0&w=700&h=500r=0999';
 		document.getElementById('text1').value="$INDIAVIX";
 		document.getElementById('text3').value="7202";
-		document.getElementById('buttonxx').click();
-	    canvas.backgroundColor = '#013030'
+//		document.getElementById('buttonxx').click();
+		$('#buttonxx').trigger('click');
+		    canvas.backgroundColor = '#013030'
     }	
 	
   canvas1.setBackgroundImage(url1, canvas1.renderAll.bind(canvas1), {
