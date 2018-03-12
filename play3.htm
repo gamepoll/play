@@ -183,7 +183,6 @@ __________<select id="dropdown_change2">
 <input type="button" value="Web2x / uup =>" id="button_w2x" />
 <button id="buttonbb3">Click to toggle background!</button>
 <input type="button" value="Click for more....!" id="buttonM" />
-<input type="button" value="Click for more....!" id="buttonM1" />
 <br />
 <br />
 <br />
@@ -541,10 +540,10 @@ $('#buttonbb1').on('click', function() { $('#buttonbb').click(); });
 $('#buttonbb2').on('click', function() { $('#buttonbb').click(); });
 $('#buttonbb3').on('click', function() { $('#buttonbb').click(); });
 	
-$('#buttonM').on('click', function() { $('#buttonxx').click();
+$('#buttonM').click(function(){ $('#buttonxx').click();
 				     $('#button_tw').click();
 				     });	
-$('#buttonM1').click(function(){ $('#button_tw').click();  $('#buttonM').click();});
+
 	
 $("#dropdown_change").change(function(){
       dc=document.getElementById("dropdown_change")
