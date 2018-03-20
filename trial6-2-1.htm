@@ -194,7 +194,7 @@ function makeplot() {
 	Plotly.d3.json(url2, function (error, result) { 
 		var x = [], y = [], y2=[], y3=[]; 
 		for (i = 0; i < result.feed.entry.length; i += 1) { 
-			x.push(new Date(result.feed.entry[i].gsx$date_3.$t)); 
+			x.push(new Date(result.feed.entry[i].gsx$date_4.$t)); 
 //			y.push(result.feed.entry[i].gsx$tsxbockhk.$t); 
 // http://bl.ocks.org/tmaybe/6246014
 			y.push(result.feed.entry[i].gsx$v1.$t/result.feed.entry[i].gsx$yy1.$t); 
@@ -328,7 +328,7 @@ function makeplot1() {
 	Plotly.d3.json(url2, function (error, result) { 
 		var x = [], y = [], y2=[], y3=[]; 
 		for (i = 0; i < result.feed.entry.length; i += 1) { 
-			x.push(new Date(result.feed.entry[i].gsx$date_4.$t)); 
+			x.push(new Date(result.feed.entry[i].gsx$date_5.$t)); 
 //			y.push(result.feed.entry[i].gsx$tsxbockhk.$t); 
 // http://bl.ocks.org/tmaybe/6246014
 			y.push(result.feed.entry[i].gsx$v2.$t/result.feed.entry[i].gsx$yy.$t); 
