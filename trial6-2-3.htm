@@ -1,0 +1,461 @@
+<!doctype html>
+<html lang="en">
+
+
+
+<head>
+  <meta charset="utf-8">
+  <title>jTrial 6.2.1 - Default functionality</title>
+
+  <!-- Plotly.js -->
+  <!-- Plotly.js -->
+  <!--script src="https://cdn.plot.ly/plotly-latest.min.js"></script-->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/d3/3.5.6/d3.min.js"> </script>
+  <script src="https://code.jquery.com/jquery-2.1.4.min.js"> </script>
+<div id="output">
+    <script id="map" type="text/javascript" src="https://d14fo0winaifog.cloudfront.net/plotly-basic.js"></script>
+</div>
+</head>
+
+<body>
+<span class="clock"></span>
+<p/>
+<button onclick="myTrigger()">Click Tick</button>
+<p id="demo"></p> 
+	
+<br />
+<input id="text1" value="0388" style="width: 150px;" />  
+<input type="button" value="2328 <=" id="button_2328" />
+
+
+<br />
+__________<select id="dropdown">
+</select>	
+	
+<br />
+__________<input type="button" value="Vep-Bdx =>" id="button_vb" />
+<input type="button" value="Vx-Tx =>" id="button_vt" />
+<br />
+<br />
+__________<select id="dropdown_change">
+	
+      <option value="0700.hk">Tcent</option>
+	
+      <option value="Vwesx">Vwesx</option>
+ 
+      <option value="bdx">bdx</option>
+
+ 
+      <option value="Fdpix">Fdpix</option>
+  
+      <option value="Rdpix">Rdpix</option>
+ 
+      <option value="1299.hk">Aia</option>
+ 
+      <option value="Vbk">SmallCap</option>
+	
+       <option value="INDEXDB:DAX">Dax</option>
+	
+       <option value="INDEXTSI:OSPTX">Tsx</option>
+	
+</select>
+<br />
+<br />
+__________<select id="dropdown_change1">
+ 
+      <option value="bdx">bdx</option>
+ 
+      <option value="Vwesx">Vwesx</option>
+ 
+      <option value="0700.hk">Tcent</option>
+ 
+      <option value="Fdpix">Fdpix</option>
+  
+      <option value="Rdpix">Rdpix</option>
+ 
+      <option value="1299.hk">Aia</option>
+ 
+      <option value="Vbk">SmallCap</option>
+	
+      <option value="INDEXDB:DAX">Dax</option>
+	
+       <option value="INDEXTSI:OSPTX">Tsx</option>
+	
+</select>
+  
+  <br />
+<br />
+ <label>Moving average window</label>
+<button onclick="toggleAvg()">Toggle</button>
+<input type="range" id="myRange" value="62" min="10" max="90" onchange="applyAvg();">
+<span id="valrg">62</span>
+<br />
+<br />
+ <form name="myForm">
+     <input type="radio" name="rads"  value="red" />Red
+     <input type="radio" name="rads"  value="green" />Green
+     <input type="radio" name="rads"  value="blue" />Blue
+</form>
+
+<iframe id="imyDiv1" width="1040" height="480" frameborder="0" seamless="seamless" scrolling="no" src="https://plot.ly/~playground/7.embed" ></iframe>
+ 
+<iframe id="imyDiv2" width="1040" height="480" frameborder="0" seamless="seamless" scrolling="no" src="https://plot.ly/~streaming-demos/6.embed" ></iframe>
+  
+<div id="myDiv1" style="height:400px; width:1100px"></div>
+	
+<div id="myDiv2" style="height:400px; width:1100px"></div>	
+
+<script>
+$('#button_2328').on('click', function() { $('#text1').val("2328"); });
+
+
+  function iOSversion() {
+		if (/iP(hone|od|ad)/.test(navigator.platform)) {
+			// supports iOS 2.0 and later: <http://bit.ly/TJjs1V>
+			var v = (navigator.appVersion).match(/OS (\d+)_(\d+)_?(\d+)?/);
+			return [parseInt(v[1], 10), parseInt(v[2], 10), parseInt(v[3] || 0, 10)];
+		}
+	}
+
+	ver = iOSversion(); 
+
+    var s = document.createElement("script");
+    s.type = "text/javascript";
+
+
+  if (!ver) {
+		$('#demo').html('This is NOT running iOS ' );
+		s.src = "https://cdn.plot.ly/plotly-latest.min.js";
+  } else if (ver[0]<=5) {
+	  $('#demo').html('This is running iOS < 6' );
+  } else {
+	  $('#demo').html('This is running iOS > 6' );
+	  s.src = "https://cdn.plot.ly/plotly-latest.min.js";
+  };
+    s.innerHTML = null;
+    s.id = "map";
+    document.getElementById("output").innerHTML = "";
+    document.getElementById("output").appendChild(s);
+
+// Manual Script
+jQuery(function($) {
+  setInterval(function() {
+    var date = new Date(),
+        time = date.toLocaleTimeString();
+    $(".clock").html(time);
+  }, 1000);
+});
+
+function myTrigger() {
+	var d=new Date();
+	dc=document.getElementById("dropdown_change")
+	dc1=document.getElementById("dropdown_change1")
+	
+	$('#demo').html("Loading ....." + d.getHours() + ":" + d.getMinutes() );
+ 
+//	$.get( "https://script.google.com/macros/s/AKfycbw_R11-s8IQPBJ87VDg2MKXQk627ztHSV0wQLGMc0YozIJ92A4/exec?action=get&mode=base", function( data ) {
+// for file hhh
+//	$.get( "https://script.google.com/macros/s/AKfycbx6cw5tgL5eshOX8lsrGLSpU3WGAz59BWmWFKxlnRb-DRWNp9Uh/exec?action=get&mode=base", function( data ) {
+	$.get( "https://script.google.com/macros/s/AKfycbx6cw5tgL5eshOX8lsrGLSpU3WGAz59BWmWFKxlnRb-DRWNp9Uh/exec?action=get&mode=plot7&code="+$('#text1').val()+"&code1="+dc.value+"&code2="+dc1.value, function( data ) {	
+	$('#demo').html(data + "@" + d.getHours() + ":" + d.getMinutes() );
+            });
+};
+
+$("#dropdown").change(function(){
+      dc=document.getElementById("dropdown")
+		$("#text1").val(dc.value);
+});
+
+     $("#dropdown_change").change(function(){
+dc=document.getElementById("dropdown_change")
+//       alert("Selected value is : " + document.getElementById("dropdown_change").value);
+       $("#text2").val(dc.value);
+		     });
+
+//$("#button_2388").on("click", function() { $("#text1").val("Bochk"); $("#text2").val("gsx$bochk");});
+//$("#button_8008").on("click", function() { $("#text1").val("Sunv"); $("#text2").val("gsx$sunv");});
+//$('#button_2018').on('click', function() { $('#text1').val("Aact"); $("#text2").val("gsx$aact");});
+//$('#button_2382').on('click', function() { $('#text1').val("Suno"); $("#text2").val("gsx$suno");});
+//$('#button_0285').on('click', function() { $('#text1').val("Byee"); $("#text2").val("gsx$sunv");});
+$("#button_vb").on("click", function() { makeplot(); makeplot1(); });
+$("#button_vt").on("click", function() { makeplot(); makeplot1(); });
+
+
+function makeplot() {
+	//var url2 = "https://spreadsheets.google.com/feeds/list/1NYOFCAHvMkyOxItQqqhFLvna-yXnMheQbuxVPMV43Dk/o7lhxur/public/values?alt=json"; 
+	// for file hhh
+	// var url2 = "https://spreadsheets.google.com/feeds/list/1bn8v2viL4MM7uQpS0iKquWvtH6qt1QMaSRK2WpvbON4/o7lhxur/public/values?alt=json"; 
+	// hhh.Sheet7 -spreadsheets.google.com/feeds/worksheets/spreadsheetId/public/basic
+	// fields - spreadsheets.google.com/feeds/list/spreadsheetId/ovhhkrv/public/values?alt=json
+	var url2 = "https://spreadsheets.google.com/feeds/list/1bn8v2viL4MM7uQpS0iKquWvtH6qt1QMaSRK2WpvbON4/ovhhkrv/public/values?alt=json"; 
+	//var foo = $("#text2").val();
+	//dc=document.getElementById("dropdown_change")
+	
+	Plotly.d3.json(url2, function (error, result) { 
+		var x = [], y = [], y2=[], y3=[]; 
+		for (i = 0; i < result.feed.entry.length; i += 1) { 
+			x.push(new Date(result.feed.entry[i].gsx$date_4.$t)); 
+//			y.push(result.feed.entry[i].gsx$tsxbockhk.$t); 
+// http://bl.ocks.org/tmaybe/6246014
+			y.push(result.feed.entry[i].gsx$v1.$t/result.feed.entry[i].gsx$yy1.$t); 
+			y2.push(result.feed.entry[i].gsx$v1.$t); 
+			y3.push(result.feed.entry[i].gsx$yy1.$t); 
+		} ;
+		var pu1 = [], pu2 = [];
+		for (i = 0; i < result.feed.entry.length; i += 1) { 
+			pu1.push(result.feed.entry[i].gsx$pullupname.$t); 
+			pu2.push(result.feed.entry[i].gsx$pullupcode.$t); 
+		};
+		dc=document.getElementById("dropdown")
+
+// Loop through the array
+for (var i = 0; i < pu1.length; ++i) {
+    // Append the element to the end of Array list
+    dc[dc.length] = new Option(pu1[i], pu2[i]);
+}
+		//makePlotly2( x, y, y2, y3,"Tsx" + $("#text1").val(), "Tenc" + $("#text1").val(), $("#text1").val(),"myDiv1"); 
+		makePlotly2( x, y, y2, y3,result.feed.entry[1].gsx$paraxx.$t + result.feed.entry[0].gsx$paraxx.$t, result.feed.entry[1].gsx$paraxx.$t+"", result.feed.entry[0].gsx$paraxx.$t,"myDiv1");
+	}); 
+}; 
+
+function makePlotly2( x, y, y2, y3, yname, y2name, y3name, divname){
+	var selectorOptions = {
+    buttons: [{
+        step: 'year',
+        stepmode: 'backward',
+        count: 2,
+        label: '2m'
+    }, {
+        step: 'year',
+        stepmode: 'backward',
+        count: 4,
+        label: '3m'
+    }, {
+        step: 'year',
+        stepmode: 'backward',
+        count: 6,
+        label: '4m'
+    }, {
+        step: 'year',
+        stepmode: 'backward',
+        count: 8,
+        label: '6m'
+    }, {
+        step: 'all',
+    }],
+};
+	var traces = { x: x, y: y, name: yname }; 
+	var traces2 = { x: x, y: y2, name: y2name, 
+						//mode: 'lines+markers', 
+						marker: { color: 'rgb(128, 0, 128)', size: 5 }, 
+						yaxis: 'y2',
+		       				visible: 'legendonly'
+					  }; 
+	var traces3 = { x: x, y: y3, name: y3name, 
+						mode: 'lines+markers', 
+						marker: {  size: 5 }, 
+						yaxis: 'y3' 
+					  };
+  //
+  var arr = movingWindowAvg( y, 62 );
+  var traces4 = { x: x, y: arr, name: "MA", 
+						mode: 'lines+markers', 
+						marker: {  size: 2 }, 
+						yaxis: 'y4' 
+					  };
+	var data = [traces, traces2, traces3, traces4]; 
+	var layout = { title: yname, 
+					  xaxis: {
+            rangeselector: selectorOptions
+ //           ,rangeslider: {}
+        },
+					  yaxis: {/*title: yname*/}, 
+					  yaxis2: {// title: y2name, 
+
+								  overlaying: 'y', side: 'left' } ,
+					  yaxis3: {
+
+								  overlaying: 'y', side: 'right' } ,
+            yaxis4: {
+
+								  overlaying: 'y', side: 'left' } 
+					 }; 
+	Plotly.newPlot(divname, data, layout); Plotly.purge;
+  	plot = document.getElementById('i'+divname).contentWindow;
+        // send a message to the contentWindow
+        plot.postMessage(
+        {
+            'task': 'newPlot',
+            'data': data,
+            'layout': layout
+        },
+        'https://plot.ly');
+	average = false;
+	
+var plot, type;
+var rad = document.myForm.rads;
+var prev = null;
+
+for(var i = 0; i < rad.length; i++) {
+    rad[i].onclick = function() {
+        (prev)? console.log(prev.value):null;
+        if(this !== prev) { prev = this; }
+        color = this.value;
+	        plot = document.getElementById('imyDiv1').contentWindow;
+        // send a message to the contentWindow
+        plot.postMessage(
+        {
+            'task': 'restyle',
+            'update': {'marker':{'color': color}},
+            'indices': [0]
+        },
+        'https://plot.ly');
+    };
+}
+  
+}; 
+
+function makeplot1() {
+	//var url2 = "https://spreadsheets.google.com/feeds/list/1NYOFCAHvMkyOxItQqqhFLvna-yXnMheQbuxVPMV43Dk/o7lhxur/public/values?alt=json"; 
+	// for file hhh
+	// var url2 = "https://spreadsheets.google.com/feeds/list/1bn8v2viL4MM7uQpS0iKquWvtH6qt1QMaSRK2WpvbON4/o7lhxur/public/values?alt=json"; 
+	// hhh.Sheet7 -spreadsheets.google.com/feeds/worksheets/spreadsheetId/public/basic
+	// fields - spreadsheets.google.com/feeds/list/spreadsheetId/oz0xn5d/public/values?alt=json
+	var url2 = "https://spreadsheets.google.com/feeds/list/1bn8v2viL4MM7uQpS0iKquWvtH6qt1QMaSRK2WpvbON4/ovhhkrv/public/values?alt=json"; 
+	//var foo = $("#text2").val();
+	//dc=document.getElementById("dropdown_change")
+	
+	Plotly.d3.json(url2, function (error, result) { 
+		var x = [], y = [], y2=[], y3=[]; 
+		for (i = 0; i < result.feed.entry.length; i += 1) { 
+			x.push(new Date(result.feed.entry[i].gsx$date_5.$t)); 
+//			y.push(result.feed.entry[i].gsx$tsxbockhk.$t); 
+// http://bl.ocks.org/tmaybe/6246014
+			y.push(result.feed.entry[i].gsx$v2.$t/result.feed.entry[i].gsx$yy.$t); 
+			y2.push(result.feed.entry[i].gsx$v2.$t); 
+			y3.push(result.feed.entry[i].gsx$yy.$t); 
+		} 
+		//makePlotly2( x, y, y2, y3,"Tsx" + $("#text1").val(), "Tenc" + $("#text1").val(), $("#text1").val(),"myDiv1"); 
+		makePlotly2( x, y, y2, y3,result.feed.entry[2].gsx$paraxx.$t + result.feed.entry[0].gsx$paraxx.$t, result.feed.entry[2].gsx$paraxx.$t+"", result.feed.entry[0].gsx$paraxx.$t,"myDiv2");
+	}); 
+}; 
+
+
+
+makeplot();
+makeplot1();
+
+// Made with Plotly's postMessage API
+// https://github.com/plotly/postMessage-API
+
+var average = false;
+var plot = document.getElementById('imyDiv1').contentWindow;
+var X, Y, vis;
+
+var d3_numeric = function(x) {
+ 	return !isNaN(x);
+}
+
+var d3sum = function(array, f) {
+  var s = 0,
+      n = array.length,
+      a,
+      i = -1;
+  if (arguments.length === 1) {
+	 // zero and null are equivalent
+    while (++i < n) if (d3_numeric(a = +array[i])) s += a; 
+  } else {
+    while (++i < n) if (d3_numeric(a = +f.call(array, array[i], i))) s += a;
+  }
+  return s;
+};
+
+var movingWindowAvg = function (arr, step) {  
+    return arr.map(function (_, idx) { 
+        var wnd = arr.slice(idx - step, idx + step + 1); 
+        var result = d3sum(wnd) / wnd.length; if (isNaN(result)) { result = _; }
+        return result; 
+    });
+};
+
+function applyAvg(index){
+	// get current x, y data
+	if( index===undefined ){ 
+		index=0;
+	}
+	index=index.toString();
+	plot.postMessage({
+		 task: 'getAttributes',
+		 attributes: [ 'data['+index+'].x', 'data['+index+'].y' ] },
+		 'https://plot.ly/');   
+}
+
+window.addEventListener('message', function(e) {
+		
+	var message = e.data;
+
+	if( 'data[3].visible' in message.response ){
+		var vis = message.response['data[3].visible'];
+		console.log('Average visible', vis);
+		if( vis === undefined ){
+				plot.postMessage({
+		 			task: 'getAttributes',
+		 			attributes: [ 'data[0].x', 'data[0].y' ] },
+		 			'https://plot.ly/');
+		}
+		else if( vis == true ){
+			vis = false;	
+		}
+		else{
+			vis = true;
+		}
+		
+		plot.postMessage({
+			task: 'restyle',
+			update: { 'visible':vis },
+			indices: [3]
+		}, 'https://plot.ly'); 
+	}
+	else{
+		var window = document.getElementById('myRange').value;
+		$("#valrg").html(window);
+		X = message.response['data[0].x'];
+		Y = message.response['data[0].y'];	
+		if( average ){
+			var arr = movingWindowAvg( Y, Number(window) );		
+			console.log('Recalculated average', arr);
+			plot.postMessage({
+				task: 'restyle',
+				update: { y: [arr], x: [X], 'visible':true },
+				indices: [3]
+			}, 'https://plot.ly');  
+		}
+		else{		
+			avg = { y: [arr], x: [X], visible:true, 
+					 mode:'line', marker:{color:'#444'} };
+			console.log( 'Adding moving average', avg );
+			plot.postMessage({
+				task: 'addTraces',
+				traces: [ avg ],
+				newIndices: [3]
+			}, 'https://plot.ly'); 	
+			applyAvg();
+			average = true;
+		}
+	}
+});
+
+function toggleAvg(){
+	// get current x, y data
+	plot.postMessage({
+		 task: 'getAttributes',
+		 attributes: [ 'data[3].visible' ] },
+		 'https://plot.ly/');
+};
+
+
+</script>
+</body>
+
+
+</script>
