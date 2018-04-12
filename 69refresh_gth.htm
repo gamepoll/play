@@ -34,7 +34,7 @@ if (curmin!=0)
     curtime=curmin+" minutes and "+cursec+" seconds left until page refresh!"
 else
     curtime=cursec+" seconds left until page refresh!"
-document.title = doctitle + ' (' + curtime +')'
+window.status=curtime
 setTimeout("beginrefresh()",1000)
 }
 }
