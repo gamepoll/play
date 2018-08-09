@@ -982,7 +982,7 @@ var url2 = "https://spreadsheets.google.com/feeds/list/1bn8v2viL4MM7uQpS0iKquWvt
 // Loop through the array
 for (var i = 0; i < pu1.length; ++i) {
     // Append the element to the end of Array list
-    dc[dc.length] = new Option(pu1[i], pu2[i]);
+    dc[dc.length] = new Option(pu1[i] + "--" +pu2[i], pu2[i]);
 }
 	}) 
 
