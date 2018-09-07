@@ -26,7 +26,7 @@
 <br />
 <input id="text1" value="0388" style="width: 150px;" />  
 <input type="button" value="2328 <=" id="button_2328" />
-
+<input type="button" value="xpp <=" id="button_xp" />
 
 <br />
 __________<select id="dropdown">
@@ -60,6 +60,8 @@ __________<select id="dropdown_change">
 	
        <option value="Crm">Crm</option>
 	
+       <option value="Cew">Cew</option>
+	
 </select>
 <br />
 <br />
@@ -84,6 +86,8 @@ __________<select id="dropdown_change1">
        <option value="INDEXTSI:OSPTX">Tsx</option>
 	
        <option value="Crm">Crm</option>
+	
+       <option value="Cew">Cew</option>
 	
 </select>
   
@@ -111,7 +115,7 @@ __________<select id="dropdown_change1">
 
 <script>
 $('#button_2328').on('click', function() { $('#text1').val("2328"); });
-
+$('#button_xpp').on('click', function() { $('#text1').val("xpp"); });
 
   function iOSversion() {
 		if (/iP(hone|od|ad)/.test(navigator.platform)) {
