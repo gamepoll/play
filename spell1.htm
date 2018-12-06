@@ -167,7 +167,7 @@ $(function(){
                 	$('#status').removeClass();
                   //console.log('current word->'+currentWord+' | answer->'+$inputField.val().toLowerCase());
                 	$inputField.prop('disabled',true);
-                	if( currentWord === $inputField.val().toLowerCase() ){
+                	if( currentWord === $.trim($inputField.val().toLowerCase()) ){
                     responsiveVoice.speak('fantastic Jayden');
                     $('#status').addClass('correct').html('<span>Correct! - You spelled <em>'+currentWord+'</em> perfectly!</span>');
                     $('#say-sentence').remove();
