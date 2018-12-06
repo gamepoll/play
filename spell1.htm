@@ -1,0 +1,239 @@
+
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <title>jSpell 1.0 - Default functionality</title>
+  <link rel="stylesheet" href="//code.jquery.com/ui/1.11.4/themes/smoothness/jquery-ui.css">
+  <script src="//code.jquery.com/jquery-1.10.2.js"></script>
+  <script src="//code.jquery.com/ui/1.11.4/jquery-ui.js"></script>
+  
+  <script type="text/javascript" src="https://d14fo0winaifog.cloudfront.net/plotly-basic.js"></script>
+  
+  <link rel="stylesheet" href="/resources/demos/style.css">
+
+  <!-- https://github.com/kangax/fabric.js/blob/master/dist/fabric.js -->
+  <!--script src="https://rawgit.com/kangax/fabric.js/master/dist/fabric.js"></script-->
+  <script src="https://rawgit.com/kangax/fabric.js/ff21b07be46796037ef89717773443920051acc2/dist/fabric.js"></script>
+  
+  <script src="https://code.responsivevoice.org/responsivevoice.js?ver=4.2.5"></script>
+  <script src="https://code.responsivevoice.org/develop/responsivevoice.src.js"></script>
+  <script src="https://code.jquery.com/jquery-1.11.3.min.js"></script>
+  
+  <style>
+    div.xbox {
+    /* To correctly align image, regardless of content height: */
+    /* vertical-align: top; */
+    display: inline-block;
+    text-align:center;
+    color: blue;
+  }
+  html body { font-family: arial, sans-serf; font-size: 14px; padding: 20px; background:#fff; }
+  a { text-decoration:none; color:#26a5c7; }
+  h2 { font-size: 16px; }
+  #play a { background: #272727; color: #FFF; border-radius: 3px; display:inline-block; padding: 2px 6px; margin-left: 10px; cursor:pointer;   }
+  #play a:hover { background: #000; color: #FFF; }
+  #current-word { padding: 20px 0; }
+  #status { height: 20px; }
+  #status.correct { color: green; }
+  #status.incorrect { color: red; }
+  #current-word button,
+  #current-word input { font-size: 14px; padding: 2px 10px;  }
+  #status em { text-decoration: underline; font-style: normal; }
+  #voices li { font-size: 12px; cursor: pointer; padding: 2px 3px; line-height:14px;  }
+  #voices #voicelist { padding: 10px 10px 10px 20px; background:#fffcf2; width: 215px; }
+  #voices #voicelist li { width: 200px;  }
+  #voices #voicelist li:hover { background-color:#CCC;  }
+  #footer { font-size: .7em; color: #8A8A8A; margin-top: 20px; border-top: 1px solid #8a8a8a; padding: 10px 0; } 
+  #footer a { color: #26a5c7; } 
+  </style>
+</head>
+
+<body>
+<h1>
+  Spelling Practice
+</h1>
+<form>
+  <div id="status"></div>
+  <div id="current-word"></div>
+</form>
+
+<div id="play"><a href="#">play</a></div>
+<h2>Options</h2>
+<ul id="options">
+  <li id="voices"><a href="#">Change Voice</a> [ currently: <span id="current-voice">US English Male</span>]</li>
+</ul>
+<div id="footer">
+Have your own ideas? Fork me and build on. And/or <a href="http://www.ecropolis.com/contact-us/" target="_blank" >get in touch</a>. You can also fork and edit the word &amp; sentence arrays in the code to quiz a new set of words. Thanks to <a href="http://responsivevoice.com/" target="_blank" >Responsive Voice</a> for the text to speech API.
+</div>
+
+<script>
+var currentWord, voicelist, voice;
+var correctWords = [];
+var incorrectWords = [];
+var voicerate = .3;
+var pitch = 2;
+
+var finished = function(){
+   $('#status').html('You Finished Quizing on all the Words!');
+   $('#current-word,.repeater').css('visibility','hidden');
+   $('#say-sentence').remove();
+   if(incorrectWords.length)
+   		$('.repeater').before($('<a>Quiz Words I Misspelled</a>').on('click',function(e){
+      		e.preventDefault();
+          $(this).fadeOut('fast',function(){ $(this).remove() });
+      		words = incorrectWords;
+      		$('#current-word').css('visibility','visible');
+          currentWord = getWord(words);
+          sayWord();
+      }));
+   else
+      $('#status').append(' You got them all correct. Way to go!')
+}
+function getWord(words){
+  if(words.length){
+		return words[(randomIntFromInterval(0, words.length-1))];
+  } else {
+    finished();
+    return false;
+  }
+}
+function randomIntFromInterval(min,max) {
+    return Math.floor(Math.random()*(max-min+1)+min);
+}
+getSentences = function(word){
+	var words = {
+    'threw':['Santa threw the gifts into his bag.'],
+    'through':['Rudolf flew through the night.'],
+    'which':['Which one should I pick?'],
+    'witch':['The witch got on her broom and flew south'],
+    'peace':['Peace on earth good will toward men'],
+    'piece':['I found a piece of candy in my stocking'],
+    'weather':['The weather outside is frightful'],
+    'whether':['Timmy could not decide whether to ask for a blue or red car.'],
+    'wait':['The children could not wait for their toys?'],
+    'weight':['Santa needs to watch his weight?'],
+    'our':['Our stockings were hung from the chimney.'],
+    'are':['Are you going to the party'],
+    'would':['Would you guide my slay tonight'],
+    'wood':['Toys are rarely made from wood any more'],
+    'great':['The tree decorations were great'],
+    'grate':['Be sure to open the chimney grate'],
+    'new':['I wish you a happy new year'],
+    'knew':['Santa knew sally had been good'],
+    'week':['Only a week until the class party'],
+    'weak':['The elf was too week to heft the toys by himself']
+  }
+  if(word == '_return_all')
+    return words;
+  return words[word][0];
+}
+var words = function(){
+	return  [
+    'threw',
+    'through',
+    'which',
+    'witch',
+    'peace',
+    'piece',
+    'weather',
+    'whether',
+    'wait',
+    'weight',
+    'our',
+    'are',
+    'would',
+    'wood',
+    'great',
+    'grate',
+    'new',
+    'knew',
+    'week',
+    'weak'
+]};
+var words = words();
+var StartCallback = function(){
+  console.log('voice');
+}
+var EndCallback = function(){
+  console.log('voice end');
+}
+var saySentence = function(sentence){
+  responsiveVoice.speak(sentence, voice,{rate: voicerate});
+}
+var sayWord = function($clkd){
+	  $inputField.prop('disabled',true);
+    responsiveVoice.speak(currentWord, voice,{rate: voicerate, onstart: StartCallback, onend: function(){
+      $inputField.removeAttr("disabled").focus();
+      if(typeof $clkd !== 'undefined'){
+          $clkd.html('Repeat').css('visibility','visible');
+          $clkd.on('click',function(e){
+          	$inputField.removeAttr("disabled").focus();
+            responsiveVoice.speak(currentWord, voice,{ rate: voicerate });  
+          });
+        	firstRun = false;
+      }
+      if(currentWord in getSentences('_return_all')){
+          $sentence = $('<a id="say-sentence">Sentence</a>').on('click',function(e){
+            							e.preventDefault();
+            							saySentence(getSentences(currentWord));
+          						});
+          $('#play a').after($sentence);
+      }
+      $('.repeater').css('visibility','visible');
+    }});
+}
+var popWord = function(word){
+		var index = words.indexOf(word);
+    if (index > -1) {
+      	words.splice(index, 1);
+  	}
+}
+$(function(){
+
+  if(responsiveVoice.voiceSupport()) {
+      voicelist = responsiveVoice.getVoices();
+    	voice = voicelist[2].name;
+			$('#play a').on('click',function(e){
+          e.preventDefault();
+        	var $clkd = $(this);
+        	if( $clkd.text() == 'play' ){
+            	$clkd.html('').addClass('repeater').css('visibility','hidden');
+              $inputField = $('<input name="spelling">').prop('disabled',true).appendTo('#current-word');
+            	currentWord = getWord(words);
+            	sayWord($clkd);
+            	
+            	$button = $('<button>Next Word</button>').on('click',function(e){
+              		e.preventDefault();
+                	$('#status').removeClass();
+                  //console.log('current word->'+currentWord+' | answer->'+$inputField.val().toLowerCase());
+                	$inputField.prop('disabled',true);
+                	if( currentWord === $inputField.val().toLowerCase() ){
+                    $('#status').addClass('correct').html('<span>Correct! - You spelled <em>'+currentWord+'</em> perfectly!</span>');
+                    $('#say-sentence').remove();
+                    correctWords.push(currentWord);
+                    popWord(currentWord);
+                    $inputField.val('');
+                    currentWord = getWord(words);
+                    if(currentWord !== false)
+                    		sayWord();
+                  } else {
+                    $('#status').addClass('incorrect').html('<span>Sorry, Incorrect -- Please try again.</span>');
+                    if(incorrectWords.indexOf(currentWord > 0))
+                    		incorrectWords.push(currentWord);
+                    $inputField.val('');
+                    $inputField.prop('disabled',false).focus();
+                  }
+              });
+              $('#current-word').append($inputField).append($button);
+          }
+          
+      });
+	}
+
+});
+
+
+</script>
+
+</body>
