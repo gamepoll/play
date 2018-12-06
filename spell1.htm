@@ -59,19 +59,13 @@
 </form>
 
 <div id="play"><a href="#">play</a></div>
-<h2>Options</h2>
-<ul id="options">
-  <li id="voices"><a href="#">Change Voice</a> [ currently: <span id="current-voice">US English Male</span>]</li>
-</ul>
-<div id="footer">
-Have your own ideas? Fork me and build on. And/or <a href="http://www.ecropolis.com/contact-us/" target="_blank" >get in touch</a>. You can also fork and edit the word &amp; sentence arrays in the code to quiz a new set of words. Thanks to <a href="http://responsivevoice.com/" target="_blank" >Responsive Voice</a> for the text to speech API.
-</div>
+
 
 <script>
 var currentWord, voicelist, voice;
 var correctWords = [];
 var incorrectWords = [];
-var voicerate = .3;
+var voicerate = .4;
 var pitch = 2;
 
 var finished = function(){
@@ -103,54 +97,19 @@ function randomIntFromInterval(min,max) {
 }
 getSentences = function(word){
 	var words = {
-    'threw':['Santa threw the gifts into his bag.'],
-    'through':['Rudolf flew through the night.'],
-    'which':['Which one should I pick?'],
-    'witch':['The witch got on her broom and flew south'],
-    'peace':['Peace on earth good will toward men'],
-    'piece':['I found a piece of candy in my stocking'],
-    'weather':['The weather outside is frightful'],
-    'whether':['Timmy could not decide whether to ask for a blue or red car.'],
-    'wait':['The children could not wait for their toys?'],
-    'weight':['Santa needs to watch his weight?'],
-    'our':['Our stockings were hung from the chimney.'],
-    'are':['Are you going to the party'],
-    'would':['Would you guide my slay tonight'],
-    'wood':['Toys are rarely made from wood any more'],
-    'great':['The tree decorations were great'],
-    'grate':['Be sure to open the chimney grate'],
-    'new':['I wish you a happy new year'],
-    'knew':['Santa knew sally had been good'],
-    'week':['Only a week until the class party'],
-    'weak':['The elf was too week to heft the toys by himself']
+"beautiful":["the ferry has a beautiful look"],
+"past":["michael used to walk back home in the past"],
+"fast":["the speed boat runs real fast"],
+"after":["adrian keeps chasing after me"],
+"last":["lucas was the last one to get on the bus"]
   }
   if(word == '_return_all')
     return words;
   return words[word][0];
 }
 var words = function(){
-	return  [
-    'threw',
-    'through',
-    'which',
-    'witch',
-    'peace',
-    'piece',
-    'weather',
-    'whether',
-    'wait',
-    'weight',
-    'our',
-    'are',
-    'would',
-    'wood',
-    'great',
-    'grate',
-    'new',
-    'knew',
-    'week',
-    'weak'
-]};
+	return  ["beautiful","past","fast","after","last"]
+};
 var words = words();
 var StartCallback = function(){
   console.log('voice');
@@ -209,6 +168,7 @@ $(function(){
                   //console.log('current word->'+currentWord+' | answer->'+$inputField.val().toLowerCase());
                 	$inputField.prop('disabled',true);
                 	if( currentWord === $inputField.val().toLowerCase() ){
+                    responsiveVoice.speak('fantastic Jayden');
                     $('#status').addClass('correct').html('<span>Correct! - You spelled <em>'+currentWord+'</em> perfectly!</span>');
                     $('#say-sentence').remove();
                     correctWords.push(currentWord);
