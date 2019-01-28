@@ -1,80 +1,247 @@
+﻿<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>Slim 2dy - js by gamepoll135</title>
+<!-- Floating Menu -->
+
+<!-- Include jQuery -->
+  <script type='text/javascript' src='https://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js'></script>
+  <script type="text/javascript" src="http://www.dwuser.com/education/content/quick-guide-adding-smooth-scrolling-to-your-webpages/assets/smoothscroll.js"></script>
+
+  <script src="//code.jquery.com/jquery-1.10.2.js"></script>
+  <script src="//code.jquery.com/ui/1.11.4/jquery-ui.js"></script>
+
+<script>
+
+//<![CDATA[ 
+
+
+$(function() {
+    // Stick the #nav to the top of the window
+    var nav = $('#nav');
+    var navHomeY = nav.offset().top;
+    var isFixed = false;
+    var $w = $(window);
+    $w.scroll(function() {
+        var scrollTop = $w.scrollTop();
+        var shouldBeFixed = scrollTop > navHomeY;
+        if (shouldBeFixed && !isFixed) {
+            nav.css({
+                position: 'fixed',
+                top: 0,
+                left: nav.offset().left,
+                width: nav.width()
+            });
+            isFixed = true;
+        }
+        else if (!shouldBeFixed && isFixed)
+        {
+            nav.css({
+                position: 'static'
+            });
+            isFixed = false;
+        }
+    });
+});
+
+
+
+//]]> 
+	
+$('#sector_front').on('click', 'button', function () {
+document.getElementById('imgbb').src="https://www.kitconet.com/charts/metals/silver/t24_ag_en_usoz_4.gif?p=8&k=" + Math.floor(Math.random() * (100 + 1) + 0);
+	
+ 	document.getElementById('img_sf_a_m').src="http://charts.megahubhk.com/servlets/MHImageChart?sid=02333&mChart2=11&m2p1=7&cmode=1&vol=1&intTech1=1&it1p1=50&it1p5=200&tstyle=2&fsize=10&&cr=106&cwidth=499&cheight=375&lang=1&cperiod=1010300&ctype=1&wm=13&p=" + Math.floor(Math.random() * (100 + 1) + 0);
+ 	document.getElementById('img_sf_a_aa').src="http://charts.aastocks.com/servlet/Charts?com=1&amp;stockid=02333&amp;type=4&amp;period=0&amp;width=300&amp;height=130&p=" + Math.floor(Math.random() * (100 + 1) + 0);
+ 	document.getElementById('img_sf_b_m').src="http://charts.megahubhk.com/servlets/MHImageChart?sid=01099&mChart2=11&m2p1=7&cmode=1&vol=1&intTech1=1&it1p1=50&it1p5=200&tstyle=2&fsize=10&&cr=106&cwidth=499&cheight=375&lang=1&cperiod=1010300&ctype=1&wm=13&p=" + Math.floor(Math.random() * (100 + 1) + 0);
+ 	document.getElementById('img_sf_b_aa').src="http://charts.aastocks.com/servlet/Charts?com=1&amp;stockid=01099&amp;type=4&amp;period=0&amp;width=300&amp;height=130&p=" + Math.floor(Math.random() * (100 + 1) + 0);
+ 	document.getElementById('img_sf_c_m').src="http://charts.megahubhk.com/servlets/MHImageChart?sid=01193&mChart2=11&m2p1=7&cmode=1&vol=1&intTech1=1&it1p1=50&it1p5=200&tstyle=2&fsize=10&&cr=106&cwidth=499&cheight=375&lang=1&cperiod=1010300&ctype=1&wm=13&p=" + Math.floor(Math.random() * (100 + 1) + 0);
+ 	document.getElementById('img_sf_c_aa').src="http://charts.aastocks.com/servlet/Charts?com=1&amp;stockid=01193&amp;type=4&amp;period=0&amp;width=300&amp;height=130&p=" + Math.floor(Math.random() * (100 + 1) + 0);
+ 	document.getElementById('img_sf_d_m').src="http://charts.megahubhk.com/servlets/MHImageChart?sid=0941&mChart2=11&m2p1=7&cmode=1&vol=1&intTech1=1&it1p1=50&it1p5=200&tstyle=2&fsize=10&&cr=106&cwidth=499&cheight=375&lang=1&cperiod=1010300&ctype=1&wm=13&p=" + Math.floor(Math.random() * (100 + 1) + 0);
+ 	document.getElementById('img_sf_d_aa').src="http://charts.aastocks.com/servlet/Charts?com=1&amp;stockid=0941&amp;type=4&amp;period=0&amp;width=300&amp;height=130&p=" + Math.floor(Math.random() * (100 + 1) + 0);
+ 	document.getElementById('img_sf_e_m').src="http://charts.megahubhk.com/servlets/MHImageChart?sid=02688&mChart2=11&m2p1=7&cmode=1&vol=1&intTech1=1&it1p1=50&it1p5=200&tstyle=2&fsize=10&&cr=106&cwidth=499&cheight=375&lang=1&cperiod=1010300&ctype=1&wm=13&p=" + Math.floor(Math.random() * (100 + 1) + 0);
+ 	document.getElementById('img_sf_e_aa').src="http://charts.aastocks.com/servlet/Charts?com=1&amp;stockid=02688&amp;type=4&amp;period=0&amp;width=300&amp;height=130&p=" + Math.floor(Math.random() * (100 + 1) + 0);
+ 	document.getElementById('img_sf_f_m').src="http://charts.megahubhk.com/servlets/MHImageChart?sid=01833&mChart2=11&m2p1=7&cmode=1&vol=1&intTech1=1&it1p1=50&it1p5=200&tstyle=2&fsize=10&&cr=106&cwidth=499&cheight=375&lang=1&cperiod=1010300&ctype=1&wm=13&p=" + Math.floor(Math.random() * (100 + 1) + 0);
+ 	document.getElementById('img_sf_f_aa').src="http://charts.aastocks.com/servlet/Charts?com=1&amp;stockid=01833&amp;type=4&amp;period=0&amp;width=300&amp;height=130&p=" + Math.floor(Math.random() * (100 + 1) + 0);
+ 	document.getElementById('img_sf_g_m').src="http://charts.megahubhk.com/servlets/MHImageChart?sid=03046&mChart2=11&m2p1=7&cmode=1&vol=1&intTech1=1&it1p1=50&it1p5=200&tstyle=2&fsize=10&&cr=106&cwidth=499&cheight=375&lang=1&cperiod=1010300&ctype=1&wm=13&p=" + Math.floor(Math.random() * (100 + 1) + 0);
+ 	document.getElementById('img_sf_g_aa').src="http://charts.aastocks.com/servlet/Charts?com=1&amp;stockid=03046&amp;type=4&amp;period=0&amp;width=300&amp;height=130&p=" + Math.floor(Math.random() * (100 + 1) + 0);
+ 
+});
+
+	
+	
+</script>
+
+<style type='text/css'>
+/*
+body {
+   background-color: #333;  
+   color: #999;
+   font: 12px/1.4em Arial,sans-serif;
+}
+#wrap {
+   margin: 10px auto;        
+   background: #666;
+   padding: 10px;
+   width: 700px;
+}
+#header {
+   background-color: #666;
+   color: #FFF;
+}
+#logo {
+   font-size: 30px;  
+   line-height: 40px;    
+   padding: 5px;
+}
+*/
+#navWrap {
+   height: 30px;
+}
+/*Background*/
+#nav {
+   padding: 5px;
+background-color:rgba(7,7,7,0.1);
+/*   background: transparent;    */
+}
+#nav ul {
+   margin: 0;
+   padding: 0;    
+}
+/*Menu Items*/
+#nav li {
+   float: left;
+   padding: 3px 8px;
+   background-color: #FFF;
+   margin: 0 10px 0 0;
+   color: #F00;
+   list-style-type: none;
+background-color: transparent;
+}
+/*
+#nav li a {
+   color: #F00;  
+   text-decoration: none;    
+}
+#nav li a:hover {
+   text-decoration: underline;   
+}
+*/
+br.clearLeft {
+   clear: left;        
+}
+
+
+</style>
+
+
+
+
+
+<html>
+
 <br>
-<a name="XX" style="font-weight:normal; font-size:33px; background-color:#0FF00F; color:white">
-________________mon_fd:8008:1686__bdx:2018________________________ <=> !!!!!
-</a>
-</br>
-<br />
 
-<div id="sector_fd">	
-	<button>Click Me</button>
+<div id="sector_front">	
+	<button>Click Mee</button>
 
 <br />
 
-    <br>
-<img id="img_fdxxx" src="http://stockcharts.com/c-sc/sc?chart=fdpix:qqq,uu[660,500]daclyyay[dc][pb50!b200!f]&r=13"  alt="Kenny g Breathless" width="440" height="400" border="0">
+<img id="imgbb" src="https://www.kitconet.com/charts/metals/silver/t24_ag_en_usoz_4.gif?p=8"  alt="Kenny g Breathless" width="440" height="400" border="0">	      
+		      
+<br />
 
-<img id="img_fdmon1" src="http://charts.megahubhk.com/servlets/MHImageChart?sid=7261&mChart2=11&m2p1=7&cmode=1&vol=1&intTech1=1&it1p1=50&it1p5=200&tstyle=2&fsize=10&&cr=106&cwidth=499&cheight=375&lang=1&cperiod=1000305&ctype=1&wm=13&"  alt="Kenny g Breathless" width="340" height="300" border="0">
+<img id="img_sf_a_m" src="http://charts.megahubhk.com/servlets/MHImageChart?sid=02333&mChart2=11&m2p1=7&cmode=1&vol=1&intTech1=1&it1p1=50&it1p5=200&tstyle=2&fsize=10&&cr=106&cwidth=499&cheight=375&lang=1&cperiod=1010300&ctype=1&wm=13&.gif" alt="Kenny g Breathless" height="390" width="430" border="0">
+<img id="img_sf_a_aa" src="http://charts.aastocks.com/servlet/Charts?com=1&amp;stockid=02333&amp;type=4&amp;period=0&amp;width=300&amp;height=130&amp;scheme=1" alt="Kenny g Breathless" height="390" width="430" border="0">
+<br>
+　　溢利增長(%)26
+<br>
+
+<img id="img_mon_b_m" src="http://charts.megahubhk.com/servlets/MHImageChart?sid=01099&mChart2=11&m2p1=7&cmode=1&vol=1&intTech1=1&it1p1=50&it1p5=200&tstyle=2&fsize=10&&cr=106&cwidth=499&cheight=375&lang=1&cperiod=1010300&ctype=1&wm=13&.gif" alt="Kenny g Breathless" height="390" width="430" border="0">
+<img id="img_mon_b_aa" src="http://charts.aastocks.com/servlet/Charts?com=1&amp;stockid=01099&amp;type=4&amp;period=0&amp;width=300&amp;height=130&amp;scheme=1" alt="Kenny g Breathless" height="390" width="430" border="0">
+<br>
+　　溢利增長(%)22
+<br>
+<br>
+  公佈(Mar)
+<br/>股息(Jun)人民幣 0.57
+<br/>  8 ----- 10
+<br/>  45 ----- 57
+<br>
+2018/07/04    股息：人民幣 0.57
+<br>
+2016    股息：人民幣 0.50
+<br>
+2015    股息：人民幣 0.31
+<br>
+2014    股息：人民幣 0.26
+<br>
+2013    股息：人民幣 0.25
+<br>
+2012    股息：人民幣 0.19
+<br>
+2011	股息：人民幣 0.16
+<br>
+2010	股息：人民幣 0.0101
+<br>
+<br>
+<img id="img_mon_c_m" src="http://charts.megahubhk.com/servlets/MHImageChart?sid=01193&mChart2=11&m2p1=7&cmode=1&vol=1&intTech1=1&it1p1=50&it1p5=200&tstyle=2&fsize=10&&cr=106&cwidth=499&cheight=375&lang=1&cperiod=1010300&ctype=1&wm=13&.gif" alt="Kenny g Breathless" height="390" width="430" border="0">
+<img id="img_mon_c_aa" src="http://charts.aastocks.com/servlet/Charts?com=1&amp;stockid=01193&amp;type=4&amp;period=0&amp;width=300&amp;height=130&amp;scheme=1" alt="Kenny g Breathless" height="390" width="430" border="0">
+<br>
+　　溢利增長(%)45
+<br>
 
 
-
-    <br>
-<img id="img_fdxxx" src="http://stockcharts.com/c-sc/sc?chart=fdpix:kweb,uu[660,500]daclyyay[dc][pb50!b200!f]&r=13"  alt="Kenny g Breathless" width="440" height="400" border="0">
-
-<img id="img_fdmon2" src="http://charts.megahubhk.com/servlets/MHImageChart?sid=7210&mChart2=11&m2p1=7&cmode=1&vol=1&intTech1=1&it1p1=50&it1p5=200&tstyle=2&fsize=10&&cr=106&cwidth=499&cheight=375&lang=1&cperiod=1000305&ctype=1&wm=13&"  alt="Kenny g Breathless" width="340" height="300" border="0">
-
-
-    <br>
-<img id="img_fdxxx" src="http://stockcharts.com/c-sc/sc?chart=fdpix:aacay,uu[660,500]daclyyay[dc][pb50!b200!f]&r=13"  alt="Kenny g Breathless" width="440" height="400" border="0">
-
-<img id="img_fdmon3" src="http://charts.megahubhk.com/servlets/MHImageChart?sid=2018&mChart2=11&m2p1=7&cmode=1&vol=1&intTech1=1&it1p1=50&it1p5=200&tstyle=2&fsize=10&&cr=106&cwidth=499&cheight=375&lang=1&cperiod=1000305&ctype=1&wm=13&"  alt="Kenny g Breathless" width="340" height="300" border="0">
+<img id="img_mon_d_m" src="http://charts.megahubhk.com/servlets/MHImageChart?sid=0941&mChart2=11&m2p1=7&cmode=1&vol=1&intTech1=1&it1p1=50&it1p5=200&tstyle=2&fsize=10&&cr=106&cwidth=499&cheight=375&lang=1&cperiod=1010300&ctype=1&wm=13&" alt="Kenny g Breathless" height="390" width="430" border="0">
+<img id="img_mon_d_aa" src="http://charts.aastocks.com/servlet/Charts?com=1&amp;stockid=0941&amp;type=4&amp;period=0&amp;width=300&amp;height=130&amp;scheme=1" alt="Kenny g Breathless" height="390" width="430" border="0">
+<br>
+　　溢利增長(%)8
+<br>
 
 <br />	
 	<button>Click Me</button>
 <br />
 
-    <br>
-<img id="img_fdxxx" src="http://stockcharts.com/c-sc/sc?chart=fdpix:snptf,uu[660,500]daclyyay[dc][pb50!b200!f]&r=13"  alt="Kenny g Breathless" width="440" height="400" border="0">
 
-<img id="img_fdmon4" src="http://charts.megahubhk.com/servlets/MHImageChart?sid=2382&mChart2=11&m2p1=7&cmode=1&vol=1&intTech1=1&it1p1=50&it1p5=200&tstyle=2&fsize=10&&cr=106&cwidth=499&cheight=375&lang=1&cperiod=1000305&ctype=1&wm=13&"  alt="Kenny g Breathless" width="340" height="300" border="0">
+<img id="img_mon_e_m" src="http://charts.megahubhk.com/servlets/MHImageChart?sid=02688&mChart2=11&m2p1=7&cmode=1&vol=1&intTech1=1&it1p1=50&it1p5=200&tstyle=2&fsize=10&&cr=106&cwidth=499&cheight=375&lang=1&cperiod=1010300&ctype=1&wm=13&" alt="Kenny g Breathless" height="390" width="430" border="0">
+<img id="img_mon_e_aa" src="http://charts.aastocks.com/servlet/Charts?com=1&amp;stockid=02688&amp;type=4&amp;period=0&amp;width=300&amp;height=130&amp;scheme=1" alt="Kenny g Breathless" height="390" width="430" border="0">
+<br>
+　　溢利增長(%)20
+<br>
 
-
-    <br>
-<img id="img_fdxxx" src="http://stockcharts.com/c-sc/sc?chart=fdpix:aagiy,uu[660,500]daclyyay[dc][pb50!b200!f]&r=13"  alt="Kenny g Breathless" width="440" height="400" border="0">
-
-<img id="img_fdmon6" src="http://charts.megahubhk.com/servlets/MHImageChart?sid=1299&mChart2=11&m2p1=7&cmode=1&vol=1&intTech1=1&it1p1=50&it1p5=200&tstyle=2&fsize=10&&cr=106&cwidth=499&cheight=375&lang=1&cperiod=1000305&ctype=1&wm=13&"  alt="Kenny g Breathless" width="340" height="300" border="0">
-
-<br />	
-	<button>Click Me</button>
-<br />
-
-    <br>
-<img id="img_fdxxx" src="http://stockcharts.com/c-sc/sc?chart=fdpix:asmiy,uu[660,500]daclyyay[dc][pb50!b200!f]&r=13"  alt="Kenny g Breathless" width="440" height="400" border="0">
-
-<img id="img_fdmon7" src="http://charts.megahubhk.com/servlets/MHImageChart?sid=0522&mChart2=11&m2p1=7&cmode=1&vol=1&intTech1=1&it1p1=50&it1p5=200&tstyle=2&fsize=10&&cr=106&cwidth=499&cheight=375&lang=1&cperiod=1000305&ctype=1&wm=13&"  alt="Kenny g Breathless" width="340" height="300" border="0">
-
-    <br>
-<img id="img_fdxxx" src="http://stockcharts.com/c-sc/sc?s=fdpix:gelyf&p=D&&yr=21&i=p40545395733&r=0999"  alt="Kenny g Breathless" width="440" height="400" border="0">
-
-<img id="img_fdmon8" src="http://charts.megahubhk.com/servlets/MHImageChart?sid=0175&mChart2=11&m2p1=7&cmode=1&vol=1&intTech1=1&it1p1=50&it1p5=200&tstyle=2&fsize=10&&cr=106&cwidth=499&cheight=375&lang=1&cperiod=1000305&ctype=1&wm=13&"  alt="Kenny g Breathless" width="340" height="300" border="0">
-
+<img id="img_mon_f_m" src="http://charts.megahubhk.com/servlets/MHImageChart?sid=01833&mChart2=11&m2p1=7&cmode=1&vol=1&intTech1=1&it1p1=50&it1p5=200&tstyle=2&fsize=10&&cr=106&cwidth=499&cheight=375&lang=1&cperiod=1010300&ctype=1&wm=13&" alt="Kenny g Breathless" height="390" width="430" border="0">
+<img id="img_mon_f_aa" src="http://charts.aastocks.com/servlet/Charts?com=1&amp;stockid=01833&amp;type=4&amp;period=0&amp;width=300&amp;height=130&amp;scheme=1" alt="Kenny g Breathless" height="390" width="430" border="0">
+<br>
+　　溢利增長(%)10
+<br>
 
 <br />	
 	<button>Click Me</button>
 <br />
 
-    <br>
-<img id="img_fdxxx" src="http://charts.megahubhk.com/servlets/MHImageChart?sid=268&mChart2=11&m2p1=7&cmode=1&vol=1&intTech1=1&it1p1=50&it1p5=200&tstyle=2&fsize=10&&cr=106&cwidth=499&cheight=375&lang=1&cperiod=1010006&ctype=1&wm=13&"  alt="Kenny g Breathless" width="440" height="400" border="0">
 
-<img id="img_fdmon10" src="http://charts.megahubhk.com/servlets/MHImageChart?sid=268&mChart2=11&m2p1=7&cmode=1&vol=1&intTech1=1&it1p1=50&it1p5=200&tstyle=2&fsize=10&&cr=106&cwidth=499&cheight=375&lang=1&cperiod=1000305&ctype=1&wm=13&"  alt="Kenny g Breathless" width="340" height="300" border="0">
-	
-    <br>
-<img id="img_fdxxx" src="http://charts.megahubhk.com/servlets/MHImageChart?sid=3888&mChart2=11&m2p1=7&cmode=1&vol=1&intTech1=1&it1p1=50&it1p5=200&tstyle=2&fsize=10&&cr=106&cwidth=499&cheight=375&lang=1&cperiod=1010006&ctype=1&wm=13&"  alt="Kenny g Breathless" width="440" height="400" border="0">
-
-<img id="img_fdmon10" src="http://charts.megahubhk.com/servlets/MHImageChart?sid=3888&mChart2=11&m2p1=7&cmode=1&vol=1&intTech1=1&it1p1=50&it1p5=200&tstyle=2&fsize=10&&cr=106&cwidth=499&cheight=375&lang=1&cperiod=1000305&ctype=1&wm=13&"  alt="Kenny g Breathless" width="340" height="300" border="0">
-	
-	
-
-<br />	
-	<button>Click Me</button>
-<br />
+<img id="img_mon_g_m" src="http://charts.megahubhk.com/servlets/MHImageChart?sid=03046&mChart2=11&m2p1=7&cmode=1&vol=1&intTech1=1&it1p1=50&it1p5=200&tstyle=2&fsize=10&&cr=106&cwidth=499&cheight=375&lang=1&cperiod=1010300&ctype=1&wm=13&" alt="Kenny g Breathless" height="390" width="430" border="0">
+<img id="img_mon_g_aa" src="http://charts.aastocks.com/servlet/Charts?com=1&amp;stockid=03046&amp;type=4&amp;period=0&amp;width=300&amp;height=130&amp;scheme=1" alt="Kenny g Breathless" height="390" width="430" border="0">
+<br>
+　　股息mean5yr(DEC)$1.7
+<br/>  2 ----- 3
+<br/>  34 ----- 51
+<br>
+2018/12/02    股息：港元 2.0100
+<br>
+2017/12/02    股息：港元 1.4800
+<br>
+2016/12/02    股息：港元 1.3800
+<br>
+2015/12/02    股息：港元 1.5900
+<br>
+2014/12/02    股息：港元 2.1700
+<br>
+2013/12/02    股息：港元 1.4100 
+<br>
+2012/11/20    股息：港元 1.4500
+<br>
+2011/11/18	股息：港元 1.1300
+<br>
+2010/11/19	股息：港元 1.3300
+<br>
 </div>
+
