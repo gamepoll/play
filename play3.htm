@@ -183,6 +183,7 @@ __________<select id="dropdown_change2">
 <br />      
 <br />
 <input type="button" value="Won =>" id="button_won" />
+<input type="button" value="Pre Won =>" id="button_pre_won" />
 <input type="button" value="Pre Rdpix =>" id="button_pre_rdpix" />
 <input type="button" value="Pre Vexpx =>" id="button_pre_vexpx" />
 <input type="button" value="Pre Dax =>" id="button_pre_dax" />
@@ -592,6 +593,7 @@ $("#dropdown_change2").change(function(){
 });
   
 $('#button_won').on('click', function() { $('#text1').val("$one"); });
+$('#button_pre_won').on('click', function() { $('#text1').val("$one"+":"+text1.value); });
 $('#button_pre_rdpix').on('click', function() { $('#text1').val("rdpix"+":"+text1.value); });
 $('#button_pre_vexpx').on('click', function() { $('#text1').val("vexpx"+":"+text1.value); });
 $('#button_pre_dax').on('click', function() { $('#text1').val("$dax"+":"+text1.value); });
