@@ -1,0 +1,564 @@
+<script>
+$(function() {
+    // Stick the #nav to the top of the window
+    var nav = $('#nav');
+    var navHomeY = nav.offset().top;
+    var isFixed = false;
+    var $w = $(window);
+    $w.scroll(function() {
+        var scrollTop = $w.scrollTop();
+        var shouldBeFixed = scrollTop > navHomeY;
+        if (shouldBeFixed && !isFixed) {
+            nav.css({
+                position: 'fixed',
+                top: 0,
+                left: nav.offset().left,
+                width: nav.width()
+            });
+            isFixed = true;
+        }
+        else if (!shouldBeFixed && isFixed)
+        {
+            nav.css({
+                position: 'static'
+            });
+            isFixed = false;
+        }
+    });
+});
+
+</script>
+
+
+<style type='text/css'>
+#navWrap {
+/*   height: 30px;*/
+   height: 90px;	
+}
+/*Background*/
+#nav {
+   padding: 5px;
+background-color:rgba(7,7,7,0.1);
+/*   background: transparent;    */
+}
+#nav ul {
+   margin: 0;
+   padding: 0;    
+}
+/*Menu Items*/
+#nav li {
+   float: left;
+   padding: 3px 8px;
+   background-color: #FFF;
+   margin: 0 10px 0 0;
+   color: #F00;
+   list-style-type: none;
+background-color: transparent;
+}
+
+br.clearLeft {
+   clear: left;        
+}
+
+</style>
+
+<html>
+        <div id="navWrap">
+            <div id="nav">
+                <ul>
+<li><a href="javascript:window.scrollTo(0,0);" title="Home"><img src=" http://findicons.com/files/icons/1043/i_like_buttons_3c/512/bright_ball_logoff.png " width="52" height="52" alt="Biography"></a></li>
+<li><a class="smoothScroll" href="#3046" title="3046"><img src="https://www.bankatfirstnational.com/8BASE/media/images/base/icon-advice.png" width="52" height="52" alt="Biography"></a></li>
+<li><a class="smoothScroll" href="#FXP" title="FXP"><img src="https://unixtitan.net/images/price-clipart-reduced.png" width="52" height="52" alt="Biography"></a></li>
+<li><a class="smoothScroll" href="#NDX" title="NDX"><img src="http://lh3.googleusercontent.com/VHxtaP38AGQVHV-uB89l5ONvXZjEX1F9lD9eHkKyTQfPGg8LqIbPWoH_YRxgyRtWrg" width="52" height="52" alt="Biography"></a></li>
+<li><a class="smoothScroll" href="#MID" title="MID"><img src="https://d.stockcharts.com/img/scc-logo-icon.png" width="52" height="52" alt="Biography"></a></li>
+<li><a class="smoothScroll" href="#SHI" title="SHI"><img src=" https://orig00.deviantart.net/493e/f/2014/259/c/7/low_poly_sublime_text_2_icon_by_benwurth-d7zh5b1.png " width="52" height="52" alt="Biography"></a></li>
+<li><a class="smoothScroll" href="#CEA" title="CEA"><img src="https://www.freeiconspng.com/uploads/glossy-3d-blue-plane-icon--clean-3d-iconset--mysitemywaym-29.png" width="52" height="52" alt="Biography"></a></li>
+<li><a class="smoothScroll" href="#BYD" title="BYD"><img src="https://img.icons8.com/color/1600/tesla-model-x.png" width="52" height="52" alt="Biography"></a></li>
+<li><a class="smoothScroll" href="#SMI" title="SMI"><img src="https://img.icons8.com/color/1600/integrated-circuit.png" width="52" height="52" alt="Biography"></a></li>
+<li><a class="smoothScroll" href="#AoP" title="A over P"><img src="https://sevilla.abc.es/mobility/wp-content/uploads/2014/10/Mathematics.png" width="52" height="52" alt="Biography"></a></li>
+
+
+
+                </ul>    
+		<br />
+		<br />
+		<br />
+		<br />
+                <ul>
+
+			
+<li><a href="javascript:window.scrollTo(0,0);" title="Home"><img src=" http://findicons.com/files/icons/1043/i_like_buttons_3c/512/bright_ball_logoff.png " width="52" height="52" alt="Biography"></a></li>
+<li><a class="smoothScroll" href="#CKH" title="長實控"><img src=" http://imageshack.us/a/img268/9426/crystalclearkuser2.png " width="52" height="52" alt="Biography"></a></li>
+<li><a class="smoothScroll" href="#CKH" title="長實控"><img src=" http://imageshack.us/a/img268/9426/crystalclearkuser2.png " width="52" height="52" alt="Biography"></a></li>
+<li><a class="smoothScroll" href="#FXI" title="FXI"><img src=" http://imageshack.us/a/img268/9426/crystalclearkuser2.png " width="52" height="52" alt="Biography"></a></li>
+<li><a class="smoothScroll" href="#BOC" title="BOC"><img src=" http://imageshack.us/a/img268/9426/crystalclearkuser2.png " width="52" height="52" alt="Biography"></a></li>
+<li><a class="smoothScroll" href="#SHI" title="SHI"><img src=" https://orig00.deviantart.net/493e/f/2014/259/c/7/low_poly_sublime_text_2_icon_by_benwurth-d7zh5b1.png " width="52" height="52" alt="Biography"></a></li>
+<li><a class="smoothScroll" href="#APCURR" title="HSI-currency"><img src=" http://imageshack.us/a/img268/9426/crystalclearkuser2.png " width="52" height="52" alt="Biography"></a></li>
+<li><a class="smoothScroll" href="#LIBOR" title="LIBOR"><img src=" http://imageshack.us/a/img268/9426/crystalclearkuser2.png " width="52" height="52" alt="Biography"></a></li>
+<li><a class="smoothScroll" href="#CSC" title="S-CAP"><img src=" http://imageshack.us/a/img268/9426/crystalclearkuser2.png " width="52" height="52" alt="Biography"></a></li>
+<li><a class="smoothScroll" href="#MACAU" title="Macau Casino"><img src="https://i1.wp.com/www.livecasinomalaysia.com/wp-content/uploads/2017/12/Live-Casino-Malaysia-Icon.png" width="52" height="52" alt="Biography"></a></li>
+
+
+                </ul>  
+                <br class="clearLeft" />
+            </div>
+        </div>
+
+
+
+
+
+
+
+<br>
+<br>
+<br>
+<br>
+<a name="BYD" style="font-weight:normal; font-size:23px; background-color:#0FF00F; color:white">
+cc </a>
+<br />
+<br />
+<br />
+<br />
+<br />
+<br />
+<br />									
+<br />
+<a style="font-weight:normal; font-size:23px; background-color:#0FF00F; color:white">
+　　2019年2月13日,星期三, 跑馬地 
+</a>
+
+
+<center style="line-height:1.5em;font-size:1.3em">名次顯示為 　 第１=<font color="red">紅</font> , 第２=<font color="blue">藍</font> , 第３=<font color="green">綠</font> , 第４=<font color="#f55fec">粉紅</font></center>
+<table align="center" style="margin-bottom:10px" border="1" bordercolor="BLACK">
+<tr bgcolor="#A7E91A"> 
+<td>人名\場次</td>
+<td>第一場</td>
+<td>第二場</td>
+<td>第三場</td>
+<td>第四場</td>
+<td>第五場</td>
+<td>第六場</td>
+<td>第七場</td>
+<td>第八場</td>
+<td>第九場</td>
+</tr><tr><td>潘頓</td>
+<td><b style="color:orange">電子大師</b><br><font color="RED">2.5</font><br><b style="color:red">(方嘉柏)</b></td>
+<td><b style="color:orange">贏歌</b><br>6.4<br>(鄭俊偉)</td>
+<td>盈華盛甲<br><font color="RED">3.1</font><br><b style="color:blue">(賀賢)</b></td>
+<td><b style="color:orange">活力勇士</b><br><font color="RED">2.7</font><br><b style="color:red">(約翰摩亞)</b></td>
+<td>合拍威龍<br><font color="RED">2.2</font><br><b style="color:red">(約翰摩亞)</b></td>
+<td></td>
+<td>跳出香港<br><font color="RED">1.9</font><br>(方嘉柏)</td>
+<td><b style="color:orange">軍民歡</b><br>5.8<br><b style="color:#f55fec">(葉楚航)</b></td> 
+<td></td>
+</tr><tr><td>楊明綸</td>
+<td><b style="color:orange">阿凡達</b><br>5.5<br><b style="color:blue">(徐雨石)</b></td>
+<td><b style="color:orange">龍之團</b><br>68.0<br>(容天鵬)</td>
+<td><b style="color:orange">勁飛聖</b><br>26.0<br>(容天鵬)</td>
+<td></td>
+<td></td>
+<td>電訊兄弟<br>17.0<br>(徐雨石)</td>
+<td></td>
+<td></td> 
+<td>正本雄心<br>19.0<br>(霍利時)</td>
+</tr><tr><td>夏禮賢</td>
+<td>劍追聲<br>169.0<br>(告東尼)</td>
+<td>幸運骰<br>105.0<br>(文家良)</td>
+<td></td>
+<td></td>
+<td>勇冠王<br>70.0<br>(蘇保羅)</td>
+<td></td>
+<td></td>
+<td></td> 
+<td></td>
+</tr><tr><td>何澤堯</td>
+<td>摯友無敵<br>8.5<br>(文家良)</td>
+<td>金錢炮<br><font color="RED">4.1</font><br><b style="color:blue">(呂健威)</b></td>
+<td>捉金喜<br>27.0<br>(方嘉柏)</td>
+<td><b style="color:orange">太聰明</b><br>8.7<br><b style="color:green">(羅富全)</b></td>
+<td>勇敢傳說<br>18.0<br><b style="color:blue">(告東尼)</b></td>
+<td>順勢寶<br>20.0<br><b style="color:#f55fec">(賀賢)</b></td>
+<td>勁哥兒<br>19.0<br><b style="color:#f55fec">(告東尼)</b></td>
+<td><b style="color:orange">勤德兼備</b><br>45.0<br>(賀賢)</td> 
+<td><b style="color:orange">加州神箭</b><br>12.0<br>(告東尼)</td>
+</tr><tr><td>巴度</td>
+<td><b style="color:orange">開創傳奇</b><br>144.0<br>(賀賢)</td>
+<td></td>
+<td><b style="color:orange">喝采</b><br>7.1<br>(丁冠豪)</td>
+<td>怡德<br>35.0<br>(霍利時)</td>
+<td><b style="color:orange">爪皇烈焰</b><br>28.0<br>(霍利時)</td>
+<td><b style="color:orange">有理共想</b><br>6.1<br><b style="color:red">(高伯新)</b></td>
+<td></td>
+<td>白鷺飛翔<br>17.0<br>(蘇保羅)</td> 
+<td><b style="color:orange">艮志騰雲</b><br>56.0<br><b style="color:blue">(文家良)</b></td>
+</tr><tr><td>潘明輝</td>
+<td><b style="color:orange">百里名駒</b><br>11.0<br>(沈集成)</td>
+<td>心中有善<br>13.0<br><b style="color:#f55fec">(葉楚航)</b></td>
+<td>香港飛輪<br>150.0<br>(姚本輝)</td>
+<td>飛馬再威<br>18.0<br><b style="color:#f55fec">(賀賢)</b></td>
+<td>活力名駒<br>7.4<br>(呂健威)</td>
+<td>海翡翠<br>57.0<br>(約翰摩亞)</td>
+<td>龍船鼓響<br>16.0<br><b style="color:green">(姚本輝)</b></td>
+<td></td> 
+<td>勝利歡星<br>56.0<br>(約翰摩亞)</td>
+</tr><tr><td>田泰安</td>
+<td><b style="color:orange">衝亞</b><br>4.3<br><b style="color:#f55fec">(羅富全)</b></td>
+<td><b style="color:orange">生力軍</b><br>8.1<br>(姚本輝)</td>
+<td>華美公主<br>5.9<br><b style="color:red">(告東尼)</b></td>
+<td>泰益善<br>9.3<br><b style="color:blue">(沈集成)</b></td>
+<td>廣才<br>16.0<br>(方嘉柏)</td>
+<td>加州福星<br>6.4<br><b style="color:blue">(告東尼)</b></td>
+<td>綫路光輝<br>6.9<br><b style="color:red">(告東尼)</b></td>
+<td><b style="color:orange">守正用奇</b><br>79.0<br>(方嘉柏)</td> 
+<td><b style="color:orange">開心神駒</b><br>37.0<br>(苗禮德)</td>
+</tr><tr><td>郭能</td>
+<td><b style="color:orange">上浦猛將</b><br>24.0<br>(霍利時)</td>
+<td></td>
+<td>理想回報<br>5.4<br><b style="color:green">(沈集成)</b></td>
+<td></td>
+<td><b style="color:orange">協勝神駒</b><br>5.3<br><b style="color:green">(高伯新)</b></td>
+<td></td>
+<td></td>
+<td><b style="color:orange">贏得精綵</b><br>21.0<br>(告東尼)</td> 
+<td><b style="color:orange">騰龍超影</b><br>64.0<br><b style="color:green">(蘇保羅)</b></td>
+</tr><tr><td>李寶利</td>
+<td>勁好玩<br>10.0<br>(葉楚航)</td>
+<td>金飯碗<br>6.6<br><b style="color:red">(霍利時)</b></td>
+<td><b style="color:orange">漸信龍駒</b><br>28.0<br>(葉楚航)</td>
+<td>榮冠大道<br>141.0<br>(葉楚航)</td>
+<td>神州福星<br>15.0<br>(羅富全)</td>
+<td>軍歌<br>15.0<br>(呂健威)</td>
+<td></td>
+<td>英明神駒<br>35.0<br>(苗禮德)</td> 
+<td>紅星<br>23.0<br>(葉楚航)</td>
+</tr><tr><td>麥偉利</td>
+<td><b style="color:orange">健康在望</b><br>58.0<br><b style="color:green">(苗禮德)</b></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td> 
+<td></td>
+</tr><tr><td>梁家俊</td>
+<td><b style="color:orange">紅旗福星</b><br>70.0<br>(蘇偉賢)</td>
+<td></td>
+<td></td>
+<td>小島怡情<br>47.0<br>(文家良)</td>
+<td></td>
+<td></td>
+<td>都靈紅星<br>5.2<br>(羅富全)</td>
+<td></td> 
+<td><b style="color:orange">百勝龍</b><br>52.0<br>(呂健威)</td>
+</tr><tr><td>賴維銘</td>
+<td><b style="color:orange">勇者無懼</b><br>61.0<br>(何良)</td>
+<td>大天龍<br>142.0<br><b style="color:green">(何良)</b></td>
+<td></td>
+<td></td>
+<td></td>
+<td>人民武士<br>109.0<br>(約翰摩亞)</td>
+<td>馬上發財<br>92.0<br>(葉楚航)</td>
+<td></td> 
+<td></td>
+</tr><tr><td>沈拿</td>
+<td></td>
+<td>投資旺<br>23.0<br>(約翰摩亞)</td>
+<td>君子精神<br>14.0<br>(蘇偉賢)</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td> 
+<td></td>
+</tr><tr><td>巫顯東</td>
+<td></td>
+<td><b style="color:orange">好運齊來</b><br>5.1<br>(沈集成)</td>
+<td>富萬家<br>9.0<br>(何良)</td>
+<td><b style="color:orange">明月光</b><br>16.0<br>(蘇保羅)</td>
+<td></td>
+<td></td>
+<td>包裝騎士<br>52.0<br>(姚本輝)</td>
+<td><b style="color:orange">盛大光輝</b><br>189.0<br><b style="color:red">(何良)</b></td> 
+<td>心中有您<br>14.0<br>(何良)</td>
+</tr><tr><td>蘇兆輝</td>
+<td></td>
+<td>天賦致寶<br>9.8<br>(賀賢)</td>
+<td><b style="color:orange">好友無敵</b><br>12.0<br><b style="color:#f55fec">(文家良)</b></td>
+<td><b style="color:orange">塑料喜</b><br>7.9<br>(丁冠豪)</td>
+<td>千金一諾<br>11.0<br><b style="color:#f55fec">(容天鵬)</b></td>
+<td>醉多福<br>4.2<br>(沈集成)</td>
+<td>好吉利<br>15.0<br>(約翰摩亞)</td>
+<td><b style="color:orange">安騏</b><br>5.1<br><b style="color:red">(約翰摩亞)</b></td> 
+<td><b style="color:orange">擁抱所愛</b><br><font color="RED">2.4</font><br><b style="color:red">(徐雨石)</b></td>
+</tr><tr><td>莫雷拉</td>
+<td></td>
+<td><b style="color:orange">料事如神</b><br>10.0<br>(蘇偉賢)</td>
+<td></td>
+<td><b style="color:orange">精算齊同</b><br>3.9<br>(呂健威)</td>
+<td><b style="color:orange">平海飛星</b><br>28.0<br>(蔡約翰)</td>
+<td>激賞<br><font color="RED">2.3</font><br><b style="color:green">(蔡約翰)</b></td>
+<td>翠龍<br>16.0<br>(蔡約翰)</td>
+<td><b style="color:orange">四通八達</b><br><font color="RED">1.6</font><br>(蔡約翰)</td> 
+<td>弛曜風<br><font color="RED">2.4</font><br><b style="color:#f55fec">(蔡約翰)</b></td>
+</tr><tr><td>利敬國</td>
+<td></td>
+<td></td>
+<td>頌友<br>71.0<br>(霍利時)</td>
+<td></td>
+<td>小米周<br>17.0<br>(沈集成)</td>
+<td></td>
+<td></td>
+<td>比卡超<br>44.0<br>(霍利時)</td> 
+<td></td>
+</tr><tr><td>蔡明紹</td>
+<td></td>
+<td></td>
+<td></td>
+<td>金得彩<br>26.0<br>(高伯新)</td>
+<td>快樂寶貝<br>31.0<br>(丁冠豪)</td>
+<td></td>
+<td>文藝學家<br>9.7<br><b style="color:blue">(高伯新)</b></td>
+<td>雪戰神駒<br>27.0<br><b style="color:green">(高伯新)</b></td> 
+<td><b style="color:orange">平天凡</b><br>19.0<br>(姚本輝)</td>
+</tr><tr><td>黃皓楠</td>
+<td></td>
+<td></td>
+<td></td>
+<td>領闖者<br>30.0<br>(方嘉柏)</td>
+<td></td>
+<td>亞馬寶寶<br>32.0<br>(徐雨石)</td>
+<td></td>
+<td><b style="color:orange">劍聶風</b><br>125.0<br>(鄭俊偉)</td> 
+<td></td>
+</tr></table>
+
+<br><br> 
+
+<table width="100%" border="1" bordercolor="BLACK">
+<tr>
+<td>人名\場次</td>
+<td>第一場</td>
+<td>第二場</td>
+<td>第三場</td>
+<td>第四場</td>
+<td>第五場</td>
+<td>第六場</td>
+<td>第七場</td>
+<td>第八場</td>
+<td>第九場</td>
+</tr><tr><td>方嘉柏</td>
+<td><b style="color:orange">電子大師</b><br><font color="RED">2.5</font><br><b style="color:red">(潘頓)</b></td>
+<td></td>
+<td>捉金喜<br>27.0<br>(何澤堯)</td>
+<td>領闖者<br>30.0<br>(黃皓楠)</td>
+<td>廣才<br>16.0<br>(田泰安)</td>
+<td></td>
+<td>跳出香港<br><font color="RED">1.9</font><br>(潘頓)</td>
+<td><b style="color:orange">守正用奇</b><br>79.0<br>(田泰安)</td>
+<td></td>
+</tr><tr><td>徐雨石</td>
+<td><b style="color:orange">阿凡達</b><br>5.5<br><b style="color:blue">(楊明綸)</b></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td>亞馬寶寶<br>32.0<br>(黃皓楠)<br>電訊兄弟<br>17.0<br>(楊明綸)</td>
+<td></td>
+<td></td>
+<td><b style="color:orange">擁抱所愛</b><br><font color="RED">2.4</font><br><b style="color:red">(蘇兆輝)</b></td>
+</tr><tr><td>告東尼</td>
+<td>劍追聲<br>169.0<br>(夏禮賢)</td>
+<td></td>
+<td>華美公主<br>5.9<br><b style="color:red">(田泰安)</b></td>
+<td></td>
+<td>勇敢傳說<br>18.0<br><b style="color:blue">(何澤堯)</b></td>
+<td>加州福星<br>6.4<br><b style="color:blue">(田泰安)</b></td>
+<td>勁哥兒<br>19.0<br><b style="color:#f55fec">(何澤堯)</b><br>綫路光輝<br>6.9<br><b style="color:red">(田泰安)</b></td>
+<td><b style="color:orange">贏得精綵</b><br>21.0<br>(郭能)</td>
+<td><b style="color:orange">加州神箭</b><br>12.0<br>(何澤堯)</td>
+</tr><tr><td>文家良</td>
+<td>摯友無敵<br>8.5<br>(何澤堯)</td>
+<td>幸運骰<br>105.0<br>(夏禮賢)</td>
+<td><b style="color:orange">好友無敵</b><br>12.0<br><b style="color:#f55fec">(蘇兆輝)</b></td>
+<td>小島怡情<br>47.0<br>(梁家俊)</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td><b style="color:orange">艮志騰雲</b><br>56.0<br><b style="color:blue">(巴度)</b></td>
+</tr><tr><td>賀賢</td>
+<td><b style="color:orange">開創傳奇</b><br>144.0<br>(巴度)</td>
+<td>天賦致寶<br>9.8<br>(蘇兆輝)</td>
+<td>盈華盛甲<br><font color="RED">3.1</font><br><b style="color:blue">(潘頓)</b></td>
+<td>飛馬再威<br>18.0<br><b style="color:#f55fec">(潘明輝)</b></td>
+<td></td>
+<td>順勢寶<br>20.0<br><b style="color:#f55fec">(何澤堯)</b></td>
+<td></td>
+<td><b style="color:orange">勤德兼備</b><br>45.0<br>(何澤堯)</td>
+<td></td>
+</tr><tr><td>沈集成</td>
+<td><b style="color:orange">百里名駒</b><br>11.0<br>(潘明輝)</td>
+<td><b style="color:orange">好運齊來</b><br>5.1<br>(巫顯東)</td>
+<td>理想回報<br>5.4<br><b style="color:green">(郭能)</b></td>
+<td>泰益善<br>9.3<br><b style="color:blue">(田泰安)</b></td>
+<td>小米周<br>17.0<br>(利敬國)</td>
+<td>醉多福<br>4.2<br>(蘇兆輝)</td>
+<td></td>
+<td></td>
+<td></td>
+</tr><tr><td>羅富全</td>
+<td><b style="color:orange">衝亞</b><br>4.3<br><b style="color:#f55fec">(田泰安)</b></td>
+<td></td>
+<td></td>
+<td><b style="color:orange">太聰明</b><br>8.7<br><b style="color:green">(何澤堯)</b></td>
+<td>神州福星<br>15.0<br>(李寶利)</td>
+<td></td>
+<td>都靈紅星<br>5.2<br>(梁家俊)</td>
+<td></td>
+<td></td>
+</tr><tr><td>霍利時</td>
+<td><b style="color:orange">上浦猛將</b><br>24.0<br>(郭能)</td>
+<td>金飯碗<br>6.6<br><b style="color:red">(李寶利)</b></td>
+<td>頌友<br>71.0<br>(利敬國)</td>
+<td>怡德<br>35.0<br>(巴度)</td>
+<td><b style="color:orange">爪皇烈焰</b><br>28.0<br>(巴度)</td>
+<td></td>
+<td></td>
+<td>比卡超<br>44.0<br>(利敬國)</td>
+<td>正本雄心<br>19.0<br>(楊明綸)</td>
+</tr><tr><td>葉楚航</td>
+<td>勁好玩<br>10.0<br>(李寶利)</td>
+<td>心中有善<br>13.0<br><b style="color:#f55fec">(潘明輝)</b></td>
+<td><b style="color:orange">漸信龍駒</b><br>28.0<br>(李寶利)</td>
+<td>榮冠大道<br>141.0<br>(李寶利)</td>
+<td></td>
+<td></td>
+<td>馬上發財<br>92.0<br>(賴維銘)</td>
+<td><b style="color:orange">軍民歡</b><br>5.8<br><b style="color:#f55fec">(潘頓)</b></td>
+<td>紅星<br>23.0<br>(李寶利)</td>
+</tr><tr><td>苗禮德</td>
+<td><b style="color:orange">健康在望</b><br>58.0<br><b style="color:green">(麥偉利)</b></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td>英明神駒<br>35.0<br>(李寶利)</td>
+<td><b style="color:orange">開心神駒</b><br>37.0<br>(田泰安)</td>
+</tr><tr><td>蘇偉賢</td>
+<td><b style="color:orange">紅旗福星</b><br>70.0<br>(梁家俊)</td>
+<td><b style="color:orange">料事如神</b><br>10.0<br>(莫雷拉)</td>
+<td>君子精神<br>14.0<br>(沈拿)</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr><tr><td>何良</td>
+<td><b style="color:orange">勇者無懼</b><br>61.0<br>(賴維銘)</td>
+<td>大天龍<br>142.0<br><b style="color:green">(賴維銘)</b></td>
+<td>富萬家<br>9.0<br>(巫顯東)</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td><b style="color:orange">盛大光輝</b><br>189.0<br><b style="color:red">(巫顯東)</b></td>
+<td>心中有您<br>14.0<br>(巫顯東)</td>
+</tr><tr><td>容天鵬</td>
+<td></td>
+<td><b style="color:orange">龍之團</b><br>68.0<br>(楊明綸)</td>
+<td><b style="color:orange">勁飛聖</b><br>26.0<br>(楊明綸)</td>
+<td></td>
+<td>千金一諾<br>11.0<br><b style="color:#f55fec">(蘇兆輝)</b></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr><tr><td>姚本輝</td>
+<td></td>
+<td><b style="color:orange">生力軍</b><br>8.1<br>(田泰安)</td>
+<td>香港飛輪<br>150.0<br>(潘明輝)</td>
+<td></td>
+<td></td>
+<td></td>
+<td>龍船鼓響<br>16.0<br><b style="color:green">(潘明輝)</b><br>包裝騎士<br>52.0<br>(巫顯東)</td>
+<td></td>
+<td><b style="color:orange">平天凡</b><br>19.0<br>(蔡明紹)</td>
+</tr><tr><td>約翰摩亞</td>
+<td></td>
+<td>投資旺<br>23.0<br>(沈拿)</td>
+<td></td>
+<td><b style="color:orange">活力勇士</b><br><font color="RED">2.7</font><br><b style="color:red">(潘頓)</b></td>
+<td>合拍威龍<br><font color="RED">2.2</font><br><b style="color:red">(潘頓)</b></td>
+<td>人民武士<br>109.0<br>(賴維銘)<br>海翡翠<br>57.0<br>(潘明輝)</td>
+<td>好吉利<br>15.0<br>(蘇兆輝)</td>
+<td><b style="color:orange">安騏</b><br>5.1<br><b style="color:red">(蘇兆輝)</b></td>
+<td>勝利歡星<br>56.0<br>(潘明輝)</td>
+</tr><tr><td>呂健威</td>
+<td></td>
+<td>金錢炮<br><font color="RED">4.1</font><br><b style="color:blue">(何澤堯)</b></td>
+<td></td>
+<td><b style="color:orange">精算齊同</b><br>3.9<br>(莫雷拉)</td>
+<td>活力名駒<br>7.4<br>(潘明輝)</td>
+<td>軍歌<br>15.0<br>(李寶利)</td>
+<td></td>
+<td></td>
+<td><b style="color:orange">百勝龍</b><br>52.0<br>(梁家俊)</td>
+</tr><tr><td>鄭俊偉</td>
+<td></td>
+<td><b style="color:orange">贏歌</b><br>6.4<br>(潘頓)</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td><b style="color:orange">劍聶風</b><br>125.0<br>(黃皓楠)</td>
+<td></td>
+</tr><tr><td>丁冠豪</td>
+<td></td>
+<td></td>
+<td><b style="color:orange">喝采</b><br>7.1<br>(巴度)</td>
+<td><b style="color:orange">塑料喜</b><br>7.9<br>(蘇兆輝)</td>
+<td>快樂寶貝<br>31.0<br>(蔡明紹)</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr><tr><td>蘇保羅</td>
+<td></td>
+<td></td>
+<td></td>
+<td><b style="color:orange">明月光</b><br>16.0<br>(巫顯東)</td>
+<td>勇冠王<br>70.0<br>(夏禮賢)</td>
+<td></td>
+<td></td>
+<td>白鷺飛翔<br>17.0<br>(巴度)</td>
+<td><b style="color:orange">騰龍超影</b><br>64.0<br><b style="color:green">(郭能)</b></td>
+</tr><tr><td>高伯新</td>
+<td></td>
+<td></td>
+<td></td>
+<td>金得彩<br>26.0<br>(蔡明紹)</td>
+<td><b style="color:orange">協勝神駒</b><br>5.3<br><b style="color:green">(郭能)</b></td>
+<td><b style="color:orange">有理共想</b><br>6.1<br><b style="color:red">(巴度)</b></td>
+<td>文藝學家<br>9.7<br><b style="color:blue">(蔡明紹)</b></td>
+<td>雪戰神駒<br>27.0<br><b style="color:green">(蔡明紹)</b></td>
+<td></td>
+</tr><tr><td>蔡約翰</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td><b style="color:orange">平海飛星</b><br>28.0<br>(莫雷拉)</td>
+<td>激賞<br><font color="RED">2.3</font><br><b style="color:green">(莫雷拉)</b></td>
+<td>翠龍<br>16.0<br>(莫雷拉)</td>
+<td><b style="color:orange">四通八達</b><br><font color="RED">1.6</font><br>(莫雷拉)</td>
+<td>弛曜風<br><font color="RED">2.4</font><br><b style="color:#f55fec">(莫雷拉)</b></td>
+</tr></table>
+ 
+</html>
+
