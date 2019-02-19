@@ -114,6 +114,17 @@ __________<select id="dropdown_change1">
 	
 <div id="myDiv2" style="height:400px; width:1100px"></div>	
 
+  <div id="content">
+    <button id="btnExport" type="button" text="Export" > Export to Image
+    </button>
+    <h3>png</h3>
+    <img id="png-export"></img>
+    <h3>jpg</h3>
+    <img id="jpg-export"></img>
+    <h3>svg</h3>
+    <img id="svg-export"></img>
+  </div>  
+	
 <script>
 $('#button_2328').on('click', function() { $('#text1').val("2328"); });
 $('#button_xp').on('click', function() { $('#text1').val("xpp"); });
@@ -464,6 +475,14 @@ function toggleAvg(){
 		 'https://plot.ly/');
 };
 
+var img_png = d3.select('#png-export');
+
+$('#btnExport').click(function(){  
+  Plotly.toImage('myDiv2', { format: 'png', width: 800, height: 600 }).then(function (dataURL) {
+        console.log(dataURL);
+        img_png.attr("src", dataURL);
+    });
+});
 
 </script>
 </body>
