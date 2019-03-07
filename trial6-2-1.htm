@@ -4,6 +4,8 @@
 
 
 
+
+
 <head>
   <meta charset="utf-8">
   <title>jTrial 6.2.1 - Default functionality</title>
@@ -119,20 +121,28 @@ __________<select id="dropdown_change1">
     <button id="btnExport" type="button" text="Export" > Export to Image
     <button id="btnUpdate" type="button" text="Export" > update to server
     <button id="btnExtract" type="button" text="Export" > Extract to Image
-    </button>
-    <h3>png</h3>
-    <img id="png-export"></img>
-    <h3>jpg</h3>
-    <img id="jpg-export"></img>
-    <h3>svg</h3>
-    <img id="svg-export"></img>
   
+    </button>
+<br>
+    <button id="btnReset" type="button" text="Export" > Reset Queue </button>
+    <div id="mon1" style="visibility:visible">
+      <h3>png</h3>
+      <img id="png-export"></img>
+      <h3>jpg</h3>
+      <img id="jpg-export"></img>
+      <h3>svg</h3>
+      <img id="svg-export"></img>
+    </div>
   </div>  
-	
+<div id="mon2" style="visibility:hidden">
+  <textarea id="datamon" rows="5" cols="40">datamon</textarea>	
+  <br>
+  <textarea id="datakk" rows="5" cols="40"></textarea>
+</div>
 
-<textarea id="datakk" rows="5" cols="40"></textarea>
+<div id="trivia1">
+</div>
 <br />
-
 	
 <script>
 $('#button_2328').on('click', function() { $('#text1').val("2328"); });
@@ -236,7 +246,10 @@ function makeplot() {
 			pu1.push(result.feed.entry[i].gsx$pullupname.$t); 
 			pu2.push(result.feed.entry[i].gsx$pullupcode.$t); 
 		};
-		dc=document.getElementById("dropdown")
+    // stock name => box
+    $("#datamon").val(pu1[73]);
+    
+		dc=document.getElementById("dropdown");
 
 // Loop through the array
 for (var i = 0; i < pu1.length; ++i) {
@@ -310,6 +323,33 @@ function makePlotly2( x, y, y2, y3, yname, y2name, y3name, divname){
 
 								  overlaying: 'y', side: 'left' } 
 					 }; 
+  
+  layout.annotations = [{
+  text: "Official "+y3[(y3.length)-2]+'<br>=>'+x[x.length-2].toLocaleDateString()+"<br>=>"+x[x.length-2].toLocaleTimeString(),
+  x: x[x.length-2],
+  y: y[(y.length)-2],
+  xref: 'x',
+  yref: 'y',
+  showarrow: true,
+  xanchor: 'left'}
+];
+  
+layout.shapes = [{
+  x0: x[x.length-2],
+  x1: x[x.length-2],
+  type: 'line',
+  y0: 0,
+  y1: 1,
+  xref: 'x',
+  yref: 'paper',
+  line: {
+    color: 'rgb(30,30,30)',
+    width: 1
+  }
+}];
+  
+  
+  
 	Plotly.newPlot(divname, data, layout); Plotly.purge;
   	plot = document.getElementById('i'+divname).contentWindow;
         // send a message to the contentWindow
@@ -484,23 +524,92 @@ function toggleAvg(){
 		 'https://plot.ly/');
 };
 
+
 var img_png = d3.select('#png-export');
 var img_svg = d3.select('#svg-export');
 
 $('#btnExport').click(function(){  
-  Plotly.toImage('myDiv2', { format: 'png', width: 800, height: 600 }).then(function (dataURL) {
-        console.log(dataURL);
+//  Plotly.toImage('myDiv2', { format: 'png', width: 800, height: 600 }).then(function (dataURL) {
+  Plotly.toImage('myDiv2', { format: 'png' }).then(function (dataURL) {    
+        // console.log(dataURL);
         img_png.attr("src", dataURL);
     });
 });
 
-$('#btnUpdate').click(function(){  
 
-            var newjson = img_png.attr("src");
-  
+  //Local Storage JSON Array Example
+  //codepen.io/jasongutt/pen/oDkdq
+$('#btnUpdate').click(function(){ 
+
+            $.getJSON("https://api.myjson.com/bins/x6qdy", function(posts) { 	
+              
+              // posts => LS
+              localStorage.setItem("lsposts",JSON.stringify(posts));
+              
+              // LS => jsonArray
+              jsonArray2 = JSON.parse(localStorage.getItem("lsposts"));
+              
+              // jsonArray2 += newjson
+              jsonArray2.queue.push({
+                key: $("#text1").val(),
+                name: $("#datamon").val(),
+                key2: img_png.attr("src")
+              });
+              
+              // do update
+              $.ajax({
+                url: "https://api.myjson.com/bins/x6qdy",
+                type: "PUT",
+                data: JSON.stringify(jsonArray2),
+                contentType: "application/json; charset=utf-8",
+                dataType: "json",
+                success: function (data, textStatus, jqXHR) {
+                    var json = JSON.stringify(data);
+                    $("#datakk").val(json);
+                }
+              });
+
+ 						});
+    });
+
+//Show/Hide divs
+//https://codepen.io/c2webdev/pen/zavJb
+$("#mon1").hide();
+$("#mon2").hide();
+
+$('#btnExtract').click(function(){  
+
+            $.getJSON("https://api.myjson.com/bins/x6qdy", function(posts) { 															
+                    // console.log("pp2=",posts.queue[2].key2);
+                    // img_svg.attr("src", posts.queue[2].key2);
+
+                    // clear up div
+                    document.getElementById("trivia1").innerHTML = '';
+                    //loop
+                    for (var i = 2; i < posts.queue.length; i++) {
+                        var newhead = document.createElement("p");
+                        // display name 
+                        newhead.appendChild(document.createTextNode(posts.queue[i].name));
+                        //document.body.appendChild(newhead);
+                        document.getElementById("trivia1").appendChild(newhead);
+              
+                        // display img
+                        var img = document.createElement('img');
+                        img.src = posts.queue[i].key2;
+                        //document.body.appendChild(img);
+                        document.getElementById("trivia1").appendChild(img);
+                    }
+ 						});
+    });
+
+$('#btnReset').click(function(){  
+
             var updatedObj = {
-                "key": "1088",
-                "key2": newjson
+              queue: 
+              [
+                {key: "1088", key2: "1088",name:"Banana"},
+                {key: "1099", key2: "1088",name:"Orange"}
+              ]
             };
             var updatedData = JSON.stringify(updatedObj);
 
@@ -516,18 +625,9 @@ $('#btnUpdate').click(function(){
                     $("#datakk").val(json);
                 }
             });
-
     });
 
-$('#btnExtract').click(function(){  
 
-            $.getJSON("https://api.myjson.com/bins/x6qdy", function(posts) { 															
-                    console.log("pp2=",posts.key2); 
-                    
-                    img_svg.attr("src", posts.key2);
-
- 						});
-    });
 
 
 </script>
