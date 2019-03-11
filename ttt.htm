@@ -1,3 +1,45 @@
+
+Remove Array Element from LocalStorage
+https://codepen.io/szymongabrek/pen/QMmeyQ?editors=1010
+
+--------------------------
+<ul id="highscores"></ul>
+------------------------
+var hst = document.getElementById("highscores");
+
+/*var highScores = [
+  { id: "1",name: "Maximillian", score: 1000 },
+  { id: "2",name: "The second guy", score: 700 },
+  { id: "3",name: "The newbie!", score: 50 }
+];
+*/
+
+//localStorage.setItem("highscores", JSON.stringify(highScores));
+
+var retrievedScores = JSON.parse(localStorage.getItem("lsposts"));
+console.log("rs=",retrievedScores);
+console.log("rslen=",retrievedScores.queue.length);
+var deleteById = function ( self ){console.log("self=",self);
+  retrievedScores.queue = retrievedScores.queue.filter(function(elem) {
+      return elem.key !== self.id;console.log("elem=",elem);
+  });
+  console.log("retrievedScores.queue=",retrievedScores.queue);
+  localStorage.setItem("lsposts",JSON.stringify(retrievedScores));
+  self.parentNode.parentNode.removeChild(self.parentNode);
+}
+
+  for (var i = 0; i < retrievedScores.queue.length; i++) { console.log("i=",i);
+    hst.innerHTML +=
+      "<li >" +"<a id="+retrievedScores.queue[i].key + " href='#' onclick='deleteById(this)'>x</a>" +
+      retrievedScores.queue[i].name +
+      " -- " +
+      retrievedScores.queue[i].key2 +
+      "</li>"; console.log("html=",hst.innerHTML);
+  }
+
+
+
+-----------------------------------------------------------------------------------------------
 trial6-2-1
 
   <div id="content">
