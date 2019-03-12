@@ -590,7 +590,8 @@ $('#btnExtract').click(function(){
             $.getJSON("https://api.myjson.com/bins/x6qdy", function(posts) { 															
                     // console.log("pp2=",posts.queue[2].key2);
                     // img_svg.attr("src", posts.queue[2].key2);
-
+              // posts => LS
+              localStorage.setItem("lsposts",JSON.stringify(posts));
                     // clear up div
                     document.getElementById("trivia1").innerHTML = '';
                     //loop
