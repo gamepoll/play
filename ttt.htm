@@ -1,4 +1,380 @@
+// here
+  
+  layout.annotations = [{
+  text: "Official "+y3[(y3.length)-2]+'<br>=>'+x[x.length-2].toLocaleDateString()+"<br>=>"+x[x.length-2].toLocaleTimeString(),
+  x: x[x.length-2],
+  y: y[(y.length)-2],
+  xref: 'x',
+  yref: 'y',
+  showarrow: true,
+  xanchor: 'left'}, /// here
+       {
+  text: $("#datamon").val(),
+         visible: false,
+  x: x[x.length-42],
+  y: y[(y.length)-42],
+  xref: 'x',
+  yref: 'y',
+  showarrow: true,
+  xanchor: 'left'}                
+];
+  
+layout.shapes = [{
+  x0: x[x.length-2],
+  x1: x[x.length-2],
+  type: 'line',
+  y0: 0,
+  y1: 1,
+  xref: 'x',
+  yref: 'paper',
+  line: {
+    color: 'rgb(30,30,30)',
+    width: 1
+  }
+}];
+  
+  
+  
+	Plotly.newPlot(divname, data, layout); Plotly.purge;
+  	plot = document.getElementById('i'+divname).contentWindow;
+        // send a message to the contentWindow
+        plot.postMessage(
+        {
+            'task': 'newPlot',
+            'data': data,
+            'layout': layout
+        },
+        'https://plot.ly');
+	average = false;
+	
+var plot, type;
+var rad = document.myForm.rads;
+var prev = null;
 
+for(var i = 0; i < rad.length; i++) {
+    rad[i].onclick = function() {
+        (prev)? console.log(prev.value):null;
+        if(this !== prev) { prev = this; }
+        color = this.value;
+	        plot = document.getElementById('imyDiv1').contentWindow;
+        // send a message to the contentWindow
+        plot.postMessage(
+        {
+            'task': 'restyle',
+            'update': {'marker':{'color': color}},
+            'indices': [0]
+        },
+        'https://plot.ly');
+    };
+}
+  
+}; 
+
+function makeplot1() {
+	//var url2 = "https://spreadsheets.google.com/feeds/list/1NYOFCAHvMkyOxItQqqhFLvna-yXnMheQbuxVPMV43Dk/o7lhxur/public/values?alt=json"; 
+	// for file hhh
+	// var url2 = "https://spreadsheets.google.com/feeds/list/1bn8v2viL4MM7uQpS0iKquWvtH6qt1QMaSRK2WpvbON4/o7lhxur/public/values?alt=json"; 
+	// hhh.Sheet6 -spreadsheets.google.com/feeds/worksheets/spreadsheetId/public/basic
+	// fields - spreadsheets.google.com/feeds/list/spreadsheetId/oz0xn5d/public/values?alt=json
+	var url2 = "https://spreadsheets.google.com/feeds/list/1bn8v2viL4MM7uQpS0iKquWvtH6qt1QMaSRK2WpvbON4/oz0xn5d/public/values?alt=json"; 
+	//var foo = $("#text2").val();
+	//dc=document.getElementById("dropdown_change")
+	
+	Plotly.d3.json(url2, function (error, result) { 
+		var x = [], y = [], y2=[], y3=[]; 
+		for (i = 0; i < result.feed.entry.length; i += 1) { 
+			x.push(new Date(result.feed.entry[i].gsx$date_5.$t)); 
+//			y.push(result.feed.entry[i].gsx$tsxbockhk.$t); 
+// http://bl.ocks.org/tmaybe/6246014
+//			y.push(result.feed.entry[i].gsx$v2.$t/result.feed.entry[i].gsx$yy.$t); 
+			y.push(result.feed.entry[i].gsx$v2.$t*result.feed.entry[i].gsx$yy.$t); 
+			y2.push(result.feed.entry[i].gsx$v2.$t); 
+			y3.push(result.feed.entry[i].gsx$yy.$t); 
+		} 
+		//makePlotly2( x, y, y2, y3,"Tsx" + $("#text1").val(), "Tenc" + $("#text1").val(), $("#text1").val(),"myDiv1"); 
+		makePlotly2( x, y, y2, y3,result.feed.entry[2].gsx$paraxx.$t + result.feed.entry[0].gsx$paraxx.$t, result.feed.entry[2].gsx$paraxx.$t+"", result.feed.entry[0].gsx$paraxx.$t,"myDiv2");
+	}); 
+}; 
+
+
+
+makeplot();
+makeplot1();
+
+// Made with Plotly's postMessage API
+// https://github.com/plotly/postMessage-API
+
+var average = false;
+var plot = document.getElementById('imyDiv1').contentWindow;
+var X, Y, vis;
+
+var d3_numeric = function(x) {
+ 	return !isNaN(x);
+}
+
+var d3sum = function(array, f) {
+  var s = 0,
+      n = array.length,
+      a,
+      i = -1;
+  if (arguments.length === 1) {
+	 // zero and null are equivalent
+    while (++i < n) if (d3_numeric(a = +array[i])) s += a; 
+  } else {
+    while (++i < n) if (d3_numeric(a = +f.call(array, array[i], i))) s += a;
+  }
+  return s;
+};
+
+var movingWindowAvg = function (arr, step) {  
+    return arr.map(function (_, idx) { 
+        var wnd = arr.slice(idx - step, idx + step + 1); 
+        var result = d3sum(wnd) / wnd.length; if (isNaN(result)) { result = _; }
+        return result; 
+    });
+};
+
+function applyAvg(index){
+	// get current x, y data
+	if( index===undefined ){ 
+		index=0;
+	}
+	index=index.toString();
+	plot.postMessage({
+		 task: 'getAttributes',
+		 attributes: [ 'data['+index+'].x', 'data['+index+'].y' ] },
+		 'https://plot.ly/');   
+}
+
+window.addEventListener('message', function(e) {
+		
+	var message = e.data;
+
+	if( 'data[3].visible' in message.response ){
+		var vis = message.response['data[3].visible'];
+		console.log('Average visible', vis);
+		if( vis === undefined ){
+				plot.postMessage({
+		 			task: 'getAttributes',
+		 			attributes: [ 'data[0].x', 'data[0].y' ] },
+		 			'https://plot.ly/');
+		}
+		else if( vis == true ){
+			vis = false;	
+		}
+		else{
+			vis = true;
+		}
+		
+		plot.postMessage({
+			task: 'restyle',
+			update: { 'visible':vis },
+			indices: [3]
+		}, 'https://plot.ly'); 
+	}
+	else{
+		var window = document.getElementById('myRange').value;
+		$("#valrg").html(window);
+		X = message.response['data[0].x'];
+		Y = message.response['data[0].y'];	
+		if( average ){
+			var arr = movingWindowAvg( Y, Number(window) );		
+			console.log('Recalculated average', arr);
+			plot.postMessage({
+				task: 'restyle',
+				update: { y: [arr], x: [X], 'visible':true },
+				indices: [3]
+			}, 'https://plot.ly');  
+		}
+		else{		
+			avg = { y: [arr], x: [X], visible:true, 
+					 mode:'line', marker:{color:'#444'} };
+			console.log( 'Adding moving average', avg );
+			plot.postMessage({
+				task: 'addTraces',
+				traces: [ avg ],
+				newIndices: [3]
+			}, 'https://plot.ly'); 	
+			applyAvg();
+			average = true;
+		}
+	}
+});
+
+function toggleAvg(){
+	// get current x, y data
+	plot.postMessage({
+		 task: 'getAttributes',
+		 attributes: [ 'data[3].visible' ] },
+		 'https://plot.ly/');
+};
+
+
+var img_png = d3.select('#png-export');
+var img_svg = d3.select('#svg-export');
+/// here
+var graphDiv = document.getElementById('myDiv2');
+
+$('#btnExport').click(function(){  
+//  Plotly.toImage('myDiv2', { format: 'png', width: 800, height: 600 }).then(function (dataURL) {
+  Plotly.toImage('myDiv2', { format: 'png' }).then(function (dataURL) {    
+        // console.log(dataURL);
+        img_png.attr("src", dataURL);
+    });
+  
+  console.log("graphDiv.layout=",graphDiv.layout);
+  console.log("graphDiv.layout.annot2=",graphDiv.layout.annotations[1].text);
+  console.log("graphDiv.layout.title=",graphDiv.layout.title.text.substring(7));
+});
+
+
+  //Local Storage JSON Array Example
+  //codepen.io/jasongutt/pen/oDkdq
+$('#btnUpdate').click(function(){ 
+
+            $.getJSON("https://api.myjson.com/bins/x6qdy", function(posts) { 	
+              
+              // posts => LS
+              localStorage.setItem("lsposts",JSON.stringify(posts));
+              
+              // LS => jsonArray
+              jsonArray2 = JSON.parse(localStorage.getItem("lsposts"));
+              
+              // jsonArray2 += newjson
+              /// here
+              jsonArray2.queue.push({
+                key: graphDiv.layout.title.text.substring(7),
+                //name: $("#datamon").val(),
+                name: graphDiv.layout.annotations[1].text,
+                key2: img_png.attr("src")
+              });
+              
+              // do update
+              $.ajax({
+                url: "https://api.myjson.com/bins/x6qdy",
+                type: "PUT",
+                data: JSON.stringify(jsonArray2),
+                contentType: "application/json; charset=utf-8",
+                dataType: "json",
+                success: function (data, textStatus, jqXHR) {
+                    var json = JSON.stringify(data);
+                    $("#datakk").val(json);
+                }
+              });
+
+ 						});
+    });
+
+//Show/Hide divs
+//https://codepen.io/c2webdev/pen/zavJb
+$("#mon1").hide();
+$("#mon2").hide();
+
+$('#btnExtract').click(function(){  
+
+            $.getJSON("https://api.myjson.com/bins/x6qdy", function(posts) { 															
+                    // console.log("pp2=",posts.queue[2].key2);
+                    // img_svg.attr("src", posts.queue[2].key2);
+              // posts => LS
+              localStorage.setItem("lsposts",JSON.stringify(posts));
+                    // clear up div
+                    document.getElementById("trivia1").innerHTML = '';
+                    //loop
+                    for (var i = 2; i < posts.queue.length; i++) {
+                        var newhead = document.createElement("p");
+                        // display name 
+                        newhead.appendChild(document.createTextNode(posts.queue[i].name));
+                        //document.body.appendChild(newhead);
+                        document.getElementById("trivia1").appendChild(newhead);
+              
+                        // display img
+                        var img = document.createElement('img');
+                        img.src = posts.queue[i].key2;
+                        //document.body.appendChild(img);
+                        document.getElementById("trivia1").appendChild(img);
+                    }
+ 						});
+    });
+
+$('#btnReset').click(function(){  
+
+            var updatedObj = {
+              queue: 
+              [
+                {key: "1088", key2: "1088",name:"Banana"},
+                {key: "1099", key2: "1088",name:"Orange"}
+              ]
+            };
+            var updatedData = JSON.stringify(updatedObj);
+
+            // do update
+            $.ajax({
+                url: "https://api.myjson.com/bins/x6qdy",
+                type: "PUT",
+                data: updatedData,
+                contentType: "application/json; charset=utf-8",
+                dataType: "json",
+                success: function (data, textStatus, jqXHR) {
+                    var json = JSON.stringify(data);
+                    $("#datakk").val(json);
+                }
+            });
+    });
+
+
+$('#btnUploadLS').click(function(){  
+             // LS => jsonArray
+              jsonArray2 = JSON.parse(localStorage.getItem("lsposts"));
+           
+              // do update
+              $.ajax({
+                url: "https://api.myjson.com/bins/x6qdy",
+                type: "PUT",
+                data: JSON.stringify(jsonArray2),
+                contentType: "application/json; charset=utf-8",
+                dataType: "json",
+                success: function (data, textStatus, jqXHR) {
+                    var json = JSON.stringify(data);
+                    $("#datakk").val(json);
+                }
+              });
+    });
+
+var retrievedScores = JSON.parse(localStorage.getItem("xxxx"));
+
+var deleteById = function ( self ){
+  retrievedScores.queue = retrievedScores.queue.filter(function(elem) {
+      return elem.key !== self.id;//console.log("elem=",elem);
+  });
+  //console.log("retrievedScores.queue=",retrievedScores.queue);
+  localStorage.setItem("lsposts",JSON.stringify(retrievedScores));
+  self.parentNode.parentNode.removeChild(self.parentNode);
+  /// here
+  $('#btnReloadLS').click();
+};
+
+$('#btnReloadLS').click(function(){  
+
+  var hst = document.getElementById("highscores");
+
+  retrievedScores = JSON.parse(localStorage.getItem("lsposts"));
+
+  hst.innerHTML = "";
+    for (var i = 0; i < retrievedScores.queue.length; i++) { // console.log("i=",i);
+      if (i>1) {
+      hst.innerHTML +=
+      "<li >" +"<a id="+retrievedScores.queue[i].key + " href='#mon1' onclick='deleteById(this)'>x</a>" +
+      retrievedScores.queue[i].name +
+      " -- " +
+      retrievedScores.queue[i].key +
+      "</li>"; 
+      }
+    }
+});
+
+
+
+===================================================================================================================================
 Remove Array Element from LocalStorage
 https://codepen.io/szymongabrek/pen/QMmeyQ?editors=1010
 
