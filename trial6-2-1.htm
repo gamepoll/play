@@ -339,6 +339,15 @@ function makePlotly2( x, y, y2, y3, yname, y2name, y3name, divname){
   xref: 'x',
   yref: 'y',
   showarrow: true,
+  xanchor: 'left'},
+       {
+  text: $("#datamon").val(),
+         visible: false,
+  x: x[x.length-42],
+  y: y[(y.length)-42],
+  xref: 'x',
+  yref: 'y',
+  showarrow: true,
   xanchor: 'left'}
 ];
   
@@ -536,6 +545,8 @@ function toggleAvg(){
 var img_png = d3.select('#png-export');
 var img_svg = d3.select('#svg-export');
 
+var graphDiv = document.getElementById('myDiv2');
+	
 $('#btnExport').click(function(){  
 //  Plotly.toImage('myDiv2', { format: 'png', width: 800, height: 600 }).then(function (dataURL) {
   Plotly.toImage('myDiv2', { format: 'png' }).then(function (dataURL) {    
@@ -559,8 +570,8 @@ $('#btnUpdate').click(function(){
               
               // jsonArray2 += newjson
               jsonArray2.queue.push({
-                key: $("#text1").val(),
-                name: $("#datamon").val(),
+                key: graphDiv.layout.title.text.substring(7),
+                name: graphDiv.layout.annotations[1].text,
                 key2: img_png.attr("src")
               });
               
@@ -664,6 +675,7 @@ var deleteById = function ( self ){
   //console.log("retrievedScores.queue=",retrievedScores.queue);
   localStorage.setItem("lsposts",JSON.stringify(retrievedScores));
   self.parentNode.parentNode.removeChild(self.parentNode);
+  $('#btnReloadLS').click();
 };
 
 $('#btnReloadLS').click(function(){  
