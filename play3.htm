@@ -7,8 +7,9 @@
   <script src="//code.jquery.com/jquery-1.10.2.js"></script>
   <script src="//code.jquery.com/ui/1.11.4/jquery-ui.js"></script>
   
-  <script type="text/javascript" src="https://d14fo0winaifog.cloudfront.net/plotly-basic.js"></script>
-  
+  <!--script type="text/javascript" src="https://d14fo0winaifog.cloudfront.net/plotly-basic.js"></script-->
+  <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/plotly.js/1.44.1/plotly-basic.js"></script>
+	
   <link rel="stylesheet" href="/resources/demos/style.css">
 
   <!-- https://github.com/kangax/fabric.js/blob/master/dist/fabric.js -->
@@ -182,7 +183,7 @@ __________<select id="dropdown_change2">
 </select>
 <br />      
 <br />
-<input type="button" value="Won =>" id="button_won" />
+<input type="button" value="Doup =>" id="button_doup" />
 <input type="button" value="Pre Won =>" id="button_pre_won" />
 <input type="button" value="Pre Rdpix =>" id="button_pre_rdpix" />
 <input type="button" value="Pre Vexpx =>" id="button_pre_vexpx" />
@@ -592,7 +593,7 @@ $("#dropdown_change2").change(function(){
        $("#text1").val(dc.value);
 });
   
-$('#button_won').on('click', function() { $('#text1').val("$one"); });
+$('#button_doup').on('click', function() { $('#text1').val(text1.value+":"+"$one"+":"+text1.value); });
 $('#button_pre_won').on('click', function() { $('#text1').val("$one"+":"+text1.value); });
 $('#button_pre_rdpix').on('click', function() { $('#text1').val("rdpix"+":"+text1.value); });
 $('#button_pre_vexpx').on('click', function() { $('#text1').val("vexpx"+":"+text1.value); });
