@@ -85,7 +85,9 @@ quiz[7] = new Question("What is 19 - 3?", "16", "26", "14","Note    3-->10------
 quiz[8] = new Question("What is 29 + 22?", "51", "48", "62","Note    20---->30--->40   then   9--->10-->11");
 quiz[9] = new Question("What is 59 - 30?", "29", "26", "14","Note    50-->40-->30-->20    then   9-->0 ");
 quiz[10] = new Question("What is 79 + 20?", "99", "48", "62","Note    70--->80--->90   then   9--->0");
-quiz[11] = new Question("What is 19 - 3?", "16", "26", "14","Note    3-->10------>19");
+quiz[11] = new Question("What number with 3 to form 10", "7", "9", "6","Note    3-->4----->10");
+quiz[12] = new Question("What number with 4 to form 10", "6", "9", "4","Note    4-->5----->10");
+quiz[13] = new Question("What number with 2 to form 10", "8", "9", "6","Note    2-->3----->10");
 var randomQuestion;
 var answers = [];
 var currentScore = 0;
@@ -161,7 +163,7 @@ function checkAnswer(answer) {
     btnProvideQuestion();
   } else { 
 //    alert("Loser!");
-    responsiveVoice.speak('try again Jayden or ask lucas');
+    responsiveVoice.speak('try again Jayden');
     document.getElementById('hint').style.display='block';
     document.getElementById('hint').style.color='red';
     adjustScore(false);
