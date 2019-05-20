@@ -181,7 +181,11 @@ __________<select id="dropdown_change2">
       <option value="YCS">--$JPYUSD</option> 
       
 </select>
-<br />      
+<br /> 
+<br />
+<input type="checkbox" id="dia1" name="dia1" value="lunes" checked="checked"/>
+<label for="dia1">Lunes</label>
+<br />
 <br />
 <input type="button" value="Doup =>" id="button_doup" />
 <input type="button" value="Pre Won =>" id="button_pre_won" />
@@ -547,27 +551,81 @@ canvas1.setBackgroundImage('http://c.stockcharts.com/c-sc/sc?s=$tsx:$hsi&p=D&&yr
 // select all text on click
 $('#text1').on('mouseup', function() { $(this).select(); });
 
-$('#button_veiex').on('click', function() { $('#text1').val("veiex"); });
-$('#button_asiax').on('click', function() { $('#text1').val("asiax"); });
-$('#button_hs').on('click', function() { $('#text1').val("$hsi"); });
-$('#button_hsce').on('click', function() { $('#text1').val("$hscei"); });
-$('#button_ewh').on('click', function() { $('#text1').val("ewh"); });
-$('#button_hao').on('click', function() { $('#text1').val("aagiy"); });
+$('#button_veiex').on('click', function() {
+	if ($('#dia1').is(':checked') ) 
+		{ $('#text1').val("veiex"); } else 
+		{ $('#text1').val(text1.value +":"+"veiex"); }  });
+$('#button_asiax').on('click', function() {
+	if ($('#dia1').is(':checked') ) 
+		{ $('#text1').val("asiax"); } else 
+		{ $('#text1').val(text1.value +":"+"asiax"); }  });
+$('#button_hs').on('click', function() { 
+	if ($('#dia1').is(':checked') ) 
+		{ $('#text1').val("$hsi"); } else 
+		{ $('#text1').val(text1.value +":"+"$hsi"); }  });
+$('#button_hsce').on('click', function() { 
+	if ($('#dia1').is(':checked') ) 
+		{ $('#text1').val("$hscei"); } else 
+		{ $('#text1').val(text1.value +":"+"$hscei"); }  });
+$('#button_ewh').on('click', function() { 
+	if ($('#dia1').is(':checked') ) 
+		{ $('#text1').val("ewh"); } else 
+		{ $('#text1').val(text1.value +":"+"ewh"); }  });
+$('#button_hao').on('click', function() { 
+	if ($('#dia1').is(':checked') ) 
+		{ $('#text1').val("aagiy"); } else 
+		{ $('#text1').val(text1.value +":"+"aagiy"); }  });
 
-$('#button_dax').on('click', function() { $('#text1').val("$dax"); });
-$('#button_tcehy').on('click', function() { $('#text1').val("tcehy"); });
-$('#button_cs300').on('click', function() { $('#text1').val("pek"); });
-$('#button_xbd').on('click', function() { $('#text1').val("$xbd"); });
-$('#button_gely').on('click', function() { $('#text1').val("gelyf"); });
-$('#button_usfxp').on('click', function() { $('#text1').val("fxp"); });
-$('#button_ulxp').on('click', function() { $('#text1').val("xpp"); });
-$('#button_usmcap').on('click', function() { $('#text1').val("uipix"); });
-$('#button_usndx').on('click', function() { $('#text1').val("uspix"); });
+$('#button_dax').on('click', function() {
+	if ($('#dia1').is(':checked') ) 
+		{ $('#text1').val("$dax"); } else 
+		{ $('#text1').val(text1.value +":"+"$dax"); }  });
+$('#button_tcehy').on('click', function() { 
+	if ($('#dia1').is(':checked') ) 
+		{ $('#text1').val("tcehy"); } else 
+		{ $('#text1').val(text1.value +":"+"tcehy"); }  });
+$('#button_cs300').on('click', function() { 
+	if ($('#dia1').is(':checked') ) 
+		{ $('#text1').val("pek"); } else 
+		{ $('#text1').val(text1.value +":"+"pek"); }  });
+$('#button_xbd').on('click', function() {
+	if ($('#dia1').is(':checked') ) 
+		{ $('#text1').val("$xbd"); } else 
+		{ $('#text1').val(text1.value +":"+"$xbd"); }  });
+$('#button_gely').on('click', function() { 
+	if ($('#dia1').is(':checked') ) 
+		{ $('#text1').val("gelyf"); } else 
+		{ $('#text1').val(text1.value +":"+"gelyf"); }  });
+$('#button_usfxp').on('click', function() { 
+	if ($('#dia1').is(':checked') ) 
+		{ $('#text1').val("fxp"); } else 
+		{ $('#text1').val(text1.value +":"+"fxp"); }  });
+$('#button_ulxp').on('click', function() { 
+	if ($('#dia1').is(':checked') ) 
+		{ $('#text1').val("xpp"); } else 
+		{ $('#text1').val(text1.value +":"+"xpp"); }  });
+$('#button_usmcap').on('click', function() { 
+	if ($('#dia1').is(':checked') ) 
+		{ $('#text1').val("uipix"); } else 
+		{ $('#text1').val(text1.value +":"+"uipix"); }  });
+$('#button_usndx').on('click', function() { 
+	if ($('#dia1').is(':checked') ) 
+		{ $('#text1').val("uspix"); } else 
+		{ $('#text1').val(text1.value +":"+"uspix"); }  });
 	
 $('#button_tao').on('click', function() { $('#text1').val("tao"); });
-$('#button_nik').on('click', function() { $('#text1').val("$nikk"); });
-$('#button_shi').on('click', function() { $('#text1').val("shi"); });
-$('#button_cea').on('click', function() { $('#text1').val("cea"); });
+$('#button_nik').on('click', function() { 
+	if ($('#dia1').is(':checked') ) 
+		{ $('#text1').val("$nikk"); } else 
+		{ $('#text1').val(text1.value +":"+"$nikk"); }  });
+$('#button_shi').on('click', function() {
+	if ($('#dia1').is(':checked') ) 
+		{ $('#text1').val("shi"); } else 
+		{ $('#text1').val(text1.value +":"+"shi"); }  });
+$('#button_cea').on('click', function() {
+	if ($('#dia1').is(':checked') ) 
+		{ $('#text1').val("cea"); } else 
+		{ $('#text1').val(text1.value +":"+"cea"); }  });
 $('#button_cgg').on('click', function() { $('#text1').val("jinff"); });
 $('#button_bp').on('click', function() { $('#text1').val("$xbp"); });
 
