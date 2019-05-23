@@ -247,7 +247,7 @@ function makeplot() {
 	//dc=document.getElementById("dropdown_change")
 	
 	Plotly.d3.json(url2, function (error, result) { 
-		var x = [], y = [], y2=[], y3=[]; 
+		var x = [], y = [], y2=[], y3=[], ydup=[]; 
 		for (i = 0; i < result.feed.entry.length; i += 1) { 
 			x.push(new Date(result.feed.entry[i].gsx$date_4.$t)); 
 //			y.push(result.feed.entry[i].gsx$tsxbockhk.$t); 
@@ -440,7 +440,7 @@ function makeplot1() {
 	//dc=document.getElementById("dropdown_change")
 	
 	Plotly.d3.json(url2, function (error, result) { 
-		var x = [], y = [], y2=[], y3=[]; 
+		var x = [], y = [], y2=[], y3=[], ydup=[]; 
 		for (i = 0; i < result.feed.entry.length; i += 1) { 
 			x.push(new Date(result.feed.entry[i].gsx$date_5.$t)); 
 //			y.push(result.feed.entry[i].gsx$tsxbockhk.$t); 
