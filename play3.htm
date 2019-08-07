@@ -93,6 +93,7 @@ __________<input type="button" value="Dax <=" id="button_dax" />
 	    
 <br />
 __________<input type="button" value="Tao <=" id="button_tao" />
+<input type="button" value="CuAu <=" id="button_cuau" />
 <input type="button" value="Nik <=" id="button_nik" />
 <input type="button" value="Shi <=" id="button_shi" />
 <input type="button" value="Cea <=" id="button_cea" />
@@ -614,6 +615,10 @@ $('#button_usndx').on('click', function() {
 		{ $('#text1').val(text1.value +":"+"uspix"); }  });
 	
 $('#button_tao').on('click', function() { $('#text1').val("tao"); });
+$('#button_cuau').on('click', function() { 
+	if ($('#dia1').is(':checked') ) 
+		{ $('#text1').val("$copper:$gold"); } else 
+		{ $('#text1').val(text1.value +":"+"$copper:$gold"); }  });
 $('#button_nik').on('click', function() { 
 	if ($('#dia1').is(':checked') ) 
 		{ $('#text1').val("$nikk"); } else 
