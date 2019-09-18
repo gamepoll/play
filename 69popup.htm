@@ -72,12 +72,14 @@ $(function () {
 //    "use strict";
     
     $(".popup img").click(function () {
+      console.log("clicked...");
         var $src = $(this).attr("src");
         $(".show").fadeIn();
         $(".img-show img").attr("src", $src);
     });
     
     $("span, .overlay").click(function () {
+      console.log("span clicked...");
         $(".show").fadeOut();
     });
     
