@@ -75,7 +75,8 @@ $(function () {
     $(".popup img").click(function () {
         var $src = $(this).attr("src");
       // replace [d??] with [dk]
-      var str2 = $src.replace((/\[d\w+\]/gi,"[dk]"));console.log(str2); 
+      var str2 = $src.replace(/\[d\w+\]/gi,"[dl]");
+      console.log(str2); 
         $(".show").fadeIn();
         $(".img-show img").attr("src", str2);
     });
