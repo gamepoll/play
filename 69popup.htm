@@ -1,10 +1,12 @@
 <script>
-// Custom image popup
+// //Custom image popup
 // codepen.io/mukul6996/pen/PbWrKz
 // codepen.io/BENJiDevil/pen/bqEXEJ
-// Javascript String & Regex
+// //Javascript String & Regex
 // codepen.io/SamirB/post/javascript-string
 // codepen.io/Muhnad/pen/dMbXNb image popup
+// //Popup(Lightcase)
+// codepen.io/BENJiDevil/pen/bqEXEJ
   
 </script>
 
@@ -84,9 +86,10 @@ $(function () {
         var $src = $(this).attr("src");
       // replace [d??] with [dk]
       var str2 = $src.replace(/\[d\w+\]/gi,"[dl]");
-      console.log(str2); 
+      var str3 = str2.replace(/\&cperiod\=\w+\&/gi,"cperiod=1001030");
+      console.log(str3); 
         $(".show").fadeIn();
-        $(".img-show img").attr("src", str2);
+        $(".img-show img").attr("src", str3);
     });
     
     $("span, .overlay").click(function () {
