@@ -166,7 +166,7 @@ $(function () {
         var $src = $(this).attr("src");
       // replace [d??] with [dk]
       var str2 = $src.replace(/\[d\w+\]/gi,"[dk]");
-      var str3 = str2.replace(/\&cperiod\=\w+\&/gi,"&cperiod=1001030&");
+      var str3 = str2.replace(/\&cperiod\=\w+\&/gi,"&cperiod=1001030&&p=" + Math.random().toString(36).substr(2, 9) +"&" ) ;
       console.log(str3); 
         $(".show").fadeIn();
         $(".img-show img").attr("src", str3);
