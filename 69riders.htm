@@ -9,13 +9,15 @@
 
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
 
+<script>  
 /* stackoverflow.com/questions/45663453 53703661 */
 /* codepen.io/trgiangvp3/full/wqrwao */
 /* html-online.com/editor */
 /* jsfiddle.net/4fukuma/tcp8vvnh/4/ */
-/* xcel INDEX(人名\場次Sheet2!$B$2:$V$3,MATCH(何澤堯,人名Sheet2!$B$2:$B$39,),場次F1*2+1) */  
+/* xcel INDEX(騎師分場表Sheet2!$B$2:$V$3,MATCH(何澤堯,人名表Sheet2!$B$2:$B$39,0),場次F1*2+1) */  
+// =INDEX(騎師分場表$C$3:$C$59,MATCH(何澤堯C61,$C$3:$C$59,0)+1,場次C1)
 /* xcel www.mbaexcel.com/excel/how-to-use-index-match-match */  
-  
+</script>  
   
 <table align="center" style="margin-bottom:10px" border="1" bordercolor="BLACK">
   <tbody>
