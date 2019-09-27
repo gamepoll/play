@@ -84,7 +84,18 @@
 </div>
 <img src="https://charts.megahubhk.com/servlets/MHImageChart?sid=2826&cmode=1&vol=1&intTech1=1&it1p1=50&it1p5=200&tstyle=2&fsize=9&&cr=106&cwidth=275&cheight=175&lang=1&cperiod=1010003&ctype=1&wm=16" width="275" height="215" border="0">
 <br />
-  
+	
+<div class="xbox">
+<img src="http://c.stockcharts.com/c-sc/sc?chart=udn:gold:$one:nem:$one:ncmgy,uu[330,a]daclyyay[dc][pb50!b200!f]&r=0998" width="275" height="215" border="0">
+    <p>--- 200MA ^^^</p>
+</div>
+<img src="http://charts.aastocks.com/servlet/Charts?com=100&stockid=1432.FS&type=5&period=56&" width="275" height="215" border="0">
+<div class="xbox">
+	<img src="http://c.stockcharts.com/c-sc/sc?chart=udn:baba:$one:tcehy:$one:gds,uu[330,a]daclyyay[dc][pb50!b200!f]&r=0998" width="275" height="215" border="0">
+    <p>--- 200MA ^^^</p>
+</div>
+<img src="https://charts.megahubhk.com/servlets/MHImageChart?sid=2826&cmode=1&vol=1&intTech1=1&it1p1=50&it1p5=200&tstyle=2&fsize=9&&cr=106&cwidth=275&cheight=175&lang=1&cperiod=1010003&ctype=1&wm=16" width="275" height="215" border="0">
+<br />
 <!--End of popup--->  
 </div>
 
@@ -166,10 +177,11 @@ $(function () {
         var $src = $(this).attr("src");
       // replace [d??] with [dk]
       var str2 = $src.replace(/\[d\w+\]/gi,"[dk]");
-      var str3 = str2.replace(/\&cperiod\=\w+\&/gi,"&cperiod=1001030&&p=" + Math.random().toString(36).substr(2, 9) +"&" ) ;
-      console.log(str3); 
+      var str3 = str2.replace(/\&cperiod\=\w+\&/gi,"&cperiod=1001030&p=" + Math.random().toString(36).substr(2, 9) +"&" ) ;
+      var str4 = str3.replace(/\]dac\w+\[/gi,"]waclyyay[" ) ;   
+      console.log(str4); 
         $(".show").fadeIn();
-        $(".img-show img").attr("src", str3);
+        $(".img-show img").attr("src", str4);
     });
     
     $("span, .overlay").click(function () {
