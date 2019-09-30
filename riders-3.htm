@@ -2385,7 +2385,7 @@ document.getElementById("button_brown").addEventListener("click", function(){
 //      if (td_array[i].textContent == check_value){
       if (td_array[i].innerHTML.indexOf(check_value)>=0 && check_value!="" ){
 
-	td_array[i].innerHTML="^^" + td_array[i].innerHTML;
+	td_array[i].innerHTML="<strong style=\'color: red\'>^^</strong>" + td_array[i].innerHTML;
         //        td_array[i].style.color = "red";
       };
 
