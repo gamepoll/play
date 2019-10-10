@@ -8,6 +8,14 @@
     { "id": 1, "body": "some comment", "postId": 1 },
     { "id": 2, "body": "some comment", "postId": 1 }
   ],
+  "cloudkqj": [
+    { "key": 1, "name": "some comment", "key2": 1 },
+    { "key": 2, "name": "some comment", "key2": 1 }
+  ],
+  "cloudodds": [
+    { "key": 1, "name": "some comment", "key2": 1 },
+    { "key": 2, "name": "some comment", "key2": 1 }
+  ],
   "profile": {
     "name": "typicode"
   }
