@@ -626,242 +626,228 @@
   <button id="backfromcloud_odds">dnload fm cloud</button>  	
 	
 <script>
-document.getElementById("button").addEventListener("click", function(){
-    td_array = document.getElementsByTagName("td");
-//    check_value = "提款機";
-    $('input[type="text"]').each(function(){    
-        var id = $(this).attr('id');
-        var check_value = $(this).val();
-      var ttcolor="red";
-      switch(id[id.length - 1]) {
-  case "K":
-    ttcolor="red";
-    break;
-  case "Q":
-    ttcolor="blue";
-    break;
-  case "J":
-    ttcolor="green";
-    break;
-  case "T":
-    ttcolor="pink";
-    break;
-  default:
-    break;
-}
-    for (i = 0; i < td_array.length; i++){
-
-//      if (td_array[i].textContent == check_value){
-      if (td_array[i].innerHTML.indexOf(check_value)>=0 && check_value!="" ){
-
-td_array[i].innerHTML=td_array[i].innerHTML.replace(/\<strong\>/gi,"<strong style=\'color:" + ttcolor + "\'>");
-	      console.log(td_array[i].innerHTML);
-        console.log(ttcolor);
-        //        td_array[i].style.color = "red";
-      };
-
-    };
-       });   
+document.getElementById("button").addEventListener("click", function() {
+  td_array = document.getElementsByTagName("td");
+  //    check_value = "提款機";
+  $('input[type="text"]').each(function() {
+    var id = $(this).attr("id");
+    var check_value = $(this).val();
+    var ttcolor = "red";
+    switch (id[id.length - 1]) {
+      case "K":
+        ttcolor = "red";
+        break;
+      case "Q":
+        ttcolor = "blue";
+        break;
+      case "J":
+        ttcolor = "green";
+        break;
+      case "T":
+        ttcolor = "pink";
+        break;
+      default:
+        break;
+    }
+    for (i = 0; i < td_array.length; i++) {
+      //      if (td_array[i].textContent == check_value){
+      if (
+        td_array[i].innerHTML.indexOf(check_value) >= 0 &&
+        check_value != ""
+      ) {
+        var regegg = new RegExp(check_value + ".*?strong>\\(.*?\\)", "i");
+        //console.log("regegg=", regegg);
+        //console.log("innerhtml_pre=", td_array[i].innerHTML);
+        if (regegg.test(td_array[i].innerHTML)) {
+          var res = td_array[i].innerHTML.match(regegg);
+          //console.log("res=", res);
+          //console.log("res0=", res[0]);
+          var newres = res[0].replace(
+            /\<strong\>/gi,
+            "<strong style='color:" + ttcolor + "'>"
+          );
+          newres = newres.replace(/\)/i, ")</strong>");
+          td_array[i].innerHTML = td_array[i].innerHTML.replace(regegg, newres);
+          //console.log("innerhtml=", td_array[i].innerHTML);
+          //console.log(ttcolor);
+          //        td_array[i].style.color = "red";
+        }
+      }
+    }
   });
-
-$('#save').on('click', function(){
-
-    $('input[type="text"]').each(function(){    
-        var id = $(this).attr('id');
-        var value = $(this).val();
-       localStorage.setItem(id, value);
-        
-    });   
 });
 
-$('#load').on('click', function(){
-    $('input[type="text"]').each(function(){    
-        var id = $(this).attr('id');
-        var value = localStorage.getItem(id);
-        
-        $(this).val(value);
-        
-    }); 
-});
-	
-
-$('#savebase').click(function(){  
-
-            var updatedObj = {
-              queue: 
-              [
-                {key: "1088", key2: "1088",name:"Banana"},
-                {key: "1099", key2: "1088",name:"Orange"}
-              ]
-            };
-            var updatedData = JSON.stringify(updatedObj);
-
-            // do update
-            $.ajax({
-                url: "https://api.myjson.com/bins/1cfh35",
-                type: "PUT",
-                data: updatedData,
-                contentType: "application/json; charset=utf-8",
-                dataType: "json",
-                success: function (data, textStatus, jqXHR) {
-                    var json = JSON.stringify(data);
-                }
-            });
+$("#save").on("click", function() {
+  $('input[type="text"]').each(function() {
+    var id = $(this).attr("id");
+    var value = $(this).val();
+    localStorage.setItem(id, value);
+  });
 });
 
+$("#load").on("click", function() {
+  $('input[type="text"]').each(function() {
+    var id = $(this).attr("id");
+    var value = localStorage.getItem(id);
 
-$('#uptocloud').click(function(){ 
-
-            $.getJSON("https://api.myjson.com/bins/1cfh35", function(posts) { 	
-              
-              // posts => LS
-              localStorage.setItem("lsposts",JSON.stringify(posts));
-              
-              // LS => jsonArray
-              jsonArray2 = JSON.parse(localStorage.getItem("lsposts"));
-              
-              
-              // jsonArray2 += newjson
-          $('input[type="text"]').each(function(){ 
-            
-              jsonArray2.queue.push({
-                key: $(this).attr('id'),
-                name: $(this).val(),
-                key2: "//"
-              }); 
-          });             
-              // do update
-              $.ajax({
-                url: "https://api.myjson.com/bins/1cfh35",
-                type: "PUT",
-                data: JSON.stringify(jsonArray2),
-                contentType: "application/json; charset=utf-8",
-                dataType: "json",
-                success: function (data, textStatus, jqXHR) {
-                    var json = JSON.stringify(data);
-                }
-              });
-
- 	});
+    $(this).val(value);
+  });
 });
 
+$("#savebase").click(function() {
+  var updatedObj = {
+    queue: [
+      { key: "1088", key2: "1088", name: "Banana" },
+      { key: "1099", key2: "1088", name: "Orange" }
+    ]
+  };
+  var updatedData = JSON.stringify(updatedObj);
 
-$('#backfromcloud').click(function(){  
+  // do update
+  $.ajax({
+    url: "https://api.myjson.com/bins/1cfh35",
+    type: "PUT",
+    data: updatedData,
+    contentType: "application/json; charset=utf-8",
+    dataType: "json",
+    success: function(data, textStatus, jqXHR) {
+      var json = JSON.stringify(data);
+    }
+  });
+});
 
-            $.getJSON("https://api.myjson.com/bins/1cfh35", function(posts) { 															
-                   for (var i = 2; i < posts.queue.length; i++) {
-                     
-                         $('input[type="text"]').each(function(){    
-                           var id = $(this).attr('id')
-                           if ( id == posts.queue[i].key ) {
-                             var value = posts.queue[i].name;
-                             $(this).val(value);                             
-                           }
-                        });
-                     
-                     }
- 	});
+$("#uptocloud").click(function() {
+  $.getJSON("https://api.myjson.com/bins/1cfh35", function(posts) {
+    // posts => LS
+    localStorage.setItem("lsposts", JSON.stringify(posts));
+
+    // LS => jsonArray
+    jsonArray2 = JSON.parse(localStorage.getItem("lsposts"));
+
+    // jsonArray2 += newjson
+    $('input[type="text"]').each(function() {
+      jsonArray2.queue.push({
+        key: $(this).attr("id"),
+        name: $(this).val(),
+        key2: "//"
+      });
+    });
+    // do update
+    $.ajax({
+      url: "https://api.myjson.com/bins/1cfh35",
+      type: "PUT",
+      data: JSON.stringify(jsonArray2),
+      contentType: "application/json; charset=utf-8",
+      dataType: "json",
+      success: function(data, textStatus, jqXHR) {
+        var json = JSON.stringify(data);
+      }
+    });
+  });
+});
+
+$("#backfromcloud").click(function() {
+  $.getJSON("https://api.myjson.com/bins/1cfh35", function(posts) {
+    for (var i = 2; i < posts.queue.length; i++) {
+      $('input[type="text"]').each(function() {
+        var id = $(this).attr("id");
+        if (id == posts.queue[i].key) {
+          var value = posts.queue[i].name;
+          $(this).val(value);
+        }
+      });
+    }
+  });
 });
 /////////////////////////////////////////////////////
-document.getElementById("button_brown").addEventListener("click", function(){
-    td_array = document.getElementsByTagName("td");
-//    check_value = "提款機";
-    $('input[type="text"]').each(function(){    
-        var id = $(this).attr('id');
-        var check_value = $(this).val();
-      var ttcolor="brown";
+document.getElementById("button_brown").addEventListener("click", function() {
+  td_array = document.getElementsByTagName("td");
+  //    check_value = "提款機";
+  $('input[type="text"]').each(function() {
+    var id = $(this).attr("id");
+    var check_value = $(this).val();
+    var ttcolor = "brown";
 
-    for (i = 0; i < td_array.length; i++){
-
-//      if (td_array[i].textContent == check_value){
-      if (td_array[i].innerHTML.indexOf(check_value)>=0 && check_value!="" ){
-
-	td_array[i].innerHTML="<strong style=\'color: red\'>^^</strong>" + td_array[i].innerHTML;
+    for (i = 0; i < td_array.length; i++) {
+      //      if (td_array[i].textContent == check_value){
+      if (
+        td_array[i].innerHTML.indexOf(check_value) >= 0 &&
+        check_value != ""
+      ) {
+        td_array[i].innerHTML =
+          "<strong style='color: red'>^^</strong>" + td_array[i].innerHTML;
         //        td_array[i].style.color = "red";
-      };
-
-    };
-       });   
+      }
+    }
   });
-	
-$('#savebase_odds').click(function(){  
-
-            var updatedObj = {
-              queue: 
-              [
-                {key: "1088", key2: "1088",name:"Banana"},
-                {key: "1099", key2: "1088",name:"Orange"}
-              ]
-            };
-            var updatedData = JSON.stringify(updatedObj);
-
-            // do update
-            $.ajax({
-                url: "https://api.myjson.com/bins/671z9",
-                type: "PUT",
-                data: updatedData,
-                contentType: "application/json; charset=utf-8",
-                dataType: "json",
-                success: function (data, textStatus, jqXHR) {
-                    var json = JSON.stringify(data);
-                }
-            });
 });
 
+$("#savebase_odds").click(function() {
+  var updatedObj = {
+    queue: [
+      { key: "1088", key2: "1088", name: "Banana" },
+      { key: "1099", key2: "1088", name: "Orange" }
+    ]
+  };
+  var updatedData = JSON.stringify(updatedObj);
 
-$('#uptocloud_odds').click(function(){ 
-
-            $.getJSON("https://api.myjson.com/bins/671z9", function(posts) { 	
-              
-              // posts => LS
-              localStorage.setItem("lsposts",JSON.stringify(posts));
-              
-              // LS => jsonArray
-              jsonArray2 = JSON.parse(localStorage.getItem("lsposts"));
-              
-              
-              // jsonArray2 += newjson
-          $('input[type="text"]').each(function(){ 
-            
-              jsonArray2.queue.push({
-                key: $(this).attr('id'),
-                name: $(this).val(),
-                key2: "//"
-              }); 
-          });             
-              // do update
-              $.ajax({
-                url: "https://api.myjson.com/bins/671z9",
-                type: "PUT",
-                data: JSON.stringify(jsonArray2),
-                contentType: "application/json; charset=utf-8",
-                dataType: "json",
-                success: function (data, textStatus, jqXHR) {
-                    var json = JSON.stringify(data);
-                }
-              });
-
- 	});
+  // do update
+  $.ajax({
+    url: "https://api.myjson.com/bins/671z9",
+    type: "PUT",
+    data: updatedData,
+    contentType: "application/json; charset=utf-8",
+    dataType: "json",
+    success: function(data, textStatus, jqXHR) {
+      var json = JSON.stringify(data);
+    }
+  });
 });
 
+$("#uptocloud_odds").click(function() {
+  $.getJSON("https://api.myjson.com/bins/671z9", function(posts) {
+    // posts => LS
+    localStorage.setItem("lsposts", JSON.stringify(posts));
 
-$('#backfromcloud_odds').click(function(){  
+    // LS => jsonArray
+    jsonArray2 = JSON.parse(localStorage.getItem("lsposts"));
 
-            $.getJSON("https://api.myjson.com/bins/671z9", function(posts) { 															
-                   for (var i = 2; i < posts.queue.length; i++) {
-                     
-                         $('input[type="text"]').each(function(){    
-                           var id = $(this).attr('id')
-                           if ( id == posts.queue[i].key ) {
-                             var value = posts.queue[i].name;
-                             $(this).val(value);                             
-                           }
-                        });
-                     
-                     }
- 	});
+    // jsonArray2 += newjson
+    $('input[type="text"]').each(function() {
+      jsonArray2.queue.push({
+        key: $(this).attr("id"),
+        name: $(this).val(),
+        key2: "//"
+      });
+    });
+    // do update
+    $.ajax({
+      url: "https://api.myjson.com/bins/671z9",
+      type: "PUT",
+      data: JSON.stringify(jsonArray2),
+      contentType: "application/json; charset=utf-8",
+      dataType: "json",
+      success: function(data, textStatus, jqXHR) {
+        var json = JSON.stringify(data);
+      }
+    });
+  });
 });
-	
+
+$("#backfromcloud_odds").click(function() {
+  $.getJSON("https://api.myjson.com/bins/671z9", function(posts) {
+    for (var i = 2; i < posts.queue.length; i++) {
+      $('input[type="text"]').each(function() {
+        var id = $(this).attr("id");
+        if (id == posts.queue[i].key) {
+          var value = posts.queue[i].name;
+          $(this).val(value);
+        }
+      });
+    }
+  });
+});
+
 /////////////////////////////////////////////////////
 document.getElementById("button_odds").addEventListener("click", function() {
   td_array = document.getElementsByTagName("td");
@@ -874,19 +860,29 @@ document.getElementById("button_odds").addEventListener("click", function() {
         console.log("td_cnt=", j);
         if (td_array[j].innerHTML.indexOf(posts.queue[i].key) >= 0 && hit < 2) {
           hit = hit + 1;
-          td_array[j].innerHTML = td_array[j].innerHTML.replace(
-            /\<strong\>/gi,
-            posts.queue[i].key2 + "<br><strong>"
-          );
-          console.log("innerhtml=", td_array[j].innerHTML);
-          console.log("hit_cnt=", hit);
-          if ((hit == 2)) {
-            break;
+          var regegg = new RegExp(posts.queue[i].key + ".*?strong>", "i");
+          if (regegg.test(td_array[j].innerHTML)) {
+            var res = td_array[j].innerHTML.match(regegg);
+            var newres = res[0].replace(
+              /\<strong\>/i,
+              posts.queue[i].key2 + "<br><strong>"
+            );
+
+            td_array[j].innerHTML = td_array[j].innerHTML.replace(
+              regegg,
+              newres
+            );
+            console.log("innerhtml=", td_array[j].innerHTML);
+            console.log("hit_cnt=", hit);
+            if (hit == 2) {
+              break;
+            }
           }
         }
       }
     }
   });
 });
+
 </script>  
   
