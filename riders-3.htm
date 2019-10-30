@@ -1,437 +1,451 @@
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
 <center style="line-height:1.5em;font-size:1.3em">名次顯示為 　 第１=<font color="red">紅</font> , 第２=<font color="blue">藍</font> , 第３=<font color="green">綠</font> , 第４=<font color="#f55fec">粉紅</font></center>
-
 <table align="center" style="margin-bottom:10px" border="1" bordercolor="BLACK">
-<tr bgcolor="#A7E91A">  
-<td>人名\場次</td>
-<td>第一場</td>
-<td>第二場</td>
-<td>第三場</td>
-<td>第四場</td>
-<td>第五場</td>
-<td>第六場</td>
-<td>第七場</td>
-<td>第八場</td>
-<td>第九場</td>
-</tr><tr><td>史卓豐</td>
-<td><b style="color:orange">勁快步</b><br>8<br><strong>(高伯新)</strong></td>
-<td></td>
-<td><b style="color:orange">探險家</b><br>9.9<br><strong>(徐雨石)</strong></td>
-<td></td>
-<td>猴王駒<br><strong>(約翰摩亞)</strong></td>
-<td>威風駿馬<br>6.3<br><strong>(蘇保羅)</strong></td>
-<td>添好運<br>8.5<br><strong>(蘇偉賢)</strong></td>
-<td><b style="color:orange">家家勝意</b><br>40<br><strong>(鄭俊偉)</strong></td> 
-<td><b style="color:orange">夢幻人生</b><br>6<br><strong>(文家良)</strong></td>
-</tr><tr><td>薛恩</td>
-<td><b style="color:orange">越跑越好</b><br><strong>(蘇保羅)</strong></td>
-<td>跑得威<br>16<br><strong>(沈集成)</strong></td>
-<td></td>
-<td></td>
-<td><b style="color:orange">精算八方</b><br>14<br><strong>(蔡約翰)</strong></td>
-<td></td>
-<td><b style="color:orange">銀紙</b><br>5.6<br><strong>(苗禮德)</strong></td>
-<td>和平路<br>14<br><strong>(容天鵬)</strong></td> 
-<td>帆哥兒<br>9.1<br><strong>(方嘉柏)</strong></td>
-</tr><tr><td>沈拿</td>
-<td><b style="color:orange">餘皇</b><br>4.2<br><strong>(韋達)</strong></td>
-<td></td>
-<td><b style="color:orange">金獅雷將</b><br>5.2<br><strong>(韋達)</strong></td>
-<td></td>
-<td></td>
-<td></td>
-<td>飛天劍<br>26<br><strong>(徐雨石)</strong></td>
-<td><b style="color:orange">兵貴神速</b><br>12<br><strong>(羅富全)</strong></td> 
-<td>利害了<br>8.6<br><strong>(韋達)</strong></td>
-</tr><tr><td>潘頓</td>
-<td>幸運飛駒<br>11<br><strong>(文家良)</strong></td>
-<td><b style="color:orange">安賦</b><br>5.8<br><strong>(方嘉柏)</strong></td>
-<td><b style="color:orange">帝豪寶駒</b><br>6.4<br><strong>(蘇偉賢)</strong></td>
-<td>逍遙自在<br>7.3<br><strong>(羅富全)</strong></td>
-<td><b style="color:orange">盈華盛甲</b><br>15<br><strong>(賀賢)</strong></td>
-<td>理想回報<br>4.1<br><strong>(沈集成)</strong></td>
-<td>朝五晚九<br>11<br><strong>(羅富全)</strong></td>
-<td><b style="color:orange">健康美麗</b><br>7.7<br><strong>(約翰摩亞)</strong></td> 
-<td>大自然<br>16<br><strong>(高伯新)</strong></td>
-</tr><tr><td>莫雷拉</td>
-<td><b style="color:orange">洪荒駿駒</b><br>3.5<br><strong>(徐雨石)</strong></td>
-<td>高瞻遠矚<br>3.2<br><strong>(約翰摩亞)</strong></td>
-<td><b style="color:orange">神乎其技</b><br>7.5<br><strong>(苗禮德)</strong></td>
-<td>烽煙四喜<br>2.3<br><strong>(苗禮德)</strong></td>
-<td>心所欲<br>4.1<br><strong>(苗禮德)</strong></td>
-<td>福喜多多<br>3.9<br><strong>(呂健威)</strong></td>
-<td>寶山鷹<br>3.4<br><strong>(丁冠豪)</strong></td>
-<td>滿冠熊<br>3<br><strong>(霍利時)</strong></td> 
-<td><b style="color:orange">酷比哥</b><br>6.6<br><strong>(羅富全)</strong></td>
-</tr><tr><td>郭能</td>
-<td><b style="color:orange">為您贏</b><br>15<br><strong>(鄭俊偉)</strong></td>
-<td>好腳頭<br>12<br><strong>(羅富全)</strong></td>
-<td><b style="color:orange">協力神駒</b><br>18<br><strong>(高伯新)</strong></td>
-<td></td>
-<td><b style="color:orange">金湶德</b><br>14<br><strong>(霍利時)</strong></td>
-<td><b style="color:orange">上捕先鋒</b><br>19<br><strong>(霍利時)</strong></td>
-<td></td>
-<td></td> 
-<td></td>
-</tr><tr><td>梁家俊</td>
-<td><b style="color:orange">眾善積福</b><br>29<br><strong>(蘇偉賢)</strong></td>
-<td>喜盈運<br>18<br><strong>(何良)</strong></td>
-<td>向前看<br>17<br><strong>(鄭俊偉)</strong></td>
-<td>都靈紅星<br>12<br><strong>(羅富全)</strong></td>
-<td>為食格格<br>19<br><strong>(蘇偉賢)</strong></td>
-<td><b style="color:orange">娛樂大少</b><br>17<br><strong>(何良)</strong></td>
-<td>公証揚鳴<br>12<br><strong>(鄭俊偉)</strong></td>
-<td>威利熱流<br>18<br><strong>(蘇保羅)</strong></td> 
-<td><b style="color:orange">嘉應精英</b><br>9<br><strong>(容天鵬)</strong></td>
-</tr><tr><td>利敬國</td>
-<td><b style="color:orange">蜜運</b><br>9.7<br><strong>(葉楚航)</strong></td>
-<td>劍聶風<br>18<br><strong>(鄭俊偉)</strong></td>
-<td>得意<br>23<br><strong>(葉楚航)</strong></td>
-<td><b style="color:orange">二郎</b><br>4.3<br><strong>(約翰摩亞)</strong></td>
-<td>超然<br>6.6<br><strong>(鄭俊偉)</strong></td>
-<td>遨遊神駒<br>7.6<br><strong>(羅富全)</strong></td>
-<td><b style="color:orange">最驫</b><br>9.2<br><strong>(沈集成)</strong></td>
-<td><b style="color:orange">八太子</b><br>10<br><strong>(沈集成)</strong></td> 
-<td><b style="color:orange">鞍歌</b><br>8.9<br><strong>(姚本輝)</strong></td>
-</tr><tr><td>黃皓楠</td>
-<td>神火金剛<br>33<br><strong>(葉楚航)</strong></td>
-<td>埼豐<br>36<br><strong>(徐雨石)</strong></td>
-<td>黃埔之星<br>14<br><strong>(徐雨石)</strong></td>
-<td></td>
-<td></td>
-<td></td>
-<td></td>
-<td>活力名駒<br>18<br><strong>(呂健威)</strong></td> 
-<td>上浦福滿<br>36<br><strong>(霍利時)</strong></td>
-</tr><tr><td>巫顯東</td>
-<td>樂多福<br>10<br><strong>(何良)</strong></td>
-<td></td>
-<td></td>
-<td><b style="color:orange">綫路光輝</b><br>13<br><strong>(告東尼)</strong></td>
-<td><b style="color:orange">怪獸都市</b><br>8.2<br><strong>(何良)</strong></td>
-<td></td>
-<td></td>
-<td></td> 
-<td></td>
-</tr><tr><td>潘明輝</td>
-<td><b style="color:orange">樂無極</b><br>11<br><strong>(文家良)</strong></td>
-<td>出奇寶<br>25<br><strong>(苗禮德)</strong></td>
-<td>勝利新星<br>42<br><strong>(方嘉柏)</strong></td>
-<td></td>
-<td><b style="color:orange">精英寶貝</b><br>6.8<br><strong>(丁冠豪)</strong></td>
-<td><b style="color:orange">天地僑福</b><br>16<br><strong>(葉楚航)</strong></td>
-<td>分到笑<br>27<br><strong>(賀賢)</strong></td>
-<td>英明神駒<br>17<br><strong>(苗禮德)</strong></td> 
-<td></td>
-</tr><tr><td>黎海榮</td>
-<td>不忘初心<br>14<br><strong>(徐雨石)</strong></td>
-<td></td>
-<td></td>
-<td></td>
-<td></td>
-<td></td>
-<td></td>
-<td>童話<br>8.3<br><strong>(徐雨石)</strong></td> 
-<td></td>
-</tr><tr><td>蔡明紹</td>
-<td></td>
-<td><b style="color:orange">新界之星</b><br>23<br><strong>(姚本輝)</strong></td>
-<td><b style="color:orange">執到笑</b><br>5.8<br><strong>(蘇保羅)</strong></td>
-<td>紅衣優駿<br>20<br><strong>(羅富全)</strong></td>
-<td>漸信龍駒<br>17<br><strong>(葉楚航)</strong></td>
-<td>龍城猛將<br>15<br><strong>(苗禮德)</strong></td>
-<td>軍力勁<br>9.8<br><strong>(約翰摩亞)</strong></td>
-<td><b style="color:orange">龍之星</b><br>10<br><strong>(呂健威)</strong></td> 
-<td>錶之銳<br>6.5<br><strong>(呂健威)</strong></td>
-</tr><tr><td>楊明綸</td>
-<td></td>
-<td><b style="color:orange">南莊瑞寶</b><br>2.7<br><strong>(呂健威)</strong></td>
-<td>易勝相吸<br>36<br><strong>(鄭俊偉)</strong></td>
-<td>威進駒<br>18<br><strong>(呂健威)</strong></td>
-<td></td>
-<td><b style="color:orange">笑春風</b><br>11<br><strong>(丁冠豪)</strong></td>
-<td><b style="color:orange">翹軍</b><br>27<br><strong>(容天鵬)</strong></td>
-<td><b style="color:orange">榮惑</b><br>30<br><strong>(告東尼)</strong></td> 
-<td></td>
-</tr><tr><td>李寶利</td>
-<td></td>
-<td></td>
-<td>福嘉旺旺<br>21<br><strong>(方嘉柏)</strong></td>
-<td><b style="color:orange">精算閃擊</b><br>10<br><strong>(蔡約翰)</strong></td>
-<td>豹子膽<br>14<br><strong>(徐雨石)</strong></td>
-<td></td>
-<td></td>
-<td><b style="color:orange">精彩飛動</b><br>27<br><strong>(方嘉柏)</strong></td> 
-<td>嶺寶峯<br>14<br><strong>(徐雨石)</strong></td>
-</tr><tr><td>希威森</td>
-<td></td>
-<td></td>
-<td>萬霸駒<br>8.9<br><strong>(蘇保羅)</strong></td>
-<td></td>
-<td></td>
-<td>飛騰之星<br>36<br><strong>(高伯新)</strong></td>
-<td></td>
-<td></td> 
-<td></td>
-</tr><tr><td>貝力斯</td>
-<td></td>
-<td></td>
-<td>小奇妙<br>37<br><strong>(文家良)</strong></td>
-<td>傑彩繽紛<br>20<br><strong>(蔡約翰)</strong></td>
-<td></td>
-<td><b style="color:orange">功夫茶</b><br>17<br><strong>(賀賢)</strong></td>
-<td>發財先生<br>9.7<br><strong>(文家良)</strong></td>
-<td></td> 
-<td>公証福將<br>13<br><strong>(鄭俊偉)</strong></td>
-</tr><tr><td>蘇狄雄</td>
-<td></td>
-<td></td>
-<td></td>
-<td></td>
-<td>金地飛客<br>9.2<br><strong>(蘇保羅)</strong></td>
-<td>驃騎飛<br>48<br><strong>(蘇偉賢)</strong></td>
-<td>盛大光輝<br>27<br><strong>(何良)</strong></td>
-<td>中華之光<br>26<br><strong>(葉楚航)</strong></td> 
-<td>博愛友威<br>16<br><strong>(葉楚航)</strong></td>
+<tr bgcolor="#A7E91A"> 
+<td width="80" align="center">人名\場次</td>
+<td class="m7">第一場</td>
+<td class="m7">第二場</td>
+<td class="m7">第三場</td>
+<td class="m7">第四場</td>
+<td class="m7">第五場</td>
+<td class="m7">第六場</td>
+<td class="m7">第七場</td>
+<td class="m7">第八場</td>
+</tr><tr bgcolor="#E2F2F7">
+<td width="80" align="center">潘頓</td>
+<td class="m7">醉開心<br>6.5<br><strong>(葉楚航)</td>
+<td class="m7"><b style="color:orange">駿爵士</b><br>10.0<br><strong>(方嘉柏)</td>
+<td class="m7">一見傾心<br>9.4<br><strong>(蘇保羅)</td>
+<td class="m7">好計<br>5.8<br><strong>(方嘉柏)</td>
+<td class="m7"><b style="color:orange">晨曦飛馬</b><br>11.0<br><strong>(方嘉柏)</td>
+<td class="m7"></td>
+<td class="m7"><b style="color:orange">聰明導彈</b><br>8.6<br><strong>(蘇偉賢)</td>
+<td class="m7"><b style="color:orange">任我行</b><br><font color="RED">2.4</font><br><strong>(約翰摩亞)</td> 
+</tr><tr bgcolor="">
+<td width="80" align="center">莫雷拉</td>
+<td class="m7">港林福星<br>6.3<br><strong>(沈集成)</td>
+<td class="m7"><b style="color:orange">跳出世界</b><br><font color="RED">3.7</font><br><strong>(蔡約翰)</td>
+<td class="m7">火百合<br>6.4<br><strong>(羅富全)</td>
+<td class="m7">陽明亮亮<br><font color="RED">3.0</font><br><strong>(呂健威)</td>
+<td class="m7"><b style="color:orange">王者奇兵</b><br><font color="RED">2.7</font><br><strong>(姚本輝)</td>
+<td class="m7"><b style="color:orange">美麗甜心</b><br><font color="RED">4.7</font><br><strong>(約翰摩亞)</td>
+<td class="m7"></td>
+<td class="m7"><b style="color:orange">神亮金剛</b><br>10.0<br><strong>(葉楚航)</td> 
+</tr><tr bgcolor="#E2F2F7">
+<td width="80" align="center">希威森</td>
+<td class="m7">賞心星<br>5.9<br><strong>(方嘉柏)</td>
+<td class="m7"></td>
+<td class="m7">精彩千里<br>10.0<br><strong>(約翰摩亞)</td>
+<td class="m7"><b style="color:orange">快閃的</b><br>10.0<br><strong>(霍利時)</td>
+<td class="m7"></td>
+<td class="m7"></td>
+<td class="m7"><b style="color:orange">綫路勇駒</b><br>6.3<br><strong>(告東尼)</td>
+<td class="m7"></td> 
+</tr><tr bgcolor="">
+<td width="80" align="center">史卓豐</td>
+<td class="m7"><b style="color:orange">龍騰馬躍</b><br>6.9<br><strong>(丁冠豪)</td>
+<td class="m7"></td>
+<td class="m7">帶榮來<br>26.0<br><strong>(高伯新)</td>
+<td class="m7">一舖成名<br>8.2<br><strong>(羅富全)</td>
+<td class="m7"><b style="color:orange">太陽戰馬</b><br>7.9<br><strong>(徐雨石)</td>
+<td class="m7">維港奔流<br>16.0<br><strong>(韋達)</td>
+<td class="m7"><b style="color:orange">旅遊首席</b><br>31.0<br><strong>(鄭俊偉)</td>
+<td class="m7"></td> 
+</tr><tr bgcolor="#E2F2F7">
+<td width="80" align="center">沈拿</td>
+<td class="m7">金童<br>6.8<br><strong>(呂健威)</td>
+<td class="m7"><b style="color:orange">月追越風</b><br>12.0<br><strong>(蘇偉賢)</td>
+<td class="m7">偉大勝利<br><font color="RED">4.5</font><br><strong>(韋達)</td>
+<td class="m7">其樂無窮<br>31.0<br><strong>(鄭俊偉)</td>
+<td class="m7"><b style="color:orange">特醒</b><br>7.6<br><strong>(韋達)</td>
+<td class="m7">神舟寶駒<br>19.0<br><strong>(徐雨石)</td>
+<td class="m7"><b style="color:orange">興爾</b><br>24.0<br><strong>(韋達)</td>
+<td class="m7">川河寶駒<br>15.0<br><strong>(苗禮德)</td> 
+</tr><tr bgcolor="">
+<td width="80" align="center">何澤堯</td>
+<td class="m7">綠駿精英<br>24.0<br><strong>(葉楚航)</td>
+<td class="m7">好甜橙<br>16.0<br><strong>(徐雨石)</td>
+<td class="m7"></td>
+<td class="m7"></td>
+<td class="m7"><b style="color:orange">傳奇</b><br>5.8<br><strong>(呂健威)</td>
+<td class="m7">京京千里<br>9.2<br><strong>(賀賢)</td>
+<td class="m7"><b style="color:orange">陽明高高</b><br><font color="RED">4.1</font><br><strong>(呂健威)</td>
+<td class="m7"></td> 
+</tr><tr bgcolor="#E2F2F7">
+<td width="80" align="center">郭能</td>
+<td class="m7">靚籐王<br>10.0<br><strong>(高伯新)</td>
+<td class="m7"><b style="color:orange">旅遊拿督</b><br>5.7<br><strong>(高伯新)</td>
+<td class="m7"></td>
+<td class="m7">舉世無雙<br>16.0<br><strong>(高伯新)</td>
+<td class="m7"><b style="color:orange">大聚會</b><br>13.0<br><strong>(高伯新)</td>
+<td class="m7">馬友冠<br>16.0<br><strong>(霍利時)</td>
+<td class="m7"></td>
+<td class="m7">馬主星輝<br>19.0<br><strong>(沈集成)</td> 
+</tr><tr bgcolor="">
+<td width="80" align="center">楊明綸</td>
+<td class="m7">醒目快駒<br>8.8<br><strong>(鄭俊偉)</td>
+<td class="m7"></td>
+<td class="m7"></td>
+<td class="m7"></td>
+<td class="m7"><b style="color:orange">無價寶</b><br>18.0<br><strong>(何良)</td>
+<td class="m7">金剛之星<br>20.0<br><strong>(鄭俊偉)</td>
+<td class="m7"><b style="color:orange">酷比仔</b><br>8.4<br><strong>(容天鵬)</td>
+<td class="m7"></td> 
+</tr><tr bgcolor="#E2F2F7">
+<td width="80" align="center">利敬國</td>
+<td class="m7">競駿飛鷹<br><font color="RED">5.3</font><br><strong>(霍利時)</td>
+<td class="m7">八進<br>8.6<br><strong>(賀賢)</td>
+<td class="m7"><b style="color:orange">金剛仔</b><br>12.0<br><strong>(鄭俊偉)</td>
+<td class="m7"><b style="color:orange">永益善</b><br>10.0<br><strong>(沈集成)</td>
+<td class="m7"></td>
+<td class="m7"></td>
+<td class="m7"><b style="color:orange">路路通</b><br>6.7<br><strong>(羅富全)</td>
+<td class="m7">文武傳奇<br>7.4<br><strong>(沈集成)</td> 
+</tr><tr bgcolor="">
+<td width="80" align="center">梁家俊</td>
+<td class="m7"></td>
+<td class="m7"><b style="color:orange">威先生</b><br>11.0<br><strong>(何良)</td>
+<td class="m7"></td>
+<td class="m7">放眼量<br>11.0<br><strong>(何良)</td>
+<td class="m7"></td>
+<td class="m7"></td>
+<td class="m7"><b style="color:orange">紅麗舍</b><br>17.0<br><strong>(文家良)</td>
+<td class="m7">事勝意<br>18.0<br><strong>(苗禮德)</td> 
+</tr><tr bgcolor="#E2F2F7">
+<td width="80" align="center">陳嘉熙</td>
+<td class="m7"></td>
+<td class="m7"><b style="color:orange">龍城勝將</b><br>7.7<br><strong>(苗禮德)</td>
+<td class="m7">步履娛飛<br>5.2<br><strong>(告東尼)</td>
+<td class="m7">悅目星光<br>16.0<br><strong>(徐雨石)</td>
+<td class="m7"></td>
+<td class="m7"><b style="color:orange">紅旗星將</b><br>6.4<br><strong>(蘇保羅)</td>
+<td class="m7"><b style="color:orange">有備而來</b><br>13.0<br><strong>(苗禮德)</td>
+<td class="m7">扎西德勒<br>10.0<br><strong>(約翰摩亞)</td> 
+</tr><tr bgcolor="">
+<td width="80" align="center">黃皓楠</td>
+<td class="m7"></td>
+<td class="m7">君悅灣<br>29.0<br><strong>(鄭俊偉)</td>
+<td class="m7">志聰明<br>58.0<br><strong>(何良)</td>
+<td class="m7">競駿驕陽<br>50.0<br><strong>(葉楚航)</td>
+<td class="m7">星河戰駒<br>46.0<br><strong>(丁冠豪)</td>
+<td class="m7"></td>
+<td class="m7"></td>
+<td class="m7"></td> 
+</tr><tr bgcolor="#E2F2F7">
+<td width="80" align="center">蔡明紹</td>
+<td class="m7"></td>
+<td class="m7"><b style="color:orange">樂飛勝</b><br>25.0<br><strong>(姚本輝)</td>
+<td class="m7">開心大師<br>13.0<br><strong>(方嘉柏)</td>
+<td class="m7">活力寶駒<br>10.0<br><strong>(賀賢)</td>
+<td class="m7"></td>
+<td class="m7"></td>
+<td class="m7"></td>
+<td class="m7"></td> 
+</tr><tr bgcolor="">
+<td width="80" align="center">巫顯東</td>
+<td class="m7"></td>
+<td class="m7">百里名駒<br>11.0<br><strong>(沈集成)</td>
+<td class="m7"></td>
+<td class="m7"></td>
+<td class="m7"></td>
+<td class="m7"></td>
+<td class="m7"></td>
+<td class="m7"><b style="color:orange">非常堅</b><br>15.0<br><strong>(告東尼)</td> 
+</tr><tr bgcolor="#E2F2F7">
+<td width="80" align="center">潘明輝</td>
+<td class="m7"></td>
+<td class="m7">勇冠多<br>26.0<br><strong>(丁冠豪)</td>
+<td class="m7"></td>
+<td class="m7">勇勝神駒<br>22.0<br><strong>(苗禮德)</td>
+<td class="m7"></td>
+<td class="m7"><b style="color:orange">自在人生</b><br>16.0<br><strong>(羅富全)</td>
+<td class="m7"><b style="color:orange">勤德兼備</b><br>12.0<br><strong>(賀賢)</td>
+<td class="m7"><b style="color:orange">幸運時代</b><br>22.0<br><strong>(賀賢)</td> 
+</tr><tr bgcolor="">
+<td width="80" align="center">黎海榮</td>
+<td class="m7"></td>
+<td class="m7"></td>
+<td class="m7"><b style="color:orange">歡樂小子</b><br>23.0<br><strong>(文家良)</td>
+<td class="m7"></td>
+<td class="m7">好友無敵<br>20.0<br><strong>(文家良)</td>
+<td class="m7">夢幻仙子<br>24.0<br><strong>(蘇偉賢)</td>
+<td class="m7"><b style="color:orange">靚紫荊</b><br>29.0<br><strong>(徐雨石)</td>
+<td class="m7">共創歡樂<br>17.0<br><strong>(何良)</td> 
+</tr><tr bgcolor="#E2F2F7">
+<td width="80" align="center">李寶利</td>
+<td class="m7"></td>
+<td class="m7"></td>
+<td class="m7"><b style="color:orange">情趣</b><br>6.1<br><strong>(霍利時)</td>
+<td class="m7"></td>
+<td class="m7"></td>
+<td class="m7"><b style="color:orange">明駿之星</b><br>4.8<br><strong>(蔡約翰)</td>
+<td class="m7">又係熊<br>8.6<br><strong>(霍利時)</td>
+<td class="m7">鑲白旗<br>12.0<br><strong>(霍利時)</td> 
+</tr><tr bgcolor="">
+<td width="80" align="center">蘇狄雄</td>
+<td class="m7"></td>
+<td class="m7"></td>
+<td class="m7">環保時代<br>43.0<br><strong>(賀賢)</td>
+<td class="m7"></td>
+<td class="m7"><b style="color:orange">寶得住</b><br>22.0<br><strong>(葉楚航)</td>
+<td class="m7"><b style="color:orange">大師級</b><br>10.0<br><strong>(丁冠豪)</td>
+<td class="m7"></td>
+<td class="m7"><b style="color:orange">金如意</b><br>14.0<br><strong>(蘇保羅)</td> 
+</tr><tr bgcolor="#E2F2F7">
+<td width="80" align="center">貝力斯</td>
+<td class="m7"></td>
+<td class="m7"></td>
+<td class="m7"></td>
+<td class="m7"></td>
+<td class="m7">齊齊發<br>27.0<br><strong>(鄭俊偉)</td>
+<td class="m7">紅星<br>9.8<br><strong>(葉楚航)</td>
+<td class="m7"></td>
+<td class="m7"></td> 
+</tr><tr bgcolor="">
+<td width="80" align="center">薛恩</td>
+<td class="m7"></td>
+<td class="m7"></td>
+<td class="m7"></td>
+<td class="m7"></td>
+<td class="m7">慣勝尊重<br>22.0<br><strong>(蔡約翰)</td>
+<td class="m7"></td>
+<td class="m7"></td>
+<td class="m7"></td> 
 </tr></table>
-
-<br><br> 
 
 <table align="center" style="margin-bottom:10px" border="1" bordercolor="BLACK">
 
 <tr bgcolor="#A7E91A"> 
-<td>人名\場次</td>
-<td>第一場</td>
-<td>第二場</td>
-<td>第三場</td>
-<td>第四場</td>
-<td>第五場</td>
-<td>第六場</td>
-<td>第七場</td>
-<td>第八場</td>
-<td>第九場</td>
-</tr><tr><td>高伯新</td>
-<td><b style="color:orange">勁快步</b><br>8<br><strong>(史卓豐)</strong></td>
-<td></td>
-<td><b style="color:orange">協力神駒</b><br>18<br><strong>(郭能)</strong></td>
-<td></td>
-<td></td>
-<td>飛騰之星<br>36<br><strong>(希威森)</strong></td>
-<td></td>
-<td></td>
-<td>大自然<br>16<br><strong>(潘頓)</strong></td>
-</tr><tr><td>蘇保羅</td>
-<td><b style="color:orange">越跑越好</b><br><strong>(薛恩)</strong></td>
-<td></td>
-<td><b style="color:orange">執到笑</b><br>5.8<br><strong>(蔡明紹)<br>萬霸駒<br>8.9<br><strong>(希威森)</strong></strong></td>
-<td></td>
-<td>金地飛客<br>9.2<br><strong>(蘇狄雄)</strong></td>
-<td>威風駿馬<br>6.3<br><strong>(史卓豐)</strong></td>
-<td></td>
-<td>威利熱流<br>18<br><strong>(梁家俊)</strong></td>
-<td></td>
-</tr><tr><td>韋達</td>
-<td><b style="color:orange">餘皇</b><br>4.2<br><strong>(沈拿)</strong></td>
-<td></td>
-<td><b style="color:orange">金獅雷將</b><br>5.2<br><strong>(沈拿)</strong></td>
-<td></td>
-<td></td>
-<td></td>
-<td></td>
-<td></td>
-<td>利害了<br>8.6<br><strong>(沈拿)</strong></td>
-</tr><tr><td>文家良</td>
-<td>幸運飛駒<br>11<br><strong>(潘頓)<br><b style="color:orange">樂無極</b><br>11<br><strong>(潘明輝)</strong></strong></td>
-<td></td>
-<td>小奇妙<br>37<br><strong>(貝力斯)</strong></td>
-<td></td>
-<td></td>
-<td></td>
-<td>發財先生<br>9.7<br><strong>(貝力斯)</strong></td>
-<td></td>
-<td><b style="color:orange">夢幻人生</b><br>6<br><strong>(史卓豐)</strong></td>
-</tr><tr><td>徐雨石</td>
-<td><b style="color:orange">洪荒駿駒</b><br>3.5<br><strong>(莫雷拉)<br>不忘初心<br>14<br><strong>(黎海榮)</strong></strong></td>
-<td>埼豐<br>36<br><strong>(黃皓楠)</strong></td>
-<td><b style="color:orange">探險家</b><br>9.9<br><strong>(史卓豐)<br>黃埔之星<br>14<br><strong>(黃皓楠)</strong></strong></td>
-<td></td>
-<td>豹子膽<br>14<br><strong>(李寶利)</strong></td>
-<td></td>
-<td>飛天劍<br>26<br><strong>(沈拿)</strong></td>
-<td>童話<br>8.3<br><strong>(黎海榮)</strong></td>
-<td>嶺寶峯<br>14<br><strong>(李寶利)</strong></td>
-</tr><tr><td>鄭俊偉</td>
-<td><b style="color:orange">為您贏</b><br>15<br><strong>(郭能)</strong></td>
-<td>劍聶風<br>18<br><strong>(利敬國)</strong></td>
-<td>向前看<br>17<br><strong>(梁家俊)<br>易勝相吸<br>36<br><strong>(楊明綸)</strong></strong></td>
-<td></td>
-<td>超然<br>6.6<br><strong>(利敬國)</strong></td>
-<td></td>
-<td>公証揚鳴<br>12<br><strong>(梁家俊)</strong></td>
-<td><b style="color:orange">家家勝意</b><br>40<br><strong>(史卓豐)</strong></td>
-<td>公証福將<br>13<br><strong>(貝力斯)</strong></td>
-</tr><tr><td>蘇偉賢</td>
-<td><b style="color:orange">眾善積福</b><br>29<br><strong>(梁家俊)</strong></td>
-<td></td>
-<td><b style="color:orange">帝豪寶駒</b><br>6.4<br><strong>(潘頓)</strong></td>
-<td></td>
-<td>為食格格<br>19<br><strong>(梁家俊)</strong></td>
-<td>驃騎飛<br>48<br><strong>(蘇狄雄)</strong></td>
-<td>添好運<br>8.5<br><strong>(史卓豐)</strong></td>
-<td></td>
-<td></td>
-</tr><tr><td>葉楚航</td>
-<td><b style="color:orange">蜜運</b><br>9.7<br><strong>(利敬國)<br>神火金剛<br>33<br><strong>(黃皓楠)</strong></strong></td>
-<td></td>
-<td>得意<br>23<br><strong>(利敬國)</strong></td>
-<td></td>
-<td>漸信龍駒<br>17<br><strong>(蔡明紹)</strong></td>
-<td><b style="color:orange">天地僑福</b><br>16<br><strong>(潘明輝)</strong></td>
-<td></td>
-<td>中華之光<br>26<br><strong>(蘇狄雄)</strong></td>
-<td>博愛友威<br>16<br><strong>(蘇狄雄)</strong></td>
-</tr><tr><td>何良</td>
-<td>樂多福<br>10<br><strong>(巫顯東)</strong></td>
-<td>喜盈運<br>18<br><strong>(梁家俊)</strong></td>
-<td></td>
-<td></td>
-<td><b style="color:orange">怪獸都市</b><br>8.2<br><strong>(巫顯東)</strong></td>
-<td><b style="color:orange">娛樂大少</b><br>17<br><strong>(梁家俊)</strong></td>
-<td>盛大光輝<br>27<br><strong>(蘇狄雄)</strong></td>
-<td></td>
-<td></td>
-</tr><tr><td>方嘉柏</td>
-<td></td>
-<td><b style="color:orange">安賦</b><br>5.8<br><strong>(潘頓)</strong></td>
-<td>福嘉旺旺<br>21<br><strong>(李寶利)<br>勝利新星<br>42<br><strong>(潘明輝)</strong></strong></td>
-<td></td>
-<td></td>
-<td></td>
-<td></td>
-<td><b style="color:orange">精彩飛動</b><br>27<br><strong>(李寶利)</strong></td>
-<td>帆哥兒<br>9.1<br><strong>(薛恩)</strong></td>
-</tr><tr><td>羅富全</td>
-<td></td>
-<td>好腳頭<br>12<br><strong>(郭能)</strong></td>
-<td></td>
-<td>紅衣優駿<br>20<br><strong>(蔡明紹)<br>都靈紅星<br>12<br><strong>(梁家俊)<br>逍遙自在<br>7.3<br><strong>(潘頓)</strong></strong></strong></td>
-<td></td>
-<td>遨遊神駒<br>7.6<br><strong>(利敬國)</strong></td>
-<td>朝五晚九<br>11<br><strong>(潘頓)</strong></td>
-<td><b style="color:orange">兵貴神速</b><br>12<br><strong>(沈拿)</strong></td>
-<td><b style="color:orange">酷比哥</b><br>6.6<br><strong>(莫雷拉)</strong></td>
-</tr><tr><td>沈集成</td>
-<td></td>
-<td>跑得威<br>16<br><strong>(薛恩)</strong></td>
-<td></td>
-<td></td>
-<td></td>
-<td>理想回報<br>4.1<br><strong>(潘頓)</strong></td>
-<td><b style="color:orange">最驫</b><br>9.2<br><strong>(利敬國)</strong></td>
-<td><b style="color:orange">八太子</b><br>10<br><strong>(利敬國)</strong></td>
-<td></td>
-</tr><tr><td>姚本輝</td>
-<td></td>
-<td><b style="color:orange">新界之星</b><br>23<br><strong>(蔡明紹)</strong></td>
-<td></td>
-<td></td>
-<td></td>
-<td></td>
-<td></td>
-<td></td>
-<td><b style="color:orange">鞍歌</b><br>8.9<br><strong>(利敬國)</strong></td>
-</tr><tr><td>呂健威</td>
-<td></td>
-<td><b style="color:orange">南莊瑞寶</b><br>2.7<br><strong>(楊明綸)</strong></td>
-<td></td>
-<td>威進駒<br>18<br><strong>(楊明綸)</strong></td>
-<td></td>
-<td>福喜多多<br>3.9<br><strong>(莫雷拉)</strong></td>
-<td></td>
-<td><b style="color:orange">龍之星</b><br>10<br><strong>(蔡明紹)<br>活力名駒<br>18<br><strong>(黃皓楠)</strong></strong></td>
-<td>錶之銳<br>6.5<br><strong>(蔡明紹)</strong></td>
-</tr><tr><td>約翰摩亞</td>
-<td></td>
-<td>高瞻遠矚<br>3.2<br><strong>(莫雷拉)</strong></td>
-<td></td>
-<td><b style="color:orange">二郎</b><br>4.3<br><strong>(利敬國)</strong></td>
-<td>猴王駒<br><strong>(史卓豐)</strong></td>
-<td></td>
-<td>軍力勁<br>9.8<br><strong>(蔡明紹)</strong></td>
-<td><b style="color:orange">健康美麗</b><br>7.7<br><strong>(潘頓)</strong></td>
-<td></td>
-</tr><tr><td>苗禮德</td>
-<td></td>
-<td>出奇寶<br>25<br><strong>(潘明輝)</strong></td>
-<td><b style="color:orange">神乎其技</b><br>7.5<br><strong>(莫雷拉)</strong></td>
-<td>烽煙四喜<br>2.3<br><strong>(莫雷拉)</strong></td>
-<td>心所欲<br>4.1<br><strong>(莫雷拉)</strong></td>
-<td>龍城猛將<br>15<br><strong>(蔡明紹)</strong></td>
-<td><b style="color:orange">銀紙</b><br>5.6<br><strong>(薛恩)</strong></td>
-<td>英明神駒<br>17<br><strong>(潘明輝)</strong></td>
-<td></td>
-</tr><tr><td>蔡約翰</td>
-<td></td>
-<td></td>
-<td></td>
-<td><b style="color:orange">精算閃擊</b><br>10<br><strong>(李寶利)<br>傑彩繽紛<br>20<br><strong>(貝力斯)</strong></strong></td>
-<td><b style="color:orange">精算八方</b><br>14<br><strong>(薛恩)</strong></td>
-<td></td>
-<td></td>
-<td></td>
-<td></td>
-</tr><tr><td>告東尼</td>
-<td></td>
-<td></td>
-<td></td>
-<td><b style="color:orange">綫路光輝</b><br>13<br><strong>(巫顯東)</strong></td>
-<td></td>
-<td></td>
-<td></td>
-<td><b style="color:orange">榮惑</b><br>30<br><strong>(楊明綸)</strong></td>
-<td></td>
-</tr><tr><td>丁冠豪</td>
-<td></td>
-<td></td>
-<td></td>
-<td></td>
-<td><b style="color:orange">精英寶貝</b><br>6.8<br><strong>(潘明輝)</strong></td>
-<td><b style="color:orange">笑春風</b><br>11<br><strong>(楊明綸)</strong></td>
-<td>寶山鷹<br>3.4<br><strong>(莫雷拉)</strong></td>
-<td></td>
-<td></td>
-</tr><tr><td>賀賢</td>
-<td></td>
-<td></td>
-<td></td>
-<td></td>
-<td><b style="color:orange">盈華盛甲</b><br>15<br><strong>(潘頓)</strong></td>
-<td><b style="color:orange">功夫茶</b><br>17<br><strong>(貝力斯)</strong></td>
-<td>分到笑<br>27<br><strong>(潘明輝)</strong></td>
-<td></td>
-<td></td>
-</tr><tr><td>霍利時</td>
-<td></td>
-<td></td>
-<td></td>
-<td></td>
-<td><b style="color:orange">金湶德</b><br>14<br><strong>(郭能)</strong></td>
-<td><b style="color:orange">上捕先鋒</b><br>19<br><strong>(郭能)</strong></td>
-<td></td>
-<td>滿冠熊<br>3<br><strong>(莫雷拉)</strong></td>
-<td>上浦福滿<br>36<br><strong>(黃皓楠)</strong></td>
-</tr><tr><td>容天鵬</td>
-<td></td>
-<td></td>
-<td></td>
-<td></td>
-<td></td>
-<td></td>
-<td><b style="color:orange">翹軍</b><br>27<br><strong>(楊明綸)</strong></td>
-<td>和平路<br>14<br><strong>(薛恩)</strong></td>
-<td><b style="color:orange">嘉應精英</b><br>9<br><strong>(梁家俊)</strong></td>
+<td width="80" align="center">人名\場次</td>
+<td class="m7">第一場</td>
+<td class="m7">第二場</td>
+<td class="m7">第三場</td>
+<td class="m7">第四場</td>
+<td class="m7">第五場</td>
+<td class="m7">第六場</td>
+<td class="m7">第七場</td>
+<td class="m7">第八場</td>
+</tr><tr bgcolor="#f7e2e8">
+<td width="80" align="center" valign="top">葉楚航</td>
+<td class="t7">醉開心<br>6.5<br><strong>(潘頓)<br>綠駿精英<br>24.0<br><strong>(何澤堯)</td>
+<td class="t7"></td>
+<td class="t7"></td>
+<td class="t7">競駿驕陽<br>50.0<br><strong>(黃皓楠)</td>
+<td class="t7"><b style="color:orange">寶得住</b><br>22.0<br><strong>(蘇狄雄)</td>
+<td class="t7">紅星<br>9.8<br><strong>(貝力斯)</td>
+<td class="t7"></td>
+<td class="t7"><b style="color:orange">神亮金剛</b><br>10.0<br><strong>(莫雷拉)</td>
+</tr><tr bgcolor="">
+<td width="80" align="center" valign="top">沈集成</td>
+<td class="t7">港林福星<br>6.3<br><strong>(莫雷拉)</td>
+<td class="t7">百里名駒<br>11.0<br><strong>(巫顯東)</td>
+<td class="t7"></td>
+<td class="t7"><b style="color:orange">永益善</b><br>10.0<br><strong>(利敬國)</td>
+<td class="t7"></td>
+<td class="t7"></td>
+<td class="t7"></td>
+<td class="t7">馬主星輝<br>19.0<br><strong>(郭能)<br>文武傳奇<br>7.4<br><strong>(利敬國)</td>
+</tr><tr bgcolor="#f7e2e8">
+<td width="80" align="center" valign="top">方嘉柏</td>
+<td class="t7">賞心星<br>5.9<br><strong>(希威森)</td>
+<td class="t7"><b style="color:orange">駿爵士</b><br>10.0<br><strong>(潘頓)</td>
+<td class="t7">開心大師<br>13.0<br><strong>(蔡明紹)</td>
+<td class="t7">好計<br>5.8<br><strong>(潘頓)</td>
+<td class="t7"><b style="color:orange">晨曦飛馬</b><br>11.0<br><strong>(潘頓)</td>
+<td class="t7"></td>
+<td class="t7"></td>
+<td class="t7"></td>
+</tr><tr bgcolor="">
+<td width="80" align="center" valign="top">丁冠豪</td>
+<td class="t7"><b style="color:orange">龍騰馬躍</b><br>6.9<br><strong>(史卓豐)</td>
+<td class="t7">勇冠多<br>26.0<br><strong>(潘明輝)</td>
+<td class="t7"></td>
+<td class="t7"></td>
+<td class="t7">星河戰駒<br>46.0<br><strong>(黃皓楠)</td>
+<td class="t7"><b style="color:orange">大師級</b><br>10.0<br><strong>(蘇狄雄)</td>
+<td class="t7"></td>
+<td class="t7"></td>
+</tr><tr bgcolor="#f7e2e8">
+<td width="80" align="center" valign="top">呂健威</td>
+<td class="t7">金童<br>6.8<br><strong>(沈拿)</td>
+<td class="t7"></td>
+<td class="t7"></td>
+<td class="t7">陽明亮亮<br><font color="RED">3.0</font><br><strong>(莫雷拉)</td>
+<td class="t7"><b style="color:orange">傳奇</b><br>5.8<br><strong>(何澤堯)</td>
+<td class="t7"></td>
+<td class="t7"><b style="color:orange">陽明高高</b><br><font color="RED">4.1</font><br><strong>(何澤堯)</td>
+<td class="t7"></td>
+</tr><tr bgcolor="">
+<td width="80" align="center" valign="top">高伯新</td>
+<td class="t7">靚籐王<br>10.0<br><strong>(郭能)</td>
+<td class="t7"><b style="color:orange">旅遊拿督</b><br>5.7<br><strong>(郭能)</td>
+<td class="t7">帶榮來<br>26.0<br><strong>(史卓豐)</td>
+<td class="t7">舉世無雙<br>16.0<br><strong>(郭能)</td>
+<td class="t7"><b style="color:orange">大聚會</b><br>13.0<br><strong>(郭能)</td>
+<td class="t7"></td>
+<td class="t7"></td>
+<td class="t7"></td>
+</tr><tr bgcolor="#f7e2e8">
+<td width="80" align="center" valign="top">鄭俊偉</td>
+<td class="t7">醒目快駒<br>8.8<br><strong>(楊明綸)</td>
+<td class="t7">君悅灣<br>29.0<br><strong>(黃皓楠)</td>
+<td class="t7"><b style="color:orange">金剛仔</b><br>12.0<br><strong>(利敬國)</td>
+<td class="t7">其樂無窮<br>31.0<br><strong>(沈拿)</td>
+<td class="t7">齊齊發<br>27.0<br><strong>(貝力斯)</td>
+<td class="t7">金剛之星<br>20.0<br><strong>(楊明綸)</td>
+<td class="t7"><b style="color:orange">旅遊首席</b><br>31.0<br><strong>(史卓豐)</td>
+<td class="t7"></td>
+</tr><tr bgcolor="">
+<td width="80" align="center" valign="top">霍利時</td>
+<td class="t7">競駿飛鷹<br><font color="RED">5.3</font><br><strong>(利敬國)</td>
+<td class="t7"></td>
+<td class="t7"><b style="color:orange">情趣</b><br>6.1<br><strong>(李寶利)</td>
+<td class="t7"><b style="color:orange">快閃的</b><br>10.0<br><strong>(希威森)</td>
+<td class="t7"></td>
+<td class="t7">馬友冠<br>16.0<br><strong>(郭能)</td>
+<td class="t7">又係熊<br>8.6<br><strong>(李寶利)</td>
+<td class="t7">鑲白旗<br>12.0<br><strong>(李寶利)</td>
+</tr><tr bgcolor="#f7e2e8">
+<td width="80" align="center" valign="top">何良</td>
+<td class="t7"></td>
+<td class="t7"><b style="color:orange">威先生</b><br>11.0<br><strong>(梁家俊)</td>
+<td class="t7">志聰明<br>58.0<br><strong>(黃皓楠)</td>
+<td class="t7">放眼量<br>11.0<br><strong>(梁家俊)</td>
+<td class="t7"><b style="color:orange">無價寶</b><br>18.0<br><strong>(楊明綸)</td>
+<td class="t7"></td>
+<td class="t7"></td>
+<td class="t7">共創歡樂<br>17.0<br><strong>(黎海榮)</td>
+</tr><tr bgcolor="">
+<td width="80" align="center" valign="top">蘇偉賢</td>
+<td class="t7"></td>
+<td class="t7"><b style="color:orange">月追越風</b><br>12.0<br><strong>(沈拿)</td>
+<td class="t7"></td>
+<td class="t7"></td>
+<td class="t7"></td>
+<td class="t7">夢幻仙子<br>24.0<br><strong>(黎海榮)</td>
+<td class="t7"><b style="color:orange">聰明導彈</b><br>8.6<br><strong>(潘頓)</td>
+<td class="t7"></td>
+</tr><tr bgcolor="#f7e2e8">
+<td width="80" align="center" valign="top">苗禮德</td>
+<td class="t7"></td>
+<td class="t7"><b style="color:orange">龍城勝將</b><br>7.7<br><strong>(陳嘉熙)</td>
+<td class="t7"></td>
+<td class="t7">勇勝神駒<br>22.0<br><strong>(潘明輝)</td>
+<td class="t7"></td>
+<td class="t7"></td>
+<td class="t7"><b style="color:orange">有備而來</b><br>13.0<br><strong>(陳嘉熙)</td>
+<td class="t7">川河寶駒<br>15.0<br><strong>(沈拿)<br>事勝意<br>18.0<br><strong>(梁家俊)</td>
+</tr><tr bgcolor="">
+<td width="80" align="center" valign="top">蔡約翰</td>
+<td class="t7"></td>
+<td class="t7"><b style="color:orange">跳出世界</b><br><font color="RED">3.7</font><br><strong>(莫雷拉)</td>
+<td class="t7"></td>
+<td class="t7"></td>
+<td class="t7">慣勝尊重<br>22.0<br><strong>(薛恩)</td>
+<td class="t7"><b style="color:orange">明駿之星</b><br>4.8<br><strong>(李寶利)</td>
+<td class="t7"></td>
+<td class="t7"></td>
+</tr><tr bgcolor="#f7e2e8">
+<td width="80" align="center" valign="top">姚本輝</td>
+<td class="t7"></td>
+<td class="t7"><b style="color:orange">樂飛勝</b><br>25.0<br><strong>(蔡明紹)</td>
+<td class="t7"></td>
+<td class="t7"></td>
+<td class="t7"><b style="color:orange">王者奇兵</b><br><font color="RED">2.7</font><br><strong>(莫雷拉)</td>
+<td class="t7"></td>
+<td class="t7"></td>
+<td class="t7"></td>
+</tr><tr bgcolor="">
+<td width="80" align="center" valign="top">徐雨石</td>
+<td class="t7"></td>
+<td class="t7">好甜橙<br>16.0<br><strong>(何澤堯)</td>
+<td class="t7"></td>
+<td class="t7">悅目星光<br>16.0<br><strong>(陳嘉熙)</td>
+<td class="t7"><b style="color:orange">太陽戰馬</b><br>7.9<br><strong>(史卓豐)</td>
+<td class="t7">神舟寶駒<br>19.0<br><strong>(沈拿)</td>
+<td class="t7"><b style="color:orange">靚紫荊</b><br>29.0<br><strong>(黎海榮)</td>
+<td class="t7"></td>
+</tr><tr bgcolor="#f7e2e8">
+<td width="80" align="center" valign="top">賀賢</td>
+<td class="t7"></td>
+<td class="t7">八進<br>8.6<br><strong>(利敬國)</td>
+<td class="t7">環保時代<br>43.0<br><strong>(蘇狄雄)</td>
+<td class="t7">活力寶駒<br>10.0<br><strong>(蔡明紹)</td>
+<td class="t7"></td>
+<td class="t7">京京千里<br>9.2<br><strong>(何澤堯)</td>
+<td class="t7"><b style="color:orange">勤德兼備</b><br>12.0<br><strong>(潘明輝)</td>
+<td class="t7"><b style="color:orange">幸運時代</b><br>22.0<br><strong>(潘明輝)</td>
+</tr><tr bgcolor="">
+<td width="80" align="center" valign="top">蘇保羅</td>
+<td class="t7"></td>
+<td class="t7"></td>
+<td class="t7">一見傾心<br>9.4<br><strong>(潘頓)</td>
+<td class="t7"></td>
+<td class="t7"></td>
+<td class="t7"><b style="color:orange">紅旗星將</b><br>6.4<br><strong>(陳嘉熙)</td>
+<td class="t7"></td>
+<td class="t7"><b style="color:orange">金如意</b><br>14.0<br><strong>(蘇狄雄)</td>
+</tr><tr bgcolor="#f7e2e8">
+<td width="80" align="center" valign="top">文家良</td>
+<td class="t7"></td>
+<td class="t7"></td>
+<td class="t7"><b style="color:orange">歡樂小子</b><br>23.0<br><strong>(黎海榮)</td>
+<td class="t7"></td>
+<td class="t7">好友無敵<br>20.0<br><strong>(黎海榮)</td>
+<td class="t7"></td>
+<td class="t7"><b style="color:orange">紅麗舍</b><br>17.0<br><strong>(梁家俊)</td>
+<td class="t7"></td>
+</tr><tr bgcolor="">
+<td width="80" align="center" valign="top">韋達</td>
+<td class="t7"></td>
+<td class="t7"></td>
+<td class="t7">偉大勝利<br><font color="RED">4.5</font><br><strong>(沈拿)</td>
+<td class="t7"></td>
+<td class="t7"><b style="color:orange">特醒</b><br>7.6<br><strong>(沈拿)</td>
+<td class="t7">維港奔流<br>16.0<br><strong>(史卓豐)</td>
+<td class="t7"><b style="color:orange">興爾</b><br>24.0<br><strong>(沈拿)</td>
+<td class="t7"></td>
+</tr><tr bgcolor="#f7e2e8">
+<td width="80" align="center" valign="top">告東尼</td>
+<td class="t7"></td>
+<td class="t7"></td>
+<td class="t7">步履娛飛<br>5.2<br><strong>(陳嘉熙)</td>
+<td class="t7"></td>
+<td class="t7"></td>
+<td class="t7"></td>
+<td class="t7"><b style="color:orange">綫路勇駒</b><br>6.3<br><strong>(希威森)</td>
+<td class="t7"><b style="color:orange">非常堅</b><br>15.0<br><strong>(巫顯東)</td>
+</tr><tr bgcolor="">
+<td width="80" align="center" valign="top">羅富全</td>
+<td class="t7"></td>
+<td class="t7"></td>
+<td class="t7">火百合<br>6.4<br><strong>(莫雷拉)</td>
+<td class="t7">一舖成名<br>8.2<br><strong>(史卓豐)</td>
+<td class="t7"></td>
+<td class="t7"><b style="color:orange">自在人生</b><br>16.0<br><strong>(潘明輝)</td>
+<td class="t7"><b style="color:orange">路路通</b><br>6.7<br><strong>(利敬國)</td>
+<td class="t7"></td>
+</tr><tr bgcolor="#f7e2e8">
+<td width="80" align="center" valign="top">約翰摩亞</td>
+<td class="t7"></td>
+<td class="t7"></td>
+<td class="t7">精彩千里<br>10.0<br><strong>(希威森)</td>
+<td class="t7"></td>
+<td class="t7"></td>
+<td class="t7"><b style="color:orange">美麗甜心</b><br><font color="RED">4.7</font><br><strong>(莫雷拉)</td>
+<td class="t7"></td>
+<td class="t7"><b style="color:orange">任我行</b><br><font color="RED">2.4</font><br><strong>(潘頓)<br>扎西德勒<br>10.0<br><strong>(陳嘉熙)</td>
+</tr><tr bgcolor="">
+<td width="80" align="center" valign="top">容天鵬</td>
+<td class="t7"></td>
+<td class="t7"></td>
+<td class="t7"></td>
+<td class="t7"></td>
+<td class="t7"></td>
+<td class="t7"></td>
+<td class="t7"><b style="color:orange">酷比仔</b><br>8.4<br><strong>(楊明綸)</td>
+<td class="t7"></td>
 </tr></table>
-	
 	
 <!----------------------------->
 <!--END OF OUTPUT FROM EXCEL PUBLISH AS WEB PAGE WIZARD-->
