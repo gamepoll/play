@@ -1,3 +1,220 @@
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+
+<div id="top">
+  CORS Anywhere demo &bull; <a href="https://github.com/Rob--W/cors-anywhere/">Github</a> &bull; <a href="http://cors-anywhere.herokuapp.com">Live server</a>.
+  
+  <button id="button">Click Me</button>
+<br>
+  <label>
+    Url to be fetched (example: <a href="//robwu.nl/dump.php">robwu.nl/dump.php</a>)
+    <input type="url" id="url" value="https://racing.hkjc.com/racing/information/chinese/Racing/JockeysRides.aspx?RaceDate=2019/10/27">
+  </label>
+    <label>
+    If using POST, enter the data:
+    <input type="text" id="data">
+  </label>
+<label>
+    <button id="get">GET</button><button id="post">POST</button><button id="postUrl">DATEodd</button><button id="infoall">INFOall</button>
+  </label>
+</div>
+<div id="bottom">
+  <textarea id="output"></textarea>
+</div>
+<div id="bottom">
+  <textarea id="outputodds"></textarea>
+</div>
+
+<table id="w">
+  <tr>
+    <td>
+      <input type="text" id="race1K" size="6" value="" />
+    </td>
+    <td>
+      <input type="text" id="race2K" size="6" value="" />
+    </td>
+    <td>
+      <input type="text" id="race3K" size="6" value="" />
+    </td>
+    <td>
+      <input type="text" id="race4K" size="6" value="" />
+    </td>
+    <td>
+      <input type="text" id="race5K" size="6" value="" />
+    </td>
+    <td>
+      <input type="text" id="race6K" size="6" value="" />
+    </td>
+    <td>
+      <input type="text" id="race7K" size="6" value="" />
+    </td>
+    <td>
+      <input type="text" id="race8K" size="6" value="" />
+    </td>
+    <td>
+      <input type="text" id="race9K" size="6" value="" />
+    </td>
+    <td>
+      <input type="text" id="race10K" size="6" value="" />
+    </td>
+    <td>
+      <input type="text" id="race11K" size="6" value="" />
+    </td>
+  </tr>
+  <tr>
+    <td>
+      <input type="text" id="race1Q" size="6" value="" />
+    </td>
+    <td>
+      <input type="text" id="race2Q" size="6" value="" />
+    </td>
+    <td>
+      <input type="text" id="race3Q" size="6" value="" />
+    </td>
+    <td>
+      <input type="text" id="race4Q" size="6" value="" />
+    </td>
+    <td>
+      <input type="text" id="race5Q" size="6" value="" />
+    </td>
+    <td>
+      <input type="text" id="race6Q" size="6" value="" />
+    </td>
+    <td>
+      <input type="text" id="race7Q" size="6" value="" />
+    </td>
+    <td>
+      <input type="text" id="race8Q" size="6" value="" />
+    </td>
+    <td>
+      <input type="text" id="race9Q" size="6" value="" />
+    </td>
+    <td>
+      <input type="text" id="race10Q" size="6" value="" />
+    </td>
+    <td>
+      <input type="text" id="race11Q" size="6" value="" />
+    </td>
+  </tr>
+  <tr>
+    <td>
+      <input type="text" id="race1J" size="6" value="" />
+    </td>
+    <td>
+      <input type="text" id="race2J" size="6" value="" />
+    </td>
+    <td>
+      <input type="text" id="race3J" size="6" value="" />
+    </td>
+    <td>
+      <input type="text" id="race4J" size="6" value="" />
+    </td>
+    <td>
+      <input type="text" id="race5J" size="6" value="" />
+    </td>
+    <td>
+      <input type="text" id="race6J" size="6" value="" />
+    </td>
+    <td>
+      <input type="text" id="race7J" size="6" value="" />
+    </td>
+    <td>
+      <input type="text" id="race8J" size="6" value="" />
+    </td>
+    <td>
+      <input type="text" id="race9J" size="6" value="" />
+    </td>
+    <td>
+      <input type="text" id="race10J" size="6" value="" />
+    </td>
+    <td>
+      <input type="text" id="race11J" size="6" value="" />
+    </td>
+  </tr>
+ <tr>
+    <td>
+      <input type="text" id="race1T" size="6" value="" />
+    </td>
+    <td>
+      <input type="text" id="race2T" size="6" value="" />
+    </td>
+    <td>
+      <input type="text" id="race3T" size="6" value="" />
+    </td>
+    <td>
+      <input type="text" id="race4T" size="6" value="" />
+    </td>
+    <td>
+      <input type="text" id="race5T" size="6" value="" />
+    </td>
+    <td>
+      <input type="text" id="race6T" size="6" value="" />
+    </td>
+    <td>
+      <input type="text" id="race7T" size="6" value="" />
+    </td>
+    <td>
+      <input type="text" id="race8T" size="6" value="" />
+    </td>
+    <td>
+      <input type="text" id="race9T" size="6" value="" />
+    </td>
+    <td>
+      <input type="text" id="race10T" size="6" value="" />
+    </td>
+    <td>
+      <input type="text" id="race11T" size="6" value="" />
+    </td>
+  </tr>
+  </table>
+  <button id="savebase">save base-KQJ</button>
+  <button id="uptocloud">upload to cloud-KQJ</button> 
+<br>
+  <button id="savebaseodds">save base-odds</button>
+  <button id="uptocloudodds">upload to cloud-odds</button> 
+<br>
+  <button id="uptocloudinfo">upload to cloud-info</button> 
+
+<style>
+html, body {
+  margin: 0;
+  height: 100%;
+  padding: 3px;
+  font-family: Arial, sans-serif;
+  font-size: 16px;
+}
+* {
+  -moz-box-sizing: border-box;
+       box-sizing: border-box;
+}
+label { display: block; }
+input {
+  display: block;
+  width: 100%;
+  padding: 8px 5px;
+  border: 1px solid #CCC;
+}
+button {
+  display: inline-block;
+  width: 25%;
+  padding: 8px;
+}
+textarea {
+  width: 50%;
+  height: 100%;
+}
+#top {
+  height: 180px;
+  position: relative;
+
+}
+#bottom {
+  height: 100%;
+  margin-top: -180px;
+  padding-top: 180px;
+}	
+</style>
+
+<script>
 var cors_api_url = "https://cors-anywhere.herokuapp.com/";
 function doCORSRequest(options, printResult) {
   var x = new XMLHttpRequest();
@@ -26,6 +243,7 @@ function doCORSRequest(options, printResult) {
   var urlField = document.getElementById("url");
   var dataField = document.getElementById("data");
   var outputField = document.getElementById("output");
+  console.log("button hit>>>");
   document.getElementById("get").onclick = document.getElementById(
     "post"
   ).onclick = function(e) {
@@ -66,9 +284,10 @@ document.getElementById("button").addEventListener("click", function() {
   var infos = new Object();
   infos.queue = new Array();
 
+  if (outputField.value.indexOf("RaceCard",20) < 60) {
   // here infoall
+    console.log("infoall scan>>");
   arrayStr = outputField.value.split("<td");
-
   arrayStr.forEach((element, index, array) => {
     if (element.indexOf("horseno=") > 20) {
       //      console.log("infoele=", element.indexOf('horseno='));
@@ -90,7 +309,8 @@ document.getElementById("button").addEventListener("click", function() {
     outputFieldOdds.value = JSON.stringify(infos);
   }
 // end infoall
-
+  }
+  
   //  console.log("bingo1=",outputField.value);
   // str = document.getElementsByTagName("output");
   arrayStr = outputField.value.split("<td ");
@@ -140,14 +360,14 @@ document.getElementById("button").addEventListener("click", function() {
                            }  
                         }); */
   //    console.log("arraystr1=",arrayStr);
-/*  for (i = 0; i < arrayStr.length; i++) {
+  for (i = 0; i < arrayStr.length; i++) {
     //      if (td_array[i].textContent == check_value){
     if (arrayStr[i].indexOf("(12)") >= 0) {
       //	      console.log(arrayStr[i].innerHTML);
       //      console.log(ttcolor);
       //        td_array[i].style.color = "red";
     }
-  }*/
+  }
 
   console.log("odd=", odds);
   console.log("odd len=", odds.queue.length);
@@ -159,7 +379,6 @@ document.getElementById("button").addEventListener("click", function() {
   ////// here
 
   var arrayRes = outputField.value.match(/nowrap\>1.*?\/td.*?\/td.*?\/td/gi);
-  if ( Array.isArray(arrayRes) ) {
   arrayRes.forEach((element, index) => {
     arrayK.push(element.split('tdAlignL">')[1].split("</td")[0]);
   });
@@ -177,8 +396,6 @@ document.getElementById("button").addEventListener("click", function() {
   });
 
   outputFieldOdds.value = arrayT;
-  }
-    
   ///// here - put to textinputbox
   $('input[type="text"]').each(function() {
     var id = $(this).attr("id");
@@ -293,25 +510,6 @@ $("#uptocloudodds").click(function() {
   }
 });
 
-$("#infoall").on("click", function(e) {
-  var outputField = document.getElementById("output");
-  for (i = 0; i < 12; i++) {
-    e.preventDefault();
-    doCORSRequest(
-      {
-        method: "POST",
-        url:
-          "https://racing.hkjc.com/racing/Info/meeting/RaceCard/chinese/Local/20191103/ST/" +
-          (i + 1),
-        data: ""
-      },
-      function printResult(result) {
-        outputField.value = outputField.value + result;
-      }
-    );
-  }
-});
-
 var indexDate = 0,
   bnText = ["DATEodd", "DATEdue", "DATEend"];
 
@@ -339,3 +537,44 @@ $("#postUrl").on("click", function() {
     return bnText[++indexDate % bnText.length];
   });
 });
+
+////////
+$("#uptocloudinfo").click(function() {
+  var outputFieldOdds = document.getElementById("outputodds");
+  // do update
+  if (outputFieldOdds.value.length > 0) {
+    $.ajax({
+      url: "https://api.myjson.com/bins/146qfc",
+      type: "PUT",
+      data: outputFieldOdds.value,
+      contentType: "application/json; charset=utf-8",
+      dataType: "json",
+      success: function(data, textStatus, jqXHR) {
+        var json = JSON.stringify(data);
+      }
+    });
+  }
+});
+
+$("#infoall").on("click", function(e) {
+  var urlField = document.getElementById("url");
+  var dataField = document.getElementById("data");
+  var outputField = document.getElementById("output");
+  console.log("infoall inn>>");
+  outputField.value = '';
+  for (i = 0; i < 2; i++) {
+    e.preventDefault();
+    doCORSRequest(
+      {
+        method: "POST",
+        url: "https://racing.hkjc.com/racing/Info/meeting/RaceCard/chinese/Local/20191106/HV/" + (i+1),
+        data: dataField.value
+      },
+      function printResult(result) {
+        outputField.value = outputField.value + result;
+      }
+    );
+  }
+});
+
+</script>
