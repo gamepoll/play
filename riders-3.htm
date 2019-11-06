@@ -465,6 +465,7 @@
 <br>
     <button id="button_odds">Odd Me</button>
     <button id="button_brown">Brown Me</button>
+    <button id="button_info">Info Me</button>
 <table id="w">
   <tr>
     <td>
@@ -860,6 +861,42 @@ document.getElementById("button_odds").addEventListener("click", function() {
             var newres = res[0].replace(
               /\<strong\>/i,
               posts.queue[i].key2 + "<br><strong>"
+            );
+
+            td_array[j].innerHTML = td_array[j].innerHTML.replace(
+              regegg,
+              newres
+            );
+            console.log("innerhtml=", td_array[j].innerHTML);
+            console.log("hit_cnt=", hit);
+            if (hit == 2) {
+              break;
+            }
+          }
+        }
+      }
+    }
+  });
+});
+
+/////////////////////////////////////////////////////
+document.getElementById("button_info").addEventListener("click", function() {
+  td_array = document.getElementsByTagName("td");
+
+  $.getJSON("https://api.myjson.com/bins/146qfc", function(posts) {
+    for (var i = 0; i < posts.queue.length; i++) {
+      var hit = 0;
+      for (var j = 0; j < td_array.length; j++) {
+        console.log("posts_cnt=", i);
+        console.log("td_cnt=", j);
+        if (td_array[j].innerHTML.indexOf(posts.queue[i].key) >= 0 && hit < 2) {
+          hit = hit + 1;
+          var regegg = new RegExp(posts.queue[i].key + ".*?strong>", "i");
+          if (regegg.test(td_array[j].innerHTML)) {
+            var res = td_array[j].innerHTML.match(regegg);
+            var newres = res[0].replace(
+              /\<strong\>/i,
+              posts.queue[i].name + "-" + posts.queue[i].key2 + "<br><strong>"
             );
 
             td_array[j].innerHTML = td_array[j].innerHTML.replace(
