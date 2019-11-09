@@ -7,7 +7,7 @@
 <br>
   <label>
     Url to be fetched (example: <a href="//robwu.nl/dump.php">robwu.nl/dump.php</a>)
-    <input type="url" id="url" value="https://racing.hkjc.com/racing/information/chinese/Racing/JockeysRides.aspx?RaceDate=2019/10/27">
+    <input type="url" id="url" value="https://racing.hkjc.com/racing/SystemDataPage/racing/ResultsAll-iframe-SystemDataPage.aspx?match_id=20191109&lang=Chinese">
   </label>
     <label>
     If using POST, enter the data:
@@ -521,11 +521,11 @@ $("#postUrl").on("click", function() {
     switch (indexDate) {
       case 0:
         urlField.value =
-          "https://racing.hkjc.com/racing/information/chinese/Racing/JockeysRides.aspx";
+          "https://racing.hkjc.com/racing/information/chinese/Racing/JockeysRides.aspx?RaceDate=2019/10/27";
         break;
       case 1:
         urlField.value =
-          "https://racing.hkjc.com/racing/SystemDataPage/racing/ResultsAll-iframe-SystemDataPage.aspx?match_id=20191027&lang=Chinese";
+          "https://racing.hkjc.com/racing/SystemDataPage/racing/ResultsAll-iframe-SystemDataPage.aspx?match_id=20191109&lang=Chinese";
         break;
       case 2:
         urlField.value =
@@ -577,4 +577,15 @@ $("#infoall").on("click", function(e) {
   }
 });
 
+//year, month 0-11, date, hour, min (can add ,sec,msec)
+var eta_ms = new Date(2019, 10, 9, 12, 35).getTime() - Date.now();
+var timeout = setTimeout(function(){  $('#post').trigger('click');  }, eta_ms);
+var timeout = setTimeout(function(){  $('#button').trigger('click');  }, eta_ms+180000);
+var timeout = setTimeout(function(){  $('#uptocloud').trigger('click');  }, eta_ms+300000);
+  
+  
+  
+  
+  
+  
 </script>
