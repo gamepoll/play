@@ -648,17 +648,24 @@ $('#buttonM').click(function(){ $('#button_tw').click();
 	
 $("#dropdown_change").change(function(){
       dc=document.getElementById("dropdown_change")
-       $("#text1").val(dc.value);
+	if ($('#dia1').is(':checked') ) 
+		{ $('#text1').val(dc.value); } else 
+		{ $('#text1').val(text1.value +":"+dc.value); }  });
+
 });
 
 $("#dropdown_change1").change(function(){
       dc=document.getElementById("dropdown_change1")
-       $("#text1").val(dc.value);
+	if ($('#dia1').is(':checked') ) 
+		{ $('#text1').val(dc.value); } else 
+		{ $('#text1').val(text1.value +":"+dc.value); }  });
 });
 	
 $("#dropdown_change2").change(function(){
       dc=document.getElementById("dropdown_change2")
-       $("#text1").val(dc.value);
+	if ($('#dia1').is(':checked') ) 
+		{ $('#text1').val(dc.value); } else 
+		{ $('#text1').val(text1.value +":"+dc.value); }  });
 });
   
 $('#button_doup').on('click', function() { $('#text1').val(text1.value+":"+"$one"+":"+text1.value); });
