@@ -669,7 +669,7 @@ $("#dropdown_change2").change(function(){
   
 $('#button_doup').on('click', function() { $('#text1').val(text1.value+":"+"$one"+":"+text1.value); });
 $('#button_pre_won').on('click', function() { $('#text1').val("$one"+":"+text1.value); });
-$('#button_reve').on('click', function() { $('#text1').val(text1.value.substr(5)); });
+$('#button_reve').on('click', function() { $('#text1').val(text1.value.split(/:/)[0]; });
 $('#button_pre_rdpix').on('click', function() { $('#text1').val("rdpix"+":"+text1.value); });
 $('#button_pre_vexpx').on('click', function() { $('#text1').val("vexpx"+":"+text1.value); });
 $('#button_pre_dax').on('click', function() { $('#text1').val("$dax"+":"+text1.value); });
