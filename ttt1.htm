@@ -7,7 +7,7 @@
 <br>
   <label>
     Url to be fetched (example: <a href="//robwu.nl/dump.php">robwu.nl/dump.php</a>)
-    <input type="url" id="url" value="https://racing.hkjc.com/racing/SystemDataPage/racing/ResultsAll-iframe-SystemDataPage.aspx?match_id=20191109&lang=Chinese">
+    <input type="url" id="url" value="https://racing.hkjc.com/racing/SystemDataPage/racing/ResultsAll-iframe-SystemDataPage.aspx?match_id=20191117&lang=Chinese">
   </label>
     <label>
     If using POST, enter the data:
@@ -525,7 +525,7 @@ $("#postUrl").on("click", function() {
         break;
       case 1:
         urlField.value =
-          "https://racing.hkjc.com/racing/SystemDataPage/racing/ResultsAll-iframe-SystemDataPage.aspx?match_id=20191109&lang=Chinese";
+          "https://racing.hkjc.com/racing/SystemDataPage/racing/ResultsAll-iframe-SystemDataPage.aspx?match_id=20191117&lang=Chinese";
         break;
       case 2:
         urlField.value =
@@ -567,7 +567,7 @@ $("#infoall").on("click", function(e) {
     doCORSRequest(
       {
         method: "POST",
-        url: "https://racing.hkjc.com/racing/Info/meeting/RaceCard/chinese/Local/20191109/ST/" + (i+1),
+        url: "https://racing.hkjc.com/racing/Info/meeting/RaceCard/chinese/Local/20191117/ST/" + (i+1),
         data: dataField.value
       },
       function printResult(result) {
