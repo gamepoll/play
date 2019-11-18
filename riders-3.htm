@@ -586,6 +586,7 @@
 <br>
     <button id="button_odds">Odd Me</button>
     <button id="button_brown">Brown Me</button>
+    <button id="button_brown2">Brown Me2</button>
     <button id="button_info">Info Me</button>
 <table id="w">
   <tr>
@@ -898,6 +899,21 @@ document.getElementById("button_brown").addEventListener("click", function() {
   });
 });
 
+/////////////////////////////////////////////////////
+document.getElementById("button_brown2").addEventListener("click", function() {
+  td_array = document.getElementsByTagName("td");
+    for (i = 0; i < td_array.length; i++) {
+	    // var arrarRes=td_array[i].innerHTML/match(/B.*?\-4/i);
+	    // console.log("arranyres=",arrayRes);
+      if (
+        Array.isArray(td_array[i].innerHTML.match(/br\>B.*?\-4/i))
+      ) {
+        td_array[i].innerHTML =
+          "<strong style='color: red'>^^</strong>" + td_array[i].innerHTML;
+      }
+    }
+  });
+	
 $("#savebase_odds").click(function() {
   var updatedObj = {
     queue: [
