@@ -7,7 +7,7 @@
 <br>
   <label>
     Url to be fetched (example: <a href="//robwu.nl/dump.php">robwu.nl/dump.php</a>)
-    <input type="url" id="url" value="https://racing.hkjc.com/racing/SystemDataPage/racing/ResultsAll-iframe-SystemDataPage.aspx?match_id=20191123&lang=Chinese">
+    <input type="url" id="url" value="https://racing.hkjc.com/racing/SystemDataPage/racing/ResultsAll-iframe-SystemDataPage.aspx?match_id=20191127&lang=Chinese">
   </label>
     <label>
     If using POST, enter the data:
@@ -525,7 +525,7 @@ $("#postUrl").on("click", function() {
         break;
       case 1:
         urlField.value =
-          "https://racing.hkjc.com/racing/SystemDataPage/racing/ResultsAll-iframe-SystemDataPage.aspx?match_id=20191123&lang=Chinese";
+          "https://racing.hkjc.com/racing/SystemDataPage/racing/ResultsAll-iframe-SystemDataPage.aspx?match_id=20191127&lang=Chinese";
         break;
       case 2:
         urlField.value =
@@ -567,7 +567,7 @@ $("#infoall").on("click", function(e) {
     doCORSRequest(
       {
         method: "POST",
-        url: "https://racing.hkjc.com/racing/Info/meeting/RaceCard/chinese/Local/20191123/ST/" + (i+1),
+        url: "https://racing.hkjc.com/racing/Info/meeting/RaceCard/chinese/Local/20191127/HV/" + (i+1),
         data: dataField.value
       },
       function printResult(result) {
@@ -578,49 +578,49 @@ $("#infoall").on("click", function(e) {
 });
 
 //year, month 0-11, date, hour, min (can add ,sec,msec)
-var eta_ms = new Date(2019, 10, 9, 13, 00).getTime() - Date.now();
+var eta_ms = new Date(2019, 11, 27, 20, 25).getTime() - Date.now();
 var timeout = setTimeout(function(){  $('#post').trigger('click');  }, eta_ms);
 var timeout = setTimeout(function(){  $('#button').trigger('click');  }, eta_ms+120000);
 var timeout = setTimeout(function(){  $('#uptocloud').trigger('click');  }, eta_ms+120000);
   
 //year, month 0-11, date, hour, min (can add ,sec,msec)
-var eta_ms1 = new Date(2019, 10, 9, 13, 30).getTime() - Date.now();
+var eta_ms1 = eta_ms+1800000;
 var timeout = setTimeout(function(){  $('#post').trigger('click');  }, eta_ms1);
 var timeout = setTimeout(function(){  $('#button').trigger('click');  }, eta_ms1+120000);
 var timeout = setTimeout(function(){  $('#uptocloud').trigger('click');  }, eta_ms1+120000);
   
 //year, month 0-11, date, hour, min (can add ,sec,msec)
-var eta_ms2 = new Date(2019, 10, 9, 14, 00).getTime() - Date.now();
+var eta_ms2 = eta_ms1+1800000;
 var timeout = setTimeout(function(){  $('#post').trigger('click');  }, eta_ms2);
 var timeout = setTimeout(function(){  $('#button').trigger('click');  }, eta_ms2+120000);
 var timeout = setTimeout(function(){  $('#uptocloud').trigger('click');  }, eta_ms2+120000);
   
 //year, month 0-11, date, hour, min (can add ,sec,msec)
-var eta_ms3 = new Date(2019, 10, 9, 14, 35).getTime() - Date.now();
+var eta_ms3 = eta_ms2+1800000;
 var timeout = setTimeout(function(){  $('#post').trigger('click');  }, eta_ms3);
 var timeout = setTimeout(function(){  $('#button').trigger('click');  }, eta_ms3+120000);
 var timeout = setTimeout(function(){  $('#uptocloud').trigger('click');  }, eta_ms3+120000);
   
 //year, month 0-11, date, hour, min (can add ,sec,msec)
-var eta_ms4 = new Date(2019, 10, 9, 15, 05).getTime() - Date.now();
+var eta_ms4 = eta_ms3+1800000;
 var timeout = setTimeout(function(){  $('#post').trigger('click');  }, eta_ms4);
 var timeout = setTimeout(function(){  $('#button').trigger('click');  }, eta_ms4+120000);
 var timeout = setTimeout(function(){  $('#uptocloud').trigger('click');  }, eta_ms4+120000);
   
 //year, month 0-11, date, hour, min (can add ,sec,msec)
-var eta_ms5 = new Date(2019, 10, 9, 15, 35).getTime() - Date.now();
+var eta_ms5 = eta_ms4+1800000;
 var timeout = setTimeout(function(){  $('#post').trigger('click');  }, eta_ms5);
 var timeout = setTimeout(function(){  $('#button').trigger('click');  }, eta_ms5+120000);
 var timeout = setTimeout(function(){  $('#uptocloud').trigger('click');  }, eta_ms5+120000);
   
 //year, month 0-11, date, hour, min (can add ,sec,msec)
-var eta_ms6 = new Date(2019, 10, 9, 16, 10).getTime() - Date.now();
+var eta_ms6 = eta_ms5+1800000;
 var timeout = setTimeout(function(){  $('#post').trigger('click');  }, eta_ms6);
 var timeout = setTimeout(function(){  $('#button').trigger('click');  }, eta_ms6+120000);
 var timeout = setTimeout(function(){  $('#uptocloud').trigger('click');  }, eta_ms6+120000);
   
 //year, month 0-11, date, hour, min (can add ,sec,msec)
-var eta_ms7 = new Date(2019, 10, 9, 16, 45).getTime() - Date.now();
+var eta_ms7 = eta_ms6 + 1800000;
 var timeout = setTimeout(function(){  $('#post').trigger('click');  }, eta_ms7);
 var timeout = setTimeout(function(){  $('#button').trigger('click');  }, eta_ms7+120000);
 var timeout = setTimeout(function(){  $('#uptocloud').trigger('click');  }, eta_ms7+120000);
