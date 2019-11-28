@@ -41,6 +41,7 @@
     <button id="button_brown">Brown Me</button>
     <button id="button_brown2">Brown Me2</button>
     <button id="button_info">Info Me</button>
+    <button id="button_convert">Convert Me</button>
 <table id="w">
   <tr>
     <td>
@@ -469,6 +470,33 @@ document.getElementById("button_odds").addEventListener("click", function() {
   });
 });
 
+/////////////////////////////////////////////////////
+document.getElementById("button_convert").addEventListener("click", function() {
+  td_array = document.getElementsByTagName("td");
+
+  for (var j = 0; j < td_array.length; j++) {
+    td_array[j].innerHTML = td_array[j].innerHTML.replace(
+      /<a href=.*?">/i,
+      "<br>"
+    );
+
+    td_array[j].innerHTML = td_array[j].innerHTML.replace(
+      /<br><a href=.*?">/i,
+      "<br><strong>("
+    );
+
+    td_array[j].innerHTML = td_array[j].innerHTML.replace(
+      /<br>\(/i,
+      ")</strong><br>("
+    );
+
+    td_array[j].innerHTML = td_array[j].innerHTML.replace(
+      /<br><font color="red">\(/i,
+      ')</strong><br><font color="red">('
+    );
+  }
+});
+	
 /////////////////////////////////////////////////////
 document.getElementById("button_info").addEventListener("click", function() {
   td_array = document.getElementsByTagName("td");
