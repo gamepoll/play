@@ -1856,6 +1856,60 @@ $('#button_Gee_Aac').on('click', function () {
         
 });
 	
+$('#button_Bab_Mei').on('click', function () {
+//        var textbb = "bang";
+//        var text1 = $('#text1');
+        var text4 = $('#text4');
+        
+        var staticstring2 = "http://c.stockcharts.com/c-sc/sc?s=baba:mpngf&p=w&yr=8&i=0&a=168&r=pang";
+        
+        
+        text4.val(staticstring2);
+        text4.val(text4.val().replaceAll("pang", Math.floor(Math.random() * (100 + 1) + 0), true));
+
+        document.getElementById('img_dual').src=text4.val();
+
+        var staticstring2 = "http://c.stockcharts.com/c-sc/sc?s=baba:$one:mpngf&p=w&yr=8&i=0&a=168&r=pang";
+        
+        
+        text4.val(staticstring2);
+        text4.val(text4.val().replaceAll("pang", Math.floor(Math.random() * (100 + 1) + 0), true));
+
+        document.getElementById('img_dualplus').src=text4.val();
+        
+        
+        var staticstring2 = "http://c.stockcharts.com/c-sc/sc?s=baba:mpngf&p=d&i=0&a=168&r=pang";
+        
+        
+        text4.val(staticstring2);
+        text4.val(text4.val().replaceAll("pang", Math.floor(Math.random() * (100 + 1) + 0), true));
+
+        document.getElementById('img_dual_raw').src=text4.val();
+        
+        var staticstring2 = "http://c.stockcharts.com/c-sc/sc?s=baba:$one:mpngf&p=d&i=0&a=168&r=pang";
+        
+  
+        text4.val(staticstring2);
+        text4.val(text4.val().replaceAll("pang", Math.floor(Math.random() * (100 + 1) + 0), true));
+
+        document.getElementById('img_dual++').src=text4.val();
+        
+        var staticstring2 = "http://c.stockcharts.com/c-sc/sc?s=baba&p=d&i=0&a=168&r=pang";
+        
+        
+        text4.val(staticstring2);
+        text4.val(text4.val().replaceAll("pang", Math.floor(Math.random() * (100 + 1) + 0), true));
+
+        document.getElementById('img_dual+++').src=text4.val();
+	
+        text4.val("http://c.stockcharts.com/c-sc/sc?s=mpngf&p=d&i=0&a=168&r=pang");
+        text4.val(text4.val().replaceAll("pang", Math.floor(Math.random() * (100 + 1) + 0), true));
+
+        document.getElementById('img_dual--').src=text4.val();	
+	
+        
+});
+	
 $('#button_vb').on('click', function () {
         var textbb = "bang";
         var text1 = $('#text1');
