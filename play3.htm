@@ -2081,6 +2081,7 @@ $('#button_mon_bob').on('click', function () {
 $('#sector_front').on('click', 'button', function () {
         var textbb = "bang";
         var text3 = $('#text3');
+	var text3a = $('#text3a');
         var text4 = $('#text4');
         
         var staticstring2 = "http://charts.megahubhk.com/servlets/MHImageChart?sid=bang&mChart2=11&m2p1=7&cmode=1&vol=1&intTech1=1&it1p1=50&it1p5=200&tstyle=2&fsize=10&&cr=106&cwidth=499&cheight=375&lang=1&cperiod=1010100&ctype=1&wm=13&p=pang";
@@ -2099,18 +2100,18 @@ $('#sector_front').on('click', 'button', function () {
 
         document.getElementById('imgbb_plus').src=text4.val();
 
-        var staticstring2 = "http://charts.megahubhk.com/servlets/MHImageChart?sid=bang&mChart2=11&m2p1=7&cmode=1&vol=1&intTech1=1&it1p1=50&it1p5=200&tstyle=2&fsize=10&&cr=106&cwidth=499&cheight=375&lang=1&cperiod=1010500&ctype=1&wm=13&p=pang";
+        var staticstring2 = "http://charts.megahubhk.com/servlets/MHImageChart?sid=bang&mChart2=11&m2p1=7&cmode=1&vol=1&intTech1=1&it1p1=50&it1p5=200&tstyle=2&fsize=10&&cr=106&cwidth=499&cheight=375&lang=1&cperiod=1010100&ctype=1&wm=13&p=pang";
+      
         
-        
-        text4.val(staticstring2.replaceAll("bang", text3.val(), true));
+        text4.val(staticstring2.replaceAll("bang", text3a.val(), true));
         text4.val(text4.val().replaceAll("pang", Math.floor(Math.random() * (100 + 1) + 0), true));
 
         document.getElementById('imgbb_plus1').src=text4.val();
 	
-        var staticstring2 = "http://charts.aastocks.com/servlet/Charts?fontsize=12&15MinDelay=T&lang=1&titlestyle=1&vol=1&Indicator=1&indpara1=10&indpara2=20&indpara3=50&indpara4=100&indpara5=150&subChart1=11&ref1para1=14&ref1para2=0&ref1para3=0&scheme=1&com=100&chartwidth=595&chartheight=480&stockid=bang.HK&period=2060&type=1&p=pang";
+        var staticstring2 = "http://charts.megahubhk.com/servlets/MHImageChart?sid=bang&mChart2=11&m2p1=7&cmode=1&vol=1&intTech1=1&it1p1=50&it1p5=200&tstyle=2&fsize=10&&cr=106&cwidth=499&cheight=375&lang=1&cperiod=1000305&ctype=1&wm=13&p=pang";
+          
         
-        
-        text4.val(staticstring2.replaceAll("bang", text3.val(), true));
+        text4.val(staticstring2.replaceAll("bang", text3a.val(), true));
         text4.val(text4.val().replaceAll("pang", Math.floor(Math.random() * (100 + 1) + 0), true));
 
         document.getElementById('imgbb_plus2').src=text4.val();
