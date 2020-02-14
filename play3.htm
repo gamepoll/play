@@ -228,6 +228,7 @@ __________<select id="dropdown_change2">
 <br />
 <input type="button" value="Gee-Aac =>" id="button_Gee_Aac" style="background-color:lightgrey" />
 <input type="button" value="Bab-Mei =>" id="button_Bab_Mei" style="background-color:lightgrey" />
+<input type="button" value="Cei-Aig =>" id="button_Cei_Aig" style="background-color:lightgrey" />
 <br />
 <button id="buttonbb3">Click to toggle background!</button>
 <input type="button" value="Click for more....!" id="buttonM" />
@@ -1908,6 +1909,57 @@ $('#button_Bab_Mei').on('click', function () {
         document.getElementById('img_dual--').src=text4.val();	
 	
         
+});
+	
+$('#button_Cei_Aig').on('click', function () {
+        var text4 = $('#text4');
+        
+        var staticstring2 = "http://c.stockcharts.com/c-sc/sc?s=$hscei:$one:$hscei:aagiy&p=w&yr=8&i=0&a=168&r=pang";
+        
+        
+        text4.val(staticstring2);
+        text4.val(text4.val().replaceAll("pang", Math.floor(Math.random() * (100 + 1) + 0), true));
+
+        document.getElementById('img_dual').src=text4.val();
+
+        var staticstring2 = "http://c.stockcharts.com/c-sc/sc?s=$hscei:$one:$hscei:$one:aagiy&p=w&yr=8&i=0&a=168&r=pang";
+        
+        
+        text4.val(staticstring2);
+        text4.val(text4.val().replaceAll("pang", Math.floor(Math.random() * (100 + 1) + 0), true));
+
+        document.getElementById('img_dualplus').src=text4.val();
+        
+        
+        var staticstring2 = "http://c.stockcharts.com/c-sc/sc?s=$hscei:$one:$hscei:aagiy&p=d&i=0&a=168&r=pang";
+        
+        
+        text4.val(staticstring2);
+        text4.val(text4.val().replaceAll("pang", Math.floor(Math.random() * (100 + 1) + 0), true));
+
+        document.getElementById('img_dual_raw').src=text4.val();
+        
+        var staticstring2 = "http://c.stockcharts.com/c-sc/sc?s=$hscei:$one:$hscei:$one:aagiy&p=d&i=0&a=168&r=pang";
+        
+  
+        text4.val(staticstring2);
+        text4.val(text4.val().replaceAll("pang", Math.floor(Math.random() * (100 + 1) + 0), true));
+
+        document.getElementById('img_dual++').src=text4.val();
+        
+        var staticstring2 = "http://c.stockcharts.com/c-sc/sc?s=$hscei:$one:$hscei&p=d&i=0&a=168&r=pang";
+        
+        
+        text4.val(staticstring2);
+        text4.val(text4.val().replaceAll("pang", Math.floor(Math.random() * (100 + 1) + 0), true));
+
+        document.getElementById('img_dual+++').src=text4.val();
+	
+        text4.val("http://c.stockcharts.com/c-sc/sc?s=aagiy&p=d&i=0&a=168&r=pang");
+        text4.val(text4.val().replaceAll("pang", Math.floor(Math.random() * (100 + 1) + 0), true));
+
+        document.getElementById('img_dual--').src=text4.val();	
+
 });
 	
 $('#button_vb').on('click', function () {
