@@ -813,7 +813,7 @@ String.prototype.replaceAll = function (strTarget, strSubString, caseSensitive) 
 <input type="button" value="Dax-Sz =>" id="button_Dax_Sz" style="background-color:lightgrey" />
 <br />
 <input type="button" value="Kur-Bdx =>" id="button_Kur_Bdx" style="background-color:lightgrey" />
-<input type="button" value="Kur-Bdx =>" id="button_Atm_Bdx" style="background-color:lightgrey" />
+<input type="button" value="Atm-Bdx =>" id="button_Atm_Bdx" style="background-color:lightgrey" />
 <br />
 <script>
     $('#tsx_plus').on('click', function() { $('#tsx_current').val(parseInt($('#tsx_current').val()) + 100); });
@@ -2024,7 +2024,7 @@ $('#button_Kur_Bdx').on('click', function () {
 $('#button_Atm_Bdx').on('click', function () {
         var text4 = $('#text4');
         
-        var staticstring2 = "http://c.stockcharts.com/c-sc/sc?s=baba:$one:tcehy:bdx&p=d&yr=6&i=0&a=168&r=pang";
+        var staticstring2 = "http://c.stockcharts.com/c-sc/sc?s=baba:$one:tcehy:bdx&p=w&yr=6&i=0&a=168&r=pang";
         
         
         text4.val(staticstring2);
@@ -2032,7 +2032,7 @@ $('#button_Atm_Bdx').on('click', function () {
 
         document.getElementById('img_dual').src=text4.val();
 
-        var staticstring2 = "http://c.stockcharts.com/c-sc/sc?s=baba:$one:tcehy:$one:bdx&p=d&yr=6&i=0&a=168&r=pang";
+        var staticstring2 = "http://c.stockcharts.com/c-sc/sc?s=baba:$one:tcehy:$one:bdx&p=w&yr=6&i=0&a=168&r=pang";
         
         
         text4.val(staticstring2);
