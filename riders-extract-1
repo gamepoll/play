@@ -3,7 +3,7 @@
 <div id="top">
   CORS Anywhere demo &bull; <a href="https://github.com/Rob--W/cors-anywhere/">Github</a> &bull; <a href="http://cors-anywhere.herokuapp.com">Live server</a>.
   
-  <button id="button">Click Me</button>
+  <button id="button">Extract Me</button>
 <br>
   <label>
     Url to be fetched (example: <a href="//robwu.nl/dump.php">robwu.nl/dump.php</a>)
