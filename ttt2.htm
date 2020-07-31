@@ -1,0 +1,195 @@
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+
+
+<button id="button">KQJ Me</button>
+<br>
+    <button id="button_odds">Odd Me</button>
+    <button id="button_brown">Brown Me</button>
+    <button id="button_brown2">Brown Me2</button>
+    <button id="button_info">Info Me</button>
+    <button id="button_convert">Convert Me</button>
+<table id="w">
+  <tr>
+    <td>
+      <input type="text" id="race1K" cat="pp" size="6" value="" />
+    </td>
+    <td>
+      <input type="text" id="race2K" cat="pp" size="6" value="" />
+    </td>
+    <td>
+      <input type="text" id="race3K" size="6" value="" />
+    </td>
+    <td>
+      <input type="text" id="race4K" size="6" value="" />
+    </td>
+    <td>
+      <input type="text" id="race5K" size="6" value="" />
+    </td>
+    <td>
+      <input type="text" id="race6K" size="6" value="" />
+    </td>
+    <td>
+      <input type="text" id="race7K" size="6" value="" />
+    </td>
+    <td>
+      <input type="text" id="race8K" size="6" value="" />
+    </td>
+    <td>
+      <input type="text" id="race9K" size="6" value="" />
+    </td>
+    <td>
+      <input type="text" id="race10K" size="6" value="" />
+    </td>
+    <td>
+      <input type="text" id="race11K" size="6" value="" />
+    </td>
+  </tr>
+  <tr>
+    <td>
+      <input type="text" id="race1Q" cat="pp" size="6" value="" />
+    </td>
+    <td>
+      <input type="text" id="race2Q" cat="pp" size="6" value="" />
+    </td>
+    <td>
+      <input type="text" id="race3Q" size="6" value="" />
+    </td>
+    <td>
+      <input type="text" id="race4Q" size="6" value="" />
+    </td>
+    <td>
+      <input type="text" id="race5Q" size="6" value="" />
+    </td>
+    <td>
+      <input type="text" id="race6Q" size="6" value="" />
+    </td>
+    <td>
+      <input type="text" id="race7Q" size="6" value="" />
+    </td>
+    <td>
+      <input type="text" id="race8Q" size="6" value="" />
+    </td>
+    <td>
+      <input type="text" id="race9Q" size="6" value="" />
+    </td>
+    <td>
+      <input type="text" id="race10Q" size="6" value="" />
+    </td>
+    <td>
+      <input type="text" id="race11Q" size="6" value="" />
+    </td>
+  </tr>
+  <tr>
+    <td>
+      <input type="text" id="race1J" size="6" value="" />
+    </td>
+    <td>
+      <input type="text" id="race2J" size="6" value="" />
+    </td>
+    <td>
+      <input type="text" id="race3J" size="6" value="" />
+    </td>
+    <td>
+      <input type="text" id="race4J" size="6" value="" />
+    </td>
+    <td>
+      <input type="text" id="race5J" size="6" value="" />
+    </td>
+    <td>
+      <input type="text" id="race6J" size="6" value="" />
+    </td>
+    <td>
+      <input type="text" id="race7J" size="6" value="" />
+    </td>
+    <td>
+      <input type="text" id="race8J" size="6" value="" />
+    </td>
+    <td>
+      <input type="text" id="race9J" size="6" value="" />
+    </td>
+    <td>
+      <input type="text" id="race10J" size="6" value="" />
+    </td>
+    <td>
+      <input type="text" id="race11J" size="6" value="" />
+    </td>
+  </tr>
+ <tr>
+    <td>
+      <input type="text" id="race1T" size="6" value="" />
+    </td>
+    <td>
+      <input type="text" id="race2T" size="6" value="" />
+    </td>
+    <td>
+      <input type="text" id="race3T" size="6" value="" />
+    </td>
+    <td>
+      <input type="text" id="race4T" size="6" value="" />
+    </td>
+    <td>
+      <input type="text" id="race5T" size="6" value="" />
+    </td>
+    <td>
+      <input type="text" id="race6T" size="6" value="" />
+    </td>
+    <td>
+      <input type="text" id="race7T" size="6" value="" />
+    </td>
+    <td>
+      <input type="text" id="race8T" size="6" value="" />
+    </td>
+    <td>
+      <input type="text" id="race9T" size="6" value="" />
+    </td>
+    <td>
+      <input type="text" id="race10T" size="6" value="" />
+    </td>
+    <td>
+      <input type="text" id="race11T" size="6" value="" />
+    </td>
+  </tr>
+  </table>
+
+  <button id="backfromcloud">dnload KQJ fm cloud</button>   
+    <input type="button" id="test-typing" value="6185...776" />
+  <br />
+
+<br />
+<input id="text3" value="0388" style="width: 150px;" /> 
+<br />
+<input id="text3a" value="03881" style="width: 150px;" /> 
+
+<script>
+
+
+
+
+$("#backfromcloud").click(function() {
+ console.log("myvalue=",$(this).attr("value")); $.getJSON("https://jsonblob.com/api/jsonBlob/821851da-d2a5-11ea-96d2-93752e24e800", function(posts) {
+    for (var i = 2; i < posts.queue.length; i++) {
+      $('input[cat="pp"]').each(function() {
+        var id = $(this).attr("id");
+        if (id == posts.queue[i].key) {
+          var value = posts.queue[i].name;
+          $(this).val(value);
+        }
+      });
+    }
+  });
+});
+/////////////////////////////////////////////////////
+
+    $('#test-typing').click(function(){
+ //console.log("myvalue=",$(this).val()); 
+      var regegg = new RegExp(".*?!!!","i");
+      $(this).val("kk"+"!!!"+"bbb");
+ //     var res = $(this).val().match(regegg);
+        var res = $(this).val().split(/!!!/g);;
+   
+      console.log("res=",res[0]); console.log("res1=",res[1]); 
+//      console.log("kk=",$(this).val().indexOf("..."));
+    });
+
+</script>
