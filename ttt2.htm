@@ -1,6 +1,8 @@
 
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
 
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+
 
 <button id="button">KQJ Me</button>
 <br>
@@ -151,11 +153,14 @@
     </td>
   </tr>
   </table>
-
+<div id="sector_front">	
+    <input type="button" id="race1K" cat="pk" value="ppp...kkk" />
+    <input type="button" id="race2K" cat="pk" value="ppp...kkk" /></div>  
   <button id="backfromcloud">dnload KQJ fm cloud</button>   
     <input type="button" id="test-typing" value="6185...776" />
+    <input type="button" id="test-typing" value="700...9988" />
   <br />
-
+  <button id="pairsfromcloud">dnload pairs fm cloud</button>   
 <br />
 <input id="text3" value="0388" style="width: 150px;" /> 
 <br />
@@ -167,7 +172,8 @@
 
 
 $("#backfromcloud").click(function() {
- console.log("myvalue=",$(this).attr("value")); $.getJSON("https://jsonblob.com/api/jsonBlob/821851da-d2a5-11ea-96d2-93752e24e800", function(posts) {
+// console.log("myvalue=",$(this).val()); 
+$.getJSON("https://jsonblob.com/api/jsonBlob/821851da-d2a5-11ea-96d2-93752e24e800", function(posts) {
     for (var i = 2; i < posts.queue.length; i++) {
       $('input[cat="pp"]').each(function() {
         var id = $(this).attr("id");
@@ -180,17 +186,45 @@ $("#backfromcloud").click(function() {
   });
 });
 /////////////////////////////////////////////////////
+$("#pairsfromcloud").click(function() {
+// console.log("myvalue=",$(this).val()); 
+$.getJSON("https://jsonblob.com/api/jsonBlob/821851da-d2a5-11ea-96d2-93752e24e800", function(posts) {
+    for (var i = 2; i < posts.queue.length; i++) {
+      $('input[cat="pk"]').each(function() {
+        var id = $(this).attr("id");
+        if (id == posts.queue[i].key) {
+          var value = posts.queue[i].name;
+          $(this).val(value);
+        }
+      });
+    }
+  });
+});
+/////////////////////////////////////////////////////
+/*<div id="sector_front">	
+    <input type="button" id="test-typing" value="6185...776" />
+    <input type="button" id="test-typing" value="700...9988" />
+</div> 
+*/
+$('#sector_front').on('click', 'input', function () {
+//  console.log("myvalue=",$(this).val()); 
+var res = $(this).val().split(/\.\.\./g);;
+  $('#text3').val(res[0]);
+   $('#text3a').val(res[1]);
+});
+/////////////////////////////////////////////////////
 
     $('#test-typing').click(function(){
  //console.log("myvalue=",$(this).val()); 
-      var regegg = new RegExp(".*?!!!","i");
-      $(this).val("kk"+"!!!"+"bbb");
+ //     var regegg = new RegExp(".*?!!!","i");
+      $(this).val("kk"+"..."+"bbb");
  //     var res = $(this).val().match(regegg);
-        var res = $(this).val().split(/!!!/g);;
+        var res = $(this).val().split(/\.\.\./g);;
    
       console.log("res=",res[0]); console.log("res1=",res[1]); 
 //      console.log("kk=",$(this).val().indexOf("..."));
     });
 // https://stackoverflow.com/questions/12001953/javascript-and-regex-split-string-and-keep-the-separator
     
+
 </script>
