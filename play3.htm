@@ -1081,6 +1081,18 @@ ___________ ___________
 ___________<input type="button" value="6806... <=" id="button_call2" />
 <input type="button" value="1801... <=" id="button_put2" />
 <br />
+<div id="sector_watch">	
+    <input type="button" id="race1K" cat="pk" value="ppp...kkk" />
+    <input type="button" id="race2K" cat="pk" value="ppp...kkk" />
+    <input type="button" id="race3K" cat="pk" value="ppp...kkk" />
+    <input type="button" id="race4K" cat="pk" value="ppp...kkk" />
+    <input type="button" id="race5K" cat="pk" value="ppp...kkk" />
+    <input type="button" id="race6K" cat="pk" value="ppp...kkk" />
+    <input type="button" id="race7K" cat="pk" value="ppp...kkk" />
+    <input type="button" id="race8K" cat="pk" value="ppp...kkk" />
+</div>  
+<br />
+  <button id="pairsfromcloud">dnload pairs fm cloud</button> 
 <br />
 <br />
 <br />
@@ -1255,6 +1267,32 @@ $('#button_call1').on('click', function() { $('#text3').val("7200"); $('#text3a'
 $('#button_put1').on('click', function() { $('#text3').val("3165"); $('#text3a').val("3147");});
 $('#button_call2').on('click', function() { $('#text3').val("6806"); $('#text3a').val("819"); });
 $('#button_put2').on('click', function() { $('#text3').val("3759"); $('#text3a').val("1801");});
+	
+/////////////////////////////////////////////////////
+$("#sector_watch").on("click", "input", function () {
+  var res = $(this).val().split(/\.\.\./g);
+  $("#text3").val(res[0]);
+  $("#text3a").val(res[1]);
+});
+
+/////////////////////////////////////////////////////
+$("#pairsfromcloud").click(function () {
+  // console.log("myvalue=",$(this).val());
+  $.getJSON("https://jsonblob.com/api/jsonBlob/821851da-d2a5-11ea-96d2-93752e24e800",
+    function (posts) {
+      for (var i = 2; i < posts.queue.length; i++) {
+        $('input[cat="pk"]').each(function () {
+          var id = $(this).attr("id");
+          if (id == posts.queue[i].key) {
+            var value = posts.queue[i].name;
+            $(this).val(value);
+          }
+        });
+      }
+    }
+  );
+});
+
 </script>
 
 <br>
