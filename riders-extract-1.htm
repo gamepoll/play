@@ -27,31 +27,31 @@
 <table id="w">
   <tr>
     <td>
-      <input type="text" id="race1K" size="6" value="" />
+      <input type="text" id="race1K" cat="pp" size="6" value="" />
     </td>
     <td>
-      <input type="text" id="race2K" size="6" value="" />
+      <input type="text" id="race2K" cat="pp" size="6" value="" />
     </td>
     <td>
-      <input type="text" id="race3K" size="6" value="" />
+      <input type="text" id="race3K" cat="pp" size="6" value="" />
     </td>
     <td>
-      <input type="text" id="race4K" size="6" value="" />
+      <input type="text" id="race4K" cat="pp" size="6" value="" />
     </td>
     <td>
-      <input type="text" id="race5K" size="6" value="" />
+      <input type="text" id="race5K" cat="pp" size="6" value="" />
     </td>
     <td>
-      <input type="text" id="race6K" size="6" value="" />
+      <input type="text" id="race6K" cat="pp" size="6" value="" />
     </td>
     <td>
-      <input type="text" id="race7K" size="6" value="" />
+      <input type="text" id="race7K" cat="pp" size="6" value="" />
     </td>
     <td>
-      <input type="text" id="race8K" size="6" value="" />
+      <input type="text" id="race8K" cat="pp" size="6" value="" />
     </td>
     <td>
-      <input type="text" id="race9K" size="6" value="" />
+      <input type="text" id="race9K" cat="pp" size="6" value="" />
     </td>
     <td>
       <input type="text" id="race10K" size="6" value="" />
@@ -62,31 +62,31 @@
   </tr>
   <tr>
     <td>
-      <input type="text" id="race1Q" size="6" value="" />
+      <input type="text" id="race1Q" cat="pp" size="6" value="" />
     </td>
     <td>
-      <input type="text" id="race2Q" size="6" value="" />
+      <input type="text" id="race2Q" cat="pp" size="6" value="" />
     </td>
     <td>
-      <input type="text" id="race3Q" size="6" value="" />
+      <input type="text" id="race3Q" cat="pp" size="6" value="" />
     </td>
     <td>
-      <input type="text" id="race4Q" size="6" value="" />
+      <input type="text" id="race4Q" cat="pp" size="6" value="" />
     </td>
     <td>
-      <input type="text" id="race5Q" size="6" value="" />
+      <input type="text" id="race5Q" cat="pp" size="6" value="" />
     </td>
     <td>
-      <input type="text" id="race6Q" size="6" value="" />
+      <input type="text" id="race6Q" cat="pp" size="6" value="" />
     </td>
     <td>
-      <input type="text" id="race7Q" size="6" value="" />
+      <input type="text" id="race7Q" cat="pp" size="6" value="" />
     </td>
     <td>
-      <input type="text" id="race8Q" size="6" value="" />
+      <input type="text" id="race8Q" cat="pp" size="6" value="" />
     </td>
     <td>
-      <input type="text" id="race9Q" size="6" value="" />
+      <input type="text" id="race9Q" cat="pp" size="6" value="" />
     </td>
     <td>
       <input type="text" id="race10Q" size="6" value="" />
@@ -168,6 +168,7 @@
   </table>
   <button id="savebase">save base-KQJ</button>
   <button id="uptocloud">upload to cloud-KQJ</button> 
+  <button id="backfromcloud">dnload KQJ fm cloud</button> 
 <br>
   <button id="savebaseodds">save base-odds</button>
   <button id="uptocloudodds">upload to cloud-odds</button> 
@@ -489,6 +490,22 @@ $("#uptocloud").click(function() {
         var json = JSON.stringify(data);
       }
     });
+  });
+});
+/////////////////////////////////////////////////////
+$("#backfromcloud").click(function() {
+console.log("myvalue=",$(this).val()); 
+$.getJSON("https://jsonblob.com/api/jsonBlob/821851da-d2a5-11ea-96d2-93752e24e800", function(posts) {
+    for (var i = 2; i < posts.queue.length; i++) {
+      console.log("myvalue=",posts.queue.length); 
+      $('input[cat="pp"]').each(function() {
+        var id = $(this).attr("id");
+        if (id == posts.queue[i].key) {
+          var value = posts.queue[i].name;
+          $(this).val(value);
+        }
+      });
+    }
   });
 });
 
