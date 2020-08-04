@@ -1,16 +1,12 @@
-
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
-
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
-
 
 <button id="button">KQJ Me</button>
 <br>
-    <button id="button_odds">Odd Me</button>
-    <button id="button_brown">Brown Me</button>
-    <button id="button_brown2">Brown Me2</button>
-    <button id="button_info">Info Me</button>
-    <button id="button_convert">Convert Me</button>
+<button id="button_odds">Odd Me</button>
+<button id="button_brown">Brown Me</button>
+<button id="button_brown2">Brown Me2</button>
+<button id="button_info">Info Me</button>
+<button id="button_convert">Convert Me</button>
 <table id="w">
   <tr>
     <td>
@@ -20,25 +16,25 @@
       <input type="text" id="race2K" cat="pp" size="6" value="" />
     </td>
     <td>
-      <input type="text" id="race3K" size="6" value="" />
+      <input type="text" id="race3K" cat="pp" size="6" value="" />
     </td>
     <td>
-      <input type="text" id="race4K" size="6" value="" />
+      <input type="text" id="race4K" cat="pp" size="6" value="" />
     </td>
     <td>
-      <input type="text" id="race5K" size="6" value="" />
+      <input type="text" id="race5K" cat="pp" size="6" value="" />
     </td>
     <td>
-      <input type="text" id="race6K" size="6" value="" />
+      <input type="text" id="race6K" cat="pp" size="6" value="" />
     </td>
     <td>
-      <input type="text" id="race7K" size="6" value="" />
+      <input type="text" id="race7K" cat="pp" size="6" value="" />
     </td>
     <td>
-      <input type="text" id="race8K" size="6" value="" />
+      <input type="text" id="race8K" cat="pp" size="6" value="" />
     </td>
     <td>
-      <input type="text" id="race9K" size="6" value="" />
+      <input type="text" id="race9K" cat="pp" size="6" value="" />
     </td>
     <td>
       <input type="text" id="race10K" size="6" value="" />
@@ -117,7 +113,7 @@
       <input type="text" id="race11J" size="6" value="" />
     </td>
   </tr>
- <tr>
+  <tr>
     <td>
       <input type="text" id="race1T" size="6" value="" />
     </td>
@@ -152,53 +148,58 @@
       <input type="text" id="race11T" size="6" value="" />
     </td>
   </tr>
-  </table>
-<div id="sector_front">	
-    <input type="button" id="race1K" cat="pk" value="ppp...kkk" />
-    <input type="button" id="race2K" cat="pk" value="ppp...kkk" /></div>  
-  <button id="backfromcloud">dnload KQJ fm cloud</button>   
-    <input type="button" id="test-typing" value="6185...776" />
-    <input type="button" id="test-typing" value="700...9988" />
-  <br />
-  <button id="pairsfromcloud">dnload pairs fm cloud</button>   
+</table>
+<div id="sector_front">
+  <input type="button" id="race1K" cat="pk" value="ppp...kkk" />
+  <input type="button" id="race2K" cat="pk" value="ppp...kkk" /></div>
+<button id="pairsfromcloud">dnload pairs fm cloud</button>
+
+<input type="button" id="test-typing" value="6185...776" />
+<input type="button" id="test-typing" value="700...9988" />
 <br />
-<input id="text3" value="0388" style="width: 150px;" /> 
+<button id="savebase">save base-KQJ</button>
+<button id="uptocloud">upload to cloud-KQJ</button>
+<button id="backfromcloud">dnload KQJ fm cloud</button>
 <br />
-<input id="text3a" value="03881" style="width: 150px;" /> 
+<input id="text3" value="0388" style="width: 150px;" />
+<br />
+<input id="text3a" value="03881" style="width: 150px;" />
 
 <script>
-
-
-
-
-$("#backfromcloud").click(function() {
-// console.log("myvalue=",$(this).val()); 
-$.getJSON("https://jsonblob.com/api/jsonBlob/821851da-d2a5-11ea-96d2-93752e24e800", function(posts) {
-    for (var i = 2; i < posts.queue.length; i++) {
-      $('input[cat="pp"]').each(function() {
-        var id = $(this).attr("id");
-        if (id == posts.queue[i].key) {
-          var value = posts.queue[i].name;
-          $(this).val(value);
-        }
-      });
+$("#backfromcloud").click(function () {
+  // console.log("myvalue=",$(this).val());
+  $.getJSON(
+    "https://jsonblob.com/api/jsonBlob/821851da-d2a5-11ea-96d2-93752e24e800",
+    function (posts) {
+      for (var i = 2; i < posts.queue.length; i++) {
+        $('input[cat="pp"]').each(function () {
+          var id = $(this).attr("id");
+          if (id == posts.queue[i].key) {
+            var value = posts.queue[i].name;
+            $(this).val(value);
+          }
+        });
+      }
     }
-  });
+  );
 });
 /////////////////////////////////////////////////////
-$("#pairsfromcloud").click(function() {
-// console.log("myvalue=",$(this).val()); 
-$.getJSON("https://jsonblob.com/api/jsonBlob/821851da-d2a5-11ea-96d2-93752e24e800", function(posts) {
-    for (var i = 2; i < posts.queue.length; i++) {
-      $('input[cat="pk"]').each(function() {
-        var id = $(this).attr("id");
-        if (id == posts.queue[i].key) {
-          var value = posts.queue[i].name;
-          $(this).val(value);
-        }
-      });
+$("#pairsfromcloud").click(function () {
+  // console.log("myvalue=",$(this).val());
+  $.getJSON(
+    "https://jsonblob.com/api/jsonBlob/821851da-d2a5-11ea-96d2-93752e24e800",
+    function (posts) {
+      for (var i = 2; i < posts.queue.length; i++) {
+        $('input[cat="pk"]').each(function () {
+          var id = $(this).attr("id");
+          if (id == posts.queue[i].key) {
+            var value = posts.queue[i].name;
+            $(this).val(value);
+          }
+        });
+      }
     }
-  });
+  );
 });
 /////////////////////////////////////////////////////
 /*<div id="sector_front">	
@@ -206,25 +207,87 @@ $.getJSON("https://jsonblob.com/api/jsonBlob/821851da-d2a5-11ea-96d2-93752e24e80
     <input type="button" id="test-typing" value="700...9988" />
 </div> 
 */
-$('#sector_front').on('click', 'input', function () {
-//  console.log("myvalue=",$(this).val()); 
-var res = $(this).val().split(/\.\.\./g);;
-  $('#text3').val(res[0]);
-   $('#text3a').val(res[1]);
+$("#sector_front").on("click", "input", function () {
+  //  console.log("myvalue=",$(this).val());
+  var res = $(this)
+    .val()
+    .split(/\.\.\./g);
+  $("#text3").val(res[0]);
+  $("#text3a").val(res[1]);
 });
 /////////////////////////////////////////////////////
 
-    $('#test-typing').click(function(){
- //console.log("myvalue=",$(this).val()); 
- //     var regegg = new RegExp(".*?!!!","i");
-      $(this).val("kk"+"..."+"bbb");
- //     var res = $(this).val().match(regegg);
-        var res = $(this).val().split(/\.\.\./g);;
-   
-      console.log("res=",res[0]); console.log("res1=",res[1]); 
-//      console.log("kk=",$(this).val().indexOf("..."));
-    });
+$("#test-typing").click(function () {
+  //console.log("myvalue=",$(this).val());
+  //     var regegg = new RegExp(".*?!!!","i");
+  $(this).val("kk" + "..." + "bbb");
+  //     var res = $(this).val().match(regegg);
+  var res = $(this)
+    .val()
+    .split(/\.\.\./g);
+
+  console.log("res=", res[0]);
+  console.log("res1=", res[1]);
+  //      console.log("kk=",$(this).val().indexOf("..."));
+});
 // https://stackoverflow.com/questions/12001953/javascript-and-regex-split-string-and-keep-the-separator
-    
+/////////////////////////////////////////////////////
+$("#savebase").click(function () {
+  var updatedObj = {
+    queue: [
+      { key: "1088", key2: "1088", name: "Banana" },
+      { key: "1099", key2: "1088", name: "Orange" }
+    ]
+  };
+  var updatedData = JSON.stringify(updatedObj);
+
+  // do update
+  $.ajax({
+    url:
+      "https://jsonblob.com/api/jsonBlob/821851da-d2a5-11ea-96d2-93752e24e800",
+    type: "PUT",
+    data: updatedData,
+    contentType: "application/json; charset=utf-8",
+    dataType: "json",
+    success: function (data, textStatus, jqXHR) {
+      var json = JSON.stringify(data);
+    }
+  });
+});
+/////////////////////////////////////////////////////
+$("#uptocloud").click(function () {
+  $.getJSON(
+    "https://jsonblob.com/api/jsonBlob/821851da-d2a5-11ea-96d2-93752e24e800",
+    function (posts) {
+      // posts => LS
+      localStorage.setItem("lsposts", JSON.stringify(posts));
+
+      // LS => jsonArray
+      jsonArray2 = JSON.parse(localStorage.getItem("lsposts"));
+
+      // jsonArray2 += newjson
+      $('input[type="text"]').each(function () {
+        jsonArray2.queue.push({
+          key: $(this).attr("id"),
+          name: $(this).val(),
+          key2: "//"
+        });
+      });
+      // do update
+      $.ajax({
+        url:
+          "https://jsonblob.com/api/jsonBlob/821851da-d2a5-11ea-96d2-93752e24e800",
+        type: "PUT",
+        data: JSON.stringify(jsonArray2),
+        contentType: "application/json; charset=utf-8",
+        dataType: "json",
+        success: function (data, textStatus, jqXHR) {
+          var json = JSON.stringify(data);
+        }
+      });
+    }
+  );
+});
+/////////////////////////////////////////////////////
 
 </script>
