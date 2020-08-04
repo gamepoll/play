@@ -167,7 +167,7 @@
   </tr>
   </table>
   <button id="savebase">save base-KQJ</button>
-  <button id="uptocloud">upload to cloud-KQJ</button> 
+  <button id="KQJuptocloud">upload to cloud-KQJ</button> 
   <button id="backfromcloud">dnload KQJ fm cloud</button> 
 <br>
   <button id="savebaseodds">save base-odds</button>
@@ -463,7 +463,7 @@ $("#savebase").click(function() {
   });
 });
 
-$("#uptocloud").click(function() {
+$("#KQJuptocloud").click(function() {
   $.getJSON("https://jsonblob.com/api/jsonBlob/821851da-d2a5-11ea-96d2-93752e24e800", function(posts) {
     // posts => LS
     localStorage.setItem("lsposts", JSON.stringify(posts));
