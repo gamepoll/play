@@ -988,6 +988,19 @@ String.prototype.replaceAll = function (strTarget, strSubString, caseSensitive) 
 <input type="button" value="Tcy-Gee =>" id="button_Tcy_Gee" style="background-color:lightgrey" />
 <input type="button" value="Aig-Png =>" id="button_Aig_Png" style="background-color:lightgrey" />
 <br />
+<div id="sector_sc_watch">	
+    <input type="button" id="race1Q" cat="pksc" value="ppp...kkk" />
+    <input type="button" id="race2Q" cat="pksc" value="ppp...kkk" />
+    <input type="button" id="race3Q" cat="pksc" value="ppp...kkk" />
+    <input type="button" id="race4Q" cat="pksc" value="ppp...kkk" />
+    <input type="button" id="race5Q" cat="pksc" value="ppp...kkk" />
+    <input type="button" id="race6Q" cat="pksc" value="ppp...kkk" />
+    <input type="button" id="race7Q" cat="pksc" value="ppp...kkk" />
+    <input type="button" id="race8Q" cat="pksc" value="ppp...kkk" />
+</div>  
+<br />
+  <button id="scpairsfromcloud">dnload sc pairs fm cloud</button> 
+<br />   
 <script>
     $('#tsx_plus').on('click', function() { $('#tsx_current').val(parseInt($('#tsx_current').val()) + 100); });
     $('#tsx_minus').on('click', function() { $('#tsx_current').val(parseInt($('#tsx_current').val()) - 100); });
@@ -1291,6 +1304,31 @@ $("#pairsfromcloud").click(function () {
       }
     }
   );
+});
+/////////////////////////////////////////////////////
+$("#scpairsfromcloud").click(function () {
+  // console.log("myvalue=",$(this).val());
+  $.getJSON(
+    "https://jsonblob.com/api/jsonBlob/821851da-d2a5-11ea-96d2-93752e24e800",
+    function (posts) {
+      for (var i = 2; i < posts.queue.length; i++) {
+        $('input[cat="pksc"]').each(function () {
+          var id = $(this).attr("id");
+          if (id == posts.queue[i].key) {
+            var value = posts.queue[i].name;
+            $(this).val(value);
+          }
+        });
+      }
+    }
+  );
+});
+
+/////////////////////////////////////////////////////
+$("#sector_sc_watch").on("click", "input", function () {
+  var res = $(this).val().split(/\.\.\./g);
+  $("#text1").val(res[0] + ":$one:" + res[1]);
+  $("#button_vb").click();
 });
 
 </script>
@@ -2468,7 +2506,7 @@ $('#button_vb').on('click', function () {
         var staticstring2 = "http://c.stockcharts.com/c-sc/sc?s=cew:bang&p=w&yr=20&i=0&a=168&r=pang";
         
         
-        text4.val(staticstring2.replaceAll("bang", text1.val(), true));
+        text4.val(staticstring2.replaceAll("bang", "$one:"+text1.val(), true));
         text4.val(text4.val().replaceAll("pang", Math.floor(Math.random() * (100 + 1) + 0), true));
 
         document.getElementById('img_dual').src=text4.val();
@@ -2501,7 +2539,7 @@ $('#button_vb').on('click', function () {
         var staticstring2 = "http://c.stockcharts.com/c-sc/sc?s=cew:bang&p=d&i=0&a=168&r=pang";
         
         
-        text4.val(staticstring2.replaceAll("bang", text1.val(), true));
+        text4.val(staticstring2.replaceAll("bang", "$one:"+text1.val(), true));
         text4.val(text4.val().replaceAll("pang", Math.floor(Math.random() * (100 + 1) + 0), true));
 
         document.getElementById('img_dual+++').src=text4.val();
