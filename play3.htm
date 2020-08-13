@@ -195,6 +195,12 @@ __________<select id="dropdown_change2">
       
 </select>
 <br /> 
+<input type="text" value="empty" id="text4" nohidden=1 style="width: 190px;" />
+<br /> 
+<input type="text" value="empty" id="text4a" nohidden=1 style="width: 190px;" />
+<br /> 
+<input type="text" value="empty" id="text4b" nohidden=1 style="width: 190px;" />
+<br /> 
 <br />
 <input type="checkbox" id="dia1" name="dia1" value="lunes" checked="checked"/>
 <label for="dia1">Lunes</label>
@@ -225,6 +231,7 @@ __________<select id="dropdown_change2">
 <input type="button" value="Vx-Tx-Ux =>" id="button_vut" style="background-color:lightgrey" />
 <input type="button" value="Rd-Fd =>" id="button_rf" style="background-color:lightgrey" />
 <input type="button" value="Tcy-Web2x =>" id="button_tw" style="background-color:lightgrey" />
+<input type="button" value="X<->Y =>" id="button_xy" style="background-color:lightgrey" />
 <input type="button" value="Long Tail =>" id="button_ltail" />
 <input type="button" value="Short Tail =>" id="button_stail" />
 <input type="button" value="Long Tail(W) =>" id="button_ltailw" />
@@ -1001,6 +1008,20 @@ String.prototype.replaceAll = function (strTarget, strSubString, caseSensitive) 
 <br />
   <button id="scpairsfromcloud">dnload sc pairs fm cloud</button> 
 <br />   
+<br />   
+<div id="sector_jsc_watch">	
+    <input type="button" id="race1J" cat="pkjsc" value="ppp...kkk" />
+    <input type="button" id="race2J" cat="pkjsc" value="ppp...kkk" />
+    <input type="button" id="race3J" cat="pkjsc" value="ppp...kkk" />
+    <input type="button" id="race4J" cat="pkjsc" value="ppp...kkk" />
+    <input type="button" id="race5J" cat="pkjsc" value="ppp...kkk" />
+    <input type="button" id="race6J" cat="pkjsc" value="ppp...kkk" />
+    <input type="button" id="race7J" cat="pkjsc" value="ppp...kkk" />
+    <input type="button" id="race8J" cat="pkjsc" value="ppp...kkk" />
+</div>  
+<br />
+  <button id="scjpairsfromcloud">dnload sc co pairs fm cloud</button> 
+<br />  
 <script>
     $('#tsx_plus').on('click', function() { $('#tsx_current').val(parseInt($('#tsx_current').val()) + 100); });
     $('#tsx_minus').on('click', function() { $('#tsx_current').val(parseInt($('#tsx_current').val()) - 100); });
@@ -1116,7 +1137,6 @@ source: <a href="http://webb-site.com/dbpub/orgdata.asp?code=1561">1561</a>
 : <a href="http://www.aastocks.com/tc/stocks/news/aamm/aamm-all-category/0/03823/1">Big Lot</a>
 : <a href="http://www.aastocks.com/tc/stocks/analysis/stock-short-selling-ratio.aspx?symbol=01193">Short Ratio</a>
 <br />
-<input type="text" value="empty" id="text4" hidden=1 style="width: 950px;" />
 
 <div id="sector_front">	
 ______<button>Click Mee</button>_____________________________________________<button>Click Mee</button>
@@ -1332,6 +1352,37 @@ $("#sector_sc_watch").on("click", "input", function () {
   $("#button_vb").click();
 });
 
+/////////////////////////////////////////////////////
+$("#scjpairsfromcloud").click(function () {
+  //   console.log("myvalue=",$(this).val());
+  $.getJSON(
+    "https://jsonblob.com/api/jsonBlob/821851da-d2a5-11ea-96d2-93752e24e800",
+    function (posts) {
+      for (var i = 2; i < posts.queue.length; i++) {
+        $('input[cat="pkjsc"]').each(function () {
+          var id = $(this).attr("id");
+          if (id == posts.queue[i].key) {
+            var value = posts.queue[i].name;
+            $(this).val(value);
+          }
+        });
+      }
+    }
+  );
+});
+
+/////////////////////////////////////////////////////
+$("#sector_jsc_watch").on("click", "input", function () {
+  var res = $(this)
+    .val()
+    .split(/\.\.\./g);
+  $("#text1").val(res[0]);
+  $("#text4").val(res[1]);
+  $("#text4a").val(res[2]);
+  $("#text4b").val(res[3]);
+  $("#button_xy").click();
+});
+	
 </script>
 
 <br>
@@ -2547,6 +2598,54 @@ $('#button_vb').on('click', function () {
         
 });
 
+/////////////////////////////////////
+$("#button_xy").on("click", function () {
+
+  var text1 = $("#text1");
+  var text4 = $("#text4");
+  var text1val = text1.val();
+  var text4val = text4.val();
+  var text4aval = $("#text4a").val();
+  var text4bval = $("#text4b").val();
+
+  var staticstring2 ="http://c.stockcharts.com/c-sc/sc?s=bang&p=D&&yr=1&i=p40545395733&r=0999";
+
+  text4.val(staticstring2.replaceAll("bang", text1val + ":$one:" + text4val, true));
+  text4.val(text4.val().replaceAll("pang", Math.floor(Math.random() * (100 + 1) + 0), true));
+
+  document.getElementById("img_dual").src = text4.val();
+
+  //        var staticstring2 = "http://c.stockcharts.com/c-sc/sc?s=bdx:bang&p=w&yr=20&i=0&a=168&r=pang";
+
+  text4.val(staticstring2.replaceAll("bang", text1val + ":" + text4val, true));
+  text4.val(text4.val().replaceAll("pang", Math.floor(Math.random() * (100 + 1) + 0), true));
+
+  document.getElementById("img_dualplus").src = text4.val();
+
+  var staticstring2 ="http://c.stockcharts.com/c-sc/sc?s=bang&p=D&&yr=1&i=p40545395733&r=0999";
+
+  text4.val(staticstring2.replaceAll("bang", text1val, true));
+  text4.val(text4.val().replaceAll("pang", Math.floor(Math.random() * (100 + 1) + 0), true));
+
+  document.getElementById("img_dual_raw").src = text4.val();
+
+  //        var staticstring2 = "http://c.stockcharts.com/c-sc/sc?s=bdx:bang&p=d&i=0&a=168&r=pang";
+
+  text4.val(staticstring2.replaceAll("bang", "$one:" + text4val, true));
+  text4.val(text4.val().replaceAll("pang", Math.floor(Math.random() * (100 + 1) + 0), true));
+
+  document.getElementById("img_dual++").src = text4.val();
+
+  var staticstring2 ="http://charts.megahubhk.com/servlets/MHImageChart?sid=bang&mChart2=11&m2p1=7&cmode=1&vol=1&intTech1=1&it1p1=50&it1p5=200&tstyle=2&fsize=10&&cr=106&cwidth=499&cheight=375&lang=1&cperiod=1010100&ctype=1&wm=13&r=pang";
+
+  text4.val(staticstring2.replaceAll("bang", text4aval, true));
+  text4.val(text4.val().replaceAll("pang", Math.floor(Math.random() * (100 + 1) + 0), true));
+
+  document.getElementById("img_dual+++").src = text4.val();
+  // resume text4
+  text4.val(text4val);
+});
+	
 $('#sector_mon').on('click', 'button', function () {
 
 	document.getElementById('img_xxxk').src="http://www.advfn.com/p.php?pid=staticchart&s=FX^usdcnh&p=0&t=16&k=66&m=85&dm=2&q=" + Math.floor(Math.random() * (100 + 1) + 0);
