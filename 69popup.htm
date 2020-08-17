@@ -96,6 +96,13 @@
 </div>
 <img src="https://charts.megahubhk.com/servlets/MHImageChart?sid=0700&cmode=1&vol=1&intTech1=1&it1p1=50&it1p5=200&tstyle=2&fsize=9&&cr=106&cwidth=275&cheight=175&lang=1&cperiod=1010003&ctype=1&wm=16" width="275" height="215" border="0">
 <br />
+
+<div class="popup_big">
+  <img src="http://c.stockcharts.com/c-sc/sc?s=aagiy:$one:pngay&p=D&&yr=3&i=p40545395733&r=0999" width="650" height="450" border="0">
+  <img src="http://c.stockcharts.com/c-sc/sc?s=aagiy:pngay&p=D&&yr=3&i=p40545395733&r=0999" width="650" height="450" border="0">
+</div>
+<br />
+	
 <!--End of popup--->  
 </div>
 
@@ -119,6 +126,11 @@
 .popup img{
     width: 200px;
     height: 200px;
+    cursor: pointer
+}
+.popup_big img{
+    width: 420px;
+    height: 450px;
     cursor: pointer
 }
 .show{
@@ -179,6 +191,9 @@ $(function () {
       var str2 = $src.replace(/\[d\w+\]/gi,"[dk]");
       var str3 = str2.replace(/\&cperiod\=\w+\&/gi,"&cperiod=1001030&p=" + Math.random().toString(36).substr(2, 9) +"&" ) ;
       var str4 = str3.replace(/\]dac\w+\[/gi,"]waclyyay[" ) ;   
+      // replace p=? with p=W && yr=? with yr=11
+      var str4 = str4.replace(/\&yr\=\w+\&/gi,"&yr=11&") ;
+      var str4 = str4.replace(/\&p\=\w+\&/gi,"&p=W&") ;
       console.log(str4); 
         $(".show").fadeIn();
         $(".img-show img").attr("src", str4);
