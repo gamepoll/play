@@ -587,7 +587,8 @@ $("#infoall").on("click", function(e) {
     doCORSRequest(
       {
         method: "POST",
-        url: "https://racing.hkjc.com/racing/Info/meeting/RaceCard/chinese/Local/20200205/HV/" + (i+1),
+        url: "http://hkhorsedb.com/cseh/cdecl" + (i+1) + ".php",
+//        url: "https://racing.hkjc.com/racing/Info/meeting/RaceCard/chinese/Local/20200205/HV/" + (i+1),
         data: dataField.value
       },
       function printResult(result) {
