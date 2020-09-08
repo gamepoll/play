@@ -288,21 +288,21 @@ document.getElementById("button").addEventListener("click", function() {
   var infos = new Object();
   infos.queue = new Array();
 
-  if (outputField.value.indexOf("RaceCard",20) < 60) {
+  if (outputField.value.indexOf("hkhorsedb") < 60) {
   // here infoall
     console.log("infoall scan>>");
   arrayStr = outputField.value.split("<td");
   arrayStr.forEach((element, index, array) => {
-    if (element.indexOf("horseno=") > 20) {
+    if (element.indexOf("BrandNo=") > 0) {
       //      console.log("infoele=", element.indexOf('horseno='));
       //      console.log("ele=", element);
       //      console.log("key=", element.split(/600\)\"\>/)[1].split(/</)[0]);
       //      console.log("name=", element.split(/horseno\=/)[1].split(/\'/)[0]);
       //      console.log("key2=", array[index+12].split(/\>/)[1].split(/</)[0]);
       infos.queue.push({
-        key: element.split(/600\)\"\>/)[1].split(/</)[0],
-        name: element.split(/horseno\=/)[1].split(/\'/)[0],
-        key2: array[index + 12].split(/\>/)[1].split(/</)[0]
+        key: element.split(/BrandNo\=/)[1].split(/</)[0].split(/>/)[1].trim(),
+        name: element.split(/BrandNo\=/)[1].split(/\"/)[0],
+        key2: element.split(/center\"\>/)[4].split(/</)[0]
       });
     };
   });
@@ -433,7 +433,7 @@ $("#savebaseodds").click(function() {
 
   // do update
   $.ajax({
-    url: "https://api.myjson.com/bins/makiy",
+    url: "https://jsonblob.com/api/jsonBlob/435dc429-f208-11ea-9d5c-95817253fa1e",
     type: "PUT",
     data: updatedData,
     contentType: "application/json; charset=utf-8",
@@ -518,7 +518,7 @@ $("#uptocloudodds").click(function() {
   // do update
   if (outputFieldOdds.value.length > 0) {
     $.ajax({
-      url: "https://api.myjson.com/bins/makiy",
+      url: "https://jsonblob.com/api/jsonBlob/435dc429-f208-11ea-9d5c-95817253fa1e",
       type: "PUT",
       data: outputFieldOdds.value,
       contentType: "application/json; charset=utf-8",
@@ -564,7 +564,7 @@ $("#uptocloudinfo").click(function() {
   // do update
   if (outputFieldOdds.value.length > 0) {
     $.ajax({
-      url: "https://api.myjson.com/bins/146qfc",
+      url: "https://jsonblob.com/api/jsonBlob/d83a495d-f208-11ea-9d5c-2319018d698b",
       type: "PUT",
       data: outputFieldOdds.value,
       contentType: "application/json; charset=utf-8",
