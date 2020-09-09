@@ -176,6 +176,10 @@
   <button id="savebaseodds">save base-odds</button>
   <button id="uptocloudodds">upload to cloud-odds</button> 
 <br>
+  <button id="savebasescode">save base-scodes</button>
+  <button id="scodesuptocloud">upload to cloud-scodes</button> 
+  <button id="scodesbackfromcloud">dnload scodes fm cloud</button> 
+<br>
   <button id="uptocloudinfo">upload to cloud-info</button> 
 
 <style>
@@ -512,6 +516,76 @@ $.getJSON("https://jsonblob.com/api/jsonBlob/821851da-d2a5-11ea-96d2-93752e24e80
   });
 });
 
+///////////////////////////////////////////////
+$("#savebasescode").click(function() {
+  var updatedObj = {
+    queue: [
+      { key: "1088", key2: "1088", name: "Banana" },
+      { key: "1099", key2: "1088", name: "Orange" }
+    ]
+  };
+  var updatedData = JSON.stringify(updatedObj);
+
+  // do update
+  $.ajax({
+    url: "https://jsonblob.com/api/jsonBlob/c64ff3aa-f2cc-11ea-8070-6b11b868133b",
+    type: "PUT",
+    data: updatedData,
+    contentType: "application/json; charset=utf-8",
+    dataType: "json",
+    success: function(data, textStatus, jqXHR) {
+      var json = JSON.stringify(data);
+    }
+  });
+});
+
+$("#scodesuptocloud").click(function() {
+  $.getJSON("https://jsonblob.com/api/jsonBlob/c64ff3aa-f2cc-11ea-8070-6b11b868133b", function(posts) {
+    // posts => LS
+    localStorage.setItem("lsposts", JSON.stringify(posts));
+
+    // LS => jsonArray
+    jsonArray2 = JSON.parse(localStorage.getItem("lsposts"));
+
+    // jsonArray2 += newjson
+    $('input[type="text"]').each(function() {
+      jsonArray2.queue.push({
+        key: $(this).attr("id"),
+        name: $(this).val(),
+        key2: "//"
+      });
+    });
+    // do update
+    $.ajax({
+      url: "https://jsonblob.com/api/jsonBlob/c64ff3aa-f2cc-11ea-8070-6b11b868133b",
+      type: "PUT",
+      data: JSON.stringify(jsonArray2),
+      contentType: "application/json; charset=utf-8",
+      dataType: "json",
+      success: function(data, textStatus, jqXHR) {
+        var json = JSON.stringify(data);
+      }
+    });
+  });
+});
+/////////////////////////////////////////////////////
+$("#scodesbackfromcloud").click(function() {
+console.log("myvalue=",$(this).val()); 
+$.getJSON("https://jsonblob.com/api/jsonBlob/c64ff3aa-f2cc-11ea-8070-6b11b868133b", function(posts) {
+    for (var i = 2; i < posts.queue.length; i++) {
+      console.log("myvalue=",posts.queue.length); 
+      $('input[cat="pp"]').each(function() {
+        var id = $(this).attr("id");
+        if (id == posts.queue[i].key) {
+          var value = posts.queue[i].name;
+          $(this).val(value);
+        }
+      });
+    }
+  });
+});
+
+////////
 ////////
 $("#uptocloudodds").click(function() {
   var outputFieldOdds = document.getElementById("outputodds");
