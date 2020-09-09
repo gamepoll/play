@@ -1312,7 +1312,7 @@ $("#sector_watch").on("click", "input", function () {
 /////////////////////////////////////////////////////
 $("#pairsfromcloud").click(function () {
   // console.log("myvalue=",$(this).val());
-  $.getJSON("https://jsonblob.com/api/jsonBlob/821851da-d2a5-11ea-96d2-93752e24e800",
+  $.getJSON("https://jsonblob.com/api/jsonBlob/c64ff3aa-f2cc-11ea-8070-6b11b868133b",
     function (posts) {
       for (var i = 2; i < posts.queue.length; i++) {
         $('input[cat="pk"]').each(function () {
@@ -1330,7 +1330,7 @@ $("#pairsfromcloud").click(function () {
 $("#scpairsfromcloud").click(function () {
   // console.log("myvalue=",$(this).val());
   $.getJSON(
-    "https://jsonblob.com/api/jsonBlob/821851da-d2a5-11ea-96d2-93752e24e800",
+    "https://jsonblob.com/api/jsonBlob/c64ff3aa-f2cc-11ea-8070-6b11b868133b",
     function (posts) {
       for (var i = 2; i < posts.queue.length; i++) {
         $('input[cat="pksc"]').each(function () {
@@ -1356,7 +1356,7 @@ $("#sector_sc_watch").on("click", "input", function () {
 $("#scjpairsfromcloud").click(function () {
   //   console.log("myvalue=",$(this).val());
   $.getJSON(
-    "https://jsonblob.com/api/jsonBlob/821851da-d2a5-11ea-96d2-93752e24e800",
+    "https://jsonblob.com/api/jsonBlob/c64ff3aa-f2cc-11ea-8070-6b11b868133b",
     function (posts) {
       for (var i = 2; i < posts.queue.length; i++) {
         $('input[cat="pkjsc"]').each(function () {
