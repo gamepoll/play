@@ -295,7 +295,7 @@ document.getElementById("button").addEventListener("click", function() {
   if (outputField.value.indexOf("hkhorsedb") < 60) {
   // here infoall
     console.log("infoall scan>>");
-  arrayStr = outputField.value.split("<td");
+  arrayStr = outputField.value.split("<td width=\"88");
   arrayStr.forEach((element, index, array) => {
     if (element.indexOf("BrandNo=") > 0) {
       //      console.log("infoele=", element.indexOf('horseno='));
