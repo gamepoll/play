@@ -511,22 +511,26 @@ document.getElementById("button_convert").addEventListener("click", function() {
 
   for (var j = 0; j < td_array.length; j++) {
     td_array[j].innerHTML = td_array[j].innerHTML.replace(
-      /<a href=.*?">/i,
+//      /<a href=.*?">/i,
+      /<a href=.*?">/g,
       "<br>"
     );
 
     td_array[j].innerHTML = td_array[j].innerHTML.replace(
-      /<br><a href=.*?">/i,
+//      /<br><a href=.*?">/i,
+      /<br><br>/i,
       "<br><strong>("
     );
 
     td_array[j].innerHTML = td_array[j].innerHTML.replace(
-      /<br>\(/i,
+//      /<br>\(/i,
+      /<br>\(g,
       ")</strong><br>("
     );
 
     td_array[j].innerHTML = td_array[j].innerHTML.replace(
-      /<br><font color="red">\(/i,
+//      /<br><font color="red">\(/i,
+      /<font color="red"><br>\(/i,
       ')</strong><br><font color="red">('
     );
   }
