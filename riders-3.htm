@@ -518,19 +518,19 @@ document.getElementById("button_convert").addEventListener("click", function() {
 
     td_array[j].innerHTML = td_array[j].innerHTML.replace(
 //      /<br><a href=.*?">/i,
-      /<br><br>/i,
+      /<br><br>/g,
       "<br><strong>("
     );
 
     td_array[j].innerHTML = td_array[j].innerHTML.replace(
 //      /<br>\(/i,
-      /<br>\(g,
+      /<br>\(/g,
       ")</strong><br>("
     );
 
     td_array[j].innerHTML = td_array[j].innerHTML.replace(
 //      /<br><font color="red">\(/i,
-      /<font color="red"><br>\(/i,
+      /<font color="red"><br>\(/g,
       ')</strong><br><font color="red">('
     );
   }
