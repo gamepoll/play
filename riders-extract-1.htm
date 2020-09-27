@@ -455,7 +455,7 @@ $("#savebaseodds").click(function() {
 $("#savebase").click(function() {
   var updatedObj = {
     queue: [
-      { key: "1088", key2: "1088", name: "Banana" },
+      { key: "1088", key2: "1088加州", name: "Banana" },
       { key: "1099", key2: "1088", name: "Orange" }
     ]
   };
@@ -463,7 +463,7 @@ $("#savebase").click(function() {
 
   // do update
   $.ajax({
-    url: "https://jsonblob.com/api/jsonBlob/821851da-d2a5-11ea-96d2-93752e24e800",
+    url: "https://jsonstorage.net/api/items/462b878a-fe4d-42f3-832c-31b02cd32a13",
     type: "PUT",
     data: updatedData,
     contentType: "application/json; charset=utf-8",
@@ -475,7 +475,7 @@ $("#savebase").click(function() {
 });
 
 $("#KQJuptocloud").click(function() {
-  $.getJSON("https://jsonblob.com/api/jsonBlob/821851da-d2a5-11ea-96d2-93752e24e800", function(posts) {
+  $.getJSON("https://jsonstorage.net/api/items/462b878a-fe4d-42f3-832c-31b02cd32a13", function(posts) {
     // posts => LS
     localStorage.setItem("lsposts", JSON.stringify(posts));
 
@@ -492,7 +492,7 @@ $("#KQJuptocloud").click(function() {
     });
     // do update
     $.ajax({
-      url: "https://jsonblob.com/api/jsonBlob/821851da-d2a5-11ea-96d2-93752e24e800",
+      url: "https://jsonstorage.net/api/items/462b878a-fe4d-42f3-832c-31b02cd32a13",
       type: "PUT",
       data: JSON.stringify(jsonArray2),
       contentType: "application/json; charset=utf-8",
@@ -506,7 +506,8 @@ $("#KQJuptocloud").click(function() {
 /////////////////////////////////////////////////////
 $("#backfromcloud").click(function() {
 console.log("myvalue=",$(this).val()); 
-$.getJSON("https://jsonblob.com/api/jsonBlob/821851da-d2a5-11ea-96d2-93752e24e800", function(posts) {
+  //https://jsonblob.com/api/jsonBlob/821851da-d2a5-11ea-96d2-93752e24e800
+$.getJSON("https://jsonstorage.net/api/items/462b878a-fe4d-42f3-832c-31b02cd32a13", function(posts) {
     for (var i = 2; i < posts.queue.length; i++) {
       console.log("myvalue=",posts.queue.length); 
       $('input[cat="pp"]').each(function() {
