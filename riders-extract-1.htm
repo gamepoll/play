@@ -677,6 +677,7 @@ $("#uptocloudodds").click(function() {
   }
 });
 
+var currDate = new Date();
 var indexDate = 0,
   bnText = ["DATEodd", "DATEdue", "DATEend"];
 
@@ -688,11 +689,13 @@ $("#postUrl").on("click", function() {
     switch (indexDate) {
       case 0:
         urlField.value =
-          "https://racing.hkjc.com/racing/information/chinese/Racing/JockeysRides.aspx?RaceDate=2020/01/22";
+          "https://racing.hkjc.com/racing/information/chinese/Racing/JockeysRides.aspx?RaceDate=";
+        urlField.value = urlField.value + currDate.getFullYear() +""+ ("0" + (currDate.getMonth() +　1)).slice(-2) +""+  currDate.getDate();
         break;
       case 1:
         urlField.value =
-          "https://racing.hkjc.com/racing/SystemDataPage/racing/ResultsAll-iframe-SystemDataPage.aspx?match_id=20200205&lang=Chinese";
+          "https://racing.hkjc.com/racing/SystemDataPage/racing/ResultsAll-iframe-SystemDataPage.aspx?match_id=";
+        urlField.value = urlField.value + currDate.getFullYear() +""+ ("0" + (currDate.getMonth() +　1)).slice(-2) +""+  currDate.getDate();
         break;
       case 2:
         urlField.value =
