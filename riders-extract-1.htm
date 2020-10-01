@@ -12,7 +12,7 @@
     Url to be fetched (example: <a href="//robwu.nl/dump.php">robwu.nl/dump.php</a>)
     <input type="url" id="url" value="https://racing.hkjc.com/racing/SystemDataPage/racing/ResultsAll-iframe-SystemDataPage.aspx?lang=Chinese&match_id=">
     <script>var dt = new Date();
-document.getElementById("url").value=document.getElementById("url").value + dt.getFullYear() +""+ ("0" + (dt.getMonth() +　1)).slice(-2) +""+  dt.getDate();</script> 
+document.getElementById("url").value=document.getElementById("url").value + dt.getFullYear() +""+ ("0" + (dt.getMonth() +　1)).slice(-2) +""+  ("0" + (dt.getDate() +　1)).slice(-2);</script> 
      
   </label>
     <label>
@@ -693,12 +693,12 @@ $("#postUrl").on("click", function() {
       case 0:
         urlField.value =
           "https://racing.hkjc.com/racing/information/chinese/Racing/JockeysRides.aspx?RaceDate=";
-        urlField.value = urlField.value + currDate.getFullYear() +""+ ("0" + (currDate.getMonth() +　1)).slice(-2) +""+  currDate.getDate();
+        urlField.value = urlField.value + currDate.getFullYear() +""+ ("0" + (currDate.getMonth() +　1)).slice(-2) +""+  ("0" + (currDate.getDate() +　1)).slice(-2);
         break;
       case 1:
         urlField.value =
           "https://racing.hkjc.com/racing/SystemDataPage/racing/ResultsAll-iframe-SystemDataPage.aspx?match_id=";
-        urlField.value = urlField.value + currDate.getFullYear() +""+ ("0" + (currDate.getMonth() +　1)).slice(-2) +""+  currDate.getDate();
+        urlField.value = urlField.value + currDate.getFullYear() +""+ ("0" + (currDate.getMonth() +　1)).slice(-2) +""+  ("0" + (currDate.getDate() +　1)).slice(-2);
         break;
       case 2:
         urlField.value =
