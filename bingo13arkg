@@ -1,0 +1,145 @@
+
+<table style="border-collapse:collapse;width:1039px"><colgroup><col width="59"></col>
+<col width="102"></col>
+<col width="80"></col>
+<col width="80"></col>
+<col width="111"></col>
+<col width="330"></col>
+<col width="80"></col>
+<col width="79"></col>
+<col width="118"></col></colgroup>
+<tbody><tr><td width="59" height="1"></td>
+<td width="102" height="1"></td>
+<td width="80" height="1"></td>
+<td width="80" height="1"></td>
+<td width="111" height="1"></td>
+<td width="330" height="1"></td>
+<td width="80" height="1"></td>
+<td width="79" height="1"></td>
+<td width="118" height="1"></td></tr>
+<tr><td id="cell_A1" style="padding:2px 2px 1px 2px;vertical-align:top;font-size:small;font-family:Verdana,Arial,Helvetica,sans-serif;">FUND</td>
+<td id="cell_B1" style="padding:2px 2px 1px 2px;vertical-align:top;font-size:small;font-family:Verdana,Arial,Helvetica,sans-serif;">Date</td>
+<td id="cell_C1" style="padding:2px 2px 1px 2px;vertical-align:top;font-size:small;font-family:Verdana,Arial,Helvetica,sans-serif;">Direction</td>
+<td id="cell_D1" style="padding:2px 2px 1px 2px;vertical-align:top;font-size:small;font-family:Verdana,Arial,Helvetica,sans-serif;">Ticker</td>
+<td id="cell_E1" style="padding:2px 2px 1px 2px;vertical-align:top;font-size:small;font-family:Verdana,Arial,Helvetica,sans-serif;">CUSIP</td>
+<td id="cell_F1" style="padding:2px 2px 1px 2px;vertical-align:top;font-size:small;font-family:Verdana,Arial,Helvetica,sans-serif;">Name</td>
+<td id="cell_G1" style="padding:2px 2px 1px 2px;vertical-align:top;font-size:small;font-family:Verdana,Arial,Helvetica,sans-serif;">Shares</td>
+<td id="cell_H1" style="padding:2px 2px 1px 2px;vertical-align:top;font-size:small;font-family:Verdana,Arial,Helvetica,sans-serif;">% of ETF</td>
+<td id="cell_I1" style="padding:2px 2px 1px 2px;vertical-align:top;font-size:small;font-family:Verdana,Arial,Helvetica,sans-serif;text-align:left;">&nbsp;</td></tr>
+<tr><td id="cell_A2" style="padding:2px 2px 1px 2px;vertical-align:top;font-size:small;font-family:Verdana,Arial,Helvetica,sans-serif;">ARKG</td>
+<td id="cell_B2" style="padding:2px 2px 1px 2px;vertical-align:top;font-size:small;font-family:Verdana,Arial,Helvetica,sans-serif;text-align:right;">25-Jan-2021</td>
+<td id="cell_C2" style="padding:2px 2px 1px 2px;vertical-align:top;font-size:small;font-family:Verdana,Arial,Helvetica,sans-serif;">Buy</td>
+<td id="cell_D2" style="padding:2px 2px 1px 2px;vertical-align:top;font-size:small;font-family:Verdana,Arial,Helvetica,sans-serif;">ACCD</td>
+<td id="cell_E2" style="padding:2px 2px 1px 2px;vertical-align:top;font-size:small;font-family:Verdana,Arial,Helvetica,sans-serif;text-align:right;">4.37e+104</td>
+<td id="cell_F2" style="padding:2px 2px 1px 2px;vertical-align:top;font-size:small;font-family:Verdana,Arial,Helvetica,sans-serif;">ACCOLADE INC</td>
+<td id="cell_G2" style="padding:2px 2px 1px 2px;vertical-align:top;font-size:small;font-family:Verdana,Arial,Helvetica,sans-serif;text-align:right;">435051</td>
+<td id="cell_H2" style="padding:2px 2px 1px 2px;vertical-align:top;font-size:small;font-family:Verdana,Arial,Helvetica,sans-serif;text-align:right;">0.2103</td>
+<td id="cell_I2" style="padding:2px 2px 1px 2px;vertical-align:top;font-size:small;font-family:Verdana,Arial,Helvetica,sans-serif;">ipo_2020_4.02&nbsp; ...4.7</td></tr>
+<tr><td id="cell_A3" style="padding:2px 2px 1px 2px;vertical-align:top;font-size:small;font-family:Verdana,Arial,Helvetica,sans-serif;">ARKG</td>
+<td id="cell_B3" style="padding:2px 2px 1px 2px;vertical-align:top;font-size:small;font-family:Verdana,Arial,Helvetica,sans-serif;text-align:right;">25-Jan-2021</td>
+<td id="cell_C3" style="padding:2px 2px 1px 2px;vertical-align:top;font-size:small;font-family:Verdana,Arial,Helvetica,sans-serif;">Buy</td>
+<td id="cell_D3" style="padding:2px 2px 1px 2px;vertical-align:top;font-size:small;font-family:Verdana,Arial,Helvetica,sans-serif;">BEAM</td>
+<td id="cell_E3" style="padding:2px 2px 1px 2px;vertical-align:top;font-size:small;font-family:Verdana,Arial,Helvetica,sans-serif;">07373V105</td>
+<td id="cell_F3" style="padding:2px 2px 1px 2px;vertical-align:top;font-size:small;font-family:Verdana,Arial,Helvetica,sans-serif;">BEAM THERAPEUTICS INC</td>
+<td id="cell_G3" style="padding:2px 2px 1px 2px;vertical-align:top;font-size:small;font-family:Verdana,Arial,Helvetica,sans-serif;text-align:right;">25000</td>
+<td id="cell_H3" style="padding:2px 2px 1px 2px;vertical-align:top;font-size:small;font-family:Verdana,Arial,Helvetica,sans-serif;text-align:right;">0.0219</td>
+<td id="cell_I3" style="padding:2px 2px 1px 2px;vertical-align:top;font-size:small;font-family:Verdana,Arial,Helvetica,sans-serif;">ipo_2020_2.28 ...2.55</td></tr>
+<tr><td id="cell_A4" style="padding:2px 2px 1px 2px;vertical-align:top;font-size:small;font-family:Verdana,Arial,Helvetica,sans-serif;">ARKG</td>
+<td id="cell_B4" style="padding:2px 2px 1px 2px;vertical-align:top;font-size:small;font-family:Verdana,Arial,Helvetica,sans-serif;text-align:right;">25-Jan-2021</td>
+<td id="cell_C4" style="padding:2px 2px 1px 2px;vertical-align:top;font-size:small;font-family:Verdana,Arial,Helvetica,sans-serif;">Buy</td>
+<td id="cell_D4" style="padding:2px 2px 1px 2px;vertical-align:top;font-size:small;font-family:Verdana,Arial,Helvetica,sans-serif;">INCY</td>
+<td id="cell_E4" style="padding:2px 2px 1px 2px;vertical-align:top;font-size:small;font-family:Verdana,Arial,Helvetica,sans-serif;">45337C102</td>
+<td id="cell_F4" style="padding:2px 2px 1px 2px;vertical-align:top;font-size:small;font-family:Verdana,Arial,Helvetica,sans-serif;">INCYTE CORP</td>
+<td id="cell_G4" style="padding:2px 2px 1px 2px;vertical-align:top;font-size:small;font-family:Verdana,Arial,Helvetica,sans-serif;text-align:right;">33900</td>
+<td id="cell_H4" style="padding:2px 2px 1px 2px;vertical-align:top;font-size:small;font-family:Verdana,Arial,Helvetica,sans-serif;text-align:right;">0.0294</td>
+<td id="cell_I4" style="padding:2px 2px 1px 2px;vertical-align:top;font-size:small;font-family:Verdana,Arial,Helvetica,sans-serif;text-align:left;">&nbsp;</td></tr>
+<tr><td id="cell_A5" style="padding:2px 2px 1px 2px;vertical-align:top;font-size:small;font-family:Verdana,Arial,Helvetica,sans-serif;">ARKG</td>
+<td id="cell_B5" style="padding:2px 2px 1px 2px;vertical-align:top;font-size:small;font-family:Verdana,Arial,Helvetica,sans-serif;text-align:right;">25-Jan-2021</td>
+<td id="cell_C5" style="padding:2px 2px 1px 2px;vertical-align:top;font-size:small;font-family:Verdana,Arial,Helvetica,sans-serif;">Buy</td>
+<td id="cell_D5" style="padding:2px 2px 1px 2px;vertical-align:top;font-size:small;font-family:Verdana,Arial,Helvetica,sans-serif;">VEEV</td>
+<td id="cell_E5" style="padding:2px 2px 1px 2px;vertical-align:top;font-size:small;font-family:Verdana,Arial,Helvetica,sans-serif;text-align:right;">922475108</td>
+<td id="cell_F5" style="padding:2px 2px 1px 2px;vertical-align:top;font-size:small;font-family:Verdana,Arial,Helvetica,sans-serif;">VEEVA SYSTEMS INC</td>
+<td id="cell_G5" style="padding:2px 2px 1px 2px;vertical-align:top;font-size:small;font-family:Verdana,Arial,Helvetica,sans-serif;text-align:right;">51200</td>
+<td id="cell_H5" style="padding:2px 2px 1px 2px;vertical-align:top;font-size:small;font-family:Verdana,Arial,Helvetica,sans-serif;text-align:right;">0.1299</td>
+<td id="cell_I5" style="padding:2px 2px 1px 2px;vertical-align:top;font-size:small;font-family:Verdana,Arial,Helvetica,sans-serif;">ipo_2014_0.75 ...0.885</td></tr>
+<tr><td id="cell_A6" style="padding:2px 2px 1px 2px;vertical-align:top;font-size:small;font-family:Verdana,Arial,Helvetica,sans-serif;">ARKG</td>
+<td id="cell_B6" style="padding:2px 2px 1px 2px;vertical-align:top;font-size:small;font-family:Verdana,Arial,Helvetica,sans-serif;text-align:right;">25-Jan-2021</td>
+<td id="cell_C6" style="padding:2px 2px 1px 2px;vertical-align:top;font-size:small;font-family:Verdana,Arial,Helvetica,sans-serif;">Buy</td>
+<td id="cell_D6" style="padding:2px 2px 1px 2px;vertical-align:top;font-size:small;font-family:Verdana,Arial,Helvetica,sans-serif;">CDXS</td>
+<td id="cell_E6" style="padding:2px 2px 1px 2px;vertical-align:top;font-size:small;font-family:Verdana,Arial,Helvetica,sans-serif;text-align:right;">192005106</td>
+<td id="cell_F6" style="padding:2px 2px 1px 2px;vertical-align:top;font-size:small;font-family:Verdana,Arial,Helvetica,sans-serif;">CODEXIS INC</td>
+<td id="cell_G6" style="padding:2px 2px 1px 2px;vertical-align:top;font-size:small;font-family:Verdana,Arial,Helvetica,sans-serif;text-align:right;">39184</td>
+<td id="cell_H6" style="padding:2px 2px 1px 2px;vertical-align:top;font-size:small;font-family:Verdana,Arial,Helvetica,sans-serif;text-align:right;">0.0084</td>
+<td id="cell_I6" style="padding:2px 2px 1px 2px;vertical-align:top;font-size:small;font-family:Verdana,Arial,Helvetica,sans-serif;text-align:left;">&nbsp;</td></tr>
+<tr><td id="cell_A7" style="padding:2px 2px 1px 2px;vertical-align:top;font-size:small;font-family:Verdana,Arial,Helvetica,sans-serif;">ARKG</td>
+<td id="cell_B7" style="padding:2px 2px 1px 2px;vertical-align:top;font-size:small;font-family:Verdana,Arial,Helvetica,sans-serif;text-align:right;">25-Jan-2021</td>
+<td id="cell_C7" style="padding:2px 2px 1px 2px;vertical-align:top;font-size:small;font-family:Verdana,Arial,Helvetica,sans-serif;">Buy</td>
+<td id="cell_D7" style="padding:2px 2px 1px 2px;vertical-align:top;font-size:small;font-family:Verdana,Arial,Helvetica,sans-serif;">TXG</td>
+<td id="cell_E7" style="padding:2px 2px 1px 2px;vertical-align:top;font-size:small;font-family:Verdana,Arial,Helvetica,sans-serif;">88025U109</td>
+<td id="cell_F7" style="padding:2px 2px 1px 2px;vertical-align:top;font-size:small;font-family:Verdana,Arial,Helvetica,sans-serif;">10X GENOMICS INC</td>
+<td id="cell_G7" style="padding:2px 2px 1px 2px;vertical-align:top;font-size:small;font-family:Verdana,Arial,Helvetica,sans-serif;text-align:right;">46935</td>
+<td id="cell_H7" style="padding:2px 2px 1px 2px;vertical-align:top;font-size:small;font-family:Verdana,Arial,Helvetica,sans-serif;text-align:right;">0.0741</td>
+<td id="cell_I7" style="padding:2px 2px 1px 2px;vertical-align:top;font-size:small;font-family:Verdana,Arial,Helvetica,sans-serif;">ipo_2019_1.38 ...1.425</td></tr>
+<tr><td id="cell_A8" style="padding:2px 2px 1px 2px;vertical-align:top;font-size:small;font-family:Verdana,Arial,Helvetica,sans-serif;">ARKG</td>
+<td id="cell_B8" style="padding:2px 2px 1px 2px;vertical-align:top;font-size:small;font-family:Verdana,Arial,Helvetica,sans-serif;text-align:right;">25-Jan-2021</td>
+<td id="cell_C8" style="padding:2px 2px 1px 2px;vertical-align:top;font-size:small;font-family:Verdana,Arial,Helvetica,sans-serif;">Buy</td>
+<td id="cell_D8" style="padding:2px 2px 1px 2px;vertical-align:top;font-size:small;font-family:Verdana,Arial,Helvetica,sans-serif;">EXAS</td>
+<td id="cell_E8" style="padding:2px 2px 1px 2px;vertical-align:top;font-size:small;font-family:Verdana,Arial,Helvetica,sans-serif;">30063P105</td>
+<td id="cell_F8" style="padding:2px 2px 1px 2px;vertical-align:top;font-size:small;font-family:Verdana,Arial,Helvetica,sans-serif;">EXACT SCIENCES CORP</td>
+<td id="cell_G8" style="padding:2px 2px 1px 2px;vertical-align:top;font-size:small;font-family:Verdana,Arial,Helvetica,sans-serif;text-align:right;">191184</td>
+<td id="cell_H8" style="padding:2px 2px 1px 2px;vertical-align:top;font-size:small;font-family:Verdana,Arial,Helvetica,sans-serif;text-align:right;">0.2555</td>
+<td id="cell_I8" style="padding:2px 2px 1px 2px;vertical-align:top;font-size:small;font-family:Verdana,Arial,Helvetica,sans-serif;text-align:left;">&nbsp;</td></tr>
+<tr><td id="cell_A9" style="padding:2px 2px 1px 2px;vertical-align:top;font-size:small;font-family:Verdana,Arial,Helvetica,sans-serif;">ARKG</td>
+<td id="cell_B9" style="padding:2px 2px 1px 2px;vertical-align:top;font-size:small;font-family:Verdana,Arial,Helvetica,sans-serif;text-align:right;">25-Jan-2021</td>
+<td id="cell_C9" style="padding:2px 2px 1px 2px;vertical-align:top;font-size:small;font-family:Verdana,Arial,Helvetica,sans-serif;">Buy</td>
+<td id="cell_D9" style="padding:2px 2px 1px 2px;vertical-align:top;font-size:small;font-family:Verdana,Arial,Helvetica,sans-serif;">IONS</td>
+<td id="cell_E9" style="padding:2px 2px 1px 2px;vertical-align:top;font-size:small;font-family:Verdana,Arial,Helvetica,sans-serif;text-align:right;">462222100</td>
+<td id="cell_F9" style="padding:2px 2px 1px 2px;vertical-align:top;font-size:small;font-family:Verdana,Arial,Helvetica,sans-serif;">IONIS PHARMACEUTICALS INC</td>
+<td id="cell_G9" style="padding:2px 2px 1px 2px;vertical-align:top;font-size:small;font-family:Verdana,Arial,Helvetica,sans-serif;text-align:right;">176756</td>
+<td id="cell_H9" style="padding:2px 2px 1px 2px;vertical-align:top;font-size:small;font-family:Verdana,Arial,Helvetica,sans-serif;text-align:right;">0.0952</td>
+<td id="cell_I9" style="padding:2px 2px 1px 2px;vertical-align:top;font-size:small;font-family:Verdana,Arial,Helvetica,sans-serif;text-align:left;">&nbsp;</td></tr>
+<tr><td id="cell_A10" style="padding:2px 2px 1px 2px;vertical-align:top;font-size:small;font-family:Verdana,Arial,Helvetica,sans-serif;">ARKG</td>
+<td id="cell_B10" style="padding:2px 2px 1px 2px;vertical-align:top;font-size:small;font-family:Verdana,Arial,Helvetica,sans-serif;text-align:right;">25-Jan-2021</td>
+<td id="cell_C10" style="padding:2px 2px 1px 2px;vertical-align:top;font-size:small;font-family:Verdana,Arial,Helvetica,sans-serif;">Buy</td>
+<td id="cell_D10" style="padding:2px 2px 1px 2px;vertical-align:top;font-size:small;font-family:Verdana,Arial,Helvetica,sans-serif;">TAK</td>
+<td id="cell_E10" style="padding:2px 2px 1px 2px;vertical-align:top;font-size:small;font-family:Verdana,Arial,Helvetica,sans-serif;text-align:right;">874060205</td>
+<td id="cell_F10" style="padding:2px 2px 1px 2px;vertical-align:top;font-size:small;font-family:Verdana,Arial,Helvetica,sans-serif;">TAKEDA PHARMACEUTICAL CO LTD</td>
+<td id="cell_G10" style="padding:2px 2px 1px 2px;vertical-align:top;font-size:small;font-family:Verdana,Arial,Helvetica,sans-serif;text-align:right;">1215000</td>
+<td id="cell_H10" style="padding:2px 2px 1px 2px;vertical-align:top;font-size:small;font-family:Verdana,Arial,Helvetica,sans-serif;text-align:right;">0.1939</td>
+<td id="cell_I10" style="padding:2px 2px 1px 2px;vertical-align:top;font-size:small;font-family:Verdana,Arial,Helvetica,sans-serif;text-align:left;">&nbsp;</td></tr>
+<tr><td id="cell_A11" style="padding:2px 2px 1px 2px;vertical-align:top;font-size:small;font-family:Verdana,Arial,Helvetica,sans-serif;">ARKG</td>
+<td id="cell_B11" style="padding:2px 2px 1px 2px;vertical-align:top;font-size:small;font-family:Verdana,Arial,Helvetica,sans-serif;text-align:right;">25-Jan-2021</td>
+<td id="cell_C11" style="padding:2px 2px 1px 2px;vertical-align:top;font-size:small;font-family:Verdana,Arial,Helvetica,sans-serif;">Sell</td>
+<td id="cell_D11" style="padding:2px 2px 1px 2px;vertical-align:top;font-size:small;font-family:Verdana,Arial,Helvetica,sans-serif;">CSTL</td>
+<td id="cell_E11" style="padding:2px 2px 1px 2px;vertical-align:top;font-size:small;font-family:Verdana,Arial,Helvetica,sans-serif;">14843C105</td>
+<td id="cell_F11" style="padding:2px 2px 1px 2px;vertical-align:top;font-size:small;font-family:Verdana,Arial,Helvetica,sans-serif;">CASTLE BIOSCIENCES INC</td>
+<td id="cell_G11" style="padding:2px 2px 1px 2px;vertical-align:top;font-size:small;font-family:Verdana,Arial,Helvetica,sans-serif;text-align:right;">17709</td>
+<td id="cell_H11" style="padding:2px 2px 1px 2px;vertical-align:top;font-size:small;font-family:Verdana,Arial,Helvetica,sans-serif;text-align:right;">0.0119</td>
+<td id="cell_I11" style="padding:2px 2px 1px 2px;vertical-align:top;font-size:small;font-family:Verdana,Arial,Helvetica,sans-serif;text-align:left;">&nbsp;</td></tr>
+<tr><td id="cell_A12" style="padding:2px 2px 1px 2px;vertical-align:top;font-size:small;font-family:Verdana,Arial,Helvetica,sans-serif;">ARKG</td>
+<td id="cell_B12" style="padding:2px 2px 1px 2px;vertical-align:top;font-size:small;font-family:Verdana,Arial,Helvetica,sans-serif;text-align:right;">25-Jan-2021</td>
+<td id="cell_C12" style="padding:2px 2px 1px 2px;vertical-align:top;font-size:small;font-family:Verdana,Arial,Helvetica,sans-serif;">Sell</td>
+<td id="cell_D12" style="padding:2px 2px 1px 2px;vertical-align:top;font-size:small;font-family:Verdana,Arial,Helvetica,sans-serif;">TWST</td>
+<td id="cell_E12" style="padding:2px 2px 1px 2px;vertical-align:top;font-size:small;font-family:Verdana,Arial,Helvetica,sans-serif;">90184D100</td>
+<td id="cell_F12" style="padding:2px 2px 1px 2px;vertical-align:top;font-size:small;font-family:Verdana,Arial,Helvetica,sans-serif;">TWIST BIOSCIENCE CORP</td>
+<td id="cell_G12" style="padding:2px 2px 1px 2px;vertical-align:top;font-size:small;font-family:Verdana,Arial,Helvetica,sans-serif;text-align:right;">51571</td>
+<td id="cell_H12" style="padding:2px 2px 1px 2px;vertical-align:top;font-size:small;font-family:Verdana,Arial,Helvetica,sans-serif;text-align:right;">0.0839</td>
+<td id="cell_I12" style="padding:2px 2px 1px 2px;vertical-align:top;font-size:small;font-family:Verdana,Arial,Helvetica,sans-serif;text-align:left;">&nbsp;</td></tr>
+<tr><td id="cell_A13" style="padding:2px 2px 1px 2px;vertical-align:top;font-size:small;font-family:Verdana,Arial,Helvetica,sans-serif;">ARKG</td>
+<td id="cell_B13" style="padding:2px 2px 1px 2px;vertical-align:top;font-size:small;font-family:Verdana,Arial,Helvetica,sans-serif;text-align:right;">25-Jan-2021</td>
+<td id="cell_C13" style="padding:2px 2px 1px 2px;vertical-align:top;font-size:small;font-family:Verdana,Arial,Helvetica,sans-serif;">Sell</td>
+<td id="cell_D13" style="padding:2px 2px 1px 2px;vertical-align:top;font-size:small;font-family:Verdana,Arial,Helvetica,sans-serif;">CRSP</td>
+<td id="cell_E13" style="padding:2px 2px 1px 2px;vertical-align:top;font-size:small;font-family:Verdana,Arial,Helvetica,sans-serif;">H17182108</td>
+<td id="cell_F13" style="padding:2px 2px 1px 2px;vertical-align:top;font-size:small;font-family:Verdana,Arial,Helvetica,sans-serif;">CRISPR THERAPEUTICS AG</td>
+<td id="cell_G13" style="padding:2px 2px 1px 2px;vertical-align:top;font-size:small;font-family:Verdana,Arial,Helvetica,sans-serif;text-align:right;">71821</td>
+<td id="cell_H13" style="padding:2px 2px 1px 2px;vertical-align:top;font-size:small;font-family:Verdana,Arial,Helvetica,sans-serif;text-align:right;">0.113</td>
+<td id="cell_I13" style="padding:2px 2px 1px 2px;vertical-align:top;font-size:small;font-family:Verdana,Arial,Helvetica,sans-serif;text-align:left;">&nbsp;</td></tr>
+<tr><td id="cell_A14" style="padding:2px 2px 1px 2px;vertical-align:top;font-size:small;font-family:Verdana,Arial,Helvetica,sans-serif;">ARKG</td>
+<td id="cell_B14" style="padding:2px 2px 1px 2px;vertical-align:top;font-size:small;font-family:Verdana,Arial,Helvetica,sans-serif;text-align:right;">25-Jan-2021</td>
+<td id="cell_C14" style="padding:2px 2px 1px 2px;vertical-align:top;font-size:small;font-family:Verdana,Arial,Helvetica,sans-serif;">Sell</td>
+<td id="cell_D14" style="padding:2px 2px 1px 2px;vertical-align:top;font-size:small;font-family:Verdana,Arial,Helvetica,sans-serif;">PACB</td>
+<td id="cell_E14" style="padding:2px 2px 1px 2px;vertical-align:top;font-size:small;font-family:Verdana,Arial,Helvetica,sans-serif;">69404D108</td>
+<td id="cell_F14" style="padding:2px 2px 1px 2px;vertical-align:top;font-size:small;font-family:Verdana,Arial,Helvetica,sans-serif;">PACIFIC BIOSCIENCES OF CALIFORNIA INC</td>
+<td id="cell_G14" style="padding:2px 2px 1px 2px;vertical-align:top;font-size:small;font-family:Verdana,Arial,Helvetica,sans-serif;text-align:right;">60401</td>
+<td id="cell_H14" style="padding:2px 2px 1px 2px;vertical-align:top;font-size:small;font-family:Verdana,Arial,Helvetica,sans-serif;text-align:right;">0.0188</td>
+<td id="cell_I14" style="padding:2px 2px 1px 2px;vertical-align:top;font-size:small;font-family:Verdana,Arial,Helvetica,sans-serif;text-align:left;">&nbsp;</td></tr></tbody></table>
