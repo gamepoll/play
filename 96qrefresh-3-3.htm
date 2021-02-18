@@ -69,7 +69,8 @@ setInterval(function(){
 /////////////////////////////////////////////////////
 $("#pairsfromcloud").click(function () {
   // console.log("myvalue=",$(this).val());
-  $.getJSON("https://jsonblob.com/api/jsonBlob/039953ef-f791-11ea-b21d-9997b8aa99d2",
+// jsonblob.com/api/jsonBlob/039953ef-f791-11ea-b21d-9997b8aa99d2
+  $.getJSON("https://jsonstorage.net/api/items/85136854-aa6c-4932-acb2-44a761ed09d5",
     function (posts) {
       for (var i = 2; i < posts.queue.length; i++) {
         $('input[cat="pk"]').each(function () {
