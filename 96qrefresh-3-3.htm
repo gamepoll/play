@@ -72,7 +72,7 @@ setInterval(function(){
 $("#pairsfromcloud").click(function () {
   // console.log("myvalue=",$(this).val());
 // jsonblob.com/api/jsonBlob/039953ef-f791-11ea-b21d-9997b8aa99d2
-  $.getJSON("https://jsonstorage.net/api/items/638d248a-c97a-4d6b-b187-d95d672a4fc8",
+  $.getJSON("https://jsonstorage.net/api/items/5f0bf8e8-694b-45bf-add8-da44ee163588",
     function (posts) {
       for (var i = 2; i < posts.queue.length; i++) {
         $('input[cat="pk"]').each(function () {
@@ -89,7 +89,7 @@ $("#pairsfromcloud").click(function () {
  
 /////////////////////////////////////////////////////
 $("#pairstocloud").click(function() {
-  $.getJSON("https://jsonstorage.net/api/items/638d248a-c97a-4d6b-b187-d95d672a4fc8", function(posts) {
+  $.getJSON("https://jsonstorage.net/api/items/5f0bf8e8-694b-45bf-add8-da44ee163588", function(posts) {
     // posts => LS
     localStorage.setItem("lsposts", JSON.stringify(posts));
 
@@ -106,7 +106,7 @@ $("#pairstocloud").click(function() {
     });
     // do update
     $.ajax({
-      url: "https://jsonstorage.net/api/items/638d248a-c97a-4d6b-b187-d95d672a4fc8",
+      url: "https://jsonstorage.net/api/items/5f0bf8e8-694b-45bf-add8-da44ee163588",
       type: "PUT",
       data: JSON.stringify(jsonArray2),
       contentType: "application/json; charset=utf-8",
