@@ -109,7 +109,7 @@ $("#pairsfromcloud").click(function () {
 $("#pairsfromcloud1").click(function () {
   // console.log("myvalue=",$(this).val());
 // jsonblob.com/api/jsonBlob/039953ef-f791-11ea-b21d-9997b8aa99d2
-  $.getJSON("https://jsonstorage.net/api/items/c6e456c9-5a4e-4883-a886-50df79c87ed5",
+  $.getJSON("https://jsonstorage.net/api/items/6f711ef4-1d0f-409f-bb9a-9f9648521ad4",
     function (posts) {
       for (var i = 2; i < posts.queue.length; i++) {
         $('input[cat="pk"]').each(function () {
@@ -128,7 +128,7 @@ $("#pairsfromcloud1").click(function () {
 $("#pairsfromcloud2").click(function () {
   // console.log("myvalue=",$(this).val());
 // jsonblob.com/api/jsonBlob/039953ef-f791-11ea-b21d-9997b8aa99d2
-  $.getJSON("https://jsonstorage.net/api/items/155f6474-2028-4454-b81e-db94aaa9194b",
+  $.getJSON("https://jsonstorage.net/api/items/32179c23-ad7e-49a9-8c87-0e232cab2c08",
     function (posts) {
       for (var i = 2; i < posts.queue.length; i++) {
         $('input[cat="pk"]').each(function () {
@@ -176,7 +176,7 @@ $("#pairstocloud").click(function() {
 	
 /////////////////////////////////////////////////////
 $("#pairstocloud1").click(function() {
-  $.getJSON("https://jsonstorage.net/api/items/c6e456c9-5a4e-4883-a886-50df79c87ed5", function(posts) {
+  $.getJSON("https://jsonstorage.net/api/items/6f711ef4-1d0f-409f-bb9a-9f9648521ad4", function(posts) {
     // posts => LS
     localStorage.setItem("lsposts", JSON.stringify(posts));
 
@@ -193,7 +193,7 @@ $("#pairstocloud1").click(function() {
     });
     // do update
     $.ajax({
-      url: "https://jsonstorage.net/api/items/c6e456c9-5a4e-4883-a886-50df79c87ed5",
+      url: "https://jsonstorage.net/api/items/6f711ef4-1d0f-409f-bb9a-9f9648521ad4",
       type: "PUT",
       data: JSON.stringify(jsonArray2),
       contentType: "application/json; charset=utf-8",
@@ -207,7 +207,7 @@ $("#pairstocloud1").click(function() {
 	
 /////////////////////////////////////////////////////
 $("#pairstocloud2").click(function() {
-  $.getJSON("https://jsonstorage.net/api/items/155f6474-2028-4454-b81e-db94aaa9194b", function(posts) {
+  $.getJSON("https://jsonstorage.net/api/items/32179c23-ad7e-49a9-8c87-0e232cab2c08", function(posts) {
     // posts => LS
     localStorage.setItem("lsposts", JSON.stringify(posts));
 
@@ -224,7 +224,7 @@ $("#pairstocloud2").click(function() {
     });
     // do update
     $.ajax({
-      url: "https://jsonstorage.net/api/items/155f6474-2028-4454-b81e-db94aaa9194b",
+      url: "https://jsonstorage.net/api/items/32179c23-ad7e-49a9-8c87-0e232cab2c08",
       type: "PUT",
       data: JSON.stringify(jsonArray2),
       contentType: "application/json; charset=utf-8",
