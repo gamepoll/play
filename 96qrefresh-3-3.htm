@@ -214,7 +214,7 @@ $("#pairsfromcloud5").click(function () {
 });
 	
 /////////////////////////////////////////////////////
-$("#pairstocloud").click(function() {
+$("#pairstocloud").click(function() { if (foodown == 1) {
   $.getJSON("https://jsonstorage.net/api/items/5f0bf8e8-694b-45bf-add8-da44ee163588", function(posts) {
     // posts => LS
     localStorage.setItem("lsposts", JSON.stringify(posts));
