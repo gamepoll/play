@@ -39,7 +39,12 @@
 <div id="sector_mon">	
 	<button id="button-1">Click Me</button>
 <br />
-
+	
+<p id="demo"></p>
+<button onclick="clock()">Start Timer</button>
+  
+<br />
+	
 <img id="img_xxxk" width="375" height="315" border="0">
 <img id="img_xxxk1" width="375" height="315" border="0">
 <img id="img_xxxk2" width="375" height="315" border="0">
@@ -236,11 +241,11 @@ $("#pairstocloud").click(function() {
         var json = JSON.stringify(data);
       }
     });
-  });
+  });}
 });
 	
 /////////////////////////////////////////////////////
-$("#pairstocloud1").click(function() {
+$("#pairstocloud1").click(function() {  if (foodown == 1) {
   $.getJSON("https://jsonstorage.net/api/items/6f711ef4-1d0f-409f-bb9a-9f9648521ad4", function(posts) {
     // posts => LS
     localStorage.setItem("lsposts", JSON.stringify(posts));
@@ -267,11 +272,11 @@ $("#pairstocloud1").click(function() {
         var json = JSON.stringify(data);
       }
     });
-  });
+  });}
 });
 	
 /////////////////////////////////////////////////////
-$("#pairstocloud2").click(function() {
+$("#pairstocloud2").click(function() {   if (foodown == 1) {
   $.getJSON("https://jsonstorage.net/api/items/32179c23-ad7e-49a9-8c87-0e232cab2c08", function(posts) {
     // posts => LS
     localStorage.setItem("lsposts", JSON.stringify(posts));
@@ -298,11 +303,11 @@ $("#pairstocloud2").click(function() {
         var json = JSON.stringify(data);
       }
     });
-  });
+  });}
 });
 	
 /////////////////////////////////////////////////////
-$("#pairstocloud3").click(function() {
+$("#pairstocloud3").click(function() { if (foodown == 1) {
   $.getJSON("https://jsonstorage.net/api/items/7e473978-0985-40e1-9b79-2fc58dd7a3c3", function(posts) {
     // posts => LS
     localStorage.setItem("lsposts", JSON.stringify(posts));
@@ -329,12 +334,12 @@ $("#pairstocloud3").click(function() {
         var json = JSON.stringify(data);
       }
     });
-  });
+  });}
 });
 	
 	
 /////////////////////////////////////////////////////
-$("#pairstocloud4").click(function() {
+$("#pairstocloud4").click(function() { if (foodown == 1) {
   $.getJSON("https://jsonstorage.net/api/items/d543fc66-624e-4905-b024-403269bfc156", function(posts) {
     // posts => LS
     localStorage.setItem("lsposts", JSON.stringify(posts));
@@ -361,11 +366,11 @@ $("#pairstocloud4").click(function() {
         var json = JSON.stringify(data);
       }
     });
-  });
+  });}
 });
 	
 /////////////////////////////////////////////////////
-$("#pairstocloud5").click(function() {
+$("#pairstocloud5").click(function() { if (foodown == 1) {
   $.getJSON("https://jsonstorage.net/api/items/8b10eade-6548-4135-8ab2-e1ee4959d24b", function(posts) {
     // posts => LS
     localStorage.setItem("lsposts", JSON.stringify(posts));
@@ -392,7 +397,7 @@ $("#pairstocloud5").click(function() {
         var json = JSON.stringify(data);
       }
     });
-  });
+  });}
 });
 	
 /////////////////////////////////////////////////////
@@ -422,4 +427,31 @@ document.getElementById('img_xxxk7').src="https://www.finviz.com/fut_image.ashx?
   
 });
 
+var myTimer;
+var foodown=0;
+function clock() {
+  myTimer = setInterval(myClock, 1000);
+  var c = 7; //Initially set to 1 hour
+foodown=1;
+
+  function myClock() {
+    --c
+    var seconds = c % 60; // Seconds that cannot be written in minutes
+    var minutes = (c - seconds) / 60; // Gives the seconds that COULD be given in minutes
+    var minutesLeft = minutes % 60; // Minutes that cannot be written in hours
+    var hours = (minutes - minutesLeft) % 60;
+    // Now in hours, minutes and seconds, you have the time you need.
+    console.clear();
+    console.log(hours + ":" + minutes + ":" + seconds);
+        // Output the result in an element with id="demo"
+    document.getElementById("demo").innerHTML = hours + "h "
+    + minutes + "m " + seconds + "s ";
+
+    if (c == 0) {
+      clearInterval(myTimer);
+      foodown=0;
+    }
+  }
+}
+	
 </script>
