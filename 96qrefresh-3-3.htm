@@ -41,7 +41,7 @@
 <br />
 	
 <p id="demo"></p>
-<button onclick="clock()">Save Timer</button>
+<button id="buttsave" onclick="clock()">Save Timer</button>
   
 <br />
 	
@@ -432,8 +432,10 @@ var foodown=0;
 function clock() {
   myTimer = setInterval(myClock, 1000);
   var c = 7; //Initially set to 1 hour
-foodown=1;
+  foodown=1;
 
+  $("#buttsave").prop("disabled", true);
+	
   function myClock() {
     --c
     var seconds = c % 60; // Seconds that cannot be written in minutes
@@ -448,6 +450,7 @@ foodown=1;
     + minutes + "m " + seconds + "s ";
 
     if (c == 0) {
+      $("#buttsave").prop("disabled", false);
       clearInterval(myTimer);
       foodown=0;
     }
