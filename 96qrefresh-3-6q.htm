@@ -64,6 +64,12 @@
         <span id="img_mon1_sp">Some text1</span>
       </li>
       <li>
+        <img id="img_mon1q" width="375" height="315" border="0">
+        <span id="img_mon1q_sp">Some text1</span>
+      </li>
+    </ul>
+    <ul>
+      <li>
         <img id="img_mon2" width="375" height="315" border="0">
         <span id="img_mon2_sp">Some text1</span>
       </li>
@@ -560,7 +566,15 @@ $("#sector_mon").on("click", "button", function () {
     Math.random().toString(36).substr(2, 9);
   $("#img_mon1_sp").html("Some text2");
   $("#img_mon1_sp").html($("#race1K").val().split(/\.\.\./g)[1]);
-  
+
+  document.getElementById("img_mon1q").src =
+    "http://charts.megahubhk.com/servlets/MHImageChart?sid=" +
+    $("#race1K").val().split(/\.\.\./g)[0] +
+    "&cmode=1&vol=1&intTech1=1&it1p1=50&it1p5=200&tstyle=2&fsize=10&&cr=106&cwidth=275&cheight=175&lang=1&cperiod=1002060&ctype=1&wm=13&p=" +
+    Math.random().toString(36).substr(2, 9);
+  $("#img_mon1q_sp").html("Some text2");
+  $("#img_mon1q_sp").html($("#race1K").val().split(/\.\.\./g)[1]);
+	
   document.getElementById("img_mon2").src =
     "http://charts.megahubhk.com/servlets/MHImageChart?sid=" +
     $("#race2K").val().split(/\.\.\./g)[0] +
