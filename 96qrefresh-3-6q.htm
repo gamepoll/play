@@ -24,23 +24,23 @@
 <input id="race9K" cat="pk" value="7500" style="width: 150px;" />
 <input id="race10K" cat="pk" value="7500" style="width: 150px;" />
 <input id="race11K" cat="pk" value="7500" style="width: 150px;" />
-<button class="ghost-btn" id="pairstocloud">Sa內銀</button>
-<button class="ghost-btn" id="pairstocloud1">Sa內需</button>
-<button class="ghost-btn" id="pairstocloud2">Sa新經</button>
-<button class="ghost-btn" id="pairstocloud3">Sa濠賭</button>
-<button class="ghost-btn" id="pairstocloud4">Sa物管</button>
-<button class="ghost-btn" id="pairstocloud5">Sa奶品</button>
+<button class="ghost-btn" id=1 onclick="qtocloud(this.id)">Sa內銀</button>
+<button class="ghost-btn" id=2 onclick="qtocloud(this.id)">Sa內需</button>
+<button class="ghost-btn" id=3 onclick="qtocloud(this.id)">Sa新經</button>
+<button class="ghost-btn" id=4 onclick="qtocloud(this.id)">Sa濠賭</button>
+<button class="ghost-btn" id=5 onclick="qtocloud(this.id)">Sa物管</button>
+<button class="ghost-btn" id=6 onclick="qtocloud(this.id)">Sa奶品</button>
 <br />
-<button id="pairsfromcloud">ImPort 內銀</button>
-<button id="pairsfromcloud1">ImPort 內需</button>
-<button id="pairsfromcloud2">ImPort 新經</button>
+<button id=1 onclick="active(this.id)">ImPort 內銀</button>
+<button id=2 onclick="active(this.id)">ImPort 內需</button>
+<button id=3 onclick="active(this.id)">ImPort 新經</button>
 <br />
-<button id="pairsfromcloud3">ImPort 濠賭</button>
-<button id="pairsfromcloud4">ImPort 物管</button>
-<button id="pairsfromcloud5">ImPort 奶品</button>
+<button id=4 onclick="active(this.id)">ImPort 濠賭</button>
+<button id=5 onclick="active(this.id)">ImPort 物管</button>
+<button id=6 onclick="active(this.id)">ImPort 奶品</button>
 <div id="sector_mon">
   <button id="button-1">Click Me</button>
-  <br />
+  <p id="qcaption"></p>
 
   <p id="demo"></p>
   <button id="buttsave" onclick="clock()">Save Timer</button>
@@ -191,346 +191,6 @@ setInterval(function () {
 }, 4000);
 
 /////////////////////////////////////////////////////
-$("#pairsfromcloud").click(function () {
-  // console.log("myvalue=",$(this).val());
-  // jsonblob.com/api/jsonBlob/039953ef-f791-11ea-b21d-9997b8aa99d2
-  $.getJSON(
-    "https://jsonstorage.net/api/items/5f0bf8e8-694b-45bf-add8-da44ee163588",
-    function (posts) {
-      for (var i = 2; i < posts.queue.length; i++) {
-        $('input[cat="pk"]').each(function () {
-          var id = $(this).attr("id");
-          if (id == posts.queue[i].key) {
-            var value = posts.queue[i].name;
-            $(this).val(value);
-          }
-        });
-      }
-    }
-  );
-});
-
-/////////////////////////////////////////////////////
-$("#pairsfromcloud1").click(function () {
-  // console.log("myvalue=",$(this).val());
-  // jsonblob.com/api/jsonBlob/039953ef-f791-11ea-b21d-9997b8aa99d2
-  $.getJSON(
-    "https://jsonstorage.net/api/items/6f711ef4-1d0f-409f-bb9a-9f9648521ad4",
-    function (posts) {
-      for (var i = 2; i < posts.queue.length; i++) {
-        $('input[cat="pk"]').each(function () {
-          var id = $(this).attr("id");
-          if (id == posts.queue[i].key) {
-            var value = posts.queue[i].name;
-            $(this).val(value);
-          }
-        });
-      }
-    }
-  );
-});
-
-/////////////////////////////////////////////////////
-$("#pairsfromcloud2").click(function () {
-  // console.log("myvalue=",$(this).val());
-  // jsonblob.com/api/jsonBlob/039953ef-f791-11ea-b21d-9997b8aa99d2
-  $.getJSON(
-    "https://jsonstorage.net/api/items/32179c23-ad7e-49a9-8c87-0e232cab2c08",
-    function (posts) {
-      for (var i = 2; i < posts.queue.length; i++) {
-        $('input[cat="pk"]').each(function () {
-          var id = $(this).attr("id");
-          if (id == posts.queue[i].key) {
-            var value = posts.queue[i].name;
-            $(this).val(value);
-          }
-        });
-      }
-    }
-  );
-});
-
-/////////////////////////////////////////////////////
-$("#pairsfromcloud3").click(function () {
-  // console.log("myvalue=",$(this).val());
-  // jsonblob.com/api/jsonBlob/039953ef-f791-11ea-b21d-9997b8aa99d2
-  $.getJSON(
-    "https://jsonstorage.net/api/items/7e473978-0985-40e1-9b79-2fc58dd7a3c3",
-    function (posts) {
-      for (var i = 2; i < posts.queue.length; i++) {
-        $('input[cat="pk"]').each(function () {
-          var id = $(this).attr("id");
-          if (id == posts.queue[i].key) {
-            var value = posts.queue[i].name;
-            $(this).val(value);
-          }
-        });
-      }
-    }
-  );
-});
-
-/////////////////////////////////////////////////////
-$("#pairsfromcloud4").click(function () {
-  // console.log("myvalue=",$(this).val());
-  // jsonblob.com/api/jsonBlob/039953ef-f791-11ea-b21d-9997b8aa99d2
-  $.getJSON(
-    "https://jsonstorage.net/api/items/d543fc66-624e-4905-b024-403269bfc156",
-    function (posts) {
-      for (var i = 2; i < posts.queue.length; i++) {
-        $('input[cat="pk"]').each(function () {
-          var id = $(this).attr("id");
-          if (id == posts.queue[i].key) {
-            var value = posts.queue[i].name;
-            $(this).val(value);
-          }
-        });
-      }
-    }
-  );
-});
-
-/////////////////////////////////////////////////////
-$("#pairsfromcloud5").click(function () {
-  // console.log("myvalue=",$(this).val());
-  // jsonblob.com/api/jsonBlob/039953ef-f791-11ea-b21d-9997b8aa99d2
-  $.getJSON(
-    "https://jsonstorage.net/api/items/8b10eade-6548-4135-8ab2-e1ee4959d24b",
-    function (posts) {
-      for (var i = 2; i < posts.queue.length; i++) {
-        $('input[cat="pk"]').each(function () {
-          var id = $(this).attr("id");
-          if (id == posts.queue[i].key) {
-            var value = posts.queue[i].name;
-            $(this).val(value);
-          }
-        });
-      }
-    }
-  );
-});
-
-/////////////////////////////////////////////////////
-$("#pairstocloud").click(function () {
-  if (foodown == 1) {
-    $.getJSON(
-      "https://jsonstorage.net/api/items/5f0bf8e8-694b-45bf-add8-da44ee163588",
-      function (posts) {
-        // posts => LS
-        localStorage.setItem("lsposts", JSON.stringify(posts));
-
-        // LS => jsonArray
-        jsonArray2 = JSON.parse(localStorage.getItem("lsposts"));
-
-        // jsonArray2 += newjson
-        $('input[cat="pk"]').each(function () {
-          jsonArray2.queue.push({
-            key: $(this).attr("id"),
-            name: $(this).val(),
-            key2: "//"
-          });
-        });
-        // do update
-        $.ajax({
-          url:
-            "https://jsonstorage.net/api/items/5f0bf8e8-694b-45bf-add8-da44ee163588",
-          type: "PUT",
-          data: JSON.stringify(jsonArray2),
-          contentType: "application/json; charset=utf-8",
-          dataType: "json",
-          success: function (data, textStatus, jqXHR) {
-            var json = JSON.stringify(data);
-          }
-        });
-      }
-    );
-  }
-});
-
-/////////////////////////////////////////////////////
-$("#pairstocloud1").click(function () {
-  if (foodown == 1) {
-    $.getJSON(
-      "https://jsonstorage.net/api/items/6f711ef4-1d0f-409f-bb9a-9f9648521ad4",
-      function (posts) {
-        // posts => LS
-        localStorage.setItem("lsposts", JSON.stringify(posts));
-
-        // LS => jsonArray
-        jsonArray2 = JSON.parse(localStorage.getItem("lsposts"));
-
-        // jsonArray2 += newjson
-        $('input[cat="pk"]').each(function () {
-          jsonArray2.queue.push({
-            key: $(this).attr("id"),
-            name: $(this).val(),
-            key2: "//"
-          });
-        });
-        // do update
-        $.ajax({
-          url:
-            "https://jsonstorage.net/api/items/6f711ef4-1d0f-409f-bb9a-9f9648521ad4",
-          type: "PUT",
-          data: JSON.stringify(jsonArray2),
-          contentType: "application/json; charset=utf-8",
-          dataType: "json",
-          success: function (data, textStatus, jqXHR) {
-            var json = JSON.stringify(data);
-          }
-        });
-      }
-    );
-  }
-});
-
-/////////////////////////////////////////////////////
-$("#pairstocloud2").click(function () {
-  if (foodown == 1) {
-    $.getJSON(
-      "https://jsonstorage.net/api/items/32179c23-ad7e-49a9-8c87-0e232cab2c08",
-      function (posts) {
-        // posts => LS
-        localStorage.setItem("lsposts", JSON.stringify(posts));
-
-        // LS => jsonArray
-        jsonArray2 = JSON.parse(localStorage.getItem("lsposts"));
-
-        // jsonArray2 += newjson
-        $('input[cat="pk"]').each(function () {
-          jsonArray2.queue.push({
-            key: $(this).attr("id"),
-            name: $(this).val(),
-            key2: "//"
-          });
-        });
-        // do update
-        $.ajax({
-          url:
-            "https://jsonstorage.net/api/items/32179c23-ad7e-49a9-8c87-0e232cab2c08",
-          type: "PUT",
-          data: JSON.stringify(jsonArray2),
-          contentType: "application/json; charset=utf-8",
-          dataType: "json",
-          success: function (data, textStatus, jqXHR) {
-            var json = JSON.stringify(data);
-          }
-        });
-      }
-    );
-  }
-});
-
-/////////////////////////////////////////////////////
-$("#pairstocloud3").click(function () {
-  if (foodown == 1) {
-    $.getJSON(
-      "https://jsonstorage.net/api/items/7e473978-0985-40e1-9b79-2fc58dd7a3c3",
-      function (posts) {
-        // posts => LS
-        localStorage.setItem("lsposts", JSON.stringify(posts));
-
-        // LS => jsonArray
-        jsonArray2 = JSON.parse(localStorage.getItem("lsposts"));
-
-        // jsonArray2 += newjson
-        $('input[cat="pk"]').each(function () {
-          jsonArray2.queue.push({
-            key: $(this).attr("id"),
-            name: $(this).val(),
-            key2: "//"
-          });
-        });
-        // do update
-        $.ajax({
-          url:
-            "https://jsonstorage.net/api/items/7e473978-0985-40e1-9b79-2fc58dd7a3c3",
-          type: "PUT",
-          data: JSON.stringify(jsonArray2),
-          contentType: "application/json; charset=utf-8",
-          dataType: "json",
-          success: function (data, textStatus, jqXHR) {
-            var json = JSON.stringify(data);
-          }
-        });
-      }
-    );
-  }
-});
-
-/////////////////////////////////////////////////////
-$("#pairstocloud4").click(function () {
-  if (foodown == 1) {
-    $.getJSON(
-      "https://jsonstorage.net/api/items/d543fc66-624e-4905-b024-403269bfc156",
-      function (posts) {
-        // posts => LS
-        localStorage.setItem("lsposts", JSON.stringify(posts));
-
-        // LS => jsonArray
-        jsonArray2 = JSON.parse(localStorage.getItem("lsposts"));
-
-        // jsonArray2 += newjson
-        $('input[cat="pk"]').each(function () {
-          jsonArray2.queue.push({
-            key: $(this).attr("id"),
-            name: $(this).val(),
-            key2: "//"
-          });
-        });
-        // do update
-        $.ajax({
-          url:
-            "https://jsonstorage.net/api/items/d543fc66-624e-4905-b024-403269bfc156",
-          type: "PUT",
-          data: JSON.stringify(jsonArray2),
-          contentType: "application/json; charset=utf-8",
-          dataType: "json",
-          success: function (data, textStatus, jqXHR) {
-            var json = JSON.stringify(data);
-          }
-        });
-      }
-    );
-  }
-});
-
-/////////////////////////////////////////////////////
-$("#pairstocloud5").click(function () {
-  if (foodown == 1) {
-    $.getJSON(
-      "https://jsonstorage.net/api/items/8b10eade-6548-4135-8ab2-e1ee4959d24b",
-      function (posts) {
-        // posts => LS
-        localStorage.setItem("lsposts", JSON.stringify(posts));
-
-        // LS => jsonArray
-        jsonArray2 = JSON.parse(localStorage.getItem("lsposts"));
-
-        // jsonArray2 += newjson
-        $('input[cat="pk"]').each(function () {
-          jsonArray2.queue.push({
-            key: $(this).attr("id"),
-            name: $(this).val(),
-            key2: "//"
-          });
-        });
-        // do update
-        $.ajax({
-          url:
-            "https://jsonstorage.net/api/items/8b10eade-6548-4135-8ab2-e1ee4959d24b",
-          type: "PUT",
-          data: JSON.stringify(jsonArray2),
-          contentType: "application/json; charset=utf-8",
-          dataType: "json",
-          success: function (data, textStatus, jqXHR) {
-            var json = JSON.stringify(data);
-          }
-        });
-      }
-    );
-  }
-});
 
 /////////////////////////////////////////////////////
 $("#sector_mon").on("click", "button", function () {
@@ -695,5 +355,98 @@ function clock() {
   }
 }
 
+//////////////////////////////////////
+const cloudlist = [{
+    id: 1,
+    name: '內銀',
+    cid: '5f0bf8e8-694b-45bf-add8-da44ee163588'
+  }, {
+    id: 2,
+    name: '內需',
+    cid: '6f711ef4-1d0f-409f-bb9a-9f9648521ad4'
+  }, {
+    id: 3,
+    name: '新經',
+    cid: '32179c23-ad7e-49a9-8c87-0e232cab2c08'
+  }, {
+    id: 4,
+    name: '濠賭',
+    cid: '7e473978-0985-40e1-9b79-2fc58dd7a3c3'
+  }, {
+    id: 5,
+    name: '物管',
+    cid: 'd543fc66-624e-4905-b024-403269bfc156'
+  }, {
+    id: 6,
+    name: '奶品',
+    cid: '8b10eade-6548-4135-8ab2-e1ee4959d24b'
+  }];
+
+//////////////////////////////////////
+function qtocloud(id){
+  qurl="https://jsonstorage.net/api/items/"+cloudlist.filter(function(item) {
+  return item.id == id;}).map(obj => obj.cid)[0];
+  
+  if (foodown == 1) {
+    $.getJSON(
+      qurl,
+      function (posts) {
+        // posts => LS
+        localStorage.setItem("lsposts", JSON.stringify(posts));
+
+        // LS => jsonArray
+        jsonArray2 = JSON.parse(localStorage.getItem("lsposts"));
+
+        // jsonArray2 += newjson
+        $('input[cat="pk"]').each(function () {
+          jsonArray2.queue.push({
+            key: $(this).attr("id"),
+            name: $(this).val(),
+            key2: "//"
+          });
+        });
+        // do update
+        $.ajax({
+          url: qurl,
+          type: "PUT",
+          data: JSON.stringify(jsonArray2),
+          contentType: "application/json; charset=utf-8",
+          dataType: "json",
+          success: function (data, textStatus, jqXHR) {
+            var json = JSON.stringify(data);
+          }
+        });
+      }
+    );
+  }
+};
+
+//////////////////////////////////////
+function active(id){
+
+  qurl="https://jsonstorage.net/api/items/"+cloudlist.filter(function(item) {
+  return item.id == id;}).map(obj => obj.cid)[0];
+  
+  qname=cloudlist.filter(function(item) {
+  return item.id == id;}).map(obj => obj.name)[0];
+  
+  $('#qcaption').text(qname);
+  
+  $.getJSON(
+    qurl,
+    function (posts) {
+      for (var i = 2; i < posts.queue.length; i++) {
+        $('input[cat="pk"]').each(function () {
+          var id = $(this).attr("id");
+          if (id == posts.queue[i].key) {
+            var value = posts.queue[i].name;
+            $(this).val(value);
+          }
+        });
+      }
+    }
+  );
+}
+	
 </script>
 
