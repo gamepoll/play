@@ -62,7 +62,7 @@
 
   
 
-  <button id="button">KQJ Me</button>
+  <button id="button_kqj">KQJ Me</button>
 <br>
     <button id="button_odds">Odd Me</button>
     <button id="button_brown">Brown Me</button>
@@ -231,7 +231,7 @@
 </style>
 
 <script>
-document.getElementById("button").addEventListener("click", function() {
+document.getElementById("button_kqj").addEventListener("click", function() {
   td_array = document.getElementsByTagName("td");
   //    check_value = "提款機";
   $('input[type="text"]').each(function() {
@@ -254,7 +254,8 @@ document.getElementById("button").addEventListener("click", function() {
       default:
         break;
     }
-    for (i = 0; i < td_array.length; i++) {
+    // 1st half loop
+    for (i = 0; i < td_array.length; i=i+2) {
       //      if (td_array[i].textContent == check_value){
       if (
         td_array[i].innerHTML.indexOf(check_value) >= 0 &&
@@ -278,7 +279,33 @@ document.getElementById("button").addEventListener("click", function() {
           //        td_array[i].style.color = "red";
         }
       }
-    }
+    };
+    // 2nd half loop
+    for (i = 1; i < td_array.length; i=i+2) {
+      //      if (td_array[i].textContent == check_value){
+      if (
+        td_array[i].innerHTML.indexOf(check_value) >= 0 &&
+        check_value != ""
+      ) {
+        var regegg = new RegExp(check_value + ".*?strong>\\(.*?\\)", "i");
+        //console.log("regegg=", regegg);
+        //console.log("innerhtml_pre=", td_array[i].innerHTML);
+        if (regegg.test(td_array[i].innerHTML)) {
+          var res = td_array[i].innerHTML.match(regegg);
+          //console.log("res=", res);
+          //console.log("res0=", res[0]);
+          var newres = res[0].replace(
+            /\<strong\>/gi,
+            "<strong style='color:" + ttcolor + "'>"
+          );
+          newres = newres.replace(/\)/i, ")</strong>");
+          td_array[i].innerHTML = td_array[i].innerHTML.replace(regegg, newres);
+          //console.log("innerhtml=", td_array[i].innerHTML);
+          //console.log(ttcolor);
+          //        td_array[i].style.color = "red";
+        }
+      }
+    };
   });
 });
 
