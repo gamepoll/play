@@ -13,8 +13,7 @@
 <script src="//code.jquery.com/jquery-1.10.2.js"></script>
 <script src="//code.jquery.com/ui/1.11.4/jquery-ui.js"></script>
 <input id="race1K" cat="pk" value="0388" style="width: 150px;" />
-<strong>2K</strong>
-<input id="race3K" cat="pk" value="0388" style="width: 150px;" />
+<strong>2K 3K</strong>
 <input id="race4K" cat="pk" value="7500" style="width: 150px;" />
 <input id="race5K" cat="pk" value="7500" style="width: 150px;" />
 
@@ -79,11 +78,17 @@
         <span id="img_mon2q_sp">Some text1</span>
       </li>
     </ul>
+<input id="race3K" cat="pk" value="0388" style="width: 150px;" />
     <ul>
       <li>
         <img id="img_mon3" width="375" height="315" border="0">
         <span id="img_mon3_sp">Some text1</span>
       </li>
+      <li>
+        <img id="img_mon3q" width="375" height="315" border="0">
+        <span id="img_mon3q_sp">Some text1</span>
+      </li>
+    </ul>
       <li>
         <img id="img_mon4" width="375" height="315" border="0">
         <span id="img_mon4_sp">Some text1</span>
@@ -203,7 +208,7 @@ $("#sector_mon").on("click", "button", function () {
     "https://www.kitconet.com/charts/metals/silver/t24_ag_en_usoz_4.gif?p=" +
     Math.random().toString(36).substr(2, 9);
   document.getElementById("img_xxxk1").src =
-    "https://charts.megahubhk.com/servlets/MHImageChart?sid=VHSI&cmode=1&vol=1&intTech1=1&it1p1=50&it1p5=200&tstyle=2&fsize=9&&cr=106&cwidth=275&cheight=175&lang=1&cperiod=1000305&ctype=1&wm=16&p=" +
+    "https://www.kitconet.com/charts/metals/gold/t24_au_en_usoz_4.gif?p=" +
     Math.random().toString(36).substr(2, 9);
   document.getElementById("img_xxxk2").src =
     "http://imgnode.gtimg.cn/hq_img?type=minute&size=1&proj=stockhome&code=sh000001&p=" +
@@ -212,16 +217,16 @@ $("#sector_mon").on("click", "button", function () {
     "http://webquotepic.eastmoney.com/GetPic.aspx?nid=100.UDI&imageType=RF&m=" +
     Math.random().toString(36).substr(2, 9);
   document.getElementById("img_xxxk4").src =
-    "https://www.kitconet.com/charts/metals/gold/t24_au_en_usoz_4.gif?p=" +
+    "http://webquotepic.eastmoney.com/GetPic.aspx?nid=103.NQ00Y&imageType=rf&p=" +
     Math.random().toString(36).substr(2, 9);
   document.getElementById("img_xxxk5").src =
     "http://charts.megahubhk.com/servlets/MHImageChart?sid=HSCEI&cmode=1&vol=1&intTech1=1&it1p1=50&it1p5=200&tstyle=2&fsize=10&&cr=106&cwidth=275&cheight=175&lang=1&cperiod=1000305&ctype=1&wm=13&p=" +
     Math.random().toString(36).substr(2, 9);
   document.getElementById("img_xxxk6").src =
-    "http://webquotepic.eastmoney.com/GetPic.aspx?nid=103.NQ00Y&imageType=rf&p=" +
+    "https://charts.megahubhk.com/servlets/MHImageChart?sid=VHSI&cmode=1&vol=1&intTech1=1&it1p1=50&it1p5=200&tstyle=2&fsize=9&&cr=106&cwidth=275&cheight=175&lang=1&cperiod=1000305&ctype=1&wm=16&p=" +
     Math.random().toString(36).substr(2, 9);
   document.getElementById("img_xxxk7").src =
-    "https://www.finviz.com/fut_image.ashx?es_m5_s.png&p=" +
+    "https://charts.megahubhk.com/servlets/MHImageChart?sid=VHSI&cmode=1&vol=1&intTech1=1&it1p1=50&it1p5=200&tstyle=2&fsize=9&&cr=106&cwidth=275&cheight=175&lang=1&cperiod=1002060&ctype=1&wm=16&p=" +
     Math.random().toString(36).substr(2, 9);
 
   document.getElementById("img_mon1").src =
@@ -264,6 +269,14 @@ $("#sector_mon").on("click", "button", function () {
   $("#img_mon3_sp").html("Some text2");
   $("#img_mon3_sp").html($("#race3K").val().split(/\.\.\./g)[1]);
   
+  document.getElementById("img_mon3q").src =
+    "http://charts.megahubhk.com/servlets/MHImageChart?sid=" +
+    $("#race3K").val().split(/\.\.\./g)[0] +
+    "&cmode=1&vol=1&intTech1=1&it1p1=50&it1p5=200&tstyle=2&fsize=10&&cr=106&cwidth=275&cheight=175&lang=1&cperiod=1002060&ctype=1&wm=13&p=" +
+    Math.random().toString(36).substr(2, 9);
+  $("#img_mon3q_sp").html("Some text2");
+  $("#img_mon3q_sp").html($("#race3K").val().split(/\.\.\./g)[1]);
+	
   document.getElementById("img_mon4").src =
     "http://charts.megahubhk.com/servlets/MHImageChart?sid=" +
     $("#race4K").val().split(/\.\.\./g)[0] +
@@ -462,4 +475,6 @@ function active(id){
 }
 	
 </script>
-
+  <br />
+<a name="XX" style="font-weight:normal; font-size:33px; background-color:#0FF00F; color:white">**</a>
+https://www.finviz.com/fut_image.ashx?es_m5_s.png&p=
