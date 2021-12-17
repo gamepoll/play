@@ -412,28 +412,29 @@ const cloudlist = [{
   }, {
     id: 2,
     name: '內需',
-    cid: '6f711ef4-1d0f-409f-bb9a-9f9648521ad4'
+    cid: '4b0df8b1-4dde-4e22-aab0-aa1dda05ab16'
   }, {
     id: 3,
     name: '新經',
-    cid: '32179c23-ad7e-49a9-8c87-0e232cab2c08'
+    cid: 'de011e2a-6af4-4b41-aa6b-b3773b06cf2f'
   }, {
     id: 4,
     name: '濠賭',
-    cid: '7e473978-0985-40e1-9b79-2fc58dd7a3c3'
+    cid: '6dec3123-560a-4688-abb0-70760484767c'
   }, {
     id: 5,
     name: '物管',
-    cid: 'd543fc66-624e-4905-b024-403269bfc156'
+    cid: '3a08cafd-1025-491e-b265-faaf16943f74'
   }, {
     id: 6,
     name: '奶品',
-    cid: '8b10eade-6548-4135-8ab2-e1ee4959d24b'
+    cid: '0cb0c5e2-4ffb-4771-81f4-25df84416382'
   }];
 
 //////////////////////////////////////
 function qtocloud(id){
-  qurl="https://jsonstorage.net/api/items/"+cloudlist.filter(function(item) {
+  // qurl="https://jsonstorage.net/api/items/"+
+  qurl="https://api.jsonstorage.net/v1/json/"+cloudlist.filter(function(item) {
   return item.id == id;}).map(obj => obj.cid)[0];
   
   if (foodown == 1) {
@@ -473,7 +474,7 @@ function qtocloud(id){
 //////////////////////////////////////
 function active(id){
 
-  qurl="https://jsonstorage.net/api/items/"+cloudlist.filter(function(item) {
+  qurl="https://api.jsonstorage.net/v1/json/"+cloudlist.filter(function(item) {
   return item.id == id;}).map(obj => obj.cid)[0];
   
   qname=cloudlist.filter(function(item) {
