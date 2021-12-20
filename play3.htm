@@ -1406,7 +1406,7 @@ $("#sector_sc_watch").on("click", "input", function () {
 $("#scjpairsfromcloud").click(function () {
   //   console.log("myvalue=",$(this).val());
   $.getJSON(
-    "https://jsonstorage.net/api/items/25ba9612-73a4-47e0-96a5-05ee83446a69",
+    "https://api.jsonstorage.net/v1/json/935a895e-3d4c-4ded-b255-8ed4faf64384",
     function (posts) {
       for (var i = 2; i < posts.queue.length; i++) {
         $('input[cat="pkjsc"]').each(function () {
