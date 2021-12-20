@@ -575,8 +575,9 @@ $("#savebasescode").click(function() {
 
   // do update
   // jsonblob.com/api/jsonBlob/c64ff3aa-f2cc-11ea-8070-6b11b868133b
+  // jsonstorage.net/api/items/25ba9612-73a4-47e0-96a5-05ee83446a69
   $.ajax({
-    url: "https://jsonstorage.net/api/items/25ba9612-73a4-47e0-96a5-05ee83446a69",
+    url: "https://api.jsonstorage.net/v1/json/935a895e-3d4c-4ded-b255-8ed4faf64384",
     type: "PUT",
     data: updatedData,
     contentType: "application/json; charset=utf-8",
@@ -588,7 +589,7 @@ $("#savebasescode").click(function() {
 });
 
 $("#scodesuptocloud").click(function() {
-  $.getJSON("https://jsonstorage.net/api/items/25ba9612-73a4-47e0-96a5-05ee83446a69", function(posts) {
+  $.getJSON("https://api.jsonstorage.net/v1/json/935a895e-3d4c-4ded-b255-8ed4faf64384", function(posts) {
     // posts => LS
     localStorage.setItem("lsposts", JSON.stringify(posts));
 
@@ -619,7 +620,7 @@ $("#scodesuptocloud").click(function() {
 /////////////////////////////////////////////////////
 $("#scodesbackfromcloud").click(function() {
 console.log("myvalue=",$(this).val()); 
-$.getJSON("https://jsonstorage.net/api/items/25ba9612-73a4-47e0-96a5-05ee83446a69", function(posts) {
+$.getJSON("https://api.jsonstorage.net/v1/json/935a895e-3d4c-4ded-b255-8ed4faf64384", function(posts) {
     for (var i = 2; i < posts.queue.length; i++) {
       console.log("myvalue=",posts.queue.length); 
       $('input[cat="pp"]').each(function() {
@@ -645,8 +646,9 @@ $("#savebaseqcode").click(function() {
 
   // do update
   // jsonblob.com/api/jsonBlob/039953ef-f791-11ea-b21d-9997b8aa99d2
+  // jsonstorage.net/api/items/85136854-aa6c-4932-acb2-44a761ed09d5
   $.ajax({
-    url: "https://jsonstorage.net/api/items/85136854-aa6c-4932-acb2-44a761ed09d5",
+    url: "https://api.jsonstorage.net/v1/json/010833c9-ba3e-4e09-a9ad-0a4a4a808e8f",
     type: "PUT",
     data: updatedData,
     contentType: "application/json; charset=utf-8",
@@ -658,7 +660,7 @@ $("#savebaseqcode").click(function() {
 });
 ////////
 $("#qcodesuptocloud").click(function() {
-  $.getJSON("https://jsonstorage.net/api/items/85136854-aa6c-4932-acb2-44a761ed09d5", function(posts) {
+  $.getJSON("https://api.jsonstorage.net/v1/json/010833c9-ba3e-4e09-a9ad-0a4a4a808e8f", function(posts) {
     // posts => LS
     localStorage.setItem("lsposts", JSON.stringify(posts));
 
@@ -675,7 +677,7 @@ $("#qcodesuptocloud").click(function() {
     });
     // do update
     $.ajax({
-      url: "https://jsonstorage.net/api/items/85136854-aa6c-4932-acb2-44a761ed09d5",
+      url: "https://api.jsonstorage.net/v1/json/010833c9-ba3e-4e09-a9ad-0a4a4a808e8f",
       type: "PUT",
       data: JSON.stringify(jsonArray2),
       contentType: "application/json; charset=utf-8",
@@ -690,7 +692,7 @@ $("#qcodesuptocloud").click(function() {
 /////////////////////////////////////////////////////
 $("#qcodesbackfromcloud").click(function() {
 console.log("myvalue=",$(this).val()); 
-$.getJSON("https://jsonstorage.net/api/items/85136854-aa6c-4932-acb2-44a761ed09d5", function(posts) {
+$.getJSON("https://api.jsonstorage.net/v1/json/010833c9-ba3e-4e09-a9ad-0a4a4a808e8f", function(posts) {
     for (var i = 2; i < posts.queue.length; i++) {
       console.log("myvalue=",posts.queue.length); 
       $('input[cat="pp"]').each(function() {
