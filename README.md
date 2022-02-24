@@ -13,5 +13,5 @@ rawgit.com/<your user name>/<your repo>/master/index.html
 
 rios.org.br:9000
   
-ethercalc.net
+ethercalc.net bingo1
   
