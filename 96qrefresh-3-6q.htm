@@ -434,7 +434,7 @@ const cloudlist = [{
 //////////////////////////////////////
 function qtocloud(id){
   // qurl="https://jsonstorage.net/api/items/"+
-  qurl="https://api.jsonstorage.net/v1/json/"+cloudlist.filter(function(item) {
+  qurl="https://api.jsonstorage.net/v1/json/00000000-0000-0000-0000-000000000000/"+cloudlist.filter(function(item) {
   return item.id == id;}).map(obj => obj.cid)[0];
   
   if (foodown == 1) {
@@ -474,7 +474,7 @@ function qtocloud(id){
 //////////////////////////////////////
 function active(id){
 
-  qurl="https://api.jsonstorage.net/v1/json/"+cloudlist.filter(function(item) {
+  qurl="https://api.jsonstorage.net/v1/json/00000000-0000-0000-0000-000000000000/"+cloudlist.filter(function(item) {
   return item.id == id;}).map(obj => obj.cid)[0];
   
   qname=cloudlist.filter(function(item) {
