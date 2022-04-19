@@ -18,4 +18,8 @@ ethercalc.net bingo1
 board.net/p/
 bingoquick4u
   
-imatheq
+?imatheq
+
+bingojjexers  
+bingomath1 bingochem1 bingoquick4u 
+bingo3046 bingo1-1 bingo1357 bingo579 bingo357 bingo1 
