@@ -408,34 +408,38 @@ function clock() {
 const cloudlist = [{
     id: 1,
     name: '內銀',
-    cid: '686db763-ec38-4579-a09e-f3a5cacd7a04'
+    cid: '8570871a-a7ca-4231-9bd8-4e89e030f7e5'
   }, {
     id: 2,
     name: '內需',
-    cid: '4b0df8b1-4dde-4e22-aab0-aa1dda05ab16'
+    cid: '6e6beb82-c639-44d3-93e0-9b1d4cdb2cbd'
   }, {
     id: 3,
     name: '新經',
-    cid: 'de011e2a-6af4-4b41-aa6b-b3773b06cf2f'
+    cid: 'c3eb2908-c4b1-409a-be47-b125e68f3169'
   }, {
     id: 4,
     name: '濠賭',
-    cid: '6dec3123-560a-4688-abb0-70760484767c'
+    cid: 'ab96d085-5956-46ad-b53f-b11f2cedc406'
   }, {
     id: 5,
     name: '物管',
-    cid: '3a08cafd-1025-491e-b265-faaf16943f74'
+    cid: 'e78dc468-0a66-4e93-9759-fb6dda92d62b'
   }, {
     id: 6,
     name: '奶品',
-    cid: '0cb0c5e2-4ffb-4771-81f4-25df84416382'
+    cid: '54178e4b-8d64-4a13-9de9-9db90534131b'
   }];
+
+const clouduserid = 'e4902282-fc69-4719-8ba4-b5d8349931d7';
+const apiid = '16410691-1717-428e-b081-d4ab59a744de';
 
 //////////////////////////////////////
 function qtocloud(id){
   // qurl="https://jsonstorage.net/api/items/"+
-  qurl="https://api.jsonstorage.net/v1/json/00000000-0000-0000-0000-000000000000/"+cloudlist.filter(function(item) {
-  return item.id == id;}).map(obj => obj.cid)[0];
+  // qurl="https://api.jsonstorage.net/v1/json/00000000-0000-0000-0000-000000000000/"+cloudlist.filter(function(item) {
+  qurl="https://api.jsonstorage.net/v1/json/"+clouduserid+"/"+cloudlist.filter(function(item) {
+  return item.id == id;}).map(obj => obj.cid)[0] + "?apiKey=" + apiid;
   
   if (foodown == 1) {
     $.getJSON(
@@ -474,8 +478,8 @@ function qtocloud(id){
 //////////////////////////////////////
 function active(id){
 
-  qurl="https://api.jsonstorage.net/v1/json/00000000-0000-0000-0000-000000000000/"+cloudlist.filter(function(item) {
-  return item.id == id;}).map(obj => obj.cid)[0];
+  qurl="https://api.jsonstorage.net/v1/json/"+clouduserid+"/"+cloudlist.filter(function(item) {
+  return item.id == id;}).map(obj => obj.cid)[0] + "?apiKey=" + apiid;
   
   qname=cloudlist.filter(function(item) {
   return item.id == id;}).map(obj => obj.name)[0];
