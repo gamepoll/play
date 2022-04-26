@@ -1419,7 +1419,8 @@ $("#sector_watch").on("click", "input", function () {
 $("#pairsfromcloud").click(function () {
   // console.log("myvalue=",$(this).val());
   // jsonblob.com/api/jsonBlob/c64ff3aa-f2cc-11ea-8070-6b11b868133b
-  $.getJSON("https://api.jsonstorage.net/v1/json/00000000-0000-0000-0000-000000000000/010833c9-ba3e-4e09-a9ad-0a4a4a808e8f",
+  // https://api.jsonstorage.net/v1/json/00000000-0000-0000-0000-000000000000/010833c9-ba3e-4e09-a9ad-0a4a4a808e8f	
+  $.getJSON("https://api.jsonstorage.net/v1/json/e4902282-fc69-4719-8ba4-b5d8349931d7/5db0627e-f1f4-465c-9a72-a2b3c95da7e3?apiKey=16410691-1717-428e-b081-d4ab59a744de",
     function (posts) {
       for (var i = 2; i < posts.queue.length; i++) {
         $('input[cat="pk"]').each(function () {
@@ -1437,7 +1438,7 @@ $("#pairsfromcloud").click(function () {
 $("#scpairsfromcloud").click(function () {
   // console.log("myvalue=",$(this).val());
   $.getJSON(
-    "https://api.jsonstorage.net/v1/json/00000000-0000-0000-0000-000000000000/010833c9-ba3e-4e09-a9ad-0a4a4a808e8f",
+    "https://api.jsonstorage.net/v1/json/e4902282-fc69-4719-8ba4-b5d8349931d7/5db0627e-f1f4-465c-9a72-a2b3c95da7e3?apiKey=16410691-1717-428e-b081-d4ab59a744de",
     function (posts) {
       for (var i = 2; i < posts.queue.length; i++) {
         $('input[cat="pksc"]').each(function () {
@@ -1463,7 +1464,7 @@ $("#sector_sc_watch").on("click", "input", function () {
 $("#scjpairsfromcloud").click(function () {
   //   console.log("myvalue=",$(this).val());
   $.getJSON(
-    "https://api.jsonstorage.net/v1/json/00000000-0000-0000-0000-000000000000/935a895e-3d4c-4ded-b255-8ed4faf64384",
+    "https://api.jsonstorage.net/v1/json/e4902282-fc69-4719-8ba4-b5d8349931d7/573eec50-837c-4640-8eec-e3aee36109fa?apiKey=16410691-1717-428e-b081-d4ab59a744de",
     function (posts) {
       for (var i = 2; i < posts.queue.length; i++) {
         $('input[cat="pkjsc"]').each(function () {
