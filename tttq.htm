@@ -213,7 +213,9 @@ setInterval(function () {
 }, 4000);
 
 /////////////////////////////////////////////////////
-
+var staticstring2 ="http://charts.megahubhk.com/servlets/MHImageChart?sid=bang&mChart2=11&m2p1=7&cmode=1&vol=1&intTech1=1&it1p1=50&it1p5=200&tstyle=2&fsize=10&&cr=106&cwidth=499&cheight=375&lang=1&cperiod=1010009&ctype=1&wm=13&p=pang";
+var staticstring2us ="http://c.stockcharts.com/c-sc/sc?chart=bang,uu[330,a]daclyyay[dc][pb50!b200!f]&r=pang";
+	
 /////////////////////////////////////////////////////
 $("#sector_mon").on("click", "button", function () {
   document.getElementById("img_xxxk").src =
@@ -258,12 +260,22 @@ $("#sector_mon").on("click", "button", function () {
     $("#race1K").val().split(/\.\.\./g)[0] +
     "&cmode=1&vol=1&intTech1=1&it1p1=50&it1p5=200&tstyle=2&fsize=10&&cr=106&cwidth=275&cheight=175&lang=1&cperiod=1000515&ctype=1&wm=13&p=" +
     Math.random().toString(36).substr(2, 9);
-*/	
+	
   document.getElementById("img_mon1").src =
     "http://c.stockcharts.com/c-sc/sc?chart=" +
     $("#race1K").val().split(/\.\.\./g)[0] +
     ",uu[330,a]daclyyay[dc][pb50!b200!f]&r=" +
     Math.random().toString(36).substr(2, 9);
+*/
+  if (/[A-Za-z]/.test($("#race1K").val().split(/\.\.\./g)[0])) {
+    $('#text4').val(staticstring2us.replaceAll("bang", $("#race1K").val().split(/\.\.\./g)[0], true));
+    $('#text4').val($('#text4').val().replaceAll("pang", Math.random().toString(36).substr(2, 9), true));
+  } else {
+    $('#text4').val(staticstring2.replaceAll("bang", $("#race1K").val().split(/\.\.\./g)[0], true));
+    $('#text4').val($('#text4').val().replaceAll("pang", Math.random().toString(36).substr(2, 9), true));
+  }
+  document.getElementById("img_mon1").src = $('#text4').val();
+	
   $("#img_mon1_sp").html("Some text2");
 //  $("#img_mon1_sp").html($("#race1K").val().split(/\.\.\./g)[1]);
 
