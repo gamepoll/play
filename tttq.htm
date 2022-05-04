@@ -8,7 +8,7 @@
 
 <head>
   <meta charset="utf-8">
-  <title>jQReload -3-6q - Default functionality</title>
+  <title>jQtttq - Default functionality</title>
 </head>
 
 <script src="//code.jquery.com/jquery-1.10.2.js"></script>
@@ -38,7 +38,6 @@
 <button id=4 onclick="active(this.id)">ImPort 濠賭</button>
 <button id=5 onclick="active(this.id)">ImPort 物管</button>
 <button id=6 onclick="active(this.id)">ImPort 奶品</button>
-<input type="text" value="empty" id="text4" nohidden=1 style="width: 190px;" />
 <div id="sector_mon">
   <button id="button-1">Click Me</button>
   <p id="qcaption"></p>
@@ -48,9 +47,27 @@
 
   <br />
 
+  <img id="img_xxxk" width="375" height="315" border="0">
+  <img id="img_xxxk1" width="375" height="315" border="0">
+  <img id="img_xxxk2" width="375" height="315" border="0">
+  <img id="img_xxxk3" width="375" height="315" border="0">
+  <img id="img_xxxk4" width="375" height="315" border="0">
+  <img id="img_xxxk5" width="375" height="315" border="0">
+  <!--img id="img_xxxk6" width="375" height="315" border="0"-->
+  <!--img id="img_xxxk7" width="375" height="315" border="0"-->
+
   <br />
   <div class="image1">
-
+    <ul>
+      <li>
+        <img id="img_mon0" width="375" height="315" border="0">
+        <span id="img_mon0_sp">Some text1</span>
+      </li>
+      <li>
+        <img id="img_mon0q" width="375" height="315" border="0">
+        <span id="img_mon0q_sp">Some text1</span>
+      </li>
+    </ul>
     <ul>
       <li>
         <img id="img_mon1" width="375" height="315" border="0">
@@ -235,233 +252,21 @@ $("#sector_mon").on("click", "button", function () {
     Math.random().toString(36).substr(2, 9);
   $("#img_mon0q_sp").html("Some text2");
 //  $("#img_mon0q_sp").html($("#race0K").val().split(/\.\.\./g)[1]);
-	
+/*	
   document.getElementById("img_mon1").src =
     "http://charts.megahubhk.com/servlets/MHImageChart?sid=" +
     $("#race1K").val().split(/\.\.\./g)[0] +
     "&cmode=1&vol=1&intTech1=1&it1p1=50&it1p5=200&tstyle=2&fsize=10&&cr=106&cwidth=275&cheight=175&lang=1&cperiod=1000515&ctype=1&wm=13&p=" +
     Math.random().toString(36).substr(2, 9);
-  $("#img_mon1_sp").html("Some text2");
-  $("#img_mon1_sp").html($("#race1K").val().split(/\.\.\./g)[1]);
-
-  document.getElementById("img_mon1q").src =
-    "http://charts.megahubhk.com/servlets/MHImageChart?sid=" +
-    $("#race1K").val().split(/\.\.\./g)[0] +
-    "&cmode=1&vol=1&intTech1=1&it1p1=50&it1p5=200&tstyle=2&fsize=10&&cr=106&cwidth=275&cheight=175&lang=1&cperiod=1002060&ctype=1&wm=13&p=" +
-    Math.random().toString(36).substr(2, 9);
-  $("#img_mon1q_sp").html("Some text2");
-  $("#img_mon1q_sp").html($("#race1K").val().split(/\.\.\./g)[1]);
-	
-  document.getElementById("img_mon2").src =
-    "http://charts.megahubhk.com/servlets/MHImageChart?sid=" +
-    $("#race2K").val().split(/\.\.\./g)[0] +
-    "&cmode=1&vol=1&intTech1=1&it1p1=50&it1p5=200&tstyle=2&fsize=10&&cr=106&cwidth=275&cheight=175&lang=1&cperiod=1000515&ctype=1&wm=13&p=" +
-    Math.random().toString(36).substr(2, 9);
-  $("#img_mon2_sp").html("Some text2");
-  $("#img_mon2_sp").html($("#race2K").val().split(/\.\.\./g)[1]);
-  
-  document.getElementById("img_mon2q").src =
-    "http://charts.megahubhk.com/servlets/MHImageChart?sid=" +
-    $("#race2K").val().split(/\.\.\./g)[0] +
-    "&cmode=1&vol=1&intTech1=1&it1p1=50&it1p5=200&tstyle=2&fsize=10&&cr=106&cwidth=275&cheight=175&lang=1&cperiod=1002060&ctype=1&wm=13&p=" +
-    Math.random().toString(36).substr(2, 9);
-  $("#img_mon2q_sp").html("Some text2");
-  $("#img_mon2q_sp").html($("#race2K").val().split(/\.\.\./g)[1]);
-	
-  document.getElementById("img_mon3").src =
-    "http://charts.megahubhk.com/servlets/MHImageChart?sid=" +
-    $("#race3K").val().split(/\.\.\./g)[0] +
-    "&cmode=1&vol=1&intTech1=1&it1p1=50&it1p5=200&tstyle=2&fsize=10&&cr=106&cwidth=275&cheight=175&lang=1&cperiod=1000515&ctype=1&wm=13&p=" +
-    Math.random().toString(36).substr(2, 9);
-  $("#img_mon3_sp").html("Some text2");
-  $("#img_mon3_sp").html($("#race3K").val().split(/\.\.\./g)[1]);
-  
-  document.getElementById("img_mon3q").src =
-    "http://charts.megahubhk.com/servlets/MHImageChart?sid=" +
-    $("#race3K").val().split(/\.\.\./g)[0] +
-    "&cmode=1&vol=1&intTech1=1&it1p1=50&it1p5=200&tstyle=2&fsize=10&&cr=106&cwidth=275&cheight=175&lang=1&cperiod=1002060&ctype=1&wm=13&p=" +
-    Math.random().toString(36).substr(2, 9);
-  $("#img_mon3q_sp").html("Some text2");
-  $("#img_mon3q_sp").html($("#race3K").val().split(/\.\.\./g)[1]);
-	
-  document.getElementById("img_mon4").src =
-    "http://charts.megahubhk.com/servlets/MHImageChart?sid=" +
-    $("#race4K").val().split(/\.\.\./g)[0] +
-    "&cmode=1&vol=1&intTech1=1&it1p1=50&it1p5=200&tstyle=2&fsize=10&&cr=106&cwidth=275&cheight=175&lang=1&cperiod=1000515&ctype=1&wm=13&p=" +
-    Math.random().toString(36).substr(2, 9);
-  $("#img_mon4_sp").html("Some text2");
-  $("#img_mon4_sp").html($("#race4K").val().split(/\.\.\./g)[1]);
-  
-  document.getElementById("img_mon5").src =
-    "http://charts.megahubhk.com/servlets/MHImageChart?sid=" +
-    $("#race5K").val().split(/\.\.\./g)[0] +
-    "&cmode=1&vol=1&intTech1=1&it1p1=50&it1p5=200&tstyle=2&fsize=10&&cr=106&cwidth=275&cheight=175&lang=1&cperiod=1000515&ctype=1&wm=13&p=" +
-    Math.random().toString(36).substr(2, 9);
-  $("#img_mon5_sp").html("Some text2");
-  $("#img_mon5_sp").html($("#race5K").val().split(/\.\.\./g)[1]);
-  
-  document.getElementById("img_mon6").src =
-    "http://charts.megahubhk.com/servlets/MHImageChart?sid=" +
-    $("#race6K").val().split(/\.\.\./g)[0] +
-    "&cmode=1&vol=1&intTech1=1&it1p1=50&it1p5=200&tstyle=2&fsize=10&&cr=106&cwidth=275&cheight=175&lang=1&cperiod=1000515&ctype=1&wm=13&p=" +
-    Math.random().toString(36).substr(2, 9);
-  $("#img_mon6_sp").html("Some text2");
-  $("#img_mon6_sp").html($("#race6K").val().split(/\.\.\./g)[1]);
-  
-  document.getElementById("img_mon7").src =
-    "http://charts.megahubhk.com/servlets/MHImageChart?sid=" +
-    $("#race7K").val().split(/\.\.\./g)[0] +
-    "&cmode=1&vol=1&intTech1=1&it1p1=50&it1p5=200&tstyle=2&fsize=10&&cr=106&cwidth=275&cheight=175&lang=1&cperiod=1000515&ctype=1&wm=13&p=" +
-    Math.random().toString(36).substr(2, 9);
-  $("#img_mon7_sp").html("Some text2");
-  $("#img_mon7_sp").html($("#race7K").val().split(/\.\.\./g)[1]);
-  
-  document.getElementById("img_mon8").src =
-    "http://charts.megahubhk.com/servlets/MHImageChart?sid=" +
-    $("#race8K").val().split(/\.\.\./g)[0] +
-    "&cmode=1&vol=1&intTech1=1&it1p1=50&it1p5=200&tstyle=2&fsize=10&&cr=106&cwidth=275&cheight=175&lang=1&cperiod=1000515&ctype=1&wm=13&p=" +
-    Math.random().toString(36).substr(2, 9);
-  $("#img_mon8_sp").html("Some text2");
-  $("#img_mon8_sp").html($("#race8K").val().split(/\.\.\./g)[1]);
-  
-  document.getElementById("img_mon9").src =
-    "http://charts.megahubhk.com/servlets/MHImageChart?sid=" +
-    $("#race9K").val().split(/\.\.\./g)[0] +
-    "&cmode=1&vol=1&intTech1=1&it1p1=50&it1p5=200&tstyle=2&fsize=10&&cr=106&cwidth=275&cheight=175&lang=1&cperiod=1000515&ctype=1&wm=13&p=" +
-    Math.random().toString(36).substr(2, 9);
-  $("#img_mon9_sp").html("Some text2");
-  $("#img_mon9_sp").html($("#race9K").val().split(/\.\.\./g)[1]);
-  
-  document.getElementById("img_mon10").src =
-    "http://charts.megahubhk.com/servlets/MHImageChart?sid=" +
-    $("#race10K").val().split(/\.\.\./g)[0] +
-    "&cmode=1&vol=1&intTech1=1&it1p1=50&it1p5=200&tstyle=2&fsize=10&&cr=106&cwidth=275&cheight=175&lang=1&cperiod=1000515&ctype=1&wm=13&p=" +
-    Math.random().toString(36).substr(2, 9);
-  $("#img_mon10_sp").html("Some text2");
-  $("#img_mon10_sp").html($("#race10K").val().split(/\.\.\./g)[1]);
-  
-  document.getElementById("img_mon11").src =
-    "http://charts.megahubhk.com/servlets/MHImageChart?sid=" +
-    $("#race11K").val().split(/\.\.\./g)[0] +
-    "&cmode=1&vol=1&intTech1=1&it1p1=50&it1p5=200&tstyle=2&fsize=10&&cr=106&cwidth=275&cheight=175&lang=1&cperiod=1000515&ctype=1&wm=13&p=" +
-    Math.random().toString(36).substr(2, 9);
-  $("#img_mon11_sp").html("Some text2");
-  $("#img_mon11_sp").html($("#race11K").val().split(/\.\.\./g)[1]);
-  
-  document.getElementById("img_mon11q").src =
-    "http://charts.megahubhk.com/servlets/MHImageChart?sid=" +
-    $("#race11K").val().split(/\.\.\./g)[0] +
-    "&cmode=1&vol=1&intTech1=1&it1p1=50&it1p5=200&tstyle=2&fsize=10&&cr=106&cwidth=275&cheight=175&lang=1&cperiod=1002060&ctype=1&wm=13&p=" +
-    Math.random().toString(36).substr(2, 9);
-  $("#img_mon11q_sp").html("Some text2");
-  $("#img_mon11q_sp").html($("#race11K").val().split(/\.\.\./g)[1]);
-  
-});
-
-var myTimer;
-var foodown = 0;
-function clock() {
-  myTimer = setInterval(myClock, 1000);
-  var c = 7; //Initially set to 1 hour
-  foodown = 1;
-
-  $("#buttsave").prop("disabled", true);
-
-  function myClock() {
-    --c;
-    var seconds = c % 60; // Seconds that cannot be written in minutes
-    var minutes = (c - seconds) / 60; // Gives the seconds that COULD be given in minutes
-    var minutesLeft = minutes % 60; // Minutes that cannot be written in hours
-    var hours = (minutes - minutesLeft) % 60;
-    // Now in hours, minutes and seconds, you have the time you need.
-    console.clear();
-    console.log(hours + ":" + minutes + ":" + seconds);
-    // Output the result in an element with id="demo"
-    document.getElementById("demo").innerHTML =
-      hours + "h " + minutes + "m " + seconds + "s ";
-
-    if (c == 0) {
-      $("#buttsave").prop("disabled", false);
-      clearInterval(myTimer);
-      foodown = 0;
-    }
-  }
-}
-
-//////////////////////////////////////
-const cloudlist = [{
-    id: 1,
-    name: '內銀',
-    cid: '8570871a-a7ca-4231-9bd8-4e89e030f7e5'
-  }, {
-    id: 2,
-    name: '內需',
-    cid: '6e6beb82-c639-44d3-93e0-9b1d4cdb2cbd'
-  }, {
-    id: 3,
-    name: '新經',
-    cid: 'c3eb2908-c4b1-409a-be47-b125e68f3169'
-  }, {
-    id: 4,
-    name: '濠賭',
-    cid: 'ab96d085-5956-46ad-b53f-b11f2cedc406'
-  }, {
-    id: 5,
-    name: '物管',
-    cid: 'e78dc468-0a66-4e93-9759-fb6dda92d62b'
-  }, {
-    id: 6,
-    name: '奶品',
-    cid: '54178e4b-8d64-4a13-9de9-9db90534131b'
-  }];
-
-const clouduserid = 'e4902282-fc69-4719-8ba4-b5d8349931d7';
-const apiid = '16410691-1717-428e-b081-d4ab59a744de';
-
-//////////////////////////////////////
-function qtocloud(id){
-  // qurl="https://jsonstorage.net/api/items/"+
-  // qurl="https://api.jsonstorage.net/v1/json/00000000-0000-0000-0000-000000000000/"+cloudlist.filter(function(item) {
-  qurl="https://api.jsonstorage.net/v1/json/"+clouduserid+"/"+cloudlist.filter(function(item) {
-  return item.id == id;}).map(obj => obj.cid)[0] + "?apiKey=" + apiid;
-  
-  if (foodown == 1) {
-    $.getJSON(
-      qurl,
-      function (posts) {
-        // posts => LS
-        localStorage.setItem("lsposts", JSON.stringify(posts));
-
-        // LS => jsonArray
-        jsonArray2 = JSON.parse(localStorage.getItem("lsposts"));
-setInterval(function () {
-  $("#button-1").trigger("click");
-}, 4000);
-
-/////////////////////////////////////////////////////
-var staticstring2 ="http://charts.megahubhk.com/servlets/MHImageChart?sid=bang&mChart2=11&m2p1=7&cmode=1&vol=1&intTech1=1&it1p1=50&it1p5=200&tstyle=2&fsize=10&&cr=106&cwidth=499&cheight=375&lang=1&cperiod=1010009&ctype=1&wm=13&p=pang";
-var staticstring2us ="https://c.stockcharts.com/c-sc/sc?chart=bang,uu[330,a]daclyyay[dc][pb50!b200!f]&r=pang";
-/////////////////////////////////////////////////////
-$("#sector_mon").on("click", "button", function () {
-	$('#text4').val();
-  if (/[A-Za-z]/.test($("#race1K").val().split(/\.\.\./g)[0])) {
-    $('#text4').val(staticstring2us.replaceAll("bang", $("#race1K").val().split(/\.\.\./g)[0], true));
-    $('#text4').val($('#text4').val().replaceAll("pang", Math.floor(Math.random() * (100 + 1) + 0), true));
-  } else {
-    $('#text4').val(staticstring2.replaceAll("bang", $("#race1K").val().split(/\.\.\./g)[0], true));
-    $('#text4').val($('#text4').val().replaceAll("pang", Math.floor(Math.random() * (100 + 1) + 0), true));
-  }
-  
-  document.getElementById("img_mon1").src = $('#text4').val();
-/*  
+*/	
   document.getElementById("img_mon1").src =
-    "http://charts.megahubhk.com/servlets/MHImageChart?sid=" +
+    "https://c.stockcharts.com/c-sc/sc?chart=" +
     $("#race1K").val().split(/\.\.\./g)[0] +
-    "&cmode=1&vol=1&intTech1=1&it1p1=50&it1p5=200&tstyle=2&fsize=10&&cr=106&cwidth=275&cheight=175&lang=1&cperiod=1000515&ctype=1&wm=13&p=" +
+    ",uu[330,a]daclyyay[dc][pb50!b200!f]&r=" +
     Math.random().toString(36).substr(2, 9);
   $("#img_mon1_sp").html("Some text2");
-  $("#img_mon1_sp").html($("#race1K").val().split(/\.\.\./g)[1]);
-*/
+//  $("#img_mon1_sp").html($("#race1K").val().split(/\.\.\./g)[1]);
+
   document.getElementById("img_mon1q").src =
     "http://charts.megahubhk.com/servlets/MHImageChart?sid=" +
     $("#race1K").val().split(/\.\.\./g)[0] +
@@ -703,7 +508,6 @@ function active(id){
     }
   );
 }
-	
 	
 </script>
   <br />
