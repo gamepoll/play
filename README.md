@@ -16,7 +16,7 @@ rios.org.br:9000
 ethercalc.net bingo1
   
 board.net/p/
-bingoquick4u ssqq bingotvshots
+bingoquick4u ssqq bingotvshots/135
   
 ?imatheq
 
