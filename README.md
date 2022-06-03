@@ -26,3 +26,5 @@ bingomath1 bingochem1
 bingo3046 bingo1-1 bingo1357 bingo579 bingo357 bingo1 
 bingotabscurr
 (net)bingo1 jj1 jj2 jj3
+  
+(board)bingotvshots ...135
