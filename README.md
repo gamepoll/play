@@ -7,6 +7,9 @@ michaelcrump.net/how-to-run-html-files-in-your-browser-from-github/
 
 //raw.githack.com/  //raw.githack.com/ y/1098/b
 
+stackoverflow.com/questions/8446218
+eg gamepoll.github.io/play/trial1.htm
+
 github.com/<your user name>/<your repo>/blob/master/index.htm
 
 rawgit.com/<your user name>/<your repo>/master/index.html
