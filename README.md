@@ -4,6 +4,7 @@ play rawgit.com/gamepoll/play/gamepoll-patch-1/trial1.htm
 
 colab.research.google.com 
 Notebook 185 - play3
+hub.gke2.mybinder.org/user/numba-numba-examples-dxflc385/tree/notebooks
 
 michaelcrump.net/how-to-run-html-files-in-your-browser-from-github/
 
