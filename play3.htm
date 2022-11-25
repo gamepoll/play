@@ -1046,7 +1046,19 @@ String.prototype.replaceAll = function (strTarget, strSubString, caseSensitive) 
     
     <input type='button' value='param' id='button_param' />
     <input type='text' id='param_calc' value='0.64' />
-    
+<br />
+<div class="container my-4">
+	<form class="form-inline" onsubmit="return validate(this);">
+ 
+			<input type="number" name="price" class="form-control" step="0.01" required placeholder="">
+			<input type="number" name="price1" class="form-control" step="0.01" required placeholder="">
+ 
+		<button type="submit" class="btn btn-secondary">Submit</button>
+	</form>
+	
+	<pre id="output" class="my-2 p-2 text-black invisible"></pre>
+</div>
+	    
     <hr style="width:800px; height:0px; margin-left:0px;"/>
 <input type="button" value="Gee-Bgne =>" id="button_Gee_Bgne" style="background-color:lightgrey" />
 <input type="button" value="Bab-Mei =>" id="button_Bab_Mei" style="background-color:lightgrey" />
@@ -1412,6 +1424,15 @@ $('#button_call1').on('click', function() { $('#text3').val("7200"); $('#text3a'
 $('#button_put1').on('click', function() { $('#text3').val("3165"); $('#text3a').val("3147");shineall();});
 $('#button_call2').on('click', function() { $('#text3').val("6806"); $('#text3a').val("819");shineall(); });
 $('#button_put2').on('click', function() { $('#text3').val("3759"); $('#text3a').val("1801");shineall();});
+	
+/////////////////////////////////////////////////////
+function validate(form) {
+	
+	$('#output').removeClass('invisible').text((form.price.value/form.price1.value).toFixed(3));
+	
+	return false;
+}
+	
 	
 /////////////////////////////////////////////////////
 $("#sector_watch").on("click", "input", function () {
