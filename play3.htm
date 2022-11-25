@@ -1033,6 +1033,22 @@ String.prototype.replaceAll = function (strTarget, strSubString, caseSensitive) 
 
 </script>
 <br />
+	    
+<br />
+    TSX
+    <input type='button' value='-' id='tsx1_minus'  />
+    <input type='text' id='tsx1_current' value='7.8'/>
+    <input type='button' value='+' id='tsx1_plus'  />
+<br />
+    PARAM
+    <input type='button' value='-' id='param1_minus'  />
+    <input type='text' id='param1_current' value='9.75' />
+    <input type='button' value='+' id='para1m_plus' />
+    
+    <input type='button' value='param1' id='button_param1' />
+    <input type='text' id='param1_calc' value='0.64' />
+<br />
+	    
 <br />
     TSX
     <input type='button' value='-' id='tsx_minus'  />
@@ -1048,15 +1064,32 @@ String.prototype.replaceAll = function (strTarget, strSubString, caseSensitive) 
     <input type='text' id='param_calc' value='0.64' />
 <br />
 <div class="container my-4">
-	<form class="form-inline" onsubmit="return validate(this);">
- 
-			<input type="number" name="price" class="form-control" step="0.01" required placeholder="">
-			<input type="number" name="price1" class="form-control" step="0.01" required placeholder="">
- 
-		<button type="submit" class="btn btn-secondary">Submit</button>
-	</form>
-	
-	<pre id="output" class="my-2 p-2 text-black invisible"></pre>
+  <form class="form-inline" onsubmit="return validate(this);">
+
+    <!-- skin 6 -->
+    <div class="num-block skin-6">
+      <div class="num-in">
+        <span class="minus dis">-</span>
+        <input type="text" name="price" class="in-num" value="1" readonly="">
+
+        <span class="plus">+</span>
+      </div>
+    </div>
+    <!-- / skin 6 -->
+
+    <!-- skin 7 -->
+    <div class="num-block skin-7">
+      <div class="num-in">
+        <span class="minus dis">-</span>
+        <input type="text" name="price1" class="in-num" value="1" readonly="">
+        <span class="plus">+</span>
+      </div>
+    </div>
+    <!-- / skin 7 -->
+    <button type="submit" class="btn btn-secondary">Submit</button>
+  </form>
+
+  <pre id="output" class="my-2 p-2 text-black invisible"></pre>
 </div>
 	    
     <hr style="width:800px; height:0px; margin-left:0px;"/>
@@ -1141,6 +1174,30 @@ String.prototype.replaceAll = function (strTarget, strSubString, caseSensitive) 
     $('#param_minus').on('click', function() { $('#param_current').val(parseInt($('#param_current').val()) - 100); });
     
     $('#button_param').on('click', function() { $('#param_calc').val(parseFloat(parseInt($('#tsx_current').val()) / parseInt($('#param_current').val())).toFixed(3)); });
+	
+$("#tsx1_plus").on("click", function () {
+  $("#tsx1_current").val(parseFloat($("#tsx1_current").val()) + 0.025);
+  $("#tsx1_current").val(parseFloat($("#tsx1_current").val()).toFixed(3));
+});
+$("#tsx1_minus").on("click", function () {
+  $("#tsx1_current").val($("#tsx1_current").val() - 0.025);
+  $("#tsx1_current").val(parseFloat($("#tsx1_current").val()).toFixed(3));
+});
+$("#param1_plus").on("click", function () {
+  $("#param1_current").val(parseFloat($("#param1_current").val()) + 0.025);
+  $("#param1_current").val(parseFloat($("#param1_current").val()).toFixed(3));
+});
+$("#param1_minus").on("click", function () {
+  $("#param1_current").val($("#param1_current").val() - 0.025);
+  $("#param1_current").val(parseFloat($("#param1_current").val()).toFixed(3));
+});
+
+$("#button_param1").on("click", function () {
+  $("#param1_calc").val(
+    ($("#tsx1_current").val() / $("#param1_current").val()).toFixed(3)
+  );
+});
+
 </script>
 
 <br />
