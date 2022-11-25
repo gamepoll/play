@@ -1174,7 +1174,8 @@ String.prototype.replaceAll = function (strTarget, strSubString, caseSensitive) 
     $('#param_minus').on('click', function() { $('#param_current').val(parseInt($('#param_current').val()) - 100); });
     
     $('#button_param').on('click', function() { $('#param_calc').val(parseFloat(parseInt($('#tsx_current').val()) / parseInt($('#param_current').val())).toFixed(3)); });
-	
+
+/////// codepen.io/dmondma/pen/OJPpWwY ////////
 $("#tsx1_plus").on("click", function () {
   $("#tsx1_current").val(parseFloat($("#tsx1_current").val()) + 0.025);
   $("#tsx1_current").val(parseFloat($("#tsx1_current").val()).toFixed(3));
@@ -1482,7 +1483,7 @@ $('#button_put1').on('click', function() { $('#text3').val("3165"); $('#text3a')
 $('#button_call2').on('click', function() { $('#text3').val("6806"); $('#text3a').val("819");shineall(); });
 $('#button_put2').on('click', function() { $('#text3').val("3759"); $('#text3a').val("1801");shineall();});
 	
-/////////////////////////////////////////////////////
+/////////////////codepen.io/dmondma/pen/OJPpWwY/////////////////////////////////////
 function validate(form) {
 	
 	$('#output').removeClass('invisible').text((form.price.value/form.price1.value).toFixed(3));
