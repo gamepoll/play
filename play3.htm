@@ -2812,6 +2812,7 @@ $("#button_xy").on("click", function () {
   var text4aval = $("#text4a").val();
   var text4bval = $("#text4b").val();
 	
+  var text2 = $("#text2").val();
 	
   // var staticstring2 ="http://stockcharts.com/c-sc/sc?s=bang&p=D&&yr=3&i=p40545395733&r=pang";
   var staticstring2 ="http://stockcharts.com/c-sc/sc?chart=bang,uu[490,a]waclyyay[dj][pb50!b200!f]&r=pang";
@@ -2826,7 +2827,7 @@ $("#button_xy").on("click", function () {
   text4.val(staticstring2.replaceAll("bang", text1val + ":" + text4val, true));
   text4.val(text4.val().replaceAll("[490,", "[510,", true));
   text4.val(text4.val().replaceAll("pang", Math.floor(Math.random() * (100 + 1) + 0), true));
-$("#text2").val(text4.val());
+text2.val(text4.val());
   document.getElementById("img_dualplus").src = text4.val();
 
   // var staticstring2 ="http://stockcharts.com/c-sc/sc?s=bang&p=D&&yr=1&i=p40545395733&r=pang";
