@@ -2825,7 +2825,7 @@ $("#button_xy").on("click", function () {
   //        var staticstring2 = "http://stockcharts.com/c-sc/sc?s=bdx:bang&p=w&yr=20&i=0&a=168&r=pang";
 
   text4.val(staticstring2.replaceAll("bang", text1val + ":" + text4val, true));
-//  text4.val(text4.val().replaceAll("[490,", "[510,", true));
+//  text4.val(text4.val().replaceAll("\[490,", "\[510,", true));
   text4.val(text4.val().replaceAll("pang", Math.floor(Math.random() * (100 + 1) + 0), true));
 text2.val(text4.val());
   document.getElementById("img_dualplus").src = text4.val();
