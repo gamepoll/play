@@ -2750,7 +2750,7 @@ $('#button_vb').on('click', function () {
   	var text4bval = $("#text4b").val();
         
         //var staticstring2 = "http://stockcharts.com/c-sc/sc?s=cew:bang&p=w&yr=20&i=0&a=168&r=pang";
-	var staticstring2 ="http://stockcharts.com/c-sc/sc?chart=cew:bang,uu[490,a]waclyyay[dj][pb50!b200!f]&r=pang";
+	var staticstring2 ="http://stockcharts.com/c-sc/sc?chart=cew:$one:cew:bang,uu[490,a]waclyyay[dj][pb50!b200!f]&r=pang";
         
         
         text4.val(staticstring2.replaceAll("bang", text1val, true));
@@ -2759,7 +2759,7 @@ $('#button_vb').on('click', function () {
         document.getElementById('img_dual').src=text4.val();
 
         //var staticstring2 = "http://stockcharts.com/c-sc/sc?s=bdx:bang&p=w&yr=20&i=0&a=168&r=pang";
-	var staticstring2 ="http://stockcharts.com/c-sc/sc?chart=bdx:bang,uu[490,a]waclyyay[dj][pb50!b200!f]&r=pang";
+	var staticstring2 ="http://stockcharts.com/c-sc/sc?chart=bdx:$one:bdx:bang,uu[490,a]waclyyay[dj][pb50!b200!f]&r=pang";
         
         
         text4.val(staticstring2.replaceAll("bang", "$one:"+text1val, true));
@@ -2777,12 +2777,12 @@ $('#button_vb').on('click', function () {
 
         document.getElementById('img_dual_raw').src=text4.val();
         
-        text4.val(staticstring2.replaceAll("bang", "bdx:$one:" + text1val, true));
+        text4.val(staticstring2.replaceAll("bang", "bdx:$one:bdx:$one:" + text1val, true));
         text4.val(text4.val().replaceAll("pang", Math.floor(Math.random() * (100 + 1) + 0), true));
 
         document.getElementById('img_dual++').src=text4.val();
         
-        text4.val(staticstring2.replaceAll("bang", "cew:" + text1val, true));
+        text4.val(staticstring2.replaceAll("bang", "cew:$one:cew:" + text1val, true));
         text4.val(text4.val().replaceAll("pang", Math.floor(Math.random() * (100 + 1) + 0), true));
 
         document.getElementById('img_dual+++').src=text4.val();
