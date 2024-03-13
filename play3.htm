@@ -85,7 +85,7 @@
 __________<input type="button" value="Dax <=" id="button_dax" />
 <input type="button" value="Tcehy <=" id="button_tcehy" />
 <input type="button" value="cs300 <=" id="button_cs300" />
-<input type="button" value="Xbd <=" id="button_xbd" />
+<input type="button" value="eaL <=" id="button_eaL" />
 <input type="button" value="Gely <=" id="button_gely" />
 <input type="button" value="Fxp <=" id="button_usfxp" />
 <input type="button" value="Uxp <=" id="button_ulxp" />
@@ -105,7 +105,9 @@ __________<input type="button" value="Bdx <=" id="button_r2bdx" />
 __________<select id="dropdown_change">
  
       <option value="veiex">EM</option>
- 
+
+      <option value="ea:$one:ea">eaL</option> 
+	
       <option value="ewh">ehk</option>
  
       <option value="yao">ehkce</option>
@@ -830,8 +832,12 @@ $('#button_dax').on('click', function() {
 		{ $('#text1').val(text1.value +":"+"$dax"); }  });
 $('#button_tcehy').on('click', function() { 
 	if ($('#dia1').is(':checked') ) 
-		{ $('#text1').val("tcehy"); } else 
-		{ $('#text1').val(text1.value +":"+"tcehy"); }  });
+		{ $('#text4').val("tcehy"); } else 
+		{ $('#text4').val(text4.value +":"+"tcehy"); }  });
+$('#button_eaL').on('click', function() { 
+	if ($('#dia1').is(':checked') ) 
+		{ $('#text1').val("ea"); } else 
+		{ $('#text1').val(text1.value +":"+"ea"); }  });
 $('#button_cs500').on('click', function() { 
 	if ($('#dia1').is(':checked') ) 
 		{ $('#text1').val("ashs"); } else 
@@ -910,8 +916,8 @@ $("#dropdown_change1").change(function(){
 $("#dropdown_change2").change(function(){
       dc=document.getElementById("dropdown_change2")
 	if ($('#dia1').is(':checked') ) 
-		{ $('#text1').val(dc.value); } else 
-		{ $('#text1').val(text1.value +":"+dc.value); }
+		{ $('#text4').val(dc.value); } else 
+		{ $('#text4').val(text4.value +":"+dc.value); }
 });
   
 $('#button_doup').on('click', function() { $('#text1').val(text1.value+":"+"$one"+":"+text1.value); });
