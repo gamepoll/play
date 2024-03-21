@@ -108,6 +108,8 @@ __________<select id="dropdown_change">
 
       <option value="ea:$one:ea">eaL</option> 
 	
+      <option value="sark">sark</option> 
+	
       <option value="ewh">ehk</option>
  
       <option value="yao">ehkce</option>
@@ -188,6 +190,16 @@ __________<select id="dropdown_change2">
       <option value="ACCD">--$$ACCD</option>
 
       <option value="BGNE">--BGNE</option>
+
+      <option value="TMV">--TMV</option>
+
+      <option value="TYO">--TYO</option>
+
+	<option value="EGO">--EGO</option>
+
+	<option value="JDST">--JDST</option>
+
+	<option value="RMT">--RMT</option>
 	
       <option value="BEAM">--$$BEAM</option>
  
@@ -217,6 +229,7 @@ __________<select id="dropdown_change2">
 <br />
 <br />
 <input type="button" value="Doup =>" id="button_doup" />
+<input type="button" value="LsDoup =>" id="button_lsdoup" />
 <input type="button" value="Post Won =>" id="button_post_won" />
 <input type="button" value="Reve =>" id="button_reve" />
 <input type="button" value="Pre Won =>" id="button_pre_won" />
@@ -924,6 +937,7 @@ $("#dropdown_change2").change(function(){
 });
   
 $('#button_doup').on('click', function() { $('#text1').val(text1.value+":"+"$one"+":"+text1.value); });
+$('#button_lsdoup').on('click', function() { $('#text4').val(text4.value+":"+"$one"+":"+text4.value); });
 $('#button_post_won').on('click', function() { $('#text1').val(text1.value+":$one"); });
 $('#button_reve').on('click', function() { $('#text1').val(text1.value.split(/:/)[0]); });
 $('#button_pre_won').on('click', function() { $('#text1').val("$one"+":"+text1.value); });
