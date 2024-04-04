@@ -191,6 +191,10 @@ __________<select id="dropdown_change2">
 
       <option value="BGNE">--BGNE</option>
 
+      <option value="SMSEY">--SAMSON</option>
+
+      <option value="SHTDY">-- SinoPharm</option>
+
       <option value="TMV">--TMV</option>
 
       <option value="TYO">--TYO</option>
@@ -261,6 +265,7 @@ __________<select id="dropdown_change2">
 <input type="button" value="Bdx =>" id="button" />
 <input type="button" value="Web2x / udn =>" id="button_w2x" />
 <br />
+<input type="button" value="LsTail =>" id="button_lstail" />
 <button id="buttonbb3">Click to reverse background!</button>
 <input type="button" value="Click for more....!" id="buttonM" />
 <br />
@@ -1038,6 +1043,21 @@ $('#button_tail').on('click', function () {
         
         
         text2.val(staticstring2.replaceAll("bang", text1.value, true));
+
+        canvas1.setBackgroundImage(text2.val(), canvas1.renderAll.bind(canvas1), {
+    backgroundImageOpacity: 0.5,
+    backgroundImageStretch: false
+    });
+
+});  
+  
+$('#button_lstail').on('click', function () {
+        var text2 = $('#text2');
+        
+        var staticstring2 = "http://stockcharts.com/c-sc/sc?s=bang&p=D&b=1&g=0&i=0&a=168&r=0999";
+        
+        
+        text2.val(staticstring2.replaceAll("bang", text4.value, true));
 
         canvas1.setBackgroundImage(text2.val(), canvas1.renderAll.bind(canvas1), {
     backgroundImageOpacity: 0.5,
