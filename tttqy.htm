@@ -112,7 +112,7 @@
         <span id="img_mon4q_sp">Some text1</span>
       </li>
       <li>
-        <img id="img_mon5" width="375" height="315" border="0" background-color: rgba(255, 0, 0, 0.5);>
+        <img id="img_mon5" width="375" height="315" border="0" >
         <span id="img_mon5_sp">Some text1</span>
       </li>
       <li>
@@ -386,7 +386,7 @@ $("#sector_mon").on("click", "button", function () {
     $('#text4').val(staticstring2s.replaceAll("bang", $("#race5K").val().split(/\.\.\./g)[0], true));
     $('#text4').val($('#text4').val().replaceAll("pang", Math.random().toString(36).substr(2, 9), true));
   }
-  document.getElementById("img_mon4").src = $('#text4').val();
+  document.getElementById("img_mon5").src = $('#text4').val();
   $("#img_mon5_sp").html("Some text2");
   $("#img_mon5_sp").html($("#race5K").val().split(/\.\.\./g)[1]);
 
