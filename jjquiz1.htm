@@ -1,0 +1,445 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Grade 9 Math Quiz - Fractions, Decimals & Percentages</title>
+    <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
+    <style>
+        .option-btn.selected {
+            background-color: #3b82f6;
+            color: white;
+            border-color: #2563eb;
+        }
+        .option-btn.correct {
+            background-color: #22c55e;
+            color: white;
+            border-color: #16a34a;
+        }
+        .option-btn.incorrect {
+            background-color: #ef4444;
+            color: white;
+            border-color: #dc2626;
+        }
+        .question-indicator.current {
+            background-color: #3b82f6;
+            color: white;
+        }
+        .question-indicator.answered {
+            background-color: #22c55e;
+            color: white;
+        }
+    </style>
+</head>
+<body class="bg-gradient-to-br from-indigo-100 via-purple-50 to-pink-100 min-h-screen py-8 px-4">
+    <div class="max-w-3xl mx-auto">
+        <!-- Header -->
+        <div class="text-center mb-8">
+            <h1 class="text-3xl md:text-4xl font-bold text-indigo-800 mb-2">📐 Grade 9 Math Quiz</h1>
+            <p class="text-lg text-purple-600 font-medium">Fractions, Decimals & Percentages Word Problems</p>
+            <div class="mt-4 flex justify-center gap-4">
+                <div class="inline-block bg-white rounded-full px-6 py-2 shadow-md">
+                    <span class="text-gray-700 font-semibold">Total Marks: <span class="text-indigo-600">15</span></span>
+                </div>
+                <div id="timerContainer" class="hidden inline-block bg-white rounded-full px-6 py-2 shadow-md">
+                    <span class="text-gray-700 font-semibold">Time: <span id="timer" class="text-indigo-600 font-mono font-bold">10:00</span></span>
+                </div>
+            </div>
+        </div>
+
+        <!-- Question Indicators -->
+        <div id="questionIndicators" class="flex flex-wrap justify-center gap-2 mb-6">
+        </div>
+
+        <!-- Quiz Container -->
+        <div id="quizContainer" class="bg-white rounded-2xl shadow-xl p-6 md:p-8">
+            <!-- Start Screen -->
+            <div id="startScreen" class="text-center py-8">
+                <div class="text-6xl mb-4">🎯</div>
+                <h2 class="text-2xl font-bold text-gray-800 mb-4">Ready to Test Your Skills?</h2>
+                <p class="text-gray-600 mb-6">This quiz contains 10 questions worth a total of 15 marks.<br>Some questions are worth more than others!</p>
+                <p class="text-red-600 font-semibold mb-4">⏰ Time Limit: 10 minutes</p>
+                <button onclick="startQuiz()" class="bg-indigo-600 hover:bg-indigo-700 text-white font-bold py-3 px-8 rounded-full text-lg transition-all transform hover:scale-105 shadow-lg">
+                    Start Quiz 🚀
+                </button>
+            </div>
+
+            <!-- Question Screen -->
+            <div id="questionScreen" class="hidden">
+                <div class="flex justify-between items-center mb-4">
+                    <span id="questionNumber" class="bg-indigo-100 text-indigo-800 px-4 py-1 rounded-full font-semibold"></span>
+                    <span id="questionMarks" class="bg-yellow-100 text-yellow-800 px-4 py-1 rounded-full font-semibold"></span>
+                </div>
+                
+                <div id="questionText" class="text-lg md:text-xl text-gray-800 mb-6 leading-relaxed"></div>
+                
+                <div id="optionsContainer" class="space-y-3 mb-6"></div>
+                
+                <div id="feedback" class="hidden p-4 rounded-lg mb-4"></div>
+                
+                <div class="flex justify-between items-center">
+                    <button id="prevBtn" onclick="prevQuestion()" class="bg-gray-200 hover:bg-gray-300 text-gray-700 font-semibold py-2 px-6 rounded-full transition-all disabled:opacity-50 disabled:cursor-not-allowed">
+                        ← Previous
+                    </button>
+                    <button id="nextBtn" onclick="nextQuestion()" class="bg-indigo-600 hover:bg-indigo-700 text-white font-semibold py-2 px-6 rounded-full transition-all disabled:opacity-50 disabled:cursor-not-allowed">
+                        Next →
+                    </button>
+                    <button id="submitBtn" onclick="submitQuiz()" class="hidden bg-green-600 hover:bg-green-700 text-white font-bold py-2 px-6 rounded-full transition-all">
+                        Submit Quiz ✓
+                    </button>
+                </div>
+            </div>
+
+            <!-- Results Screen -->
+            <div id="resultsScreen" class="hidden text-center py-8">
+                <div id="resultEmoji" class="text-6xl mb-4"></div>
+                <h2 class="text-2xl font-bold text-gray-800 mb-2">Quiz Complete!</h2>
+                <div id="scoreDisplay" class="text-4xl font-bold text-indigo-600 my-4"></div>
+                <div id="percentageDisplay" class="text-xl text-gray-600 mb-6"></div>
+                <div id="gradeDisplay" class="text-2xl font-semibold mb-6"></div>
+                
+                <button onclick="reviewAnswers()" class="bg-purple-600 hover:bg-purple-700 text-white font-bold py-3 px-6 rounded-full mr-3 transition-all">
+                    Review Answers 📝
+                </button>
+                <button onclick="restartQuiz()" class="bg-indigo-600 hover:bg-indigo-700 text-white font-bold py-3 px-6 rounded-full transition-all">
+                    Try Again 🔄
+                </button>
+            </div>
+
+            <!-- Review Screen -->
+            <div id="reviewScreen" class="hidden">
+                <h2 class="text-2xl font-bold text-gray-800 mb-6 text-center">📋 Answer Review</h2>
+                <div id="reviewContainer" class="space-y-6"></div>
+                <div class="text-center mt-8">
+                    <button onclick="restartQuiz()" class="bg-indigo-600 hover:bg-indigo-700 text-white font-bold py-3 px-8 rounded-full transition-all">
+                        Try Again 🔄
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Footer -->
+        <p class="text-center text-gray-500 mt-6 text-sm">Good luck! Take your time and read each question carefully. 💪</p>
+    </div>
+
+    <script>
+        const questions = [
+            {
+                id: 1,
+                question: "Sarah spent 2/5 of her savings on books and 1/4 on stationery. What fraction of her savings did she spend in total?",
+                options: ["13/20", "3/9", "7/20", "1/2"],
+                correct: 0,
+                marks: 1,
+                explanation: "2/5 + 1/4 = 8/20 + 5/20 = 13/20"
+            },
+            {
+                id: 2,
+                question: "A shirt originally costs $80. It's on sale for 25% off. What is the sale price?",
+                options: ["$55", "$60", "$65", "$70"],
+                correct: 1,
+                marks: 1,
+                explanation: "25% of $80 = $20. Sale price = $80 - $20 = $60"
+            },
+            {
+                id: 3,
+                question: "Tom scored 0.85 of the total marks in a test. If the test was out of 120 marks, how many marks did Tom score?",
+                options: ["100", "102", "105", "108"],
+                correct: 1,
+                marks: 1,
+                explanation: "0.85 × 120 = 102 marks"
+            },
+            {
+                id: 4,
+                question: "A recipe requires 3/4 cup of sugar. If Maria wants to make 2.5 times the recipe, how many cups of sugar does she need?",
+                options: ["1.5 cups", "1.75 cups", "1.875 cups", "2 cups"],
+                correct: 2,
+                marks: 2,
+                explanation: "3/4 × 2.5 = 0.75 × 2.5 = 1.875 cups"
+            },
+            {
+                id: 5,
+                question: "The population of a town increased from 45,000 to 54,000. What is the percentage increase?",
+                options: ["15%", "18%", "20%", "25%"],
+                correct: 2,
+                marks: 2,
+                explanation: "Increase = 9,000. Percentage = (9000/45000) × 100 = 20%"
+            },
+            {
+                id: 6,
+                question: "Jake completed 0.6 of his homework on Monday and 1/5 on Tuesday. What fraction of his homework is still remaining?",
+                options: ["1/5", "2/10", "3/10", "1/4"],
+                correct: 0,
+                marks: 1,
+                explanation: "0.6 = 6/10 = 3/5. Total done = 3/5 + 1/5 = 4/5. Remaining = 1 - 4/5 = 1/5"
+            },
+            {
+                id: 7,
+                question: "A laptop costs $1,200 before tax. If the sales tax is 8.5%, what is the total cost including tax?",
+                options: ["$1,285", "$1,302", "$1,320", "$1,350"],
+                correct: 1,
+                marks: 2,
+                explanation: "Tax = 8.5% of $1200 = $102. Total = $1200 + $102 = $1,302"
+            },
+            {
+                id: 8,
+                question: "Emma has 5/8 of a pizza. She gives 0.25 of what she has to her friend. What fraction of the whole pizza did she give away?",
+                options: ["1/8", "5/32", "1/4", "3/16"],
+                correct: 1,
+                marks: 2,
+                explanation: "0.25 × 5/8 = 1/4 × 5/8 = 5/32 of the whole pizza"
+            },
+            {
+                id: 9,
+                question: "A store increases prices by 15% and then offers a 15% discount. If an item originally cost $100, what is the final price?",
+                options: ["$100.00", "$97.75", "$98.50", "$99.00"],
+                correct: 1,
+                marks: 2,
+                explanation: "After 15% increase: $100 × 1.15 = $115. After 15% discount: $115 × 0.85 = $97.75"
+            },
+            {
+                id: 10,
+                question: "Three friends share a bill. Alex pays 2/5, Ben pays 35%, and Carol pays the rest. If the total bill is $200, how much does Carol pay?",
+                options: ["$45", "$50", "$55", "$60"],
+                correct: 1,
+                marks: 1,
+                explanation: "Alex: 2/5 = 40%, Ben: 35%. Carol: 100% - 40% - 35% = 25%. Carol pays 25% of $200 = $50"
+            }
+        ];
+
+        let currentQuestion = 0;
+        let userAnswers = new Array(questions.length).fill(null);
+        let quizSubmitted = false;
+        let timeRemaining = 600; // 10 minutes in seconds
+        let timerInterval;
+
+        function createQuestionIndicators() {
+            const container = document.getElementById('questionIndicators');
+            container.innerHTML = questions.map((q, index) => `
+                <button onclick="goToQuestion(${index})" 
+                    class="question-indicator w-8 h-8 rounded-full border-2 border-indigo-300 font-semibold text-sm transition-all hover:border-indigo-500"
+                    id="indicator-${index}">
+                    ${index + 1}
+                </button>
+            `).join('');
+        }
+
+        function updateIndicators() {
+            questions.forEach((_, index) => {
+                const indicator = document.getElementById(`indicator-${index}`);
+                indicator.classList.remove('current', 'answered');
+                if (index === currentQuestion) {
+                    indicator.classList.add('current');
+                } else if (userAnswers[index] !== null) {
+                    indicator.classList.add('answered');
+                }
+            });
+        }
+
+        function startQuiz() {
+            document.getElementById('startScreen').classList.add('hidden');
+            document.getElementById('questionScreen').classList.remove('hidden');
+            document.getElementById('timerContainer').classList.remove('hidden');
+            createQuestionIndicators();
+            showQuestion();
+            startTimer();
+        }
+
+        function showQuestion() {
+            const q = questions[currentQuestion];
+            document.getElementById('questionNumber').textContent = `Question ${currentQuestion + 1} of ${questions.length}`;
+            document.getElementById('questionMarks').textContent = `${q.marks} mark${q.marks > 1 ? 's' : ''}`;
+            document.getElementById('questionText').textContent = q.question;
+            
+            const optionsContainer = document.getElementById('optionsContainer');
+            optionsContainer.innerHTML = q.options.map((option, index) => `
+                <button onclick="selectOption(${index})" 
+                    class="option-btn w-full text-left p-4 rounded-lg border-2 border-gray-200 hover:border-indigo-400 transition-all font-medium ${userAnswers[currentQuestion] === index ? 'selected' : ''}"
+                    id="option-${index}">
+                    <span class="inline-block w-8 h-8 rounded-full bg-indigo-100 text-indigo-800 text-center leading-8 mr-3 font-bold">${String.fromCharCode(65 + index)}</span>
+                    ${option}
+                </button>
+            `).join('');
+
+            document.getElementById('feedback').classList.add('hidden');
+            updateNavButtons();
+            updateIndicators();
+        }
+
+        function selectOption(index) {
+            if (quizSubmitted) return;
+            userAnswers[currentQuestion] = index;
+            
+            document.querySelectorAll('.option-btn').forEach((btn, i) => {
+                btn.classList.remove('selected');
+                if (i === index) btn.classList.add('selected');
+            });
+            
+            updateIndicators();
+        }
+
+        function updateNavButtons() {
+            document.getElementById('prevBtn').disabled = currentQuestion === 0;
+            
+            const isLastQuestion = currentQuestion === questions.length - 1;
+            document.getElementById('nextBtn').classList.toggle('hidden', isLastQuestion);
+            document.getElementById('submitBtn').classList.toggle('hidden', !isLastQuestion);
+        }
+
+        function nextQuestion() {
+            if (currentQuestion < questions.length - 1) {
+                currentQuestion++;
+                showQuestion();
+            }
+        }
+
+        function prevQuestion() {
+            if (currentQuestion > 0) {
+                currentQuestion--;
+                showQuestion();
+            }
+        }
+
+        function goToQuestion(index) {
+            currentQuestion = index;
+            showQuestion();
+        }
+
+        function submitQuiz() {
+            const unanswered = userAnswers.filter(a => a === null).length;
+            if (unanswered > 0) {
+                if (!confirm(`You have ${unanswered} unanswered question(s). Are you sure you want to submit?`)) {
+                    return;
+                }
+            }
+            
+            quizSubmitted = true;
+            let score = 0;
+            let totalMarks = 0;
+            
+            questions.forEach((q, index) => {
+                totalMarks += q.marks;
+                if (userAnswers[index] === q.correct) {
+                    score += q.marks;
+                }
+            });
+
+            const percentage = Math.round((score / totalMarks) * 100);
+            
+            document.getElementById('questionScreen').classList.add('hidden');
+            document.getElementById('resultsScreen').classList.remove('hidden');
+            document.getElementById('questionIndicators').classList.add('hidden');
+            
+            document.getElementById('scoreDisplay').textContent = `${score} / ${totalMarks} marks`;
+            document.getElementById('percentageDisplay').textContent = `${percentage}%`;
+            
+            // Add time status to results
+            let timeStatus = '';
+            if (timeRemaining <= 0) {
+                timeStatus = '<p class="text-red-600 font-semibold mt-2">⏰ Time Expired!</p>';
+            } else {
+                const timeUsed = 600 - timeRemaining;
+                const minutesUsed = Math.floor(timeUsed / 60);
+                const secondsUsed = timeUsed % 60;
+                timeStatus = `<p class="text-green-600 font-semibold mt-2">⏱️ Completed in ${minutesUsed}:${secondsUsed.toString().padStart(2, '0')}</p>`;
+            }
+            
+            let emoji, grade, gradeColor;
+            if (percentage >= 90) {
+                emoji = "🏆"; grade = "Excellent!"; gradeColor = "text-green-600";
+            } else if (percentage >= 75) {
+                emoji = "🌟"; grade = "Great Job!"; gradeColor = "text-blue-600";
+            } else if (percentage >= 60) {
+                emoji = "👍"; grade = "Good Effort!"; gradeColor = "text-yellow-600";
+            } else if (percentage >= 50) {
+                emoji = "📚"; grade = "Keep Practicing!"; gradeColor = "text-orange-600";
+            } else {
+                emoji = "💪"; grade = "Don't Give Up!"; gradeColor = "text-red-600";
+            }
+            
+            document.getElementById('resultEmoji').textContent = emoji;
+            document.getElementById('gradeDisplay').innerHTML = `<span class="${gradeColor}">${grade}</span>`;
+            
+            // Insert time status after grade display
+            const gradeElement = document.getElementById('gradeDisplay');
+            gradeElement.insertAdjacentHTML('afterend', timeStatus);
+        }
+
+        function reviewAnswers() {
+            document.getElementById('resultsScreen').classList.add('hidden');
+            document.getElementById('reviewScreen').classList.remove('hidden');
+            
+            const container = document.getElementById('reviewContainer');
+            container.innerHTML = questions.map((q, index) => {
+                const userAnswer = userAnswers[index];
+                const isCorrect = userAnswer === q.correct;
+                
+                return `
+                    <div class="bg-gray-50 rounded-lg p-5 border-l-4 ${isCorrect ? 'border-green-500' : 'border-red-500'}">
+                        <div class="flex justify-between items-start mb-2">
+                            <span class="font-semibold text-gray-700">Question ${index + 1}</span>
+                            <span class="text-sm ${isCorrect ? 'text-green-600' : 'text-red-600'} font-semibold">
+                                ${isCorrect ? `+${q.marks} mark${q.marks > 1 ? 's' : ''}` : '0 marks'} ${isCorrect ? '✓' : '✗'}
+                            </span>
+                        </div>
+                        <p class="text-gray-800 mb-3">${q.question}</p>
+                        <div class="space-y-2">
+                            ${q.options.map((opt, i) => `
+                                <div class="flex items-center p-2 rounded ${i === q.correct ? 'bg-green-100 text-green-800' : (i === userAnswer && i !== q.correct ? 'bg-red-100 text-red-800' : 'text-gray-600')}">
+                                    <span class="font-bold mr-2">${String.fromCharCode(65 + i)}.</span>
+                                    ${opt}
+                                    ${i === q.correct ? ' ✓' : ''}
+                                    ${i === userAnswer && i !== q.correct ? ' (Your answer)' : ''}
+                                </div>
+                            `).join('')}
+                        </div>
+                        <div class="mt-3 p-3 bg-blue-50 rounded text-blue-800 text-sm">
+                            <strong>Explanation:</strong> ${q.explanation}
+                        </div>
+                    </div>
+                `;
+            }).join('');
+        }
+
+        function startTimer() {
+            timerInterval = setInterval(() => {
+                timeRemaining--;
+                const minutes = Math.floor(timeRemaining / 60);
+                const seconds = timeRemaining % 60;
+                const display = `${minutes}:${seconds.toString().padStart(2, '0')}`;
+                document.getElementById('timer').textContent = display;
+                
+                // Change color when time is running out
+                if (timeRemaining <= 60) {
+                    document.getElementById('timer').classList.add('text-red-600');
+                    document.getElementById('timer').classList.remove('text-indigo-600');
+                } else if (timeRemaining <= 180) {
+                    document.getElementById('timer').classList.add('text-yellow-600');
+                    document.getElementById('timer').classList.remove('text-indigo-600');
+                }
+                
+                if (timeRemaining <= 0) {
+                    clearInterval(timerInterval);
+                    submitQuiz();
+                }
+            }, 1000);
+        }
+
+        function restartQuiz() {
+            currentQuestion = 0;
+            userAnswers = new Array(questions.length).fill(null);
+            quizSubmitted = false;
+            timeRemaining = 600;
+            clearInterval(timerInterval);
+            
+            document.getElementById('resultsScreen').classList.add('hidden');
+            document.getElementById('reviewScreen').classList.add('hidden');
+            document.getElementById('startScreen').classList.remove('hidden');
+            document.getElementById('questionIndicators').classList.remove('hidden');
+            document.getElementById('timerContainer').classList.add('hidden');
+            document.getElementById('timer').textContent = '10:00';
+            document.getElementById('timer').classList.remove('text-red-600', 'text-yellow-600');
+            document.getElementById('timer').classList.add('text-indigo-600');
+        }
+    </script>
+</body>
+</html>
