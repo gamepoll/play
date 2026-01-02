@@ -1,0 +1,770 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Maths Quiz: Gradients & Y-Intercepts</title>
+    <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap');
+        * {
+            font-family: 'Poppins', sans-serif;
+        }
+        .gradient-bg {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        }
+        .question-card {
+            transition: all 0.3s ease;
+            border-left: 4px solid #667eea;
+        }
+        .question-card:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 25px rgba(0,0,0,0.1);
+        }
+        .timer-pulse {
+            animation: pulse 2s infinite;
+        }
+        @keyframes pulse {
+            0% { box-shadow: 0 0 0 0 rgba(239, 68, 68, 0.7); }
+            70% { box-shadow: 0 0 0 10px rgba(239, 68, 68, 0); }
+            100% { box-shadow: 0 0 0 0 rgba(239, 68, 68, 0); }
+        }
+        .correct-answer {
+            background-color: #d1fae5 !important;
+            border-color: #10b981 !important;
+        }
+        .wrong-answer {
+            background-color: #fee2e2 !important;
+            border-color: #ef4444 !important;
+        }
+        .progress-bar {
+            transition: width 0.5s ease;
+        }
+    </style>
+</head>
+<body class="bg-gray-50 min-h-screen">
+    <div class="container mx-auto px-4 py-8">
+        <!-- Header -->
+        <header class="text-center mb-10">
+            <h1 class="text-4xl font-bold text-gray-800 mb-2">Maths Quiz: Gradients & Y-Intercepts</h1>
+            <p class="text-gray-600 text-lg">20 Questions • 30 Marks • 15 Minutes</p>
+            <div class="mt-4 flex justify-center space-x-4">
+                <span class="px-4 py-2 bg-blue-100 text-blue-800 rounded-full text-sm font-medium">
+                    <i class="fas fa-chart-line mr-2"></i>Gradients
+                </span>
+                <span class="px-4 py-2 bg-purple-100 text-purple-800 rounded-full text-sm font-medium">
+                    <i class="fas fa-crosshairs mr-2"></i>Y-Intercepts
+                </span>
+                <span class="px-4 py-2 bg-green-100 text-green-800 rounded-full text-sm font-medium">
+                    <i class="fas fa-globe mr-2"></i>Real-Life Problems
+                </span>
+            </div>
+        </header>
+
+        <!-- Quiz Info & Timer -->
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
+            <div class="gradient-bg text-white rounded-xl p-6 shadow-lg">
+                <div class="flex items-center">
+                    <i class="fas fa-clock text-3xl mr-4"></i>
+                    <div>
+                        <h3 class="text-xl font-bold">Time Remaining</h3>
+                        <div id="timer" class="text-4xl font-bold mt-2 timer-pulse bg-white/20 rounded-lg px-4 py-2 inline-block">15:00</div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="bg-white rounded-xl p-6 shadow-lg">
+                <div class="flex items-center">
+                    <i class="fas fa-list-check text-3xl mr-4 text-blue-600"></i>
+                    <div>
+                        <h3 class="text-xl font-bold text-gray-800">Progress</h3>
+                        <div class="mt-2">
+                            <div class="flex justify-between text-sm text-gray-600 mb-1">
+                                <span>Questions: <span id="current-question">1</span>/20</span>
+                                <span>Marks: <span id="current-marks">0</span>/30</span>
+                            </div>
+                            <div class="w-full bg-gray-200 rounded-full h-2.5">
+                                <div id="progress-bar" class="progress-bar bg-blue-600 h-2.5 rounded-full" style="width: 5%"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="bg-white rounded-xl p-6 shadow-lg">
+                <div class="flex items-center">
+                    <i class="fas fa-trophy text-3xl mr-4 text-yellow-500"></i>
+                    <div>
+                        <h3 class="text-xl font-bold text-gray-800">Score</h3>
+                        <div class="mt-2">
+                            <div class="text-3xl font-bold text-gray-800" id="score-display">0</div>
+                            <div class="text-sm text-gray-600">Total Marks</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Quiz Container -->
+        <div class="bg-white rounded-xl shadow-lg p-6 mb-8">
+            <!-- Question Display -->
+            <div id="question-container" class="mb-8">
+                <div class="question-card bg-gray-50 rounded-lg p-6 mb-6">
+                    <div class="flex justify-between items-start mb-4">
+                        <div>
+                            <span class="px-3 py-1 bg-blue-600 text-white rounded-full text-sm font-medium">Question 1</span>
+                            <span class="ml-2 px-3 py-1 bg-green-600 text-white rounded-full text-sm font-medium">2 Marks</span>
+                        </div>
+                        <div class="text-gray-500">
+                            <i class="fas fa-calculator mr-1"></i> Real-Life Application
+                        </div>
+                    </div>
+                    <h2 id="question-text" class="text-xl font-semibold text-gray-800 mb-4">
+                        A taxi service charges a fixed fee of $5.00 plus $2.50 per kilometer. What is the y-intercept of the cost function?
+                    </h2>
+                    <div class="bg-blue-50 border border-blue-200 rounded-lg p-4 mb-4">
+                        <div class="flex items-center">
+                            <i class="fas fa-lightbulb text-blue-600 mr-3 text-lg"></i>
+                            <p class="text-blue-800"><strong>Hint:</strong> The y-intercept represents the starting value when x = 0.</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Answer Options -->
+                <div id="options-container" class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                    <!-- Options will be populated by JavaScript -->
+                </div>
+            </div>
+
+            <!-- Navigation Buttons -->
+            <div class="flex justify-between items-center pt-6 border-t border-gray-200">
+                <button id="prev-btn" class="px-6 py-3 bg-gray-200 text-gray-800 rounded-lg font-medium hover:bg-gray-300 transition disabled:opacity-50 disabled:cursor-not-allowed" disabled>
+                    <i class="fas fa-arrow-left mr-2"></i>Previous
+                </button>
+                
+                <div class="text-center">
+                    <button id="submit-btn" class="px-8 py-3 bg-green-600 text-white rounded-lg font-medium hover:bg-green-700 transition">
+                        Submit Answer <i class="fas fa-check ml-2"></i>
+                    </button>
+                    <p class="text-sm text-gray-500 mt-2">Click or press Enter to submit</p>
+                </div>
+                
+                <button id="next-btn" class="px-6 py-3 bg-blue-600 text-white rounded-lg font-medium hover:bg-blue-700 transition">
+                    Next <i class="fas fa-arrow-right ml-2"></i>
+                </button>
+            </div>
+        </div>
+
+        <!-- Results Section (Hidden Initially) -->
+        <div id="results-container" class="hidden bg-white rounded-xl shadow-lg p-8">
+            <div class="text-center">
+                <div class="inline-block p-4 bg-gradient-to-r from-green-400 to-blue-500 rounded-full mb-6">
+                    <i class="fas fa-trophy text-white text-5xl"></i>
+                </div>
+                <h2 class="text-3xl font-bold text-gray-800 mb-4">Quiz Completed!</h2>
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
+                    <div class="bg-gray-50 rounded-lg p-6">
+                        <div class="text-4xl font-bold text-blue-600 mb-2" id="final-score">0</div>
+                        <div class="text-gray-600">Total Marks</div>
+                    </div>
+                    <div class="bg-gray-50 rounded-lg p-6">
+                        <div class="text-4xl font-bold text-green-600 mb-2" id="correct-answers">0</div>
+                        <div class="text-gray-600">Correct Answers</div>
+                    </div>
+                    <div class="bg-gray-50 rounded-lg p-6">
+                        <div class="text-4xl font-bold text-purple-600 mb-2" id="time-taken">0:00</div>
+                        <div class="text-gray-600">Time Taken</div>
+                    </div>
+                </div>
+                <div class="mb-8">
+                    <h3 class="text-xl font-bold text-gray-800 mb-4">Performance Summary</h3>
+                    <div class="w-full bg-gray-200 rounded-full h-4 mb-2">
+                        <div id="performance-bar" class="bg-gradient-to-r from-green-400 to-blue-500 h-4 rounded-full" style="width: 0%"></div>
+                    </div>
+                    <div class="flex justify-between text-sm text-gray-600">
+                        <span>0%</span>
+                        <span id="percentage-score">0%</span>
+                        <span>100%</span>
+                    </div>
+                </div>
+                <button id="restart-btn" class="px-8 py-3 bg-gradient-to-r from-blue-600 to-purple-600 text-white rounded-lg font-medium hover:opacity-90 transition text-lg">
+                    <i class="fas fa-redo mr-2"></i>Restart Quiz
+                </button>
+            </div>
+        </div>
+
+        <!-- Instructions -->
+        <div class="bg-blue-50 border border-blue-200 rounded-xl p-6 mt-8">
+            <h3 class="text-xl font-bold text-gray-800 mb-4 flex items-center">
+                <i class="fas fa-info-circle text-blue-600 mr-3"></i>Quiz Instructions
+            </h3>
+            <ul class="grid grid-cols-1 md:grid-cols-2 gap-3 text-gray-700">
+                <li class="flex items-start">
+                    <i class="fas fa-check-circle text-green-500 mr-2 mt-1"></i>
+                    <span>Total of 20 questions with 30 marks (some questions worth 2 marks)</span>
+                </li>
+                <li class="flex items-start">
+                    <i class="fas fa-clock text-red-500 mr-2 mt-1"></i>
+                    <span>15 minute time limit - timer will alert when 5 minutes remain</span>
+                </li>
+                <li class="flex items-start">
+                    <i class="fas fa-calculator text-purple-500 mr-2 mt-1"></i>
+                    <span>Topics include gradients, y-intercepts, and real-life applications</span>
+                </li>
+                <li class="flex items-start">
+                    <i class="fas fa-mouse-pointer text-blue-500 mr-2 mt-1"></i>
+                    <span>Select an answer and click "Submit Answer" or press Enter</span>
+                </li>
+                <li class="flex items-start">
+                    <i class="fas fa-arrow-right text-orange-500 mr-2 mt-1"></i>
+                    <span>Use Next/Previous buttons to navigate between questions</span>
+                </li>
+                <li class="flex items-start">
+                    <i class="fas fa-chart-bar text-teal-500 mr-2 mt-1"></i>
+                    <span>View your score and performance summary at the end</span>
+                </li>
+            </ul>
+        </div>
+    </div>
+
+    <script>
+        // Quiz Data - 20 questions with gradients, y-intercepts, and real-life applications
+        const quizData = [
+            {
+                id: 1,
+                question: "A taxi service charges a fixed fee of $5.00 plus $2.50 per kilometer. What is the y-intercept of the cost function?",
+                options: ["$2.50", "$5.00", "$7.50", "$0.00"],
+                correctAnswer: 1,
+                marks: 2,
+                explanation: "The y-intercept is the fixed fee when distance = 0 km.",
+                type: "real-life"
+            },
+            {
+                id: 2,
+                question: "What is the gradient of the line passing through points (2, 4) and (6, 10)?",
+                options: ["1.5", "2.0", "2.5", "3.0"],
+                correctAnswer: 0,
+                marks: 1,
+                explanation: "Gradient = (10-4)/(6-2) = 6/4 = 1.5",
+                type: "gradient"
+            },
+            {
+                id: 3,
+                question: "A mobile plan has a monthly fee of $20 plus $0.10 per MB of data. What does the gradient represent?",
+                options: ["Monthly fee", "Cost per MB", "Total cost", "Fixed cost"],
+                correctAnswer: 1,
+                marks: 2,
+                explanation: "The gradient represents the rate of change - cost per unit of data.",
+                type: "real-life"
+            },
+            {
+                id: 4,
+                question: "Find the y-intercept of the equation: y = 3x - 7",
+                options: ["3", "-7", "7", "-3"],
+                correctAnswer: 1,
+                marks: 1,
+                explanation: "In y = mx + b form, b is the y-intercept.",
+                type: "y-intercept"
+            },
+            {
+                id: 5,
+                question: "A car rental charges $40 per day plus $0.25 per km. Write the cost equation.",
+                options: ["C = 40d + 0.25", "C = 0.25d + 40", "C = 40 + 0.25k", "C = 40k + 0.25"],
+                correctAnswer: 2,
+                marks: 2,
+                explanation: "C = fixed daily rate + rate per km × kilometers.",
+                type: "real-life"
+            },
+            {
+                id: 6,
+                question: "What is the gradient of a horizontal line?",
+                options: ["0", "1", "Undefined", "Infinity"],
+                correctAnswer: 0,
+                marks: 1,
+                explanation: "Horizontal lines have zero gradient (no vertical change).",
+                type: "gradient"
+            },
+            {
+                id: 7,
+                question: "A gym membership has $50 joining fee and $30 monthly fee. What's the y-intercept?",
+                options: ["$30", "$50", "$80", "$20"],
+                correctAnswer: 1,
+                marks: 2,
+                explanation: "Y-intercept is the initial cost when time = 0 months.",
+                type: "real-life"
+            },
+            {
+                id: 8,
+                question: "Find gradient of line: 2y = 4x + 8",
+                options: ["2", "4", "1", "8"],
+                correctAnswer: 0,
+                marks: 1,
+                explanation: "Rewrite as y = 2x + 4, so gradient = 2.",
+                type: "gradient"
+            },
+            {
+                id: 9,
+                question: "Which represents a steeper line: gradient = 3 or gradient = 0.5?",
+                options: ["3", "0.5", "Both same", "Cannot compare"],
+                correctAnswer: 0,
+                marks: 1,
+                explanation: "Larger absolute gradient means steeper line.",
+                type: "gradient"
+            },
+            {
+                id: 10,
+                question: "A printer service charges $25 setup plus $0.05 per page. Cost for 100 pages?",
+                options: ["$25", "$30", "$35", "$40"],
+                correctAnswer: 1,
+                marks: 2,
+                explanation: "C = 25 + 0.05×100 = 25 + 5 = $30",
+                type: "real-life"
+            },
+            {
+                id: 11,
+                question: "What's the y-intercept of line through (0,5) and (2,9)?",
+                options: ["5", "9", "2", "0"],
+                correctAnswer: 0,
+                marks: 1,
+                explanation: "Point (0,5) gives y-intercept directly.",
+                type: "y-intercept"
+            },
+            {
+                id: 12,
+                question: "Temperature rises 3°C every hour. After 4 hours from 20°C, what's temperature?",
+                options: ["23°C", "26°C", "32°C", "35°C"],
+                correctAnswer: 2,
+                marks: 2,
+                explanation: "T = 20 + 3×4 = 20 + 12 = 32°C",
+                type: "real-life"
+            },
+            {
+                id: 13,
+                question: "Gradient of line perpendicular to y = 2x + 1?",
+                options: ["2", "0.5", "-0.5", "-2"],
+                correctAnswer: 2,
+                marks: 2,
+                explanation: "Perpendicular gradient = negative reciprocal of 2 = -1/2",
+                type: "gradient"
+            },
+            {
+                id: 14,
+                question: "A bike rental: $15 fixed + $5 per hour. Cost equation?",
+                options: ["C = 15h + 5", "C = 5h + 15", "C = 15 + h", "C = 5 + h"],
+                correctAnswer: 1,
+                marks: 1,
+                explanation: "Fixed cost + hourly rate × hours.",
+                type: "real-life"
+            },
+            {
+                id: 15,
+                question: "Find y-intercept: 3x - 2y = 12",
+                options: ["4", "-4", "6", "-6"],
+                correctAnswer: 3,
+                marks: 2,
+                explanation: "Set x=0: -2y=12 => y=-6",
+                type: "y-intercept"
+            },
+            {
+                id: 16,
+                question: "Water tank has 500L, drains 20L/min. Equation for remaining water?",
+                options: ["W = 500 - 20t", "W = 20t - 500", "W = 500 + 20t", "W = 20t"],
+                correctAnswer: 0,
+                marks: 2,
+                explanation: "Initial amount minus rate × time.",
+                type: "real-life"
+            },
+            {
+                id: 17,
+                question: "Gradient of vertical line?",
+                options: ["0", "1", "Undefined", "Infinity"],
+                correctAnswer: 2,
+                marks: 1,
+                explanation: "Vertical lines have undefined gradient (division by zero).",
+                type: "gradient"
+            },
+            {
+                id: 18,
+                question: "Savings: $1000 initial, adds $50/week. Amount after 10 weeks?",
+                options: ["$1000", "$1500", "$1550", "$1600"],
+                correctAnswer: 1,
+                marks: 2,
+                explanation: "A = 1000 + 50×10 = 1000 + 500 = $1500",
+                type: "real-life"
+            },
+            {
+                id: 19,
+                question: "Line equation with gradient 4 and y-intercept -3?",
+                options: ["y = 4x - 3", "y = -3x + 4", "y = 4x + 3", "y = -3x - 4"],
+                correctAnswer: 0,
+                marks: 1,
+                explanation: "y = mx + b where m=4, b=-3",
+                type: "y-intercept"
+            },
+            {
+                id: 20,
+                question: "Internet plan: $30/month for first 10GB, then $2/GB. Cost for 15GB?",
+                options: ["$30", "$40", "$50", "$60"],
+                correctAnswer: 1,
+                marks: 2,
+                explanation: "30 + 2×(15-10) = 30 + 10 = $40",
+                type: "real-life"
+            }
+        ];
+
+        // Quiz State
+        let currentQuestion = 0;
+        let score = 0;
+        let userAnswers = new Array(quizData.length).fill(null);
+        let timeLeft = 15 * 60; // 15 minutes in seconds
+        let timerInterval;
+        let quizCompleted = false;
+
+        // DOM Elements
+        const questionText = document.getElementById('question-text');
+        const optionsContainer = document.getElementById('options-container');
+        const currentQuestionEl = document.getElementById('current-question');
+        const currentMarksEl = document.getElementById('current-marks');
+        const scoreDisplay = document.getElementById('score-display');
+        const progressBar = document.getElementById('progress-bar');
+        const timerEl = document.getElementById('timer');
+        const prevBtn = document.getElementById('prev-btn');
+        const nextBtn = document.getElementById('next-btn');
+        const submitBtn = document.getElementById('submit-btn');
+        const questionContainer = document.getElementById('question-container');
+        const resultsContainer = document.getElementById('results-container');
+        const finalScoreEl = document.getElementById('final-score');
+        const correctAnswersEl = document.getElementById('correct-answers');
+        const timeTakenEl = document.getElementById('time-taken');
+        const percentageScoreEl = document.getElementById('percentage-score');
+        const performanceBar = document.getElementById('performance-bar');
+        const restartBtn = document.getElementById('restart-btn');
+
+        // Initialize Quiz
+        function initQuiz() {
+            loadQuestion(currentQuestion);
+            startTimer();
+            updateProgress();
+            
+            // Event Listeners
+            prevBtn.addEventListener('click', goToPreviousQuestion);
+            nextBtn.addEventListener('click', goToNextQuestion);
+            submitBtn.addEventListener('click', submitAnswer);
+            restartBtn.addEventListener('click', restartQuiz);
+            
+            // Keyboard navigation
+            document.addEventListener('keydown', (e) => {
+                if (quizCompleted) return;
+                
+                if (e.key === 'Enter') {
+                    submitAnswer();
+                } else if (e.key === 'ArrowRight') {
+                    goToNextQuestion();
+                } else if (e.key === 'ArrowLeft') {
+                    goToPreviousQuestion();
+                } else if (e.key >= '1' && e.key <= '4') {
+                    const optionIndex = parseInt(e.key) - 1;
+                    selectOption(optionIndex);
+                }
+            });
+        }
+
+        // Load Question
+        function loadQuestion(index) {
+            const question = quizData[index];
+            
+            // Update question text
+            questionText.textContent = question.question;
+            currentQuestionEl.textContent = index + 1;
+            
+            // Update question type indicator
+            const typeIndicator = document.querySelector('.question-card .text-gray-500');
+            typeIndicator.innerHTML = `<i class="fas fa-${getQuestionIcon(question.type)} mr-1"></i> ${getQuestionTypeText(question.type)}`;
+            
+            // Update marks indicator
+            const marksIndicator = document.querySelector('.question-card .bg-green-600');
+            marksIndicator.textContent = `${question.marks} Mark${question.marks > 1 ? 's' : ''}`;
+            
+            // Clear and create options
+            optionsContainer.innerHTML = '';
+            question.options.forEach((option, i) => {
+                const optionEl = document.createElement('div');
+                optionEl.className = `option-item bg-gray-50 border border-gray-200 rounded-lg p-4 cursor-pointer hover:bg-gray-100 transition ${userAnswers[index] === i ? 'bg-blue-50 border-blue-300' : ''}`;
+                optionEl.innerHTML = `
+                    <div class="flex items-center">
+                        <div class="w-8 h-8 flex items-center justify-center rounded-full ${userAnswers[index] === i ? 'bg-blue-600 text-white' : 'bg-gray-200 text-gray-700'} font-medium mr-3">
+                            ${String.fromCharCode(65 + i)}
+                        </div>
+                        <div class="text-gray-800">${option}</div>
+                    </div>
+                `;
+                optionEl.addEventListener('click', () => selectOption(i));
+                optionsContainer.appendChild(optionEl);
+            });
+            
+            // Update navigation buttons
+            prevBtn.disabled = index === 0;
+            nextBtn.disabled = index === quizData.length - 1;
+            
+            // Update submit button text
+            submitBtn.textContent = userAnswers[index] !== null ? 'Update Answer' : 'Submit Answer';
+            submitBtn.innerHTML = userAnswers[index] !== null ? 
+                'Update Answer <i class="fas fa-edit ml-2"></i>' : 
+                'Submit Answer <i class="fas fa-check ml-2"></i>';
+            
+            // Update progress
+            updateProgress();
+        }
+
+        // Select Option
+        function selectOption(optionIndex) {
+            // Remove selection from all options
+            document.querySelectorAll('.option-item').forEach(item => {
+                item.classList.remove('bg-blue-50', 'border-blue-300');
+                item.classList.add('bg-gray-50', 'border-gray-200');
+            });
+            
+            // Add selection to clicked option
+            const selectedOption = document.querySelectorAll('.option-item')[optionIndex];
+            selectedOption.classList.remove('bg-gray-50', 'border-gray-200');
+            selectedOption.classList.add('bg-blue-50', 'border-blue-300');
+            
+            // Update user answer
+            userAnswers[currentQuestion] = optionIndex;
+            
+            // Update submit button
+            submitBtn.textContent = 'Update Answer';
+            submitBtn.innerHTML = 'Update Answer <i class="fas fa-edit ml-2"></i>';
+        }
+
+        // Submit Answer
+        function submitAnswer() {
+            if (userAnswers[currentQuestion] === null) {
+                alert('Please select an answer before submitting.');
+                return;
+            }
+            
+            const question = quizData[currentQuestion];
+            const selectedOption = userAnswers[currentQuestion];
+            const isCorrect = selectedOption === question.correctAnswer;
+            
+            // Update score if not already scored
+            if (isCorrect && !question.answered) {
+                score += question.marks;
+                question.answered = true;
+                scoreDisplay.textContent = score;
+            } else if (!isCorrect && question.answered) {
+                // Remove score if previously correct answer changed to wrong
+                score -= question.marks;
+                question.answered = false;
+                scoreDisplay.textContent = score;
+            }
+            
+            // Visual feedback
+            const options = document.querySelectorAll('.option-item');
+            options.forEach((option, i) => {
+                option.classList.remove('correct-answer', 'wrong-answer');
+                if (i === question.correctAnswer) {
+                    option.classList.add('correct-answer');
+                } else if (i === selectedOption && !isCorrect) {
+                    option.classList.add('wrong-answer');
+                }
+            });
+            
+            // Show explanation
+            const explanationEl = document.createElement('div');
+            explanationEl.className = `mt-4 p-4 rounded-lg ${isCorrect ? 'bg-green-50 border border-green-200' : 'bg-red-50 border border-red-200'}`;
+            explanationEl.innerHTML = `
+                <div class="flex items-start">
+                    <i class="fas fa-${isCorrect ? 'check-circle text-green-600' : 'times-circle text-red-600'} mr-3 mt-1"></i>
+                    <div>
+                        <p class="font-medium ${isCorrect ? 'text-green-800' : 'text-red-800'}">
+                            ${isCorrect ? 'Correct!' : 'Incorrect'} ${isCorrect ? `+${question.marks} marks` : ''}
+                        </p>
+                        <p class="text-sm ${isCorrect ? 'text-green-700' : 'text-red-700'} mt-1">${question.explanation}</p>
+                    </div>
+                </div>
+            `;
+            
+            // Remove previous explanation if exists
+            const prevExplanation = document.querySelector('.explanation-feedback');
+            if (prevExplanation) prevExplanation.remove();
+            
+            explanationEl.classList.add('explanation-feedback');
+            optionsContainer.parentNode.insertBefore(explanationEl, optionsContainer.nextSibling);
+            
+            // Update progress
+            updateProgress();
+            
+            // Auto-advance after delay if correct
+            if (isCorrect && currentQuestion < quizData.length - 1) {
+                setTimeout(() => {
+                    goToNextQuestion();
+                }, 2000);
+            }
+        }
+
+        // Navigation Functions
+        function goToNextQuestion() {
+            if (currentQuestion < quizData.length - 1) {
+                currentQuestion++;
+                loadQuestion(currentQuestion);
+            }
+        }
+
+        function goToPreviousQuestion() {
+            if (currentQuestion > 0) {
+                currentQuestion--;
+                loadQuestion(currentQuestion);
+            }
+        }
+
+        // Timer Functions
+        function startTimer() {
+            updateTimerDisplay();
+            timerInterval = setInterval(() => {
+                timeLeft--;
+                updateTimerDisplay();
+                
+                if (timeLeft <= 0) {
+                    endQuiz();
+                } else if (timeLeft === 5 * 60) {
+                    // 5 minute warning
+                    showTimeWarning();
+                }
+            }, 1000);
+        }
+
+        function updateTimerDisplay() {
+            const minutes = Math.floor(timeLeft / 60);
+            const seconds = timeLeft % 60;
+            timerEl.textContent = `${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
+            
+            // Visual feedback for low time
+            if (timeLeft <= 5 * 60) {
+                timerEl.classList.add('timer-pulse');
+                timerEl.parentElement.parentElement.classList.remove('gradient-bg');
+                timerEl.parentElement.parentElement.classList.add('bg-red-600');
+            }
+        }
+
+        function showTimeWarning() {
+            const warningEl = document.createElement('div');
+            warningEl.className = 'fixed top-4 right-4 bg-red-600 text-white p-4 rounded-lg shadow-lg z-50 animate-pulse';
+            warningEl.innerHTML = `
+                <div class="flex items-center">
+                    <i class="fas fa-exclamation-triangle text-2xl mr-3"></i>
+                    <div>
+                        <p class="font-bold">5 Minutes Remaining!</p>
+                        <p class="text-sm">Complete your quiz soon.</p>
+                    </div>
+                </div>
+            `;
+            document.body.appendChild(warningEl);
+            
+            setTimeout(() => {
+                warningEl.remove();
+            }, 5000);
+        }
+
+        // Progress Functions
+        function updateProgress() {
+            const answeredCount = userAnswers.filter(answer => answer !== null).length;
+            const progressPercentage = (answeredCount / quizData.length) * 100;
+            progressBar.style.width = `${progressPercentage}%`;
+            
+            // Calculate current marks from answered questions
+            let calculatedMarks = 0;
+            userAnswers.forEach((answer, index) => {
+                if (answer !== null && answer === quizData[index].correctAnswer) {
+                    calculatedMarks += quizData[index].marks;
+                }
+            });
+            currentMarksEl.textContent = calculatedMarks;
+        }
+
+        // End Quiz
+        function endQuiz() {
+            clearInterval(timerInterval);
+            quizCompleted = true;
+            
+            // Calculate final score
+            let finalScore = 0;
+            let correctCount = 0;
+            
+            userAnswers.forEach((answer, index) => {
+                if (answer === quizData[index].correctAnswer) {
+                    finalScore += quizData[index].marks;
+                    correctCount++;
+                }
+            });
+            
+            // Show results
+            questionContainer.style.display = 'none';
+            resultsContainer.classList.remove('hidden');
+            
+            finalScoreEl.textContent = finalScore;
+            correctAnswersEl.textContent = `${correctCount}/${quizData.length}`;
+            
+            const timeUsed = 15 * 60 - timeLeft;
+            const minutesUsed = Math.floor(timeUsed / 60);
+            const secondsUsed = timeUsed % 60;
+            timeTakenEl.textContent = `${minutesUsed}:${secondsUsed.toString().padStart(2, '0')}`;
+            
+            const percentage = Math.round((finalScore / 30) * 100);
+            percentageScoreEl.textContent = `${percentage}%`;
+            performanceBar.style.width = `${percentage}%`;
+        }
+
+        // Restart Quiz
+        function restartQuiz() {
+            // Reset state
+            currentQuestion = 0;
+            score = 0;
+            userAnswers = new Array(quizData.length).fill(null);
+            timeLeft = 15 * 60;
+            quizCompleted = false;
+            
+            // Reset quiz data
+            quizData.forEach(q => q.answered = false);
+            
+            // Reset UI
+            questionContainer.style.display = 'block';
+            resultsContainer.classList.add('hidden');
+            scoreDisplay.textContent = '0';
+            timerEl.textContent = '15:00';
+            timerEl.classList.remove('timer-pulse');
+            timerEl.parentElement.parentElement.classList.remove('bg-red-600');
+            timerEl.parentElement.parentElement.classList.add('gradient-bg');
+            
+            // Restart
+            loadQuestion(currentQuestion);
+            startTimer();
+            updateProgress();
+        }
+
+        // Helper Functions
+        function getQuestionIcon(type) {
+            switch(type) {
+                case 'gradient': return 'chart-line';
+                case 'y-intercept': return 'crosshairs';
+                case 'real-life': return 'globe';
+                default: return 'question-circle';
+            }
+        }
+
+        function getQuestionTypeText(type) {
+            switch(type) {
+                case 'gradient': return 'Gradient Calculation';
+                case 'y-intercept': return 'Y-Intercept';
+                case 'real-life': return 'Real-Life Application';
+                default: return 'General';
+            }
+        }
+
+        // Initialize when page loads
+        document.addEventListener('DOMContentLoaded', initQuiz);
+    </script>
+</body>
+</html>
