@@ -1,0 +1,754 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Grade 9 Interactive Maths Quiz</title>
+    <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: #f3f4f6;
+        }
+        .option-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+        }
+        .option-selected {
+            border-color: #3b82f6;
+            background-color: #eff6ff;
+            font-weight: 600;
+        }
+        /* Custom scrollbar for sidebar */
+        ::-webkit-scrollbar {
+            width: 8px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #f1f1f1; 
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #cbd5e1; 
+            border-radius: 4px;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: #94a3b8; 
+        }
+    </style>
+</head>
+<body class="h-screen flex flex-col overflow-hidden">
+
+    <!-- Header -->
+    <header class="bg-blue-700 text-white p-4 shadow-lg flex justify-between items-center z-10">
+        <h1 class="text-xl md:text-2xl font-bold">Grade 9 Maths Challenge</h1>
+        <div id="timer-container" class="hidden flex items-center gap-2 bg-blue-800 px-4 py-2 rounded-lg">
+            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
+            </svg>
+            <span id="timer" class="font-mono text-xl font-bold">20:00</span>
+        </div>
+    </header>
+
+    <!-- Main Content Area -->
+    <main class="flex-1 flex overflow-hidden relative">
+        
+        <!-- Welcome Screen -->
+        <div id="start-screen" class="absolute inset-0 bg-white z-20 flex flex-col items-center justify-center p-6 text-center">
+            <div class="max-w-2xl w-full bg-white p-8 rounded-2xl shadow-xl border border-gray-100">
+                <div class="mb-6 text-blue-600">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-20 w-20 mx-auto" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
+                    </svg>
+                </div>
+                <h2 class="text-3xl font-bold text-gray-800 mb-4">Maths Assessment</h2>
+                <p class="text-gray-600 mb-8 text-lg">
+                    This quiz covers key Grade 9 topics. It includes <strong>10 Challenge Questions</strong> (worth 3 marks each) and 15 Standard Questions (1 mark each).
+                </p>
+                
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-4 mb-8 text-sm">
+                    <div class="bg-blue-50 p-4 rounded-lg">
+                        <span class="block text-2xl font-bold text-blue-700">25</span>
+                        <span class="text-gray-600">Questions</span>
+                    </div>
+                    <div class="bg-blue-50 p-4 rounded-lg">
+                        <span class="block text-2xl font-bold text-blue-700">20</span>
+                        <span class="text-gray-600">Minutes</span>
+                    </div>
+                    <div class="bg-blue-50 p-4 rounded-lg">
+                        <span class="block text-2xl font-bold text-blue-700">20</span>
+                        <span class="text-gray-600">Scaled Marks</span>
+                    </div>
+                </div>
+
+                <button onclick="startQuiz()" class="w-full md:w-auto px-8 py-4 bg-blue-600 hover:bg-blue-700 text-white font-bold rounded-xl transition duration-200 text-lg shadow-lg transform hover:scale-105">
+                    Start Quiz Now
+                </button>
+            </div>
+        </div>
+
+        <!-- Quiz Container (Hidden initially) -->
+        <div id="quiz-container" class="hidden flex flex-1 w-full h-full">
+            
+            <!-- Sidebar Navigation -->
+            <aside class="w-20 md:w-64 bg-white border-r border-gray-200 flex flex-col h-full hidden md:flex">
+                <div class="p-4 border-b border-gray-200 bg-gray-50">
+                    <h3 class="font-bold text-gray-700 text-sm uppercase tracking-wide">Questions</h3>
+                </div>
+                <div id="question-nav" class="flex-1 overflow-y-auto p-3 grid grid-cols-1 md:grid-cols-4 gap-2 content-start">
+                    <!-- Nav buttons generated via JS -->
+                </div>
+                <div class="p-4 border-t border-gray-200 bg-gray-50">
+                    <div class="text-xs text-gray-500 mb-2 flex justify-between">
+                        <span>Progress</span>
+                        <span id="progress-text">0/25</span>
+                    </div>
+                    <div class="w-full bg-gray-200 rounded-full h-2.5">
+                        <div id="progress-bar" class="bg-blue-600 h-2.5 rounded-full" style="width: 0%"></div>
+                    </div>
+                </div>
+            </aside>
+
+            <!-- Question Area -->
+            <div class="flex-1 flex flex-col h-full bg-gray-50 overflow-y-auto relative">
+                <!-- Mobile Nav Toggle -->
+                <div class="md:hidden p-2 bg-white shadow-sm flex justify-between items-center sticky top-0 z-10">
+                    <span class="font-bold text-gray-700">Question <span id="mobile-q-num">1</span>/25</span>
+                    <button id="mobile-menu-btn" class="text-gray-600 p-2 border rounded">
+                        View List
+                    </button>
+                </div>
+
+                <!-- Mobile Question List (Overlay) -->
+                <div id="mobile-nav-overlay" class="fixed inset-0 bg-black/50 z-40 hidden md:hidden">
+                    <div class="absolute right-0 top-0 bottom-0 w-64 bg-white p-4 overflow-y-auto">
+                        <div class="flex justify-between items-center mb-4">
+                            <h3 class="font-bold">Questions</h3>
+                            <button onclick="toggleMobileNav()" class="text-gray-500 text-xl">&times;</button>
+                        </div>
+                        <div id="mobile-question-nav" class="grid grid-cols-4 gap-2"></div>
+                    </div>
+                </div>
+
+                <div class="flex-1 p-4 md:p-8 max-w-4xl mx-auto w-full flex flex-col justify-center">
+                    <div class="bg-white rounded-2xl shadow-sm border border-gray-200 p-6 md:p-10 min-h-[400px] flex flex-col">
+                        
+                        <div class="flex justify-between items-start mb-6">
+                            <div class="flex flex-wrap gap-2">
+                                <span id="topic-badge" class="px-3 py-1 bg-purple-100 text-purple-700 rounded-full text-xs font-bold uppercase tracking-wide">Topic</span>
+                                <span id="difficulty-badge" class="px-3 py-1 bg-gray-100 text-gray-700 rounded-full text-xs font-bold uppercase tracking-wide">Standard</span>
+                                <span id="marks-badge" class="px-3 py-1 bg-blue-100 text-blue-700 rounded-full text-xs font-bold uppercase tracking-wide">1 Mark</span>
+                            </div>
+                            <span class="text-gray-400 text-sm font-medium whitespace-nowrap ml-2">Q <span id="current-q-display">1</span>/25</span>
+                        </div>
+
+                        <h3 id="question-text" class="text-xl md:text-2xl font-medium text-gray-800 mb-8 leading-relaxed">
+                            Question text loads here...
+                        </h3>
+
+                        <div id="options-container" class="grid grid-cols-1 gap-4 mb-8">
+                            <!-- Options generated via JS -->
+                        </div>
+
+                        <div class="mt-auto flex justify-between items-center pt-6 border-t border-gray-100">
+                            <button onclick="prevQuestion()" id="prev-btn" class="flex items-center text-gray-500 hover:text-blue-600 disabled:opacity-30 disabled:hover:text-gray-500 transition">
+                                <svg class="w-5 h-5 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"></path></svg>
+                                Previous
+                            </button>
+                            <button onclick="nextQuestion()" id="next-btn" class="flex items-center px-6 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition shadow-md">
+                                Next
+                                <svg class="w-5 h-5 ml-1" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path></svg>
+                            </button>
+                            <button onclick="submitQuiz()" id="submit-btn" class="hidden flex items-center px-6 py-2 bg-green-600 text-white rounded-lg hover:bg-green-700 transition shadow-md">
+                                Finish & Mark
+                                <svg class="w-5 h-5 ml-1" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Results Screen (Hidden initially) -->
+        <div id="results-screen" class="hidden w-full h-full overflow-y-auto bg-gray-50 p-4 md:p-8">
+            <div class="max-w-4xl mx-auto">
+                <div class="bg-white rounded-2xl shadow-lg border border-gray-200 p-8 mb-8 text-center">
+                    <h2 class="text-3xl font-bold text-gray-800 mb-2">Quiz Completed!</h2>
+                    <p class="text-gray-600 mb-8">Here is how you performed.</p>
+                    
+                    <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
+                        <div class="p-6 bg-blue-50 rounded-xl">
+                            <div class="text-sm text-blue-600 font-bold uppercase mb-1">Score (Raw)</div>
+                            <div class="text-4xl font-bold text-blue-800"><span id="raw-score">0</span>/25</div>
+                        </div>
+                        <div class="p-6 bg-purple-50 rounded-xl border-2 border-purple-100 transform scale-105 shadow-md">
+                            <div class="text-sm text-purple-600 font-bold uppercase mb-1">Final Mark</div>
+                            <div class="text-4xl font-bold text-purple-800"><span id="scaled-score">0</span>/20</div>
+                        </div>
+                        <div class="p-6 bg-green-50 rounded-xl">
+                            <div class="text-sm text-green-600 font-bold uppercase mb-1">Percentage</div>
+                            <div class="text-4xl font-bold text-green-800"><span id="percentage-score">0</span>%</div>
+                        </div>
+                    </div>
+
+                    <button onclick="location.reload()" class="px-6 py-2 bg-gray-800 text-white rounded-lg hover:bg-gray-900 transition">
+                        Restart Quiz
+                    </button>
+                </div>
+
+                <div class="mb-6 flex items-center gap-2">
+                    <h3 class="text-xl font-bold text-gray-800">Detailed Review</h3>
+                    <span class="text-sm text-gray-500 bg-white px-2 py-1 rounded border border-gray-200">Explanations Included</span>
+                </div>
+
+                <div id="review-container" class="space-y-4">
+                    <!-- Review items generated via JS -->
+                </div>
+            </div>
+        </div>
+
+    </main>
+
+    <script>
+        // Quiz Data
+        const questions = [
+            // Topic 1: Rotation & Translation Geometry
+            {
+                id: 1,
+                topic: "Rotation & Translation",
+                difficulty: "Standard",
+                marks: 1,
+                text: "A point A(2, 3) is translated by the vector <span class='font-mono bg-gray-100 px-1 rounded'>[3, -2]</span>. What are the coordinates of the new point A'?",
+                options: ["(5, 1)", "(5, 5)", "(-1, 5)", "(6, -6)"],
+                correct: 0,
+                explanation: "Translation adds the vector components to the point coordinates. x: 2 + 3 = 5, y: 3 + (-2) = 1. So A'(5, 1)."
+            },
+            {
+                id: 2,
+                topic: "Rotation & Translation",
+                difficulty: "Standard",
+                marks: 1,
+                text: "If a shape is rotated 90° clockwise about the origin (0,0), the point (x, y) becomes:",
+                options: ["(-y, x)", "(y, -x)", "(-x, -y)", "(y, x)"],
+                correct: 1,
+                explanation: "A 90° clockwise rotation maps (x, y) to (y, -x). For example, (1, 0) becomes (0, -1)."
+            },
+            {
+                id: 3,
+                topic: "Rotation & Translation",
+                difficulty: "Standard",
+                marks: 1,
+                text: "Which transformation preserves orientation (the shape does not become a mirror image)?",
+                options: ["Reflection", "Rotation", "Translation", "Both Rotation and Translation"],
+                correct: 3,
+                explanation: "Reflections reverse orientation (handedness). Rotation and Translation are rigid transformations that preserve orientation."
+            },
+            {
+                id: 4,
+                topic: "Rotation & Translation",
+                difficulty: "Challenge",
+                marks: 3,
+                text: "Point P(-2, 5) is reflected over the line y = x, then translated by vector [1, -1]. What is the final position?",
+                options: ["(6, -3)", "(4, -3)", "(6, -1)", "(-3, 6)"],
+                correct: 0,
+                explanation: "Reflect (-2, 5) over y=x → (5, -2). Translate by [1, -1] → (5+1, -2-1) = (6, -3)."
+            },
+            {
+                id: 5,
+                topic: "Rotation & Translation",
+                difficulty: "Challenge",
+                marks: 3,
+                text: "Point P(3, 1) is rotated 90° anti-clockwise about the center C(1, 1). What are the new coordinates?",
+                options: ["(1, 3)", "(3, 3)", "(1, -1)", "(-1, 3)"],
+                correct: 0,
+                explanation: "Relative to C(1,1), P is at (2, 0). Rotate 90° ACW: (2, 0) → (0, 2). Add back center C(1,1): (0+1, 2+1) = (1, 3)."
+            },
+
+            // Topic 2: Simple & Compound Interests
+            {
+                id: 6,
+                topic: "Interest",
+                difficulty: "Standard",
+                marks: 1,
+                text: "Calculate the Simple Interest on $500 for 3 years at 5% per annum.",
+                options: ["$25", "$50", "$75", "$100"],
+                correct: 2,
+                explanation: "Formula: I = Prt. I = 500 * 0.05 * 3 = $75."
+            },
+            {
+                id: 7,
+                topic: "Interest",
+                difficulty: "Standard",
+                marks: 1,
+                text: "Calculate the total amount after 2 years for $1000 invested at 10% compound interest per annum.",
+                options: ["$1200", "$1210", "$1100", "$1020"],
+                correct: 1,
+                explanation: "Year 1: $1000 * 1.1 = $1100. Year 2: $1100 * 1.1 = $1210."
+            },
+            {
+                id: 8,
+                topic: "Interest",
+                difficulty: "Standard",
+                marks: 1,
+                text: "Which usually yields a higher return over a long period for the same rate and principal?",
+                options: ["Simple Interest", "Compound Interest", "They are always the same", "Depends on the currency"],
+                correct: 1,
+                explanation: "Compound interest calculates interest on the principal PLUS previously accumulated interest, leading to exponential growth."
+            },
+            {
+                id: 9,
+                topic: "Interest",
+                difficulty: "Challenge",
+                marks: 3,
+                text: "An antique appreciates by 20% in Year 1 and 25% in Year 2. What is the total percentage increase over the 2 years?",
+                options: ["45%", "50%", "55%", "40%"],
+                correct: 1,
+                explanation: "Let start = 100. Year 1: 120. Year 2: 120 * 1.25 = 150. Total increase from 100 to 150 is 50%."
+            },
+            {
+                id: 10,
+                topic: "Interest",
+                difficulty: "Challenge",
+                marks: 3,
+                text: "At what annual simple interest rate will a sum of money double itself in 8 years?",
+                options: ["10%", "12.5%", "15%", "25%"],
+                correct: 1,
+                explanation: "For money to double, Interest = Principal (I=P). P = P * r * 8. 1 = 8r. r = 1/8 = 0.125 = 12.5%."
+            },
+
+            // Topic 3: Angle problems in polygons
+            {
+                id: 11,
+                topic: "Polygons",
+                difficulty: "Standard",
+                marks: 1,
+                text: "What is the sum of interior angles of a hexagon (6 sides)?",
+                options: ["360°", "540°", "720°", "900°"],
+                correct: 2,
+                explanation: "Sum = (n - 2) * 180. For n=6: (6-2)*180 = 4 * 180 = 720°."
+            },
+            {
+                id: 12,
+                topic: "Polygons",
+                difficulty: "Standard",
+                marks: 1,
+                text: "What is the size of each exterior angle of a regular octagon (8 sides)?",
+                options: ["45°", "135°", "60°", "30°"],
+                correct: 0,
+                explanation: "Exterior angles of any convex polygon sum to 360°. For a regular n-gon: 360 / n. 360 / 8 = 45°."
+            },
+            {
+                id: 13,
+                topic: "Polygons",
+                difficulty: "Standard",
+                marks: 1,
+                text: "A regular polygon has an interior angle of 144°. How many sides does it have?",
+                options: ["8", "9", "10", "12"],
+                correct: 2,
+                explanation: "Exterior angle = 180 - 144 = 36°. n = 360 / 36 = 10 sides."
+            },
+            {
+                id: 14,
+                topic: "Polygons",
+                difficulty: "Challenge",
+                marks: 3,
+                text: "The interior angles of a pentagon are x°, x°, 2x°, 2x°, and 3x°. What is the value of x?",
+                options: ["40", "60", "30", "54"],
+                correct: 1,
+                explanation: "Sum = (5-2)*180 = 540. x+x+2x+2x+3x = 9x. 9x = 540. x = 60."
+            },
+            {
+                id: 15,
+                topic: "Polygons",
+                difficulty: "Challenge",
+                marks: 3,
+                text: "If the ratio of an interior angle to an exterior angle of a regular polygon is 7:2, how many sides does it have?",
+                options: ["8", "9", "10", "12"],
+                correct: 1,
+                explanation: "Interior + Exterior = 180. 7k + 2k = 9k = 180 → k=20. Ext angle = 2(20) = 40. n = 360/40 = 9."
+            },
+
+            // Topic 4: Making conjectures with shapes
+            {
+                id: 16,
+                topic: "Conjectures",
+                difficulty: "Standard",
+                marks: 1,
+                text: "Which statement is true for all rectangles?",
+                options: ["Diagonals are perpendicular", "Diagonals are equal in length", "All sides are equal", "Diagonals bisect angles"],
+                correct: 1,
+                explanation: "The diagonals of a rectangle are always congruent (equal length). They only bisect angles or are perpendicular if it's a square."
+            },
+            {
+                id: 17,
+                topic: "Conjectures",
+                difficulty: "Standard",
+                marks: 1,
+                text: "A quadrilateral has diagonals that bisect each other at 90°. The shape MUST be a:",
+                options: ["Rectangle", "Rhombus", "Trapezium", "Kite"],
+                correct: 1,
+                explanation: "Diagonals bisecting each other implies parallelogram. Meeting at 90° makes it a rhombus. (A square is a special rhombus)."
+            },
+            {
+                id: 18,
+                topic: "Conjectures",
+                difficulty: "Standard",
+                marks: 1,
+                text: "Which shape has exactly one pair of parallel sides?",
+                options: ["Parallelogram", "Rhombus", "Trapezium (Trapezoid)", "Kite"],
+                correct: 2,
+                explanation: "By definition, a trapezium (UK) or trapezoid (US) has exactly one pair of parallel sides."
+            },
+            {
+                id: 19,
+                topic: "Conjectures",
+                difficulty: "Challenge",
+                marks: 3,
+                text: "I have a shape with 4 equal sides and equal diagonals. What is it specifically?",
+                options: ["Rhombus", "Rectangle", "Square", "Kite"],
+                correct: 2,
+                explanation: "4 equal sides → Rhombus. Equal diagonals → Rectangle. Both properties → Square."
+            },
+            {
+                id: 20,
+                topic: "Conjectures",
+                difficulty: "Challenge",
+                marks: 3,
+                text: "Which quadrilateral always has exactly one axis of symmetry?",
+                options: ["Parallelogram", "Isosceles Trapezium", "Rectangle", "Rhombus"],
+                correct: 1,
+                explanation: "An isosceles trapezium has 1 axis of symmetry (vertical). Rectangle/Rhombus have 2. General parallelogram has 0."
+            },
+
+            // Topic 5: Pythagoras Theorem Geometry
+            {
+                id: 21,
+                topic: "Pythagoras",
+                difficulty: "Standard",
+                marks: 1,
+                text: "In a right-angled triangle, sides are 3cm and 4cm. What is the length of the hypotenuse?",
+                options: ["5cm", "6cm", "7cm", "25cm"],
+                correct: 0,
+                explanation: "a² + b² = c². 3² + 4² = 9 + 16 = 25. √25 = 5cm."
+            },
+            {
+                id: 22,
+                topic: "Pythagoras",
+                difficulty: "Standard",
+                marks: 1,
+                text: "A ladder 10m long leans against a wall. The foot is 6m from the wall. How high up the wall does it reach?",
+                options: ["4m", "8m", "16m", "64m"],
+                correct: 1,
+                explanation: "h² + 6² = 10². h² + 36 = 100. h² = 64. h = 8m."
+            },
+            {
+                id: 23,
+                topic: "Pythagoras",
+                difficulty: "Standard",
+                marks: 1,
+                text: "Is a triangle with sides 5, 12, 13 a right-angled triangle?",
+                options: ["Yes", "No", "Only if it is red", "Depends on the angles"],
+                correct: 0,
+                explanation: "Check 5² + 12² = 25 + 144 = 169. 13² = 169. Yes, it satisfies Pythagoras theorem."
+            },
+            {
+                id: 24,
+                topic: "Pythagoras",
+                difficulty: "Challenge",
+                marks: 3,
+                text: "A 3D box has dimensions 3cm, 4cm, and 12cm. What is the length of the diagonal from one corner to the opposite corner?",
+                options: ["13cm", "15cm", "19cm", "169cm"],
+                correct: 0,
+                explanation: "d² = l² + w² + h² = 3² + 4² + 12² = 9 + 16 + 144 = 169. d = √169 = 13cm."
+            },
+            {
+                id: 25,
+                topic: "Pythagoras",
+                difficulty: "Challenge",
+                marks: 3,
+                text: "The diagonal of a square is 10cm. What is its area?",
+                options: ["100 cm²", "50 cm²", "25 cm²", "20 cm²"],
+                correct: 1,
+                explanation: "d² = 2s². 100 = 2s². s² = 50. Area = s² = 50 cm²."
+            }
+        ];
+
+        // State
+        let currentQuestion = 0;
+        let answers = new Array(questions.length).fill(null);
+        let timeTotal = 20 * 60; // 20 mins in seconds
+        let timeLeft = timeTotal;
+        let timerInterval;
+
+        // DOM Elements
+        const startScreen = document.getElementById('start-screen');
+        const quizContainer = document.getElementById('quiz-container');
+        const resultsScreen = document.getElementById('results-screen');
+        const timerDisplay = document.getElementById('timer');
+        const timerContainer = document.getElementById('timer-container');
+        const questionNav = document.getElementById('question-nav');
+        const mobileQuestionNav = document.getElementById('mobile-question-nav');
+        const mobileNavOverlay = document.getElementById('mobile-nav-overlay');
+        
+        // --- Initialization ---
+        
+        function initNav() {
+            questionNav.innerHTML = '';
+            mobileQuestionNav.innerHTML = '';
+            
+            questions.forEach((q, index) => {
+                const btn = document.createElement('button');
+                btn.className = `p-2 rounded border border-gray-200 text-sm font-medium hover:bg-blue-50 transition q-nav-btn`;
+                btn.textContent = index + 1;
+                btn.onclick = () => jumpToQuestion(index);
+                btn.id = `nav-btn-${index}`;
+                questionNav.appendChild(btn);
+
+                // Clone for mobile
+                const mBtn = btn.cloneNode(true);
+                mBtn.onclick = () => { jumpToQuestion(index); toggleMobileNav(); };
+                mBtn.id = `mobile-nav-btn-${index}`;
+                mobileQuestionNav.appendChild(mBtn);
+            });
+        }
+
+        function startQuiz() {
+            startScreen.classList.add('hidden');
+            quizContainer.classList.remove('hidden');
+            timerContainer.classList.remove('hidden');
+            
+            initNav();
+            renderQuestion();
+            startTimer();
+        }
+
+        // --- Core Logic ---
+
+        function startTimer() {
+            timerInterval = setInterval(() => {
+                timeLeft--;
+                
+                const mins = Math.floor(timeLeft / 60);
+                const secs = timeLeft % 60;
+                timerDisplay.textContent = `${mins.toString().padStart(2, '0')}:${secs.toString().padStart(2, '0')}`;
+                
+                if (timeLeft <= 0) {
+                    clearInterval(timerInterval);
+                    submitQuiz(true);
+                }
+                
+                // Visual alert for low time
+                if (timeLeft < 60) {
+                    timerContainer.classList.remove('bg-blue-800');
+                    timerContainer.classList.add('bg-red-600', 'animate-pulse');
+                }
+            }, 1000);
+        }
+
+        function renderQuestion() {
+            const q = questions[currentQuestion];
+            
+            // Update Text
+            document.getElementById('topic-badge').textContent = q.topic;
+            
+            const diffBadge = document.getElementById('difficulty-badge');
+            diffBadge.textContent = q.difficulty;
+            diffBadge.className = `px-3 py-1 rounded-full text-xs font-bold uppercase tracking-wide ${q.difficulty === 'Challenge' ? 'bg-orange-100 text-orange-800' : 'bg-green-100 text-green-800'}`;
+
+            const marksBadge = document.getElementById('marks-badge');
+            marksBadge.textContent = `${q.marks} Mark${q.marks > 1 ? 's' : ''}`;
+            
+            document.getElementById('current-q-display').textContent = currentQuestion + 1;
+            document.getElementById('mobile-q-num').textContent = currentQuestion + 1;
+            document.getElementById('question-text').innerHTML = q.text;
+
+            // Update Options
+            const optionsContainer = document.getElementById('options-container');
+            optionsContainer.innerHTML = '';
+            
+            q.options.forEach((opt, idx) => {
+                const btn = document.createElement('button');
+                btn.className = `option-btn w-full text-left p-4 rounded-xl border-2 transition duration-200 flex items-center group ${answers[currentQuestion] === idx ? 'option-selected border-blue-500 bg-blue-50' : 'border-gray-200 hover:border-blue-300'}`;
+                
+                // Selection Circle
+                const circle = `<div class="w-5 h-5 rounded-full border-2 mr-4 flex items-center justify-center ${answers[currentQuestion] === idx ? 'border-blue-500' : 'border-gray-300 group-hover:border-blue-400'}">
+                    ${answers[currentQuestion] === idx ? '<div class="w-2.5 h-2.5 rounded-full bg-blue-500"></div>' : ''}
+                </div>`;
+                
+                btn.innerHTML = circle + `<span class="text-gray-700 font-medium">${opt}</span>`;
+                btn.onclick = () => selectOption(idx);
+                optionsContainer.appendChild(btn);
+            });
+
+            // Update Buttons
+            document.getElementById('prev-btn').disabled = currentQuestion === 0;
+            
+            if (currentQuestion === questions.length - 1) {
+                document.getElementById('next-btn').classList.add('hidden');
+                document.getElementById('submit-btn').classList.remove('hidden');
+            } else {
+                document.getElementById('next-btn').classList.remove('hidden');
+                document.getElementById('submit-btn').classList.add('hidden');
+            }
+
+            // Update Nav Styles
+            updateNavStyles();
+            updateProgress();
+        }
+
+        function selectOption(index) {
+            answers[currentQuestion] = index;
+            renderQuestion(); // Re-render to show selection
+        }
+
+        function nextQuestion() {
+            if (currentQuestion < questions.length - 1) {
+                currentQuestion++;
+                renderQuestion();
+            }
+        }
+
+        function prevQuestion() {
+            if (currentQuestion > 0) {
+                currentQuestion--;
+                renderQuestion();
+            }
+        }
+
+        function jumpToQuestion(index) {
+            currentQuestion = index;
+            renderQuestion();
+        }
+
+        function updateNavStyles() {
+            questions.forEach((_, idx) => {
+                const btn = document.getElementById(`nav-btn-${idx}`);
+                const mBtn = document.getElementById(`mobile-nav-btn-${idx}`);
+                
+                // Base style
+                let classes = "p-2 rounded border border-gray-200 text-sm font-medium transition q-nav-btn ";
+                
+                // Active Question
+                if (idx === currentQuestion) {
+                    classes += "bg-blue-600 text-white border-blue-600 ring-2 ring-blue-300 ring-offset-1";
+                } 
+                // Answered Question
+                else if (answers[idx] !== null) {
+                    classes += "bg-blue-100 text-blue-800 border-blue-200";
+                }
+                // Unanswered
+                else {
+                    classes += "bg-white text-gray-600 hover:bg-gray-50";
+                }
+
+                btn.className = classes;
+                mBtn.className = classes; // Apply to mobile nav too
+            });
+        }
+
+        function updateProgress() {
+            const answeredCount = answers.filter(a => a !== null).length;
+            const percentage = (answeredCount / questions.length) * 100;
+            document.getElementById('progress-bar').style.width = `${percentage}%`;
+            document.getElementById('progress-text').textContent = `${answeredCount}/${questions.length}`;
+        }
+        
+        function toggleMobileNav() {
+            mobileNavOverlay.classList.toggle('hidden');
+        }
+
+        document.getElementById('mobile-menu-btn').onclick = toggleMobileNav;
+
+        // --- Submission & Results ---
+
+        function submitQuiz(force = false) {
+            if (!force) {
+                const unanswered = answers.filter(a => a === null).length;
+                if (unanswered > 0) {
+                    if (!confirm(`You have ${unanswered} unanswered questions. Are you sure you want to finish?`)) {
+                        return;
+                    }
+                } else {
+                    if (!confirm("Are you ready to submit your answers?")) {
+                        return;
+                    }
+                }
+            }
+
+            clearInterval(timerInterval);
+            calculateResults();
+            
+            quizContainer.classList.add('hidden');
+            timerContainer.classList.add('hidden');
+            resultsScreen.classList.remove('hidden');
+        }
+
+        function calculateResults() {
+            let totalMarks = 0;
+            let maxMarks = 0;
+            const reviewContainer = document.getElementById('review-container');
+            reviewContainer.innerHTML = '';
+
+            questions.forEach((q, idx) => {
+                maxMarks += q.marks;
+                const userAnswer = answers[idx];
+                const isCorrect = userAnswer === q.correct;
+                
+                if (isCorrect) totalMarks += q.marks;
+
+                // Build Review Item
+                const item = document.createElement('div');
+                item.className = `p-4 rounded-xl border ${isCorrect ? 'border-green-200 bg-green-50' : 'border-red-200 bg-red-50'}`;
+                
+                let optionsHtml = '';
+                q.options.forEach((opt, optIdx) => {
+                    let optClass = "text-gray-600";
+                    let icon = "";
+                    
+                    if (optIdx === q.correct) {
+                        optClass = "font-bold text-green-700";
+                        icon = "✓ ";
+                    } else if (optIdx === userAnswer && !isCorrect) {
+                        optClass = "font-bold text-red-700 line-through";
+                        icon = "✗ ";
+                    }
+
+                    optionsHtml += `<div class="text-sm ${optClass}">${icon}${opt}</div>`;
+                });
+
+                item.innerHTML = `
+                    <div class="flex justify-between items-start mb-2">
+                        <div class="flex flex-col sm:flex-row sm:items-center gap-1">
+                            <span class="font-bold text-gray-700">Q${idx + 1}. ${q.topic}</span>
+                            ${q.difficulty === 'Challenge' ? '<span class="text-[10px] uppercase font-bold text-orange-600 bg-orange-100 px-1.5 py-0.5 rounded w-fit">Challenge</span>' : ''}
+                        </div>
+                        <div class="flex gap-2 items-center">
+                            <span class="text-xs font-bold bg-white text-gray-600 px-2 py-0.5 rounded border border-gray-200 shadow-sm">${q.marks} Mark${q.marks > 1 ? 's' : ''}</span>
+                            <span class="px-2 py-0.5 rounded text-xs font-bold uppercase ${isCorrect ? 'bg-green-200 text-green-800' : 'bg-red-200 text-red-800'}">
+                                ${isCorrect ? 'Correct' : 'Incorrect'}
+                            </span>
+                        </div>
+                    </div>
+                    <div class="mb-2 text-gray-800 font-medium">${q.text}</div>
+                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-1 pl-2 mb-3 border-l-2 ${isCorrect ? 'border-green-300' : 'border-red-300'}">
+                        ${optionsHtml}
+                    </div>
+                    <div class="text-sm bg-white p-3 rounded border border-gray-100 text-gray-600">
+                        <span class="font-bold text-gray-700">Explanation:</span> ${q.explanation}
+                    </div>
+                `;
+                reviewContainer.appendChild(item);
+            });
+
+            // Display Scores
+            document.getElementById('raw-score').parentElement.innerHTML = `<span id="raw-score">${totalMarks}</span>/${maxMarks}`;
+            
+            // Scale to 20
+            const scaled = (totalMarks / maxMarks) * 20;
+            document.getElementById('scaled-score').textContent = Number.isInteger(scaled) ? scaled : scaled.toFixed(1);
+            
+            const percent = (totalMarks / maxMarks) * 100;
+            document.getElementById('percentage-score').textContent = percent.toFixed(1);
+        }
+
+    </script>
+</body>
+</html>
