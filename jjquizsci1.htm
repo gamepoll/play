@@ -1,0 +1,812 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cambridge Assessment Grade 9 Science Quiz</title>
+    <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
+    <style>
+        .quiz-container {
+            max-width: 900px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        .question-card {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            border-radius: 12px;
+            padding: 25px;
+            margin-bottom: 25px;
+            color: white;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+        }
+        .question-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 15px;
+        }
+        .difficulty-badge {
+            display: inline-block;
+            padding: 6px 12px;
+            border-radius: 20px;
+            font-size: 12px;
+            font-weight: bold;
+            text-transform: uppercase;
+        }
+        .difficulty-easy {
+            background-color: rgba(34, 197, 94, 0.8);
+            color: white;
+        }
+        .difficulty-challenge {
+            background-color: rgba(239, 68, 68, 0.8);
+            color: white;
+        }
+        .marks-display {
+            background-color: rgba(255, 255, 255, 0.2);
+            padding: 6px 12px;
+            border-radius: 6px;
+            font-size: 14px;
+            font-weight: bold;
+        }
+        .question-text {
+            font-size: 18px;
+            margin-bottom: 20px;
+            font-weight: 600;
+        }
+        .topic-label {
+            display: inline-block;
+            background-color: rgba(255, 255, 255, 0.2);
+            padding: 4px 8px;
+            border-radius: 4px;
+            font-size: 12px;
+            margin-bottom: 10px;
+        }
+        .options {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 12px;
+        }
+        .option {
+            background-color: rgba(255, 255, 255, 0.15);
+            border: 2px solid rgba(255, 255, 255, 0.3);
+            padding: 12px 15px;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            color: white;
+            font-size: 16px;
+        }
+        .option:hover {
+            background-color: rgba(255, 255, 255, 0.25);
+            border-color: rgba(255, 255, 255, 0.5);
+            transform: translateX(5px);
+        }
+        .option input[type="radio"] {
+            margin-right: 10px;
+            cursor: pointer;
+        }
+        .option.selected {
+            background-color: rgba(255, 255, 255, 0.3);
+            border-color: rgba(255, 255, 255, 0.6);
+        }
+        .option.correct {
+            background-color: rgba(34, 197, 94, 0.6);
+            border-color: rgba(34, 197, 94, 0.9);
+        }
+        .option.incorrect {
+            background-color: rgba(239, 68, 68, 0.6);
+            border-color: rgba(239, 68, 68, 0.9);
+        }
+        .button-group {
+            display: flex;
+            gap: 15px;
+            justify-content: center;
+            margin-top: 30px;
+        }
+        .btn {
+            padding: 12px 30px;
+            font-size: 16px;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            font-weight: bold;
+            transition: all 0.3s ease;
+        }
+        .btn-primary {
+            background-color: #667eea;
+            color: white;
+        }
+        .btn-primary:hover {
+            background-color: #5568d3;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(102, 126, 234, 0.4);
+        }
+        .btn-secondary {
+            background-color: #764ba2;
+            color: white;
+        }
+        .btn-secondary:hover {
+            background-color: #653a8a;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(118, 75, 162, 0.4);
+        }
+        .results-container {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            border-radius: 12px;
+            padding: 40px;
+            color: white;
+            text-align: center;
+        }
+        .results-title {
+            font-size: 32px;
+            margin-bottom: 20px;
+            font-weight: bold;
+        }
+        .results-score {
+            font-size: 48px;
+            font-weight: bold;
+            margin-bottom: 10px;
+            color: #fbbf24;
+        }
+        .results-percentage {
+            font-size: 20px;
+            margin-bottom: 30px;
+            opacity: 0.9;
+        }
+        .results-feedback {
+            font-size: 18px;
+            margin-bottom: 30px;
+            padding: 20px;
+            background-color: rgba(255, 255, 255, 0.1);
+            border-radius: 8px;
+        }
+        .progress-bar {
+            width: 100%;
+            height: 8px;
+            background-color: rgba(255, 255, 255, 0.2);
+            border-radius: 4px;
+            margin-bottom: 20px;
+            overflow: hidden;
+        }
+        .progress-fill {
+            height: 100%;
+            background: linear-gradient(90deg, #34d399 0%, #60a5fa 100%);
+            transition: width 0.3s ease;
+        }
+        .header-section {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 30px;
+            border-radius: 12px;
+            margin-bottom: 30px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+        }
+        .header-title {
+            font-size: 28px;
+            font-weight: bold;
+            margin-bottom: 10px;
+        }
+        .header-subtitle {
+            font-size: 16px;
+            opacity: 0.9;
+            margin-bottom: 15px;
+        }
+        .quiz-info {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 15px;
+            margin-top: 15px;
+        }
+        .info-item {
+            background-color: rgba(255, 255, 255, 0.1);
+            padding: 12px;
+            border-radius: 8px;
+            text-align: center;
+        }
+        .info-label {
+            font-size: 12px;
+            opacity: 0.8;
+            text-transform: uppercase;
+        }
+        .info-value {
+            font-size: 18px;
+            font-weight: bold;
+            margin-top: 5px;
+        }
+        .review-section {
+            background-color: #f3f4f6;
+            padding: 20px;
+            border-radius: 8px;
+            margin-top: 20px;
+        }
+        .review-title {
+            font-size: 20px;
+            font-weight: bold;
+            color: #1f2937;
+            margin-bottom: 20px;
+        }
+        .review-item {
+            background: white;
+            padding: 15px;
+            border-radius: 8px;
+            margin-bottom: 15px;
+            border-left: 4px solid #667eea;
+        }
+        .review-question {
+            font-weight: bold;
+            color: #1f2937;
+            margin-bottom: 10px;
+        }
+        .review-your-answer {
+            color: #764ba2;
+            margin-bottom: 5px;
+            font-size: 14px;
+        }
+        .review-correct-answer {
+            color: #22c55e;
+            font-size: 14px;
+        }
+        .hidden {
+            display: none;
+        }
+    </style>
+</head>
+<body class="bg-gray-50">
+    <div class="quiz-container">
+        <!-- Header Section -->
+        <div class="header-section" id="headerSection">
+            <div class="header-title">Cambridge Assessment Grade 9 Science Quiz</div>
+            <div class="header-subtitle">Interactive Quiz on Heat Transfer and Energy Conservation</div>
+            <div class="quiz-info">
+                <div class="info-item">
+                    <div class="info-label">Total Questions</div>
+                    <div class="info-value">20</div>
+                </div>
+                <div class="info-item">
+                    <div class="info-label">Total Marks</div>
+                    <div class="info-value">35</div>
+                </div>
+                <div class="info-item">
+                    <div class="info-label">Marks Per Q</div>
+                    <div class="info-value">30</div>
+                </div>
+            </div>
+            <div style="margin-top: 20px;">
+                <div class="progress-bar">
+                    <div class="progress-fill" id="progressFill" style="width: 0%"></div>
+                </div>
+                <div style="text-align: center; font-size: 14px;">
+                    Question <span id="currentQuestion">0</span> of 20
+                </div>
+            </div>
+        </div>
+
+        <!-- Quiz Content -->
+        <div id="quizContent"></div>
+
+        <!-- Button Group -->
+        <div class="button-group" id="buttonGroup">
+            <button class="btn btn-secondary" id="prevBtn" onclick="previousQuestion()">← Previous</button>
+            <button class="btn btn-primary" id="nextBtn" onclick="nextQuestion()">Next →</button>
+            <button class="btn btn-primary" id="submitBtn" onclick="submitQuiz()" style="display: none;">Submit Quiz</button>
+        </div>
+
+        <!-- Results Section -->
+        <div id="resultsSection" class="hidden">
+            <div class="results-container">
+                <div class="results-title">Quiz Complete!</div>
+                <div class="results-score" id="finalScore">0</div>
+                <div class="results-percentage" id="finalPercentage">0%</div>
+                <div class="results-feedback" id="resultsFeedback"></div>
+                <button class="btn btn-primary" onclick="reviewAnswers()">Review Answers</button>
+                <button class="btn btn-secondary" onclick="restartQuiz()" style="margin-left: 10px;">Restart Quiz</button>
+            </div>
+            <div class="review-section hidden" id="reviewSection">
+                <div class="review-title">Answer Review</div>
+                <div id="reviewContent"></div>
+                <button class="btn btn-primary" onclick="hideReview()" style="margin-top: 20px;">Close Review</button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        const quizData = [
+            {
+                id: 1,
+                difficulty: 'easy',
+                marks: 1.5,
+                topic: 'Conduction',
+                question: 'Which of the following is the best conductor of heat?',
+                options: [
+                    'Copper',
+                    'Wood',
+                    'Air',
+                    'Rubber'
+                ],
+                correct: 0,
+                explanation: 'Copper is an excellent conductor of heat due to its free electrons that can transfer thermal energy efficiently.'
+            },
+            {
+                id: 2,
+                difficulty: 'challenge',
+                marks: 2.5,
+                topic: 'Convection',
+                question: 'In a convection current, warm fluid rises because:',
+                options: [
+                    'Heat pushes it upward',
+                    'It becomes less dense when heated',
+                    'Gravity pulls it down',
+                    'The pressure increases at the top'
+                ],
+                correct: 1,
+                explanation: 'When a fluid is heated, its density decreases, causing it to rise relative to the cooler, denser fluid around it.'
+            },
+            {
+                id: 3,
+                difficulty: 'easy',
+                marks: 1.5,
+                topic: 'Radiation',
+                question: 'Which method of heat transfer does NOT require a medium?',
+                options: [
+                    'Conduction',
+                    'Convection',
+                    'Radiation',
+                    'All methods require a medium'
+                ],
+                correct: 2,
+                explanation: 'Radiation is the only heat transfer method that does not require a medium; it travels through electromagnetic waves.'
+            },
+            {
+                id: 4,
+                difficulty: 'easy',
+                marks: 1.5,
+                topic: 'Direction of Heat Flow',
+                question: 'Heat always flows from:',
+                options: [
+                    'Low temperature to high temperature',
+                    'High temperature to low temperature',
+                    'Both directions equally',
+                    'From north to south'
+                ],
+                correct: 1,
+                explanation: 'This is the second law of thermodynamics. Heat spontaneously flows from regions of higher temperature to lower temperature.'
+            },
+            {
+                id: 5,
+                difficulty: 'challenge',
+                marks: 2.5,
+                topic: 'Conservation of Energy',
+                question: 'A block of ice melts on a table at room temperature. What happens to the total energy in the system?',
+                options: [
+                    'Total energy increases',
+                    'Total energy decreases',
+                    'Total energy remains constant',
+                    'Energy is lost to space'
+                ],
+                correct: 2,
+                explanation: 'By the law of conservation of energy, the total energy remains constant. Heat from the surroundings converts ice to water.'
+            },
+            {
+                id: 6,
+                difficulty: 'easy',
+                marks: 1.5,
+                topic: 'Evaporative Cooling',
+                question: 'Why does your skin feel cool when water evaporates from it?',
+                options: [
+                    'Water absorbs heat from the skin',
+                    'The air becomes colder',
+                    'Water molecules leave the skin carrying thermal energy',
+                    'Evaporation creates wind'
+                ],
+                correct: 2,
+                explanation: 'Evaporation requires energy (latent heat). Water molecules with higher kinetic energy leave the surface, removing thermal energy.'
+            },
+            {
+                id: 7,
+                difficulty: 'challenge',
+                marks: 2.5,
+                topic: 'Density',
+                question: 'Water has an unusual property where its solid form (ice) is less dense than its liquid form. What is a consequence of this?',
+                options: [
+                    'Ice sinks to the bottom of water bodies',
+                    'Ice floats on water surfaces',
+                    'Water cannot freeze',
+                    'Density remains constant'
+                ],
+                correct: 1,
+                explanation: 'Ice is less dense than water, so it floats. This protects aquatic life beneath the ice during winter.'
+            },
+            {
+                id: 8,
+                difficulty: 'easy',
+                marks: 1.5,
+                topic: 'Specific Heat Capacity',
+                question: 'Which substance requires more heat energy to raise its temperature by 1°C: water or sand?',
+                options: [
+                    'Sand requires more heat',
+                    'Water requires more heat',
+                    'Both require equal heat',
+                    'It depends on the volume'
+                ],
+                correct: 1,
+                explanation: 'Water has a high specific heat capacity (4,200 J/kg°C), while sand has a much lower value (~800 J/kg°C).'
+            },
+            {
+                id: 9,
+                difficulty: 'challenge',
+                marks: 2.5,
+                topic: 'Conduction and Direction of Heat Flow',
+                question: 'A metal rod is heated at one end. The temperature at the other end increases after some time. What does this demonstrate?',
+                options: [
+                    'Heat radiation is the main transfer method',
+                    'Conduction of heat through the material',
+                    'Convection in the rod',
+                    'No heat transfer occurs'
+                ],
+                correct: 1,
+                explanation: 'Heat flows through the solid rod by conduction, where thermal energy transfers between adjacent atoms without the atoms moving.'
+            },
+            {
+                id: 10,
+                difficulty: 'easy',
+                marks: 1.5,
+                topic: 'Evaporative Cooling',
+                question: 'Which of the following uses evaporative cooling?',
+                options: [
+                    'Refrigerator',
+                    'Swamp cooler',
+                    'Air conditioner',
+                    'Oven'
+                ],
+                correct: 1,
+                explanation: 'Swamp coolers (desert coolers) work by evaporating water, which absorbs heat from the air and cools it.'
+            },
+            {
+                id: 11,
+                difficulty: 'challenge',
+                marks: 30,
+                topic: 'Conservation of Energy',
+                question: 'An object is dropped from a height. If we ignore air resistance, what is the relationship between potential and kinetic energy?',
+                options: [
+                    'PE increases as KE decreases',
+                    'PE decreases as KE increases',
+                    'Both PE and KE increase together',
+                    'They are independent of each other'
+                ],
+                correct: 1,
+                explanation: 'As an object falls, gravitational PE decreases while KE increases. The total mechanical energy remains constant.'
+            },
+            {
+                id: 12,
+                difficulty: 'easy',
+                marks: 30,
+                topic: 'Radiation',
+                question: 'The Sun transfers heat to Earth primarily through:',
+                options: [
+                    'Conduction',
+                    'Convection',
+                    'Radiation',
+                    'Direct contact'
+                ],
+                correct: 2,
+                explanation: 'The Sun\'s heat reaches Earth through electromagnetic radiation (light), as space is a vacuum.'
+            },
+            {
+                id: 13,
+                difficulty: 'challenge',
+                marks: 30,
+                topic: 'Density and Convection',
+                question: 'In a fluid heated from below, convection occurs because:',
+                options: [
+                    'Heat molecules move upward',
+                    'Density changes cause pressure differences',
+                    'The bottom of the container pulls fluid down',
+                    'Conduction happens only upward'
+                ],
+                correct: 1,
+                explanation: 'Heating reduces density at the bottom. Buoyancy forces cause less dense fluid to rise and denser fluid to sink.'
+            },
+            {
+                id: 14,
+                difficulty: 'easy',
+                marks: 30,
+                topic: 'Specific Heat Capacity',
+                question: 'Specific heat capacity is defined as:',
+                options: [
+                    'The total heat in an object',
+                    'Heat needed to raise 1 kg by 1°C',
+                    'Heat lost by an object',
+                    'Temperature of an object'
+                ],
+                correct: 1,
+                explanation: 'Specific heat capacity (c) is the energy needed to raise the temperature of 1 kg of a substance by 1°C.'
+            },
+            {
+                id: 15,
+                difficulty: 'challenge',
+                marks: 30,
+                topic: 'Heat Transfer Methods',
+                question: 'In an insulated room, the main method by which heat transfers from a hot radiator to the rest of the room is:',
+                options: [
+                    'Conduction through the walls',
+                    'Radiation from the radiator',
+                    'Convection currents in the air',
+                    'Direct conduction through air'
+                ],
+                correct: 2,
+                explanation: 'Air rises near the hot radiator (convection), spreads across the ceiling, cools, and sinks, creating circulation.'
+            },
+            {
+                id: 16,
+                difficulty: 'easy',
+                marks: 30,
+                topic: 'Direction of Heat Flow',
+                question: 'When a hot cup of coffee cools down, the thermal energy:',
+                options: [
+                    'Stays in the coffee',
+                    'Flows to the cooler surroundings',
+                    'Increases over time',
+                    'Disappears from the universe'
+                ],
+                correct: 1,
+                explanation: 'Heat flows from the hot coffee to the cooler surroundings until thermal equilibrium is reached.'
+            },
+            {
+                id: 17,
+                difficulty: 'challenge',
+                marks: 30,
+                topic: 'Evaporative Cooling and Heat Transfer',
+                question: 'Why is evaporative cooling less effective in humid climates?',
+                options: [
+                    'There is not enough water',
+                    'The air already contains moisture, reducing evaporation rate',
+                    'Humidity increases temperature',
+                    'Water molecules move faster'
+                ],
+                correct: 1,
+                explanation: 'High humidity means the air is saturated with moisture. Evaporation rates slow when the air cannot absorb more water vapor.'
+            },
+            {
+                id: 18,
+                difficulty: 'easy',
+                marks: 30,
+                topic: 'Conduction',
+                question: 'Why are cooking pot handles often made of plastic or wood?',
+                options: [
+                    'They are cheaper',
+                    'They conduct heat poorly (low thermal conductivity)',
+                    'They look better',
+                    'They last longer'
+                ],
+                correct: 1,
+                explanation: 'Plastic and wood are poor heat conductors (insulators), so they protect your hand from the hot pot.'
+            },
+            {
+                id: 19,
+                difficulty: 'challenge',
+                marks: 30,
+                topic: 'Conservation of Energy and Density',
+                question: 'In a sealed container with liquid water, molecules with the highest kinetic energy escape as vapor. This is because:',
+                options: [
+                    'They are heavier',
+                    'They move faster and have enough energy to overcome surface tension',
+                    'The container is sealed',
+                    'Density decreases uniformly'
+                ],
+                correct: 1,
+                explanation: 'Evaporation is selective: faster-moving molecules have enough kinetic energy to break free from liquid bonds.'
+            },
+            {
+                id: 20,
+                difficulty: 'challenge',
+                marks: 30,
+                topic: 'Specific Heat Capacity and Energy',
+                question: 'It takes 4,200 J to raise the temperature of 1 kg of water by 1°C. How much energy is needed to raise 2 kg of water by 5°C?',
+                options: [
+                    '4,200 J',
+                    '21,000 J',
+                    '42,000 J',
+                    '84,000 J'
+                ],
+                correct: 2,
+                explanation: 'Using Q = mcΔT: Q = 2 × 4,200 × 5 = 42,000 J. Energy needed is proportional to both mass and temperature change.'
+            }
+        ];
+
+        let currentQuestionIndex = 0;
+        let userAnswers = {};
+        let submitted = false;
+
+        function initializeQuiz() {
+            renderQuestion();
+        }
+
+        function renderQuestion() {
+            const question = quizData[currentQuestionIndex];
+            const quizContent = document.getElementById('quizContent');
+            
+            let html = `
+                <div class="question-card">
+                    <div class="question-header">
+                        <div>
+                            <div class="topic-label">${question.topic}</div>
+                            <div class="difficulty-badge difficulty-${question.difficulty}">${question.difficulty}</div>
+                        </div>
+                        <div class="marks-display">Marks: ${question.marks}</div>
+                    </div>
+                    <div class="question-text">Q${question.id}. ${question.question}</div>
+                    <div class="options">
+            `;
+
+            question.options.forEach((option, index) => {
+                const isSelected = userAnswers[question.id] === index;
+                const isCorrect = index === question.correct;
+                const userAnsweredWrong = submitted && userAnswers[question.id] === index && index !== question.correct;
+                
+                let classNames = 'option';
+                if (isSelected && !submitted) classNames += ' selected';
+                if (submitted && isCorrect) classNames += ' correct';
+                if (submitted && userAnsweredWrong) classNames += ' incorrect';
+
+                html += `
+                    <label class="${classNames}">
+                        <input type="radio" name="answer" value="${index}" 
+                            ${isSelected ? 'checked' : ''} 
+                            onchange="selectAnswer(${question.id}, ${index})"
+                            ${submitted ? 'disabled' : ''}>
+                        ${option}
+                    </label>
+                `;
+            });
+
+            if (submitted && userAnswers[question.id] !== undefined) {
+                const isCorrect = userAnswers[question.id] === question.correct;
+                const resultClass = isCorrect ? 'text-green-600' : 'text-red-600';
+                const resultText = isCorrect ? '✓ Correct!' : '✗ Incorrect';
+                html += `<div style="margin-top: 15px; padding: 12px; background-color: rgba(255,255,255,0.1); border-radius: 8px; color: white;">
+                    <div style="font-weight: bold; margin-bottom: 5px;">${resultText}</div>
+                    <div style="font-size: 14px;">${question.explanation}</div>
+                </div>`;
+            }
+
+            html += `
+                    </div>
+                </div>
+            `;
+
+            quizContent.innerHTML = html;
+            updateProgress();
+            updateButtons();
+        }
+
+        function selectAnswer(questionId, optionIndex) {
+            userAnswers[questionId] = optionIndex;
+            renderQuestion();
+        }
+
+        function nextQuestion() {
+            if (currentQuestionIndex < quizData.length - 1) {
+                currentQuestionIndex++;
+                renderQuestion();
+            }
+        }
+
+        function previousQuestion() {
+            if (currentQuestionIndex > 0) {
+                currentQuestionIndex--;
+                renderQuestion();
+            }
+        }
+
+        function updateProgress() {
+            const progress = ((currentQuestionIndex + 1) / quizData.length) * 100;
+            document.getElementById('progressFill').style.width = progress + '%';
+            document.getElementById('currentQuestion').textContent = currentQuestionIndex + 1;
+        }
+
+        function updateButtons() {
+            document.getElementById('prevBtn').style.display = currentQuestionIndex === 0 ? 'none' : 'block';
+            document.getElementById('nextBtn').style.display = currentQuestionIndex === quizData.length - 1 ? 'none' : 'block';
+            document.getElementById('submitBtn').style.display = currentQuestionIndex === quizData.length - 1 ? 'block' : 'none';
+        }
+
+        function submitQuiz() {
+            // Check if all questions are answered
+            const unanswered = quizData.filter(q => userAnswers[q.id] === undefined);
+            if (unanswered.length > 0) {
+                alert(`Please answer all ${unanswered.length} unanswered question(s) before submitting.`);
+                return;
+            }
+
+            submitted = true;
+            renderQuestion();
+            showResults();
+        }
+
+        function showResults() {
+            let correctCount = 0;
+            let totalMarks = 0;
+
+            quizData.forEach(question => {
+                if (userAnswers[question.id] === question.correct) {
+                    correctCount++;
+                    totalMarks += question.marks;
+                }
+            });
+
+            const percentage = Math.round((totalMarks / 600) * 100);
+            
+            let feedback = '';
+            if (percentage >= 90) {
+                feedback = '🌟 Outstanding! You have excellent understanding of heat transfer and energy concepts!';
+            } else if (percentage >= 75) {
+                feedback = '⭐ Very Good! You have a strong grasp of the key concepts.';
+            } else if (percentage >= 60) {
+                feedback = '✓ Good! You understand most of the concepts. Review areas for improvement.';
+            } else if (percentage >= 45) {
+                feedback = '◐ Fair. Review the concept notes and try again.';
+            } else {
+                feedback = '✕ Needs Improvement. Study the topics more thoroughly and attempt again.';
+            }
+
+            document.getElementById('finalScore').textContent = `${totalMarks} / 600`;
+            document.getElementById('finalPercentage').textContent = `${percentage}%`;
+            document.getElementById('resultsFeedback').textContent = feedback;
+            
+            document.getElementById('headerSection').classList.add('hidden');
+            document.getElementById('quizContent').classList.add('hidden');
+            document.getElementById('buttonGroup').classList.add('hidden');
+            document.getElementById('resultsSection').classList.remove('hidden');
+        }
+
+        function reviewAnswers() {
+            let reviewHTML = '';
+
+            quizData.forEach((question, index) => {
+                const userAnswer = userAnswers[question.id];
+                const isCorrect = userAnswer === question.correct;
+                const borderColor = isCorrect ? '#22c55e' : '#ef4444';
+
+                reviewHTML += `
+                    <div class="review-item" style="border-left-color: ${borderColor}">
+                        <div class="review-question">Q${question.id}. ${question.question}</div>
+                        <div style="font-size: 14px; margin-bottom: 8px; color: #6b7280;">
+                            Topic: ${question.topic} | Difficulty: ${question.difficulty} | Marks: ${question.marks}
+                        </div>
+                        <div class="review-your-answer">
+                            Your Answer: <strong>${userAnswer !== undefined ? question.options[userAnswer] : 'Not answered'}</strong> 
+                            ${isCorrect ? '✓' : '✗'}
+                        </div>
+                        ${!isCorrect ? `<div class="review-correct-answer">Correct Answer: <strong>${question.options[question.correct]}</strong></div>` : ''}
+                        <div style="margin-top: 10px; padding: 10px; background-color: #f0f9ff; border-radius: 6px; font-size: 13px; color: #1f2937;">
+                            <strong>Explanation:</strong> ${question.explanation}
+                        </div>
+                    </div>
+                `;
+            });
+
+            document.getElementById('reviewContent').innerHTML = reviewHTML;
+            document.getElementById('reviewSection').classList.remove('hidden');
+        }
+
+        function hideReview() {
+            document.getElementById('reviewSection').classList.add('hidden');
+        }
+
+        function restartQuiz() {
+            currentQuestionIndex = 0;
+            userAnswers = {};
+            submitted = false;
+            document.getElementById('headerSection').classList.remove('hidden');
+            document.getElementById('quizContent').classList.remove('hidden');
+            document.getElementById('buttonGroup').classList.remove('hidden');
+            document.getElementById('resultsSection').classList.add('hidden');
+            document.getElementById('reviewSection').classList.add('hidden');
+            renderQuestion();
+        }
+
+        // Initialize quiz on page load
+        window.addEventListener('load', initializeQuiz);
+    </script>
+</body>
+</html>
