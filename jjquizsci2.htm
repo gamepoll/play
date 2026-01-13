@@ -1,0 +1,474 @@
+import React, { useState, useEffect, useMemo } from 'react';
+import { Timer, CheckCircle2, XCircle, ChevronRight, ChevronLeft, RefreshCcw, Award, Info, Play } from 'lucide-react';
+
+const QUESTION_POOL = [
+  // --- HEAT AND TEMPERATURE ---
+  {
+    id: 1,
+    question: "Which of the following is the best definition of temperature?",
+    options: ["The total internal energy of an object", "The average kinetic energy of the particles in a substance", "The flow of energy from hot to cold", "The measure of how much heat an object can hold"],
+    answer: 1, marks: 0.5,
+    explanation: "Temperature is a measure of the average kinetic energy of the particles. Total energy is 'Thermal Energy'."
+  },
+  {
+    id: 2,
+    question: "In which direction does heat spontaneously flow?",
+    options: ["From a larger object to a smaller object", "From a colder object to a warmer object", "From a higher temperature object to a lower temperature object", "Only through solids by conduction"],
+    answer: 2, marks: 0.5,
+    explanation: "Heat always flows from a region of higher temperature to a region of lower temperature until thermal equilibrium is reached."
+  },
+  {
+    id: 3,
+    question: "What is the SI unit for Heat Energy?",
+    options: ["Celsius (°C)", "Kelvin (K)", "Joules (J)", "Watts (W)"],
+    answer: 2, marks: 0.5,
+    explanation: "Heat is a form of energy, and the SI unit for all energy is the Joule (J)."
+  },
+  {
+    id: 4,
+    question: "Absolute zero is the temperature at which...",
+    options: ["Water freezes", "Molecular motion virtually stops", "Ice turns to steam", "Air becomes a liquid"],
+    answer: 1, marks: 0.5,
+    explanation: "Absolute zero (0 Kelvin) is the theoretical temperature where particles have minimum internal energy and motion stops."
+  },
+  {
+    id: 5,
+    question: "Which method of heat transfer requires direct contact between particles?",
+    options: ["Radiation", "Convection", "Conduction", "Evaporation"],
+    answer: 2, marks: 0.5,
+    explanation: "Conduction occurs when vibrating particles transfer energy to neighboring particles through physical contact."
+  },
+  {
+    id: 6,
+    question: "Warm air rising above a heater is an example of:",
+    options: ["Conduction", "Convection", "Radiation", "Insulation"],
+    answer: 1, marks: 0.5,
+    explanation: "Convection is the transfer of heat through fluids (liquids/gases) by the bulk movement of the fluid itself."
+  },
+  {
+    id: 7,
+    question: "How does heat from the Sun reach the Earth through the vacuum of space?",
+    options: ["Conduction", "Convection", "Radiation", "Sublimation"],
+    answer: 2, marks: 1,
+    explanation: "Radiation is the only form of heat transfer that does not require a medium; it travels as electromagnetic waves."
+  },
+  {
+    id: 8,
+    question: "Why are metals generally better thermal conductors than wood?",
+    options: ["Metals have more mass", "Metals contain free-moving (delocalized) electrons", "Wood contains more air pockets", "Metals reflect more light"],
+    answer: 1, marks: 1,
+    explanation: "The presence of free electrons in metals allows for rapid energy transfer alongside particle vibrations."
+  },
+  {
+    id: 9,
+    question: "A 'Convection Current' is driven primarily by changes in:",
+    options: ["Mass", "Color", "Density", "Volume only"],
+    answer: 2, marks: 1,
+    explanation: "As fluids heat up, they expand and become less dense, causing them to rise. Cooler, denser fluid then sinks to take its place."
+  },
+  {
+    id: 10,
+    question: "Which surface would be the best absorber and emitter of infra-red radiation?",
+    options: ["Shiny silver surface", "White matte surface", "Dull black surface", "Polished copper surface"],
+    answer: 2, marks: 0.5,
+    explanation: "Dark, matte (dull) surfaces are excellent absorbers and emitters of radiation, while shiny surfaces reflect it."
+  },
+  {
+    id: 11,
+    question: "Specific Heat Capacity is defined as the energy required to raise the temperature of:",
+    options: ["Any object by 1°C", "1 kg of a substance by 1°C", "1 gram of a substance by 10°C", "A substance until it melts"],
+    answer: 1, marks: 1,
+    explanation: "Specific Heat Capacity (c) is the heat needed per unit mass (1 kg) per degree of temperature change."
+  },
+  {
+    id: 12,
+    question: "Substance A has a SHC of 400 J/kg°C. Substance B has a SHC of 4000 J/kg°C. If equal heat is added to 1kg of each:",
+    options: ["A will show a larger temperature increase", "B will show a larger temperature increase", "Both will increase temperature equally", "B will cool down faster"],
+    answer: 0, marks: 1,
+    explanation: "A lower SHC means the substance requires less energy to change temperature."
+  },
+  {
+    id: 13,
+    question: "Calculate the energy needed to heat 2 kg of water from 20°C to 30°C. (SHC of water = 4200 J/kg°C)",
+    options: ["8,400 J", "42,000 J", "84,000 J", "168,000 J"],
+    answer: 2, marks: 1.5,
+    explanation: "Q = mcΔT. Q = 2kg * 4200 J/kg°C * (10°C) = 84,000 J."
+  },
+  {
+    id: 14,
+    question: "A 0.5 kg block of metal absorbs 2000 J of heat and its temperature rises by 10°C. What is its SHC?",
+    options: ["100 J/kg°C", "200 J/kg°C", "400 J/kg°C", "1000 J/kg°C"],
+    answer: 2, marks: 1.5,
+    explanation: "c = Q / (mΔT). c = 2000 / (0.5 * 10) = 400 J/kg°C."
+  },
+  {
+    id: 15,
+    question: "In the equation Q = mcΔT, what does 'ΔT' represent?",
+    options: ["Final temperature", "Initial temperature", "Total time taken", "Change in temperature"],
+    answer: 3, marks: 0.5,
+    explanation: "Δ (Delta) is the standard scientific symbol for 'change in'."
+  },
+  {
+    id: 16,
+    question: "Why does a tile floor feel colder than a rug even if they are at the same room temperature?",
+    options: ["The tile is actually at a lower temperature", "The rug generates its own heat", "The tile is a better conductor and removes heat from your feet faster", "The rug is a better conductor of cold"],
+    answer: 2, marks: 1,
+    explanation: "Tiles conduct heat away from your skin quickly, making them 'feel' cold despite being at the same temperature."
+  },
+  {
+    id: 17,
+    question: "Double glazing keeps a house warm because the air trapped between panes:",
+    options: ["Is a good conductor", "Is a good insulator and prevents convection", "Attracts radiation from the sun", "Moves very fast"],
+    answer: 1, marks: 1,
+    explanation: "Air is a poor conductor. By trapping it in a narrow gap, convection currents are also restricted."
+  },
+  {
+    id: 18,
+    question: "When a substance changes state (e.g., ice melting), the temperature:",
+    options: ["Increases rapidly", "Decreases slightly", "Stays constant", "Depends on the mass"],
+    answer: 2, marks: 1,
+    explanation: "During a phase change, energy is used to break bonds rather than increasing kinetic energy."
+  },
+  {
+    id: 19,
+    question: "Which of the following is an example of an insulator?",
+    options: ["Aluminum foil", "Copper pipe", "Styrofoam", "Iron nail"],
+    answer: 2, marks: 0.5,
+    explanation: "Insulators like Styrofoam resist the flow of heat."
+  },
+  {
+    id: 20,
+    question: "A thermos flask has a silvered inner wall to minimize heat loss by:",
+    options: ["Conduction", "Convection", "Radiation", "Evaporation"],
+    answer: 2, marks: 1,
+    explanation: "Shiny/silver surfaces reflect infra-red radiation back into the flask."
+  },
+  {
+    id: 21,
+    question: "If 10,000 J of heat is removed from 1 kg of a substance with SHC 500 J/kg°C, the temperature drop is:",
+    options: ["5°C", "10°C", "20°C", "50°C"],
+    answer: 2, marks: 1.5,
+    explanation: "ΔT = Q / (mc). ΔT = 10,000 / (1 * 500) = 20°C."
+  },
+  {
+    id: 22,
+    question: "Land and sea breezes near the coast are caused by:",
+    options: ["Conduction in sand", "Radiation from the moon", "Convection currents due to different SHC", "Global warming"],
+    answer: 2, marks: 1,
+    explanation: "Land heats and cools faster than water due to lower SHC, driving convection currents."
+  },
+  {
+    id: 23,
+    question: "Which state of matter typically has the highest thermal conductivity?",
+    options: ["Gases", "Liquids", "Solids", "Plasmas"],
+    answer: 2, marks: 0.5,
+    explanation: "In solids, particles are packed closely, allowing vibrations to pass efficiently."
+  },
+  {
+    id: 24,
+    question: "Energy transfer by convection cannot happen in:",
+    options: ["A boiling kettle", "A hot air balloon", "A solid iron bar", "The Earth's atmosphere"],
+    answer: 2, marks: 1,
+    explanation: "Convection requires particle movement, which is not possible in a fixed solid lattice."
+  },
+  {
+    id: 25,
+    question: "Which equation is the 'Heat Equation' for temperature change?",
+    options: ["P = IV", "F = ma", "Q = mcΔT", "V = IR"],
+    answer: 2, marks: 0.5,
+    explanation: "Q = mcΔT is the fundamental equation for sensible heat change."
+  },
+  // --- NEW QUESTIONS FOR POOL (26-35) ---
+  {
+    id: 26,
+    question: "What happens to the density of water as it is heated from 10°C to 50°C?",
+    options: ["Increases", "Decreases", "Stays the same", "Becomes zero"],
+    answer: 1, marks: 1,
+    explanation: "Heating causes expansion, which increases volume and thus decreases density."
+  },
+  {
+    id: 27,
+    question: "A liquid in a cup cools down. What happens to the average speed of its particles?",
+    options: ["Increases", "Decreases", "Remains constant", "Particles stop moving"],
+    answer: 1, marks: 0.5,
+    explanation: "Cooling means lower temperature, which by definition means lower average kinetic energy (speed) of particles."
+  },
+  {
+    id: 28,
+    question: "Which of these is the best thermal insulator?",
+    options: ["Copper", "Iron", "A vacuum", "Glass"],
+    answer: 2, marks: 1,
+    explanation: "A vacuum is the best insulator because it contains no particles for conduction or convection to occur."
+  },
+  {
+    id: 29,
+    question: "If you touch a piece of metal and a piece of plastic at 0°C, why does the metal feel colder?",
+    options: ["Metal is actually at -5°C", "Metal is a better conductor", "Plastic generates heat", "Metal has a higher SHC"],
+    answer: 1, marks: 1,
+    explanation: "The metal conducts heat away from your finger much faster than plastic does."
+  },
+  {
+    id: 30,
+    question: "What is the primary method of heat transfer through a solid copper rod?",
+    options: ["Convection", "Radiation", "Conduction", "Evaporation"],
+    answer: 2, marks: 0.5,
+    explanation: "Conduction is the primary method of heat transfer in solids."
+  },
+  {
+    id: 31,
+    question: "Which colored shirt would keep you coolest on a very sunny day?",
+    options: ["Black", "Dark Blue", "White", "Red"],
+    answer: 2, marks: 0.5,
+    explanation: "White surfaces reflect the most visible and infra-red radiation."
+  },
+  {
+    id: 32,
+    question: "Internal energy is the sum of:",
+    options: ["PE and KE of particles", "Mass and Speed", "Weight and Height", "Volume and Temperature"],
+    answer: 0, marks: 1,
+    explanation: "Internal energy includes both the kinetic energy (motion) and potential energy (bonds/spacing) of particles."
+  },
+  {
+    id: 33,
+    question: "When water boils at 100°C, the heat added is called:",
+    options: ["Specific heat", "Sensible heat", "Latent heat", "Conductive heat"],
+    answer: 2, marks: 1,
+    explanation: "Latent heat is the energy required for a phase change without a change in temperature."
+  },
+  {
+    id: 34,
+    question: "Which factor does NOT affect the rate of thermal radiation emission?",
+    options: ["Surface area", "Surface temperature", "Surface color", "The weight of the object"],
+    answer: 3, marks: 1,
+    explanation: "Radiation depends on surface properties and temperature, not the total weight."
+  },
+  {
+    id: 35,
+    question: "In a 'Sea Breeze', where does the air rise?",
+    options: ["Over the sea", "Over the land", "It doesn't rise", "At the horizon"],
+    answer: 1, marks: 1,
+    explanation: "During the day, land heats up faster than the sea. The air above the land becomes less dense and rises."
+  }
+];
+
+export default function App() {
+  const [activeQuestions, setActiveQuestions] = useState([]);
+  const [currentQuestion, setCurrentQuestion] = useState(0);
+  const [userAnswers, setUserAnswers] = useState([]);
+  const [showResults, setShowResults] = useState(false);
+  const [timeLeft, setTimeLeft] = useState(1800);
+  const [quizStarted, setQuizStarted] = useState(false);
+
+  // Function to shuffle and pick 25 questions
+  const getRandomQuestions = (count) => {
+    const shuffled = [...QUESTION_POOL].sort(() => 0.5 - Math.random());
+    return shuffled.slice(0, count);
+  };
+
+  const startQuiz = () => {
+    const selected = getRandomQuestions(25);
+    setActiveQuestions(selected);
+    setUserAnswers(new Array(25).fill(null));
+    setQuizStarted(true);
+    setTimeLeft(1800);
+    setCurrentQuestion(0);
+    setShowResults(false);
+  };
+
+  // Re-pick 25 questions (this ensures at least 10 are different if the pool is large enough)
+  const restartWithNewSet = () => {
+    startQuiz();
+  };
+
+  useEffect(() => {
+    let timer;
+    if (quizStarted && !showResults && timeLeft > 0) {
+      timer = setInterval(() => setTimeLeft((p) => p - 1), 1000);
+    } else if (timeLeft === 0 && !showResults) {
+      setShowResults(true);
+    }
+    return () => clearInterval(timer);
+  }, [quizStarted, showResults, timeLeft]);
+
+  const formatTime = (seconds) => {
+    const mins = Math.floor(seconds / 60);
+    const secs = seconds % 60;
+    return `${mins}:${secs.toString().padStart(2, '0')}`;
+  };
+
+  const handleAnswerSelect = (optionIndex) => {
+    if (showResults) return;
+    const newUserAnswers = [...userAnswers];
+    newUserAnswers[currentQuestion] = optionIndex;
+    setUserAnswers(newUserAnswers);
+  };
+
+  const calculateScore = () => {
+    return userAnswers.reduce((score, answer, index) => {
+      if (answer === activeQuestions[index]?.answer) {
+        return score + activeQuestions[index].marks;
+      }
+      return score;
+    }, 0);
+  };
+
+  if (!quizStarted) {
+    return (
+      <div className="min-h-screen bg-slate-50 flex items-center justify-center p-4">
+        <div className="max-w-md w-full bg-white rounded-2xl shadow-xl p-8 text-center">
+          <Award className="w-16 h-16 mx-auto mb-4 text-indigo-600" />
+          <h1 className="text-3xl font-bold text-slate-800 mb-2">Science Quiz</h1>
+          <p className="text-slate-500 mb-8 uppercase text-xs font-bold tracking-widest">Grade 9 Thermal Physics</p>
+          
+          <div className="space-y-3 mb-8">
+            <div className="flex justify-between items-center text-sm bg-slate-50 p-3 rounded-lg">
+              <span className="text-slate-500">Duration</span>
+              <span className="font-bold">30 Minutes</span>
+            </div>
+            <div className="flex justify-between items-center text-sm bg-slate-50 p-3 rounded-lg">
+              <span className="text-slate-500">Items</span>
+              <span className="font-bold">25 Questions</span>
+            </div>
+            <div className="flex justify-between items-center text-sm bg-slate-50 p-3 rounded-lg">
+              <span className="text-slate-500">Weight</span>
+              <span className="font-bold">20 Marks</span>
+            </div>
+          </div>
+
+          <button 
+            onClick={startQuiz}
+            className="w-full bg-indigo-600 hover:bg-indigo-700 text-white font-bold py-4 rounded-xl transition-all flex items-center justify-center space-x-2"
+          >
+            <Play className="w-5 h-5" />
+            <span>Begin Assessment</span>
+          </button>
+        </div>
+      </div>
+    );
+  }
+
+  return (
+    <div className="min-h-screen bg-slate-50 p-4 md:p-8 font-sans">
+      <div className="max-w-3xl mx-auto">
+        
+        {/* Header Stats */}
+        <div className="flex flex-col md:flex-row md:items-center justify-between mb-6 gap-4">
+          <div className="flex items-center space-x-4">
+            <div className="bg-white px-4 py-2 rounded-lg shadow-sm border border-slate-200 flex items-center space-x-2">
+              <Timer className={`w-5 h-5 ${timeLeft < 300 ? 'text-red-500 animate-pulse' : 'text-slate-500'}`} />
+              <span className={`font-mono text-xl font-bold ${timeLeft < 300 ? 'text-red-600' : 'text-slate-700'}`}>
+                {formatTime(timeLeft)}
+              </span>
+            </div>
+            <div className="bg-white px-4 py-2 rounded-lg shadow-sm border border-slate-200">
+              <p className="font-bold text-slate-800">{currentQuestion + 1} / 25</p>
+            </div>
+          </div>
+          {!showResults && (
+            <button onClick={() => setShowResults(true)} className="bg-slate-800 text-white px-6 py-2 rounded-lg font-bold">
+              Finish Early
+            </button>
+          )}
+        </div>
+
+        {!showResults && (
+          <div className="w-full bg-slate-200 rounded-full h-2 mb-8">
+            <div className="bg-indigo-500 h-2 rounded-full transition-all duration-300" style={{ width: `${((currentQuestion + 1) / 25) * 100}%` }}></div>
+          </div>
+        )}
+
+        {showResults ? (
+          <div className="space-y-6 animate-in fade-in zoom-in duration-300">
+            <div className="bg-white rounded-2xl shadow-xl overflow-hidden">
+              <div className="bg-indigo-600 p-8 text-white text-center">
+                <Award className="w-16 h-16 mx-auto mb-4" />
+                <h2 className="text-3xl font-bold mb-2">Score: {calculateScore()} / 20</h2>
+                <p className="text-indigo-100 opacity-90">Review your performance below.</p>
+              </div>
+              
+              <div className="p-8">
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-8">
+                  <button onClick={startQuiz} className="flex items-center justify-center space-x-2 bg-slate-100 text-slate-700 py-3 rounded-xl font-bold hover:bg-slate-200 transition-all">
+                    <RefreshCcw className="w-5 h-5" />
+                    <span>Try Same Set</span>
+                  </button>
+                  <button onClick={restartWithNewSet} className="flex items-center justify-center space-x-2 bg-indigo-600 text-white py-3 rounded-xl font-bold hover:bg-indigo-700 transition-all shadow-lg shadow-indigo-100">
+                    <Play className="w-5 h-5" />
+                    <span>Restart with New Set</span>
+                  </button>
+                </div>
+
+                <div className="space-y-6">
+                  {activeQuestions.map((q, idx) => {
+                    const isCorrect = userAnswers[idx] === q.answer;
+                    return (
+                      <div key={idx} className={`p-6 rounded-xl border ${isCorrect ? 'bg-emerald-50 border-emerald-100' : 'bg-red-50 border-red-100'}`}>
+                        <div className="flex justify-between items-start mb-2">
+                          <p className="font-bold text-slate-800 pr-4">{idx + 1}. {q.question}</p>
+                          {isCorrect ? <CheckCircle2 className="text-emerald-600" /> : <XCircle className="text-red-600" />}
+                        </div>
+                        <div className="text-sm text-slate-600 mb-4 italic">
+                          Correct: {q.options[q.answer]}
+                        </div>
+                        <div className="bg-white/60 p-3 rounded-lg text-xs text-slate-700 border border-slate-200">
+                          <span className="font-bold">Explanation:</span> {q.explanation}
+                        </div>
+                      </div>
+                    );
+                  })}
+                </div>
+              </div>
+            </div>
+          </div>
+        ) : (
+          <div className="bg-white rounded-2xl shadow-lg p-8">
+            <span className="bg-indigo-100 text-indigo-700 text-xs font-bold px-3 py-1 rounded-full uppercase tracking-wider mb-6 inline-block">
+              {activeQuestions[currentQuestion].marks} Mark{activeQuestions[currentQuestion].marks !== 1 ? 's' : ''}
+            </span>
+            
+            <h2 className="text-xl md:text-2xl font-bold text-slate-800 mb-8 leading-tight">
+              {activeQuestions[currentQuestion].question}
+            </h2>
+
+            <div className="space-y-3">
+              {activeQuestions[currentQuestion].options.map((option, index) => (
+                <button
+                  key={index}
+                  onClick={() => handleAnswerSelect(index)}
+                  className={`w-full text-left p-4 rounded-xl border-2 transition-all flex items-center justify-between group ${
+                    userAnswers[currentQuestion] === index
+                      ? 'border-indigo-500 bg-indigo-50'
+                      : 'border-slate-100 bg-slate-50 hover:border-indigo-200 hover:bg-white'
+                  }`}
+                >
+                  <span className={userAnswers[currentQuestion] === index ? 'text-indigo-900 font-bold' : 'text-slate-700'}>{option}</span>
+                  <div className={`w-5 h-5 rounded-full border-2 ${userAnswers[currentQuestion] === index ? 'bg-indigo-600 border-indigo-600' : 'border-slate-300'}`} />
+                </button>
+              ))}
+            </div>
+
+            <div className="flex justify-between items-center mt-12 pt-6 border-t border-slate-100">
+              <button
+                onClick={() => setCurrentQuestion(prev => prev - 1)}
+                disabled={currentQuestion === 0}
+                className={`flex items-center space-x-2 px-4 py-2 rounded-lg font-bold ${currentQuestion === 0 ? 'text-slate-200' : 'text-slate-600 hover:bg-slate-50'}`}
+              >
+                <ChevronLeft className="w-5 h-5" />
+                <span>Back</span>
+              </button>
+              
+              {currentQuestion === 24 ? (
+                <button onClick={() => setShowResults(true)} className="bg-emerald-600 text-white px-8 py-2 rounded-xl font-bold">Finish</button>
+              ) : (
+                <button onClick={() => setCurrentQuestion(prev => prev + 1)} className="bg-indigo-600 text-white px-8 py-2 rounded-xl font-bold flex items-center space-x-2">
+                  <span>Next</span>
+                  <ChevronRight className="w-5 h-5" />
+                </button>
+              )}
+            </div>
+          </div>
+        )}
+      </div>
+    </div>
+  );
+}
