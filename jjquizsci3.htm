@@ -1,0 +1,381 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Thermal Dynamics Quiz</title>
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- React & Babel CDNs -->
+    <script src="https://unpkg.com/react@18/umd/react.production.min.js"></script>
+    <script src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js"></script>
+    <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+    <style>
+        @keyframes pulse-horizontal {
+            0%, 100% { transform: translateX(-5%); opacity: 0.8; }
+            50% { transform: translateX(5%); opacity: 1; }
+        }
+        .animate-pulse-horizontal {
+            animation: pulse-horizontal 1.5s infinite ease-in-out;
+        }
+        /* Custom scrollbar for the results box */
+        .results-scroll::-webkit-scrollbar { width: 4px; }
+        .results-scroll::-webkit-scrollbar-track { background: #f1f1f1; }
+        .results-scroll::-webkit-scrollbar-thumb { background: #cbd5e1; border-radius: 10px; }
+    </style>
+</head>
+<body class="bg-gray-100 font-sans antialiased">
+    <div id="root"></div>
+
+    <script type="text/babel">
+        const { useState, useEffect } = React;
+
+        const Icon = ({ name, className }) => {
+            const svgProps = {
+                xmlns: "http://www.w3.org/2000/svg",
+                width: "24",
+                height: "24",
+                viewBox: "0 0 24 24",
+                fill: "none",
+                stroke: "currentColor",
+                strokeWidth: "2",
+                strokeLinecap: "round",
+                strokeLinejoin: "round",
+                className: className
+            };
+
+            switch (name) {
+                case 'ArrowRight':
+                    return <svg {...svgProps}><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg>;
+                case 'Trophy':
+                    return <svg {...svgProps}><path d="M6 9H4.5a2.5 2.5 0 0 1 0-5H6"/><path d="M18 9h1.5a2.5 2.5 0 0 0 0-5H18"/><path d="M4 22h16"/><path d="M10 14.66V17c0 .55-.47.98-.97 1.21C7.85 18.75 7 20.24 7 22"/><path d="M14 14.66V17c0 .55.47.98.97 1.21C16.15 18.75 17 20.24 17 22"/><path d="M18 2H6v7a6 6 0 0 0 12 0V2Z"/></svg>;
+                case 'Timer':
+                    return <svg {...svgProps}><line x1="10" x2="14" y1="2" y2="2"/><line x1="12" x2="12" y1="14" y2="11"/><circle cx="12" cy="14" r="8"/></svg>;
+                case 'ChevronLeft':
+                    return <svg {...svgProps}><path d="m15 18-6-6 6-6"/></svg>;
+                case 'ChevronRight':
+                    return <svg {...svgProps}><path d="m9 18 6-6-6-6"/></svg>;
+                case 'HelpCircle':
+                    return <svg {...svgProps}><circle cx="12" cy="12" r="10"/><path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3"/><line x1="12" x2="12.01" y1="17" y2="17"/></svg>;
+                default:
+                    return null;
+            }
+        };
+
+        const ThermalDiagram = ({ tempA, tempB, showArrow = true, material = "General Object" }) => {
+            const isHotterA = parseFloat(tempA) > parseFloat(tempB);
+            const isEqual = parseFloat(tempA) === parseFloat(tempB);
+            
+            return (
+                <div className="flex flex-col items-center justify-center bg-gray-50 p-6 rounded-3xl border border-gray-200 mb-8 relative overflow-hidden">
+                    <div className="absolute top-3 left-4 text-[10px] font-bold text-gray-400 uppercase tracking-widest">
+                        Scenario: {material}
+                    </div>
+                    
+                    <div className="flex items-center gap-6 md:gap-12 mt-4">
+                        <div className="flex flex-col items-center">
+                            <div className={`w-20 h-20 md:w-28 md:h-28 rounded-3xl flex items-center justify-center border-4 transition-all duration-700 ${isHotterA ? 'bg-orange-100 border-orange-400 shadow-xl shadow-orange-100' : 'bg-blue-50 border-blue-200'}`}>
+                                <span className="text-2xl font-black text-gray-800">{tempA}°C</span>
+                            </div>
+                            <span className="mt-3 font-bold text-gray-500 uppercase text-[10px]">Object A</span>
+                        </div>
+
+                        <div className="flex flex-col items-center min-w-[80px]">
+                            {showArrow && !isEqual ? (
+                                <div className={`transition-transform duration-1000 ${isHotterA ? 'rotate-0' : 'rotate-180'}`}>
+                                    <Icon name="ArrowRight" className={`w-12 h-12 ${isHotterA ? 'text-orange-500' : 'text-blue-500'} animate-pulse-horizontal`} />
+                                </div>
+                            ) : (
+                                <div className="h-12 flex items-center justify-center">
+                                    {isEqual ? <span className="text-gray-300 font-bold uppercase text-[9px]">Equilibrium</span> : <Icon name="HelpCircle" className="w-8 h-8 text-gray-200" />}
+                                </div>
+                            )}
+                        </div>
+
+                        <div className="flex flex-col items-center">
+                            <div className={`w-20 h-20 md:w-28 md:h-28 rounded-3xl flex items-center justify-center border-4 transition-all duration-700 ${!isHotterA && !isEqual ? 'bg-orange-100 border-orange-400 shadow-xl shadow-orange-100' : 'bg-blue-50 border-blue-200'}`}>
+                                <span className="text-2xl font-black text-gray-800">{tempB}°C</span>
+                            </div>
+                            <span className="mt-3 font-bold text-gray-500 uppercase text-[10px]">Object B</span>
+                        </div>
+                    </div>
+                </div>
+            );
+        };
+
+        function App() {
+            const [quizStarted, setQuizStarted] = useState(false);
+            const [quizFinished, setQuizFinished] = useState(false);
+            const [currentQuestionIndex, setCurrentQuestionIndex] = useState(0);
+            const [answers, setAnswers] = useState({});
+            const [timeLeft, setTimeLeft] = useState(1200); // 20 minutes
+
+            useEffect(() => {
+                let timer;
+                if (quizStarted && !quizFinished && timeLeft > 0) {
+                    timer = setInterval(() => {
+                        setTimeLeft(prev => prev - 1);
+                    }, 1000);
+                } else if (timeLeft === 0) {
+                    setQuizFinished(true);
+                }
+                return () => clearInterval(timer);
+            }, [quizStarted, quizFinished, timeLeft]);
+
+            const questions = [
+                { 
+                    question: "Based on the temperatures, in which direction will thermal energy transfer?", 
+                    diagram: { a: 40, b: 10, show: false, mat: "Standard Gradient" }, 
+                    options: ["From Object A to Object B", "From Object B to Object A", "No transfer occurs", "Energy moves to the surroundings only"], 
+                    correct: 0, weight: 1, 
+                    explanation: "Heat always flows from a region of higher temperature (40°C) to a region of lower temperature (10°C)." 
+                },
+                { 
+                    question: "What is the 'driving force' for this thermal energy transfer?", 
+                    diagram: { a: 80, b: 30, show: true, mat: "Direction Rules" }, 
+                    options: ["Mass of the objects", "Volume of the objects", "The temperature gradient (difference)", "Physical state of matter"], 
+                    correct: 2, weight: 1, 
+                    explanation: "A temperature difference (gradient) is the necessary driving force for any heat transfer." 
+                },
+                { 
+                    question: "If Object A (60°C) and B (20°C) are identical and reach equilibrium, what is the final temperature?", 
+                    diagram: { a: 60, b: 20, show: false, mat: "Equilibrium" }, 
+                    options: ["20°C", "80°C", "40°C", "60°C"], 
+                    correct: 2, weight: 1, 
+                    explanation: "For identical objects, the equilibrium temperature is the average: (60 + 20) / 2 = 40°C." 
+                },
+                {
+                    question: "Which process involves the transfer of heat through direct physical contact?",
+                    diagram: { a: 100, b: 25, show: true, mat: "Contact Surface" },
+                    options: ["Convection", "Radiation", "Conduction", "Evaporation"],
+                    correct: 2, weight: 1,
+                    explanation: "Conduction is the transfer of heat through solids or between objects in direct contact."
+                },
+                {
+                    question: "In a fluid (liquid or gas), heat is primarily transferred by which method?",
+                    diagram: { a: 90, b: 85, show: false, mat: "Fluid Motion" },
+                    options: ["Conduction", "Convection", "Radiation", "Insulation"],
+                    correct: 1, weight: 1,
+                    explanation: "Convection involves the bulk movement of fluid particles carrying thermal energy."
+                },
+                {
+                    question: "Which type of heat transfer can occur through a vacuum (empty space)?",
+                    diagram: { a: 5000, b: 20, show: true, mat: "Solar Model" },
+                    options: ["Conduction", "Convection", "Radiation", "Advection"],
+                    correct: 2, weight: 1,
+                    explanation: "Radiation uses electromagnetic waves and does not require a medium to travel."
+                },
+                {
+                    question: "What happens to the particles of a substance when it is heated?",
+                    diagram: { a: 25, b: 75, show: false, mat: "Kinetic Theory" },
+                    options: ["They move slower", "They gain kinetic energy and move faster", "They increase in size", "They stop moving entirely"],
+                    correct: 1, weight: 1,
+                    explanation: "Temperature is a measure of average kinetic energy; heating increases particle speed."
+                },
+                {
+                    question: "Which of these materials is the best thermal conductor?",
+                    diagram: { a: 20, b: 20, show: false, mat: "Material Test" },
+                    options: ["Wood", "Plastic", "Copper", "Air"],
+                    correct: 2, weight: 1,
+                    explanation: "Metals like copper have free electrons that facilitate rapid heat transfer."
+                },
+                {
+                    question: "Why do we wear dark colors in winter to stay warm?",
+                    diagram: { a: 15, b: 5, show: false, mat: "Absorption" },
+                    options: ["Dark colors reflect heat", "Dark colors are better absorbers of radiation", "Dark colors prevent convection", "Dark colors have lower mass"],
+                    correct: 1, weight: 1,
+                    explanation: "Dark, matte surfaces are excellent absorbers of thermal radiation."
+                },
+                {
+                    question: "Which law states that energy cannot be created or destroyed, only transformed?",
+                    diagram: { a: 100, b: 100, show: false, mat: "Conservation" },
+                    options: ["Zeroth Law of Thermodynamics", "First Law of Thermodynamics", "Second Law of Thermodynamics", "Newton's Law of Cooling"],
+                    correct: 1, weight: 1,
+                    explanation: "The First Law of Thermodynamics is the version of the Law of Conservation of Energy."
+                },
+                {
+                    question: "What is 'Specific Heat Capacity'?",
+                    diagram: { a: 10, b: 11, show: false, mat: "Heat Property" },
+                    options: ["Total heat in an object", "Heat needed to melt 1kg", "Heat needed to raise 1kg by 1°C", "Heat lost during cooling"],
+                    correct: 2, weight: 1,
+                    explanation: "Specific heat capacity is the energy required to raise the temperature of 1kg of a substance by 1 Kelvin or 1°C."
+                },
+                {
+                    question: "When water boils at 100°C, why does the temperature stop rising even with continued heating?",
+                    diagram: { a: 100, b: 100, show: false, mat: "Phase Change" },
+                    options: ["The stove turns off", "Energy is used for Latent Heat of Vaporization", "Convection stops", "The thermometer is broken"],
+                    correct: 1, weight: 1,
+                    explanation: "During a phase change, energy is used to break intermolecular bonds rather than increasing temperature."
+                },
+                {
+                    question: "Which surface is the best emitter of thermal radiation?",
+                    diagram: { a: 50, b: 20, show: false, mat: "Emission" },
+                    options: ["Shiny silver", "White glossy", "Dull black", "Transparent glass"],
+                    correct: 2, weight: 1,
+                    explanation: "Dull, black surfaces are the most efficient emitters (and absorbers) of infrared radiation."
+                },
+                {
+                    question: "What is an 'insulator'?",
+                    diagram: { a: 100, b: 20, show: false, mat: "Fiberglass" },
+                    options: ["A material that moves heat quickly", "A material that reduces the rate of heat transfer", "A device that generates heat", "A type of thermometer"],
+                    correct: 1, weight: 1,
+                    explanation: "Insulators have low thermal conductivity and slow down the flow of heat."
+                },
+                {
+                    question: "In a house, why is double glazing effective?",
+                    diagram: { a: 22, b: -5, show: true, mat: "Window Unit" },
+                    options: ["It uses thicker glass", "Trapped air is a poor conductor", "It reflects sunlight", "It creates a vacuum"],
+                    correct: 1, weight: 1,
+                    explanation: "The layer of trapped air (or argon) between glass panes acts as a very poor thermal conductor."
+                },
+                {
+                    question: "A metal spoon feels colder than a wooden spoon at the same room temperature because:",
+                    diagram: { a: 20, b: 37, show: true, mat: "Human Touch" },
+                    options: ["The metal is actually colder", "Metal conducts heat away from the hand faster", "Wood generates its own heat", "Metal reflects coldness"],
+                    correct: 1, weight: 1,
+                    explanation: "Metal has higher thermal conductivity, so it removes heat from your warm skin more rapidly."
+                },
+                {
+                    question: "Which of the following describes 'Absolute Zero'?",
+                    diagram: { a: -273, b: -273, show: false, mat: "Cryogenics" },
+                    options: ["0°C", "The freezing point of brine", "The temperature where particle motion is minimal", "100 Kelvin"],
+                    correct: 2, weight: 1,
+                    explanation: "Absolute Zero (0K or -273.15°C) is the theoretical temperature where particles have minimum internal energy."
+                },
+                {
+                    question: "Sea breezes occur during the day because:",
+                    diagram: { a: 30, b: 20, show: true, mat: "Land/Sea" },
+                    options: ["Land heats up faster than water", "Water heats up faster than land", "The moon pulls the air", "Fish move the water"],
+                    correct: 0, weight: 1,
+                    explanation: "Land has a lower specific heat capacity than water, heating up faster and creating low pressure above it."
+                },
+                {
+                    question: "What is the primary method of heat transfer from the Sun to Earth?",
+                    diagram: { a: 6000, b: 15, show: true, mat: "Space" },
+                    options: ["Conduction", "Convection", "Radiation", "Sublimation"],
+                    correct: 2, weight: 1,
+                    explanation: "Space is a vacuum; only radiation can travel through it to reach Earth."
+                },
+                {
+                    question: "If two objects are in 'Thermal Equilibrium', what is true about them?",
+                    diagram: { a: 35, b: 35, show: false, mat: "Final State" },
+                    options: ["They have the same mass", "They have the same temperature", "One is twice as hot as the other", "They are both made of metal"],
+                    correct: 1, weight: 1,
+                    explanation: "Thermal equilibrium is reached when there is no net heat flow because temperatures are equal."
+                }
+            ];
+
+            const calculateScore = () => {
+                const rawScore = Object.keys(answers).reduce((acc, idx) => {
+                    const index = parseInt(idx);
+                    if (answers[index] === questions[index].correct) return acc + questions[index].weight;
+                    return acc;
+                }, 0);
+                return rawScore.toFixed(1);
+            };
+
+            if (!quizStarted) {
+                return (
+                    <div className="min-h-screen flex items-center justify-center p-4">
+                        <div className="bg-white p-8 md:p-12 rounded-[2.5rem] shadow-2xl text-center max-w-md w-full border border-gray-100">
+                            <div className="bg-orange-100 w-20 h-20 rounded-3xl flex items-center justify-center mx-auto mb-6">
+                                <Icon name="Trophy" className="w-12 h-12 text-orange-600" />
+                            </div>
+                            <h1 className="text-3xl font-black text-gray-800 mb-2 tracking-tight">Thermal Lab</h1>
+                            <p className="text-gray-500 mb-4 font-bold">Comprehensive Assessment</p>
+                            <div className="bg-gray-50 p-4 rounded-2xl mb-8 flex justify-around text-xs font-bold text-gray-500 uppercase tracking-widest">
+                                <div>20 Questions</div>
+                                <div>20 Minutes</div>
+                            </div>
+                            <button onClick={() => setQuizStarted(true)} className="bg-gray-900 hover:bg-black text-white font-bold py-4 px-8 rounded-2xl w-full transition-all shadow-lg active:scale-95 text-md uppercase tracking-widest">
+                                Start Assessment
+                            </button>
+                        </div>
+                    </div>
+                );
+            }
+
+            if (quizFinished) {
+                const score = calculateScore();
+                return (
+                    <div className="min-h-screen flex items-center justify-center p-4">
+                        <div className="bg-white p-8 md:p-12 rounded-[3rem] shadow-2xl max-w-xl w-full border border-gray-100 text-center">
+                            <h2 className="text-xs font-black text-orange-600 uppercase tracking-[0.3em] mb-4">Final Score</h2>
+                            <div className="text-6xl font-black text-gray-900 mb-6">{score} <span className="text-xl text-gray-300">/ 20.0</span></div>
+                            <div className="space-y-3 mb-8 text-left max-h-80 overflow-y-auto pr-2 results-scroll">
+                                {questions.map((q, idx) => (
+                                    <div key={idx} className={`p-4 rounded-2xl border-2 ${answers[idx] === q.correct ? 'bg-green-50 border-green-100' : 'bg-red-50 border-red-100'}`}>
+                                        <p className="font-bold text-gray-800 text-xs mb-1">{idx + 1}. {q.question}</p>
+                                        <p className="text-[10px] text-gray-500 italic leading-relaxed">{q.explanation}</p>
+                                    </div>
+                                ))}
+                            </div>
+                            <button onClick={() => window.location.reload()} className="bg-blue-600 text-white font-bold py-4 px-8 rounded-2xl w-full hover:bg-blue-700 transition-colors shadow-lg">
+                                Restart Lab
+                            </button>
+                        </div>
+                    </div>
+                );
+            }
+
+            const currentQ = questions[currentQuestionIndex];
+
+            return (
+                <div className="min-h-screen flex flex-col items-center justify-center p-4">
+                    <div className="max-w-3xl w-full bg-white rounded-[2.5rem] shadow-2xl p-6 md:p-10 border border-gray-100 relative">
+                        <div className="flex justify-between items-center mb-8">
+                            <span className="px-4 py-1 bg-gray-100 text-gray-500 text-[10px] font-black rounded-full uppercase tracking-widest">Question {currentQuestionIndex + 1} / {questions.length}</span>
+                            <div className={`flex items-center gap-2 font-mono font-bold text-sm ${timeLeft < 60 ? 'text-red-500' : 'text-gray-400'}`}>
+                                <Icon name="Timer" className="w-4 h-4" />
+                                {Math.floor(timeLeft / 60)}:{(timeLeft % 60).toString().padStart(2, '0')}
+                            </div>
+                        </div>
+
+                        <ThermalDiagram 
+                            tempA={currentQ.diagram.a} 
+                            tempB={currentQ.diagram.b} 
+                            showArrow={currentQ.diagram.show} 
+                            material={currentQ.diagram.mat} 
+                        />
+                        
+                        <h3 className="text-xl md:text-2xl font-bold text-gray-800 mb-8 leading-tight tracking-tight">{currentQ.question}</h3>
+                        
+                        <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
+                            {currentQ.options.map((opt, idx) => (
+                                <button 
+                                    key={idx} 
+                                    onClick={() => setAnswers({...answers, [currentQuestionIndex]: idx})} 
+                                    className={`p-5 text-left border-2 rounded-2xl font-bold transition-all flex justify-between items-center ${answers[currentQuestionIndex] === idx ? 'border-orange-500 bg-orange-50 text-orange-900' : 'border-gray-50 bg-gray-50 text-gray-600 hover:border-gray-200'}`}
+                                >
+                                    <span className="text-sm">{opt}</span>
+                                    <div className={`w-5 h-5 rounded-full border-2 shrink-0 ${answers[currentQuestionIndex] === idx ? 'border-orange-500 bg-orange-500' : 'border-gray-200'}`}></div>
+                                </button>
+                            ))}
+                        </div>
+
+                        <div className="mt-10 flex justify-between gap-4">
+                            <button 
+                                disabled={currentQuestionIndex === 0} 
+                                onClick={() => setCurrentQuestionIndex(prev => prev - 1)} 
+                                className="px-6 py-3 bg-white border-2 border-gray-100 text-gray-400 rounded-xl font-bold disabled:opacity-30 hover:bg-gray-50 flex items-center gap-2 text-xs uppercase tracking-widest"
+                            >
+                                <Icon name="ChevronLeft" className="w-4 h-4" /> Back
+                            </button>
+                            {currentQuestionIndex === questions.length - 1 ? (
+                                <button onClick={() => setQuizFinished(true)} className="px-10 py-3 bg-green-600 text-white rounded-xl font-black uppercase tracking-widest shadow-lg hover:bg-green-700 transition-all text-xs">Finish</button>
+                            ) : (
+                                <button onClick={() => setCurrentQuestionIndex(prev => prev + 1)} className="px-8 py-3 bg-gray-900 text-white rounded-xl font-black uppercase tracking-widest shadow-lg hover:bg-black transition-all flex items-center gap-2 text-xs">
+                                    Next <Icon name="ChevronRight" className="w-4 h-4" />
+                                </button>
+                            )}
+                        </div>
+                    </div>
+                </div>
+            );
+        }
+
+        const root = ReactDOM.createRoot(document.getElementById('root'));
+        root.render(<App />);
+    </script>
+</body>
+</html>
