@@ -1314,6 +1314,40 @@ ______________________________________<input type="button" value="X<->Y =>" id="
     </script>
 </div>
 <!-- 自定義計算器區塊：結束 -->
+
+<!-- 透明懸浮計算器開始 -->
+<div id="floating-calc-box" style="position: fixed; bottom: 20px; right: 20px; z-index: 9999; background: rgba(255, 255, 255, 0.2); backdrop-filter: blur(10px); -webkit-backdrop-filter: blur(10px); border: 1px solid rgba(255, 255, 255, 0.3); padding: 15px; border-radius: 12px; box-shadow: 0 8px 32px rgba(0,0,0,0.15); display: flex; align-items: center; gap: 15px; width: 300px; font-family: system-ui, -apple-system, sans-serif;">
+    
+    <div style="flex: 1;">
+        <input type="text" id="float-input" placeholder="A**B" 
+               style="width: 100%; background: rgba(255, 255, 255, 0.5); border: 1px solid rgba(0,0,0,0.1); padding: 8px; border-radius: 6px; font-size: 14px; outline: none;"
+               oninput="calcFloat()">
+    </div>
+
+    <div style="width: 2px; height: 30px; background: rgba(0,0,0,0.1);"></div>
+
+    <div style="flex: 0.8; text-align: right;">
+        <div id="float-output" style="font-size: 18px; font-weight: bold; color: #333;">0.00</div>
+    </div>
+
+    <script>
+        function calcFloat() {
+            const val = document.getElementById('float-input').value;
+            const res = document.getElementById('float-output');
+            const p = val.split('**');
+            if (p.length === 2 && p[1] !== "") {
+                const n1 = parseFloat(p[0]), n2 = parseFloat(p[1]);
+                if (!isNaN(n1) && !isNaN(n2) && n2 !== 0) {
+                    res.innerText = (n1 / n2).toFixed(3);
+                    return;
+                } else if (n2 === 0) { res.innerText = "Err"; return; }
+            }
+            res.innerText = "0.00";
+        }
+    </script>
+</div>
+<!-- 透明懸浮計算器結束 -->
+
 		
 <br />
     <img id="img_dual+++" src="http://charts.megahubhk.com/servlets/MHImageChart?sid=1772&mChart2=11&m2p1=7&cmode=1&vol=1&intTech1=1&it1p1=50&it1p5=200&tstyle=2&fsize=10&&cr=106&cwidth=499&cheight=375&lang=1&cperiod=1000305&ctype=1&wm=13&p=46" alt="Kenny g Breathless" border="0" height="400" width="440">
