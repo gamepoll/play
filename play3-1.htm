@@ -1300,7 +1300,7 @@ ______________________________________<input type="button" value="X<->Y =>" id="
                 const n2 = parseFloat(parts[1]);
 
                 if (!isNaN(n1) && !isNaN(n2) && n2 !== 0) {
-                    output.innerText = (n1 / n2).toFixed(2);
+                    output.innerText = (n1 / n2).toFixed(3);
                     output.style.color = "#007bff";
                 } else if (n2 === 0) {
                     output.innerText = "Error";
