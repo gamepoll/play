@@ -1271,6 +1271,50 @@ ______________________________________<input type="text" value="empty" id="text4
 <br /> 
 <br />
 ______________________________________<input type="button" value="X<->Y =>" id="button_xy_1" style="background-color:lightgrey" />
+
+<!-- 自定義計算器區塊：開始 -->
+<div id="custom-divider-tool" style="display: flex; align-items: center; gap: 20px; padding: 15px; background: #ffffff; border: 1px solid #e0e0e0; border-radius: 8px; font-family: sans-serif; max-width: 500px;">
+    
+    <!-- 左側：輸入 -->
+    <div style="flex: 1.2;">
+        <label style="display: block; font-size: 12px; color: #666; margin-bottom: 5px; font-weight: bold;">輸入 (格式: A**B)</label>
+        <input type="text" id="calc-split-input" placeholder="例如: 100**4" 
+               style="width: 100%; padding: 10px; border: 1px solid #ccc; border-radius: 4px; box-sizing: border-box; font-size: 16px;"
+               oninput="processQuickCalc()">
+    </div>
+
+    <!-- 右側：平行輸出 -->
+    <div style="flex: 0.8; border-left: 2px solid #f0f0f0; padding-left: 20px;">
+        <label style="display: block; font-size: 12px; color: #666; margin-bottom: 5px; font-weight: bold;">結果 (A/B)</label>
+        <div id="calc-split-output" style="font-size: 24px; font-weight: 800; color: #007bff;">0.00</div>
+    </div>
+
+    <script>
+        function processQuickCalc() {
+            const input = document.getElementById('calc-split-input').value;
+            const output = document.getElementById('calc-split-output');
+            const parts = input.split('**');
+
+            if (parts.length === 2 && parts[1] !== "") {
+                const n1 = parseFloat(parts[0]);
+                const n2 = parseFloat(parts[1]);
+
+                if (!isNaN(n1) && !isNaN(n2) && n2 !== 0) {
+                    output.innerText = (n1 / n2).toFixed(2);
+                    output.style.color = "#007bff";
+                } else if (n2 === 0) {
+                    output.innerText = "Error";
+                    output.style.color = "#dc3545";
+                }
+            } else {
+                output.innerText = "0.00";
+                output.style.color = "#007bff";
+            }
+        }
+    </script>
+</div>
+<!-- 自定義計算器區塊：結束 -->
+		
 <br />
     <img id="img_dual+++" src="http://charts.megahubhk.com/servlets/MHImageChart?sid=1772&mChart2=11&m2p1=7&cmode=1&vol=1&intTech1=1&it1p1=50&it1p5=200&tstyle=2&fsize=10&&cr=106&cwidth=499&cheight=375&lang=1&cperiod=1000305&ctype=1&wm=13&p=46" alt="Kenny g Breathless" border="0" height="400" width="440">
 
