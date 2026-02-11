@@ -668,21 +668,24 @@ $.getJSON("https://api.jsonstorage.net/v1/json/"+clouduserid+"/"+scodeid + "?api
     }
   });
 });
+
 /////////////////////////////////////////////////////
 $("#scodesbackfromcloudbkup").click(function() {
-console.log("myvalue=",$(this).val()); 
-$.getJSON("https://api.jsonblob.com/019c46ba-4687-7b35-8549-1823c8be352f", function(posts) {
-    for (var i = 2; i < posts.queue.length; i++) {
-      console.log("myvalue=",posts.queue.length); 
+console.log("myvalue1=",$(this).val()); 
+    $.ajax({
+    url: "https://raw.githack.com/gamepoll/play/1098/69charts.json",
+    dataType: "json"
+  }).done(function(result) { 
+    for (var i = 2; i < result.queue.length; i++) {
       $('input[cat="pp"]').each(function() {
         var id = $(this).attr("id");
-        if (id == posts.queue[i].key) {
-          var value = posts.queue[i].name;
+        if (id == result.queue[i].key) {
+          var value = result.queue[i].name;
           $(this).val(value);
         }
       });
     }
-  });
+  }); 
 });
   ///////////////////////////////////////////////
 $("#savebaseqcode").click(function() {
