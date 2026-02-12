@@ -6,7 +6,7 @@
 <html lang="en">
 <head>
   <meta charset="utf-8">
-  <title>jChartxxx 1.7 - Default functionality</title>
+  <title>jChart1 1.7 - Default functionality</title>
   <link rel="stylesheet" href="//code.jquery.com/ui/1.11.4/themes/smoothness/jquery-ui.css">
   <script src="//code.jquery.com/jquery-1.10.2.js"></script>
   <script src="//code.jquery.com/ui/1.11.4/jquery-ui.js"></script>
@@ -36,13 +36,1227 @@
   </style>
 </head>
 <body>
+ 
+    <div id="bd-wrapper" ng-controller="CanvasControls">
+      <h2><span>Holistic !!</span> &middot; Standalone Controls</h2>
+
+      <style>
+  .controls { display: inline-block; background: #fafafa; margin-left: 10px; padding: 15px; border-left: 1px dotted #aaa; height: 170px }
+  .canvas-container { display: inline-block; vertical-align: top; }
+  canvas { border: 1px solid #eee !important }
+  label span { width: 50px; display: inline-block }
+  *[type=range] { poFtion: relative; top: 4px }
+  p:first-child { margin-top: 0 }
+  p:last-child { margin-bottom: 0 }
+</style>
+
+<canvas id="c" width="750" height="420" style="border:1px solid #ccc"></canvas>
+<div class="controls">
+  <p>
+    <!--label><span>Angle:</span> <input type="range" id="angle-control" value="0" min="-30" max="30"></label-->
+  </p>
+  <p>
+    <!--label><span>Left:</span> <input type="range" id="left-control" value="150" min="0" max="200"></label-->
+  </p>
+  <p>
+    <!--label><span>Top:</span> <input type="range" id="top-control" value="80" min="0" max="400"></label-->
+  </p>
+  <p>
+    <!--label><span>Scale:</span> <input type="range" id="scale-control" value="1" min="0.1" max="3" step="0.1"></label-->
+  </p>
+</div>
+<br />
+<br />
+<input type="button" value="Wonton =>" id="button_wonton" />
+<button id="buttonbb">Click to toggle background!</button> 
+<input type="button" value="Bdx =>" id="button_bdx" />
+<input type="button" value="Vwesx =>" id="button_vwesx" />
+<input type="button" value="Tsx =>" id="button_tsx" />
+<input type="button" value="Orcl =>" id="button_orcl" />
+<input type="button" value="Fdpix =>" id="button_fdpix" />
+<input type="button" value="Vexpx =>" id="button_vexpx" />
+<br />
+<br />
+<input id="text1" value="yang" style="width: 150px;" />
+<input type="button" value="Veiex <=" id="button_veiex" />
+<input type="button" value="Hsce <=" id="button_hsce" />
+<input type="button" value="Hs <=" id="button_hs" />
+<input type="button" value="Ewh <=" id="button_ewh" />
+<input type="button" value="AiaHaoEcns <=" id="button_hao" />
+<input type="button" value="asiax <=" id="button_asiax" />
+<br />
+__________<input type="button" value="Dax <=" id="button_dax" />
+<input type="button" value="Tcehy <=" id="button_tcehy" />
+<input type="button" value="cs300 <=" id="button_cs300" />
+<input type="button" value="eaL <=" id="button_eaL" />
+<input type="button" value="Gely <=" id="button_gely" />
+<input type="button" value="Fxp <=" id="button_usfxp" />
+<input type="button" value="Uxp <=" id="button_ulxp" />
+<input type="button" value="Dmcap <=" id="button_usmcap" />
+<input type="button" value="Russ <=" id="button_usruss" />
+
+	    
+<br />
+__________<input type="button" value="Bdx <=" id="button_r2bdx" />
+<input type="button" value="CuAu <=" id="button_cuau" />
+<input type="button" value="GeeBgne <=" id="button_GeeBgne" />
+<input type="button" value="GeeXBgne <=" id="button_GeeXBgne" />
+<input type="button" value="bgne <=" id="button_bgne" />
+<input type="button" value="Cgg <=" id="button_cgg" />
+<input type="button" value="Bp <=" id="button_bp" />
+<br />
+__________<select id="dropdown_change">
+ 
+      <option value="veiex">EM</option>
+
+      <option value="ea:$one:ea">eaL</option> 
+	
+      <option value="sark">sark</option> 
+	
+      <option value="ewh">ehk</option>
+ 
+      <option value="yao">ehkce</option>
+  
+      <option value="$nifty">indy</option>
+
+      <option value="ewy">kospi</option>
+      
+      <option value="ahchf">anhui</option> 
+      
+      <option value="pngay">ping</option>  
+
+      <option value="ppccy">picc</option>
+	    
+      <option value="kweb">web</option>    
+	    
+     <option value="frcoy">uniquo</option> 
+	    
+     <option value="ztcoy">zte</option> 
+	    
+      <option value="----">----</option>   
+	    
+      <option value="mpngf">meituan</option> 
+
+      <option value="baba:$one:tcehy">ATm</option> 
+	    
+      <option value="baba:$one:mpngf">AtM</option> 
+	    
+      <option value="baba">aliba</option> 
+	    
+      <option value="aacay">aac</option>   
+	    
+      <option value="sotgy">sunny</option>   
+	    
+      <option value="xpp">xp</option>   
+      <option value="----">----</option>   
+	    
+      <option value="gll">S-Gld</option>   
+	    
+      <option value="zsl">S-Slv</option> 
+	    
+</select>
+<br />
+__________<select id="dropdown_change1">
+ 
+      <option value="smicy">smi</option>
+	    
+      <option value="mlco">melco</option>
+ 
+      <option value="lvs">sands</option>
+ 
+      <option value="wynn">wynn</option>
+    
+      <option value="amzn">amazon</option>
+
+      <option value="goog">google</option>
+      
+      <option value="fb">fb</option>      
+
+      <option value="cichf">bankconst</option>
+      
+      <option value="bachf">bankchi</option>     
+	    
+      <option value="cihky">bankcmb</option>     
+	    
+      <option value="snp">386hk</option>
+      
+      <option value="afty">A50</option>      
+      
+      <option value="hkxcy">HKEx</option>
+      
+      <option value="byddy">BYD</option>
+      
+      <option value="yzcay">YZC</option> 
+      
+      <option value="ach">ALUM</option>       
+      
+
+</select>
+<br />
+__________<select id="dropdown_change2">
+ 
+      <option value="ACCD">--$$ACCD</option>
+
+      <option value="BGNE">--onc</option>
+
+      <option value="YCL">--L-YEN</option>
+
+      <option value="SMSEY">--SAMSON</option>
+
+      <option value="SHTDY">-- SinoPharm</option>
+
+      <option value="TMV">--TMV</option>
+
+      <option value="TYO">--TYO</option>
+
+	<option value="EGO">--EGO</option>
+
+	<option value="JDST">--JDST</option>
+
+	<option value="RMT">--RMT</option>
+	
+      <option value="BEAM">--$$BEAM</option>
+ 
+      <option value="INCY">--INCY</option>
+  
+      <option value="VEEV">--$$VEEV</option>
+
+      <option value="CDXS">--CDXS</option>
+      
+      <option value="TXG">--$$TXG</option> 
+	    
+      <option value="EXAS">--EXAS</option>
+
+      <option value="IONS">--IONS</option>
+      
+      <option value="TAK">--TAK</option> 
+</select>
+<br /> 
+<input type="text" value="empty" id="text4" nohidden=1 style="width: 390px;" />
+<br /> 
+<strong>4a</strong>
+<br /> 
+<strong>4b</strong>
+<br />
+<input type="checkbox" id="dia1" name="dia1" value="lunes" checked="checked"/>
+<label for="dia1">Lunes</label>
+<br />
+<br />
+<input type="button" value="Doup =>" id="button_doup" />
+<input type="button" value="LsDoup =>" id="button_lsdoup" />
+<input type="button" value="Post Won =>" id="button_post_won" />
+<input type="button" value="Reve =>" id="button_reve" />
+<input type="button" value="Pre Won =>" id="button_pre_won" />
+<input type="button" value="Pre Rdpix =>" id="button_pre_rdpix" />
+<input type="button" value="Pre Vexpx =>" id="button_pre_vexpx" />
+<input type="button" value="Pre Dax =>" id="button_pre_dax" />
+<input type="button" value="Pre TcehyGdm =>" id="button_pre_gdm" />
+<input type="button" value="Pre Cew/Orcl =>" id="button_pre_orcl" />
+<br />
+<input type="button" value="Pre Bdx =>" id="button_pre_bdx" />
+<button id="buttonbb1">Click to toggle background!</button>
+<input type="button" value="Pre Tsx =>" id="button_pre_tsx" />
+<input type="button" value="Pre Vwesx =>" id="button_pre_vwesx" />
+<input type="button" value="Pre Uup/Yield =>" id="button_pre_uup" />
+<input type="button" value="Click to toggle background!" id="buttonbb2" />
+
+<br />
+
+<br />
+<input type="button" value="Tail =>" id="button_tail" />      
+<input type="button" value="Cew(Vep)-Bdx =>" id="button_vb" style="background-color:lightgrey" />
+<input type="button" value="Vx-Tx-Ux =>" id="button_vut" style="background-color:lightgrey" />
+<input type="button" value="Rd-Fd =>" id="button_rf" style="background-color:lightgrey" />
+<input type="button" value="Tcy-Web2x =>" id="button_tw" style="background-color:lightgrey" />
+<input type="button" value="X<->Y =>" id="button_xy" style="background-color:lightgrey" />
+<input type="button" value="Long Tail =>" id="button_ltail" />
+<input type="button" value="Short Tail =>" id="button_stail" />
+<input type="button" value="Long Tail(W) =>" id="button_ltailw" />
+<input type="button" value="Bdx =>" id="button" />
+<input type="button" value="Web2x / udn =>" id="button_w2x" />
+<br />
+<input type="button" value="LsTail =>" id="button_lstail" />
+<button id="buttonbb3">Click to reverse background!</button>
+<input type="button" value="Click for more....!" id="buttonM" />
+<br />
+<br />
+<br />
+<input type="text" value="empty" id="text2" nohidden=1 style="width: 950px;" />
+
+<script id="main">(function() {
+  var canvas = this.__canvas = new fabric.Canvas('c', {
+        selection : false,
+        controlsAboveOverlay:true,
+        centeredScaling:true,
+        allowTouchScrolling: true
+    });
+  fabric.Object.prototype.transparentCorners = false;
+
+  var $ = function(id){return document.getElementById(id)};
+
+var line = new fabric.Line([7, 130, 500, 7], { 
+    selectable:false,
+  left: 100,
+  top: 263,
+  stroke: 'rgba(0,255,0,0.5)',
+  strokeWidth: 2,
+  angle: 14,
+  originX: 'left',
+  originY: 'bottom'
+});
+canvas.add(line);
+
+var text1 = document.getElementById('text1');
+var text4 = document.getElementById('text4');
+	
+var buttonbb = document.getElementById('buttonbb');
+buttonbb.addEventListener('click', function() {
+//    var url1='http://stockcharts.com/c-sc/sc?s=vwesx:cichf&p=D&&yr=7&i=0&a=168&r=0999';
+/*  var url1='http://stockcharts.com/c-sc/sc?s=$tsx:yao&p=D&&yr=7&i=0&a=168&r=0999';
+  var url2='bang';
+  if(canvas.backgroundColor != '#303030') {
+    var staticstring2 = "http://stockcharts.com/c-sc/sc?s=vfisx:bang&p=D&&yr=7&i=0&a=168&r=0999";
+    url2=staticstring2.replaceAll("bang", text1.value, true);
+    canvas.backgroundColor = '#303030';
+  }
+  else {
+    url2=url1; 
+    canvas.backgroundColor = '#003030';
+  }
+*/
+//  text1.value=url2;
+	
+    switch (canvas.backgroundColor) {
+        case '#013030':
+//	    url1="http://charts.megahubhk.com/servlets/MHImageChart?sid=2318&mChart2=11&m2p1=7&cmode=1&vol=1&intTech1=1&it1p1=50&it1p5=200&tstyle=2&fsize=10&&cr=106&cwidth=499&cheight=375&lang=1&cperiod=1000305&ctype=1&wm=13&p=" + Math.floor(Math.random() * (100 + 1) + 0;	
+		url2='http://stockcharts.com/c-sc/sc?s=qid&p=d&&yr=2&i=0&w=700&h=500r=0999';
+		url1='http://stockcharts.com/c-sc/sc?s=qid&p=w&&yr=13&i=0&w=700&h=500r=0999';		    
+		document.getElementById('text1').value="qid";
+		document.getElementById('text3').value="7261";
+		document.getElementById('text4a').value="7261";
+		document.getElementById('text4b').value="7522";
+	    canvas.backgroundColor = '#023030'
+            break;
+        case '#023030':
+//            url1="http://charts.megahubhk.com/servlets/MHImageChart?sid=3968&mChart2=11&m2p1=7&cmode=1&vol=1&intTech1=1&it1p1=50&it1p5=200&tstyle=2&fsize=10&&cr=106&cwidth=499&cheight=375&lang=1&cperiod=1000305&ctype=1&wm=13&p=" + Math.floor(Math.random() * (100 + 1) + 0;
+		url2='http://stockcharts.com/c-sc/sc?s=fxp&p=d&&yr=2&i=0&w=700&h=500r=0999';	    
+		url1='http://stockcharts.com/c-sc/sc?s=fxp&p=w&&yr=13&i=0&w=700&h=500r=0999';
+		document.getElementById('text1').value="fxp";
+		document.getElementById('text3').value="7200";
+		document.getElementById('text4a').value="7200";
+		document.getElementById('text4b').value="7500";
+	    canvas.backgroundColor = '#033030'
+            break;
+        case '#033030':
+//	    url1="http://charts.megahubhk.com/servlets/MHImageChart?sid=7202&mChart2=11&m2p1=7&cmode=1&vol=1&intTech1=1&it1p1=50&it1p5=200&tstyle=2&fsize=10&&cr=106&cwidth=499&cheight=375&lang=1&cperiod=1000305&ctype=1&wm=13&p=" + Math.floor(Math.random() * (100 + 1) + 0;
+		url2='http://stockcharts.com/c-sc/sc?s=$tsx:ewt&p=d&&yr=2&i=0&w=700&h=500r=0999';	    
+		url1='http://stockcharts.com/c-sc/sc?s=$tsx:ewt&p=w&&yr=13&i=0&w=700&h=500r=0999';
+		document.getElementById('text1').value="ewt";
+		document.getElementById('text3').value="7332";	
+		document.getElementById('text4a').value="7332";
+		document.getElementById('text4b').value="7232";
+	    canvas.backgroundColor = '#043030'
+            break;
+        case '#043030':
+//	    url1="http://charts.megahubhk.com/servlets/MHImageChart?sid=175&mChart2=11&m2p1=7&cmode=1&vol=1&intTech1=1&it1p1=50&it1p5=200&tstyle=2&fsize=10&&cr=106&cwidth=499&cheight=375&lang=1&cperiod=1000305&ctype=1&wm=13&p=" + Math.floor(Math.random() * (100 + 1) + 0;	    
+		url2='http://stockcharts.com/c-sc/sc?s=$vxn&p=d&&yr=2&i=0&w=700&h=500r=0999';	    
+		url1='http://stockcharts.com/c-sc/sc?s=$vxn&p=w&&yr=13&i=0&w=700&h=500r=0999';
+		document.getElementById('text1').value="$vxn";
+		document.getElementById('text3').value="7261";
+		document.getElementById('text4a').value="7261";
+		document.getElementById('text4b').value="7522";
+	    canvas.backgroundColor = '#053030'
+            break;
+        case '#053030':
+//	    url1="http://charts.megahubhk.com/servlets/MHImageChart?sid=175&mChart2=11&m2p1=7&cmode=1&vol=1&intTech1=1&it1p1=50&it1p5=200&tstyle=2&fsize=10&&cr=106&cwidth=499&cheight=375&lang=1&cperiod=1000305&ctype=1&wm=13&p=" + Math.floor(Math.random() * (100 + 1) + 0;	    
+		url2='http://stockcharts.com/c-sc/sc?s=tsla:byddy&p=d&&yr=2&i=0&w=700&h=500r=0999';	    
+		url1='http://stockcharts.com/c-sc/sc?s=tsla:byddy&p=w&&yr=9&i=0&w=700&h=500r=0999';
+		document.getElementById('text1').value="snptf";
+		document.getElementById('text3').value="2382";
+		document.getElementById('text4a').value="tsla";
+		document.getElementById('text4b').value="byddy";
+	    canvas.backgroundColor = '#063030'
+            break;
+        case '#063030':
+//	    url1="http://charts.megahubhk.com/servlets/MHImageChart?sid=175&mChart2=11&m2p1=7&cmode=1&vol=1&intTech1=1&it1p1=50&it1p5=200&tstyle=2&fsize=10&&cr=106&cwidth=499&cheight=375&lang=1&cperiod=1000305&ctype=1&wm=13&p=" + Math.floor(Math.random() * (100 + 1) + 0;	    
+		url2='http://stockcharts.com/c-sc/sc?s=bdx:$one:bdx:kure:$one:kure&p=d&&yr=2&i=0&w=700&h=500r=0999';	    
+		url1='http://stockcharts.com/c-sc/sc?s=bdx:$one:bdx:kure:$one:kure&p=w&&yr=9&i=0&w=700&h=500r=0999';
+		document.getElementById('text1').value="lly";
+		document.getElementById('text3').value="1801";
+		document.getElementById('text4a').value="lly";
+		document.getElementById('text4b').value="1801";
+	    canvas.backgroundColor = '#073030'
+            break;
+        case '#073030':
+//	    url1="http://charts.megahubhk.com/servlets/MHImageChart?sid=7709&mChart2=11&m2p1=7&cmode=1&vol=1&intTech1=1&it1p1=50&it1p5=200&tstyle=2&fsize=10&&cr=106&cwidth=499&cheight=375&lang=1&cperiod=1000305&ctype=1&wm=13&p=" + Math.floor(Math.random() * (100 + 1) + 0;
+		url2='http://stockcharts.com/c-sc/sc?s=bdx:ewy&p=D&height=410&width=560&yr=21&i=p40545395733&a=168&r=0999';
+		url2='http://stockcharts.com/c-sc/sc?s=$tsx:afty&p=d&&yr=2&i=0&w=700&h=500r=0999';
+		url1='http://stockcharts.com/c-sc/sc?s=$tsx:afty&p=d&&yr=7&i=0&w=700&h=500r=0999';
+		document.getElementById('text1').value="afty";
+		document.getElementById('text3').value="2823";
+		document.getElementById('text4a').value="afty";
+		document.getElementById('text4b').value="2823";
+	    canvas.backgroundColor = '#083030'
+            break;
+	case '#083030':
+//	    url1="http://charts.megahubhk.com/servlets/MHImageChart?sid=2328&mChart2=11&m2p1=7&cmode=1&vol=1&intTech1=1&it1p1=50&it1p5=200&tstyle=2&fsize=10&&cr=106&cwidth=499&cheight=375&lang=1&cperiod=1000305&ctype=1&wm=13&p=" + Math.floor(Math.random() * (100 + 1) + 0;
+		url2='http://stockcharts.com/c-sc/sc?s=uup:$tsx&p=d&&yr=2&i=0&w=700&h=500r=0999';
+		url1='http://stockcharts.com/c-sc/sc?s=uup:$tsx&p=w&&yr=13&i=0&w=700&h=500r=0999';
+		document.getElementById('text1').value="uup:$tsx";
+		document.getElementById('text3').value="7500";
+		document.getElementById('text4a').value="fcx";
+		document.getElementById('text4b').value="2899";
+	    canvas.backgroundColor = '#093030'
+            break;
+	case '#093030':
+//	    url1="http://charts.megahubhk.com/servlets/MHImageChart?sid=2328&mChart2=11&m2p1=7&cmode=1&vol=1&intTech1=1&it1p1=50&it1p5=200&tstyle=2&fsize=10&&cr=106&cwidth=499&cheight=375&lang=1&cperiod=1000305&ctype=1&wm=13&p=" + Math.floor(Math.random() * (100 + 1) + 0;
+		url2='http://stockcharts.com/c-sc/sc?s=$tsx:cgg.to&p=d&&yr=2&i=0&w=700&h=500r=0999';
+		url1='http://stockcharts.com/c-sc/sc?s=$tsx:cgg.to&p=w&&yr=13&i=0&w=700&h=500r=0999';
+		document.getElementById('text1').value="cgg.to";
+		document.getElementById('text3').value="2099";
+		document.getElementById('text4a').value="2099";
+		document.getElementById('text4b').value="2899";
+	    canvas.backgroundColor = '#0a3030'
+            break;
+	case '#0a3030':
+//	    url1="http://charts.megahubhk.com/servlets/MHImageChart?sid=2328&mChart2=11&m2p1=7&cmode=1&vol=1&intTech1=1&it1p1=50&it1p5=200&tstyle=2&fsize=10&&cr=106&cwidth=499&cheight=375&lang=1&cperiod=1000305&ctype=1&wm=13&p=" + Math.floor(Math.random() * (100 + 1) + 0;
+		url2='http://stockcharts.com/c-sc/sc?s=rdpix:$one:rdpix:cnxt:$one:ashs&p=d&&yr=2&i=0&w=700&h=500r=0999';
+		url1='http://stockcharts.com/c-sc/sc?s=rdpix:$one:rdpix:cnxt:$one:ashs&p=w&&yr=13&i=0&w=700&h=500r=0999';
+		document.getElementById('text1').value="ashs";
+		document.getElementById('text3').value="3188";
+		document.getElementById('text4a').value="7233";
+		document.getElementById('text4b').value="3147";
+	    canvas.backgroundColor = '#0b3030'
+            break;
+	case '#0b3030':
+//	    url1="http://charts.megahubhk.com/servlets/MHImageChart?sid=2328&mChart2=11&m2p1=7&cmode=1&vol=1&intTech1=1&it1p1=50&it1p5=200&tstyle=2&fsize=10&&cr=106&cwidth=499&cheight=375&lang=1&cperiod=1000305&ctype=1&wm=13&p=" + Math.floor(Math.random() * (100 + 1) + 0;
+		url2='http://stockcharts.com/c-sc/sc?s=bdx:$one:bdx:$one:bdx:baba:$one:tcehy&p=d&&yr=2&i=0&w=700&h=500r=0999';
+		url1='http://stockcharts.com/c-sc/sc?s=bdx:$one:bdx:$one:bdx:baba:$one:tcehy&p=w&&yr=13&i=0&w=700&h=500r=0999';
+		document.getElementById('text1').value="tcehy";
+		document.getElementById('text3').value="700";
+		document.getElementById('text4a').value="700";
+		document.getElementById('text4b').value="56713";
+	    canvas.backgroundColor = '#0c3030'
+            break;
+	case '#0c3030':
+//	    url1="http://charts.megahubhk.com/servlets/MHImageChart?sid=2328&mChart2=11&m2p1=7&cmode=1&vol=1&intTech1=1&it1p1=50&it1p5=200&tstyle=2&fsize=10&&cr=106&cwidth=499&cheight=375&lang=1&cperiod=1000305&ctype=1&wm=13&p=" + Math.floor(Math.random() * (100 + 1) + 0;
+		url2='http://stockcharts.com/c-sc/sc?s=gdx:cgg.to&p=d&&yr=2&i=0&w=700&h=500r=0999';
+		url1='http://stockcharts.com/c-sc/sc?s=gdx:cgg.to&p=w&&yr=13&i=0&w=700&h=500r=0999';
+		document.getElementById('text1').value="gdx";
+		document.getElementById('text3').value="2099";
+		document.getElementById('text4a').value="2099";
+		document.getElementById('text4b').value="gdx";
+	    canvas.backgroundColor = '#0d3030'
+            break;
+	case '#0d3030':
+//	    url1="http://charts.megahubhk.com/servlets/MHImageChart?sid=2328&mChart2=11&m2p1=7&cmode=1&vol=1&intTech1=1&it1p1=50&it1p5=200&tstyle=2&fsize=10&&cr=106&cwidth=499&cheight=375&lang=1&cperiod=1000305&ctype=1&wm=13&p=" + Math.floor(Math.random() * (100 + 1) + 0;
+		url2='http://stockcharts.com/c-sc/sc?s=$ndx:slv:$one:slv:cef&p=d&&yr=2&i=0&w=700&h=500r=0999';
+		url1='http://stockcharts.com/c-sc/sc?s=$ndx:$silver:$one:$silver:cef&p=w&&yr=33&i=0&w=700&h=500r=0999';
+		document.getElementById('text1').value="slv";
+		document.getElementById('text3').value="7299";
+		document.getElementById('text4a').value="slv";
+		document.getElementById('text4b').value="7299";
+	    canvas.backgroundColor = '#0e3030'
+            break;
+        default:
+//            url1="http://charts.megahubhk.com/servlets/MHImageChart?sid=1299&mChart2=11&m2p1=7&cmode=1&vol=1&intTech1=1&it1p1=50&it1p5=200&tstyle=2&fsize=10&&cr=106&cwidth=499&cheight=375&lang=1&cperiod=1000305&ctype=1&wm=13&p=pang";
+//	    text4.val(url1.replaceAll("pang", Math.floor(Math.random() * (100 + 1) + 0), true));
+		url2='http://stockcharts.com/c-sc/sc?s=$INDIAVIX&p=d&&yr=2&i=0&w=700&h=500r=0999';
+		url1='http://stockcharts.com/c-sc/sc?s=$INDIAVIX&p=w&&yr=13&i=0&w=700&h=500r=0999';
+		document.getElementById('text1').value="$INDIAVIX";
+		document.getElementById('text3').value="7202";
+		document.getElementById('text4a').value="$INDIAVIX";
+		document.getElementById('text4b').value="7202";
+		    canvas.backgroundColor = '#013030'
+    }	
+	
+  canvas1.setBackgroundImage(url1, canvas1.renderAll.bind(canvas1), {
+    backgroundImageOpacity: 0.5,
+    backgroundImageStretch: false
+    });
+	
+  canvas.setBackgroundImage(url2, canvas.renderAll.bind(canvas), {
+    backgroundImageOpacity: 0.5,
+    backgroundImageStretch: false
+    });
+	
+}, false);
+		
+var buttonbb3 = document.getElementById('buttonbb3');
+buttonbb3.addEventListener('click', function() {
+	
+    switch (canvas.backgroundColor) {
+        case '#033030':
+//	    url1="http://charts.megahubhk.com/servlets/MHImageChart?sid=2318&mChart2=11&m2p1=7&cmode=1&vol=1&intTech1=1&it1p1=50&it1p5=200&tstyle=2&fsize=10&&cr=106&cwidth=499&cheight=375&lang=1&cperiod=1000305&ctype=1&wm=13&p=" + Math.floor(Math.random() * (100 + 1) + 0;	
+		url2='http://stockcharts.com/c-sc/sc?s=qid&p=d&&yr=2&i=0&w=700&h=500r=0999';
+		url1='http://stockcharts.com/c-sc/sc?s=qid&p=w&&yr=13&i=0&w=700&h=500r=0999';		    
+		document.getElementById('text1').value="qid";
+		document.getElementById('text3').value="7261";
+		document.getElementById('text4a').value="7261";
+		document.getElementById('text4b').value="7522";
+	    canvas.backgroundColor = '#023030'
+            break;
+        case '#043030':
+//            url1="http://charts.megahubhk.com/servlets/MHImageChart?sid=3968&mChart2=11&m2p1=7&cmode=1&vol=1&intTech1=1&it1p1=50&it1p5=200&tstyle=2&fsize=10&&cr=106&cwidth=499&cheight=375&lang=1&cperiod=1000305&ctype=1&wm=13&p=" + Math.floor(Math.random() * (100 + 1) + 0;
+		url2='http://stockcharts.com/c-sc/sc?s=fxp&p=d&&yr=2&i=0&w=700&h=500r=0999';	    
+		url1='http://stockcharts.com/c-sc/sc?s=fxp&p=w&&yr=13&i=0&w=700&h=500r=0999';
+		document.getElementById('text1').value="fxp";
+		document.getElementById('text3').value="7200";
+		document.getElementById('text4a').value="fxp";
+		document.getElementById('text4b').value="7500";
+	    canvas.backgroundColor = '#033030'
+            break;
+        case '#053030':
+//	    url1="http://charts.megahubhk.com/servlets/MHImageChart?sid=7202&mChart2=11&m2p1=7&cmode=1&vol=1&intTech1=1&it1p1=50&it1p5=200&tstyle=2&fsize=10&&cr=106&cwidth=499&cheight=375&lang=1&cperiod=1000305&ctype=1&wm=13&p=" + Math.floor(Math.random() * (100 + 1) + 0;
+		url2='http://stockcharts.com/c-sc/sc?s=$tsx:ewt&p=d&&yr=2&i=0&w=700&h=500r=0999';	    
+		url1='http://stockcharts.com/c-sc/sc?s=$tsx:ewt&p=w&&yr=13&i=0&w=700&h=500r=0999';
+		document.getElementById('text1').value="ewt";
+		document.getElementById('text3').value="7332";	
+		document.getElementById('text4a').value="7332";
+		document.getElementById('text4b').value="7232";
+	    canvas.backgroundColor = '#043030'
+            break;
+        case '#063030':
+//	    url1="http://charts.megahubhk.com/servlets/MHImageChart?sid=175&mChart2=11&m2p1=7&cmode=1&vol=1&intTech1=1&it1p1=50&it1p5=200&tstyle=2&fsize=10&&cr=106&cwidth=499&cheight=375&lang=1&cperiod=1000305&ctype=1&wm=13&p=" + Math.floor(Math.random() * (100 + 1) + 0;	    
+		url2='http://stockcharts.com/c-sc/sc?s=$vxn&p=d&&yr=2&i=0&w=700&h=500r=0999';	    
+		url1='http://stockcharts.com/c-sc/sc?s=$vxn&p=w&&yr=13&i=0&w=700&h=500r=0999';
+		document.getElementById('text1').value="$vxn";
+		document.getElementById('text3').value="7261";
+		document.getElementById('text4a').value="7261";
+		document.getElementById('text4b').value="7522";
+	    canvas.backgroundColor = '#053030'
+            break;
+        case '#073030':
+//	    url1="http://charts.megahubhk.com/servlets/MHImageChart?sid=175&mChart2=11&m2p1=7&cmode=1&vol=1&intTech1=1&it1p1=50&it1p5=200&tstyle=2&fsize=10&&cr=106&cwidth=499&cheight=375&lang=1&cperiod=1000305&ctype=1&wm=13&p=" + Math.floor(Math.random() * (100 + 1) + 0;	    
+//	    url1='http://stockcharts.com/c-sc/sc?s=ryccx:snptf&p=w&&yr=9&i=0&w=700&h=500r=0999';
+		url2='http://stockcharts.com/c-sc/sc?s=tsla:byddy&p=d&&yr=2&i=0&w=700&h=500r=0999';	    
+		url1='http://stockcharts.com/c-sc/sc?s=tsla:byddy&p=w&&yr=9&i=0&w=700&h=500r=0999';
+		document.getElementById('text1').value="snptf";
+		document.getElementById('text3').value="2382";
+		document.getElementById('text4a').value="tsla";
+		document.getElementById('text4b').value="byddy";
+	    canvas.backgroundColor = '#063030'
+            break;
+        case '#083030':
+//	    url1="http://charts.megahubhk.com/servlets/MHImageChart?sid=175&mChart2=11&m2p1=7&cmode=1&vol=1&intTech1=1&it1p1=50&it1p5=200&tstyle=2&fsize=10&&cr=106&cwidth=499&cheight=375&lang=1&cperiod=1000305&ctype=1&wm=13&p=" + Math.floor(Math.random() * (100 + 1) + 0;	    
+		url2='http://stockcharts.com/c-sc/sc?s=bdx:$one:bdx:kure:$one:kure&p=d&&yr=2&i=0&w=700&h=500r=0999';	    
+		url1='http://stockcharts.com/c-sc/sc?s=bdx:$one:bdx:kure:$one:kure&p=w&&yr=9&i=0&w=700&h=500r=0999';
+		document.getElementById('text1').value="snptf";
+		document.getElementById('text3').value="2382";
+		document.getElementById('text4a').value="lly";
+		document.getElementById('text4b').value="1801";
+	    canvas.backgroundColor = '#073030'
+            break;
+        case '#093030':
+//	    url1="http://charts.megahubhk.com/servlets/MHImageChart?sid=7709&mChart2=11&m2p1=7&cmode=1&vol=1&intTech1=1&it1p1=50&it1p5=200&tstyle=2&fsize=10&&cr=106&cwidth=499&cheight=375&lang=1&cperiod=1000305&ctype=1&wm=13&p=" + Math.floor(Math.random() * (100 + 1) + 0;
+		url2='http://stockcharts.com/c-sc/sc?s=bdx:ewy&p=D&height=410&width=560&yr=21&i=p40545395733&a=168&r=0999';
+		url2='http://stockcharts.com/c-sc/sc?s=$tsx:afty&p=d&&yr=2&i=0&w=700&h=500r=0999';
+		url1='http://stockcharts.com/c-sc/sc?s=$tsx:afty&p=d&&yr=7&i=0&w=700&h=500r=0999';
+		document.getElementById('text1').value="afty";
+		document.getElementById('text3').value="2823";
+		document.getElementById('text4a').value="afty";
+		document.getElementById('text4b').value="2823";
+	    canvas.backgroundColor = '#083030'
+            break;
+	case '#0a3030':
+//	    url1="http://charts.megahubhk.com/servlets/MHImageChart?sid=2328&mChart2=11&m2p1=7&cmode=1&vol=1&intTech1=1&it1p1=50&it1p5=200&tstyle=2&fsize=10&&cr=106&cwidth=499&cheight=375&lang=1&cperiod=1000305&ctype=1&wm=13&p=" + Math.floor(Math.random() * (100 + 1) + 0;
+		url2='http://stockcharts.com/c-sc/sc?s=uup:$tsx&p=d&&yr=2&i=0&w=700&h=500r=0999';
+		url1='http://stockcharts.com/c-sc/sc?s=uup:$tsx&p=w&&yr=13&i=0&w=700&h=500r=0999';
+		document.getElementById('text1').value="uup:$tsx";
+		document.getElementById('text3').value="7500";
+		document.getElementById('text4a').value="fcx";
+		document.getElementById('text4b').value="2899";
+	    canvas.backgroundColor = '#093030'
+            break;
+	case '#0b3030':
+//	    url1="http://charts.megahubhk.com/servlets/MHImageChart?sid=2328&mChart2=11&m2p1=7&cmode=1&vol=1&intTech1=1&it1p1=50&it1p5=200&tstyle=2&fsize=10&&cr=106&cwidth=499&cheight=375&lang=1&cperiod=1000305&ctype=1&wm=13&p=" + Math.floor(Math.random() * (100 + 1) + 0;
+		url2='http://stockcharts.com/c-sc/sc?s=$tsx:cgg.to&p=d&&yr=2&i=0&w=700&h=500r=0999';
+		url1='http://stockcharts.com/c-sc/sc?s=$tsx:cgg.to&p=w&&yr=13&i=0&w=700&h=500r=0999';
+		document.getElementById('text1').value="cgg.to";
+		document.getElementById('text3').value="2099";
+		document.getElementById('text4a').value="$tsx";
+		document.getElementById('text4b').value="2099";
+	    canvas.backgroundColor = '#0a3030'
+            break;
+	case '#0c3030':
+//	    url1="http://charts.megahubhk.com/servlets/MHImageChart?sid=2328&mChart2=11&m2p1=7&cmode=1&vol=1&intTech1=1&it1p1=50&it1p5=200&tstyle=2&fsize=10&&cr=106&cwidth=499&cheight=375&lang=1&cperiod=1000305&ctype=1&wm=13&p=" + Math.floor(Math.random() * (100 + 1) + 0;
+		url2='http://stockcharts.com/c-sc/sc?s=rdpix:$one:rdpix:cnxt:$one:ashs&p=d&&yr=2&i=0&w=700&h=500r=0999';
+		url1='http://stockcharts.com/c-sc/sc?s=rdpix:$one:rdpix:cnxt:$one:ashs&p=w&&yr=13&i=0&w=700&h=500r=0999';
+		document.getElementById('text1').value="ashs";
+		document.getElementById('text3').value="3188";
+		document.getElementById('text4a').value="7233";
+		document.getElementById('text4b').value="3147";
+	    canvas.backgroundColor = '#0b3030'
+            break;
+	case '#0d3030':
+//	    url1="http://charts.megahubhk.com/servlets/MHImageChart?sid=2328&mChart2=11&m2p1=7&cmode=1&vol=1&intTech1=1&it1p1=50&it1p5=200&tstyle=2&fsize=10&&cr=106&cwidth=499&cheight=375&lang=1&cperiod=1000305&ctype=1&wm=13&p=" + Math.floor(Math.random() * (100 + 1) + 0;
+		url2='http://stockcharts.com/c-sc/sc?s=bdx:$one:bdx:$one:bdx:baba:$one:tcehy&p=d&&yr=2&i=0&w=700&h=500r=0999';
+		url1='http://stockcharts.com/c-sc/sc?s=bdx:$one:bdx:$one:bdx:baba:$one:tcehy&p=w&&yr=13&i=0&w=700&h=500r=0999';
+		document.getElementById('text1').value="tcehy";
+		document.getElementById('text3').value="700";
+		document.getElementById('text4a').value="700";
+		document.getElementById('text4b').value="56713";
+	    canvas.backgroundColor = '#0c3030'
+            break;
+	case '#0e3030':
+//	    url1="http://charts.megahubhk.com/servlets/MHImageChart?sid=2328&mChart2=11&m2p1=7&cmode=1&vol=1&intTech1=1&it1p1=50&it1p5=200&tstyle=2&fsize=10&&cr=106&cwidth=499&cheight=375&lang=1&cperiod=1000305&ctype=1&wm=13&p=" + Math.floor(Math.random() * (100 + 1) + 0;
+		url2='http://stockcharts.com/c-sc/sc?s=gdx:cgg.to&p=d&&yr=2&i=0&w=700&h=500r=0999';
+		url1='http://stockcharts.com/c-sc/sc?s=gdx:cgg.to&p=w&&yr=13&i=0&w=700&h=500r=0999';
+		document.getElementById('text1').value="gdx";
+		document.getElementById('text3').value="2099";
+		document.getElementById('text4a').value="gdx";
+		document.getElementById('text4b').value="2099";
+	    canvas.backgroundColor = '#0d3030'
+            break;
+	case '#013030':
+//	    url1="http://charts.megahubhk.com/servlets/MHImageChart?sid=2328&mChart2=11&m2p1=7&cmode=1&vol=1&intTech1=1&it1p1=50&it1p5=200&tstyle=2&fsize=10&&cr=106&cwidth=499&cheight=375&lang=1&cperiod=1000305&ctype=1&wm=13&p=" + Math.floor(Math.random() * (100 + 1) + 0;
+		url2='http://stockcharts.com/c-sc/sc?s=$ndx:slv:$one:slv:cef&p=d&&yr=2&i=0&w=700&h=500r=0999';
+		url1='http://stockcharts.com/c-sc/sc?s=$ndx:$silver:$one:$silver:cef&p=w&&yr=33&i=0&w=700&h=500r=0999';
+		document.getElementById('text1').value="$ndx";
+		document.getElementById('text3').value="7299";
+		document.getElementById('text4a').value="slv";
+		document.getElementById('text4b').value="7299";
+	    canvas.backgroundColor = '#0e3030'
+            break;
+        default:
+//            url1="http://charts.megahubhk.com/servlets/MHImageChart?sid=1299&mChart2=11&m2p1=7&cmode=1&vol=1&intTech1=1&it1p1=50&it1p5=200&tstyle=2&fsize=10&&cr=106&cwidth=499&cheight=375&lang=1&cperiod=1000305&ctype=1&wm=13&p=pang";
+//	    text4.val(url1.replaceAll("pang", Math.floor(Math.random() * (100 + 1) + 0), true));
+		url2='http://stockcharts.com/c-sc/sc?s=$INDIAVIX&p=d&&yr=2&i=0&w=700&h=500r=0999';
+		url1='http://stockcharts.com/c-sc/sc?s=$INDIAVIX&p=w&&yr=13&i=0&w=700&h=500r=0999';
+		document.getElementById('text1').value="$INDIAVIX";
+		document.getElementById('text3').value="7202";
+		document.getElementById('text4a').value="$INDIAVIX";
+		document.getElementById('text4b').value="7202";
+		    canvas.backgroundColor = '#013030'
+    }	
+	
+  canvas1.setBackgroundImage(url1, canvas1.renderAll.bind(canvas1), {
+    backgroundImageOpacity: 0.5,
+    backgroundImageStretch: false
+    });
+	
+  canvas.setBackgroundImage(url2, canvas.renderAll.bind(canvas), {
+    backgroundImageOpacity: 0.5,
+    backgroundImageStretch: false
+    });
+	
+}, false);
+		
+		
+var button_tsx = document.getElementById('button_tsx');
+button_tsx.addEventListener('click', function() {
+
+    var url2='bang';
+
+    var staticstring2 = "http://stockcharts.com/c-sc/sc?s=$tsx:bang&p=D&&yr=7&i=0&a=168&r=0999";
+    url2=staticstring2.replaceAll("bang", text1.value, true);
+
+//  text1.value=url2;
+  canvas.setBackgroundImage(url2, canvas.renderAll.bind(canvas), {
+    backgroundImageOpacity: 0.5,
+    backgroundImageStretch: false
+    });
+}, false);
+
+var button_bdx = document.getElementById('button_bdx');
+button_bdx.addEventListener('click', function() {
+
+    var url2='bang';
+
+    var staticstring2 = "http://stockcharts.com/c-sc/sc?s=bdx:bang&p=D&&yr=7&i=0&a=168&r=0999";
+    url2=staticstring2.replaceAll("bang", text1.value, true);
+
+//  text1.value=url2;
+  canvas.setBackgroundImage(url2, canvas.renderAll.bind(canvas), {
+    backgroundImageOpacity: 0.5,
+    backgroundImageStretch: false
+    });
+}, false);
+		
+var button_vwesx = document.getElementById('button_vwesx');
+button_vwesx.addEventListener('click', function() {
+
+    var url2='bang';
+
+    var staticstring2 = "http://stockcharts.com/c-sc/sc?s=vwesx:bang&p=D&&yr=7&i=0&a=168&r=0999";
+    url2=staticstring2.replaceAll("bang", text1.value, true);
+
+//  text1.value=url2;
+  canvas.setBackgroundImage(url2, canvas.renderAll.bind(canvas), {
+    backgroundImageOpacity: 0.5,
+    backgroundImageStretch: false
+    });
+}, false);
+
+var button_orcl = document.getElementById('button_orcl');
+button_orcl.addEventListener('click', function() {
+
+    var url2='bang';
+
+    var staticstring2 = "http://stockcharts.com/c-sc/sc?s=orcl:bang&p=D&&yr=7&i=0&a=168&r=0999";
+    url2=staticstring2.replaceAll("bang", text1.value, true);
+
+//  text1.value=url2;
+  canvas.setBackgroundImage(url2, canvas.renderAll.bind(canvas), {
+    backgroundImageOpacity: 0.5,
+    backgroundImageStretch: false
+    });
+}, false);
+
+
+var button_wonton = document.getElementById('button_wonton');
+button_wonton.addEventListener('click', function() {
+
+    var url2='bang';
+
+    var staticstring2 = "http://stockcharts.com/c-sc/sc?chart=bang,uu[700,390]daclyyay[dj][pb50!b200!f]&r=3";
+    url2=staticstring2.replaceAll("bang", text1.value, true);
+
+//  text1.value=url2;
+  canvas.setBackgroundImage(url2, canvas.renderAll.bind(canvas), {
+    backgroundImageOpacity: 0.5,
+    backgroundImageStretch: false
+    });
+}, false);
+
+var button_fdpix = document.getElementById('button_fdpix');
+button_fdpix.addEventListener('click', function() {
+
+    var url2='bang';
+
+    var staticstring2 = "http://stockcharts.com/c-sc/sc?s=fdpix:bang&p=W&&yr=17&i=0&a=168&r=0999";
+    url2=staticstring2.replaceAll("bang", text1.value, true);
+
+//  text1.value=url2;
+  canvas.setBackgroundImage(url2, canvas.renderAll.bind(canvas), {
+    backgroundImageOpacity: 0.5,
+    backgroundImageStretch: false
+    });
+}, false);
+
+var button_vexpx = document.getElementById('button_vexpx');
+button_vexpx.addEventListener('click', function() {
+
+    var url2='bang';
+
+    var staticstring2 = "http://stockcharts.com/c-sc/sc?s=vexpx:bang&p=D&&yr=7&i=0&a=168&r=0999";
+    url2=staticstring2.replaceAll("bang", text1.value, true);
+
+//  text1.value=url2;
+  canvas.setBackgroundImage(url2, canvas.renderAll.bind(canvas), {
+    backgroundImageOpacity: 0.5,
+    backgroundImageStretch: false
+    });
+}, false);
+
+
+  var angleControl = $('angle-control');
+  angleControl.onchange = function() {
+//    line.setAngle(parseInt(this.value, 10)).setCoords();
+    line.angle=parseInt(this.value, 10);
+    line.setCoords();
+    canvas.renderAll();
+  };
+
+  var scaleControl = $('scale-control');
+  scaleControl.onchange = function() {
+    line.scale(parseFloat(this.value)).setCoords();
+    canvas.renderAll();
+  };
+
+  var topControl = $('top-control');
+  topControl.onchange = function() {
+    line.setTop(parseInt(this.value, 10)).setCoords();
+    canvas.renderAll();
+  };
+
+  var leftControl = $('left-control');
+  leftControl.onchange = function() {
+    line.setLeft(parseInt(this.value, 10)).setCoords();
+    canvas.renderAll();
+  };
+
+  function updateControls() {
+    scaleControl.value = line.getScaleX();
+    angleControl.value = line.getAngle();
+    leftControl.value = line.getLeft();
+    topControl.value = line.getTop();
+  };
+   canvas.on({
+    'object:moving': updateControls,
+    'object:scaling': updateControls,
+    'object:resizing': updateControls,
+    'object:rotating': updateControls
+  });
+
+
+
+})();
+</script>
+ 
+
+
+
+<div id="slider"></div>
+
+<canvas id="c1" width="750" height="420" style="border:1px solid #ccc"></canvas>
+
+<script>
+
+var canvas1 = new fabric.Canvas('c1', {
+        selection : false,
+        controlsAboveOverlay:true,
+        centeredScaling:true,
+        allowTouchScrolling: true
+    });
+
+
+
+var line = new fabric.Line([7, 130, 500, 7], {
+    selectable:false,
+  left: 10,
+  top: 140,
+  stroke: 'rgba(0,055,0,0.5)',
+  strokeWidth: 2,
+  angle: 14,
+  originX: 'left',
+  originY: 'bottom'
+});
+canvas1.add(line);
+
+canvas1.setBackgroundImage('http://stockcharts.com/c-sc/sc?chart=$hsi:$one:$ssec,uu[700,390]daclyyay[dk][pb50!b200!f]&r=3', canvas1.renderAll.bind(canvas1), {
+    backgroundImageOpacity: 0.5,
+    backgroundImageStretch: false
+});
+
+// select all text on click
+$('#text1').on('mouseup', function() { $(this).select(); });
+
+$('#button_veiex').on('click', function() {
+	if ($('#dia1').is(':checked') ) 
+		{ $('#text1').val("veiex"); } else 
+		{ $('#text1').val(text1.value +":"+"veiex"); }  });
+$('#button_asiax').on('click', function() {
+	if ($('#dia1').is(':checked') ) 
+		{ $('#text1').val("asiax"); } else 
+		{ $('#text1').val(text1.value +":"+"asiax"); }  });
+$('#button_hs').on('click', function() { 
+	if ($('#dia1').is(':checked') ) 
+		{ $('#text1').val("$hsi"); } else 
+		{ $('#text1').val(text1.value +":"+"$hsi"); }  });
+$('#button_hsce').on('click', function() { 
+	if ($('#dia1').is(':checked') ) 
+		{ $('#text1').val("$hscei"); } else 
+		{ $('#text1').val(text1.value +":"+"$hscei"); }  });
+$('#button_ewh').on('click', function() { 
+	if ($('#dia1').is(':checked') ) 
+		{ $('#text1').val("ewh"); } else 
+		{ $('#text1').val(text1.value +":"+"ewh"); }  });
+$('#button_hao').on('click', function() { 
+	if ($('#dia1').is(':checked') ) 
+		{ $('#text1').val("aagiy"); } else 
+		{ $('#text1').val(text1.value +":"+"aagiy"); }  });
+
+$('#button_dax').on('click', function() {
+	if ($('#dia1').is(':checked') ) 
+		{ $('#text1').val("$dax"); } else 
+		{ $('#text1').val(text1.value +":"+"$dax"); }  });
+$('#button_tcehy').on('click', function() { 
+	if ($('#dia1').is(':checked') ) 
+		{ $('#text4').val("tcehy"); } else 
+		{ $('#text4').val(text4.value +":"+"tcehy"); }  });
+$('#button_eaL').on('click', function() { 
+	if ($('#dia1').is(':checked') ) 
+		{ $('#text1').val("ea" +":"+"$one"+":"+"ea"); } else 
+		{ $('#text1').val(text1.value +":"+"ea" +":"+"$one"+":"+"ea"); }  });
+$('#button_cs500').on('click', function() { 
+	if ($('#dia1').is(':checked') ) 
+		{ $('#text1').val("ashs"); } else 
+		{ $('#text1').val(text1.value +":"+"ashs"); }  });
+$('#fbd').on('click', function() {
+	if ($('#dia1').is(':checked') ) 
+		{ $('#text1').val("$xbd"); } else 
+		{ $('#text1').val(text1.value +":"+"$xbd"); }  });
+$('#button_gely').on('click', function() { 
+	if ($('#dia1').is(':checked') ) 
+		{ $('#text1').val("gelyf"); } else 
+		{ $('#text1').val(text1.value +":"+"gelyf"); }  });
+$('#button_usfxp').on('click', function() { 
+	if ($('#dia1').is(':checked') ) 
+		{ $('#text1').val("fxp"); } else 
+		{ $('#text1').val(text1.value +":"+"fxp"); }  });
+$('#button_ulxp').on('click', function() { 
+	if ($('#dia1').is(':checked') ) 
+		{ $('#text1').val("xpp"); } else 
+		{ $('#text1').val(text1.value +":"+"xpp"); }  });
+$('#button_usmcap').on('click', function() { 
+	if ($('#dia1').is(':checked') ) 
+		{ $('#text1').val("uipix"); } else 
+		{ $('#text1').val(text1.value +":"+"uipix"); }  });
+$('#button_usruss').on('click', function() { 
+	if ($('#dia1').is(':checked') ) 
+		{ $('#text1').val("iwm"); } else 
+		{ $('#text1').val(text1.value +":"+"iwm"); }  });
+	
+$('#button_r2bdx').on('click', function() { 
+	if ($('#dia1').is(':checked') ) 
+		{ $('#text1').val("bdx"); } else 
+		{ $('#text1').val(text1.value +":"+"bdx"); }  });
+$('#button_cuau').on('click', function() { 
+	if ($('#dia1').is(':checked') ) 
+		{ $('#text1').val("$copper:cef"); } else 
+		{ $('#text1').val(text1.value +":"+"$copper:cef"); }  });
+$('#button_GeeBgne').on('click', function() { 
+	if ($('#dia1').is(':checked') ) 
+		{ $('#text1').val("GELYF:onc"); } else 
+		{ $('#text1').val(text1.value +":"+"GELYF:onc"); }  });
+$('#button_GeeXBgne').on('click', function() {
+	if ($('#dia1').is(':checked') ) 
+		{ $('#text1').val("GELYF:$one:onc"); } else 
+		{ $('#text1').val(text1.value +":"+"GELYF:$one:onc"); }  });
+$('#button_bgne').on('click', function() {
+	if ($('#dia1').is(':checked') ) 
+		{ $('#text4').val("onc"); } else 
+		{ $('#text4').val(text4.value +":"+"onc"); }  });
+$('#button_cgg').on('click', function() { $('#text1').val("jinff"); });
+$('#button_bp').on('click', function() { $('#text1').val("$xbp"); });
+
+$('#buttonbb1').on('click', function() { $('#buttonbb').click(); });
+$('#buttonbb2').on('click', function() { $('#buttonbb').click(); });
+// $('#buttonbb3').on('click', function() { $('#buttonbb').click(); });
+
+	
+$('#buttonM').click(function(){ $('#button_tw').click();
+				     $('#buttonxx').click();
+				     });
+	
+$("#dropdown_change").change(function(){
+      dc=document.getElementById("dropdown_change")
+	if ($('#dia1').is(':checked') ) 
+		{ $('#text1').val(dc.value); } else 
+		{ $('#text1').val(text1.value +":"+dc.value); } 
+});
+
+$("#dropdown_change1").change(function(){
+      dc=document.getElementById("dropdown_change1")
+	if ($('#dia1').is(':checked') ) 
+		{ $('#text1').val(dc.value); } else 
+		{ $('#text1').val(text1.value +":"+dc.value); }
+});
+	
+$("#dropdown_change2").change(function(){
+      dc=document.getElementById("dropdown_change2")
+	if ($('#dia1').is(':checked') ) 
+		{ $('#text4').val(dc.value); } else 
+		{ $('#text4').val(text4.value +":"+dc.value); }
+});
+  
+$('#button_doup').on('click', function() { $('#text1').val(text1.value+":"+"$one"+":"+text1.value); });
+$('#button_lsdoup').on('click', function() { $('#text4').val(text4.value+":"+"$one"+":"+text4.value); });
+$('#button_post_won').on('click', function() { $('#text1').val(text1.value+":$one"); });
+$('#button_reve').on('click', function() { $('#text1').val(text1.value.split(/:/)[0]); });
+$('#button_pre_won').on('click', function() { $('#text1').val("$one"+":"+text1.value); });
+$('#button_pre_rdpix').on('click', function() { $('#text1').val("rdpix"+":"+text1.value); });
+$('#button_pre_vexpx').on('click', function() { $('#text1').val("vexpx"+":"+text1.value); });
+$('#button_pre_dax').on('click', function() { $('#text1').val("$dax"+":"+text1.value); });
+$('#button_pre_gdm').on('click', function() { $('#text1').val("tcehy"+":"+text1.value); });
+$('#button_pre_orcl').on('click', function() { $('#text1').val("cew"+":"+text1.value); });
+
+
+
+$('#button_pre_bdx').on('click', function() { $('#text1').val("bdx"+":"+text1.value); });
+$('#button_pre_tsx').on('click', function() { $('#text1').val("$tsx"+":"+text1.value); });
+$('#button_pre_vwesx').on('click', function() { $('#text1').val("vwesx"+":"+text1.value); });
+$('#button_pre_uup').on('click', function() { $('#text1').val("!yldspx"+":"+text1.value); });
+
+$('#button').on('click', function () {
+//        var text = $('#text');
+        var text2 = $('#text2');
+//        var staticstring = "http://stockcharts.com/def/servlet/SharpChartv05.ServletDriver?chart=vwesx:bang,uu[l,a]daclyyay[d20070801][pb50!b100!f][vc60][iul14!xx12,26,9]&a=168&r=0999";
+        
+        var staticstring2 = "http://stockcharts.com/c-sc/sc?s=bdx:bang&p=D&&yr=10&i=0&a=168&r=0999";
+        
+        
+        text2.val(staticstring2.replaceAll("bang", text1.value, true));
+
+        canvas1.setBackgroundImage(text2.val(), canvas1.renderAll.bind(canvas1), {
+    backgroundImageOpacity: 0.5,
+    backgroundImageStretch: false
+    });
+
+});
+
+$('#button_w2x').on('click', function () {
+        var text2 = $('#text2');
+        
+        var staticstring2 = "http://stockcharts.com/c-sc/sc?s=udn:bang&p=W&&yr=6&i=0&a=168&r=0999";
+        
+        
+        text2.val(staticstring2.replaceAll("bang", text1.value, true));
+
+        canvas1.setBackgroundImage(text2.val(), canvas1.renderAll.bind(canvas1), {
+    backgroundImageOpacity: 0.5,
+    backgroundImageStretch: false
+    });
+
+});
+  
+$('#button_stail').on('click', function () {
+        var text2 = $('#text2');
+        
+        var staticstring2 = "http://stockcharts.com/c-sc/sc?s=bang&p=D&&yr=9&i=0&a=168&r=0999";
+        
+        
+        text2.val(staticstring2.replaceAll("bang", text1.value, true));
+
+        canvas1.setBackgroundImage(text2.val(), canvas1.renderAll.bind(canvas1), {
+    backgroundImageOpacity: 0.5,
+    backgroundImageStretch: false
+    });
+
+});
+
+$('#button_ltail').on('click', function () {
+        var text2 = $('#text2');
+        
+        var staticstring2 = "http://stockcharts.com/c-sc/sc?s=bang&p=D&&yr=14&i=0&a=168&r=0999";
+        
+        
+        text2.val(staticstring2.replaceAll("bang", text1.value, true));
+
+        canvas1.setBackgroundImage(text2.val(), canvas1.renderAll.bind(canvas1), {
+    backgroundImageOpacity: 0.5,
+    backgroundImageStretch: false
+    });
+
+});
+
+$('#button_ltailw').on('click', function () {
+        var text2 = $('#text2');
+        
+        var staticstring2 = "http://stockcharts.com/c-sc/sc?s=bang&p=W&&yr=16&i=0&a=168&r=0999";
+        
+        
+        text2.val(staticstring2.replaceAll("bang", text1.value, true));
+
+        canvas1.setBackgroundImage(text2.val(), canvas1.renderAll.bind(canvas1), {
+    backgroundImageOpacity: 0.5,
+    backgroundImageStretch: false
+    });
+
+});  
+  
+$('#button_tail').on('click', function () {
+        var text2 = $('#text2');
+        
+        var staticstring2 = "http://stockcharts.com/c-sc/sc?s=bang&p=D&b=1&g=0&i=0&a=168&r=0999";
+        
+        
+        text2.val(staticstring2.replaceAll("bang", text1.value, true));
+
+        canvas1.setBackgroundImage(text2.val(), canvas1.renderAll.bind(canvas1), {
+    backgroundImageOpacity: 0.5,
+    backgroundImageStretch: false
+    });
+
+});  
+  
+$('#button_lstail').on('click', function () {
+        var text2 = $('#text2');
+        
+        var staticstring2 = "http://stockcharts.com/c-sc/sc?s=bang&p=D&b=1&g=0&i=0&a=168&r=0999";
+        
+        
+        text2.val(staticstring2.replaceAll("bang", text4.value, true));
+
+        canvas1.setBackgroundImage(text2.val(), canvas1.renderAll.bind(canvas1), {
+    backgroundImageOpacity: 0.5,
+    backgroundImageStretch: false
+    });
+
+});
+
+String.prototype.replaceAll = function (strTarget, strSubString, caseSensitive) {
+    var strText = this;
+    strText = strText.replace(new RegExp(strTarget, 'g'), strSubString); //replace globally and case sensitive
+
+    return (strText);
+};
+/////////////
+
+</script>
+<br />
+	    
+<br />
+    TSX
+    <input type='button' value='-' id='tsx1_minus'  />
+    <input type='text' id='tsx1_current' value='7.8'/>
+    <input type='button' value='+' id='tsx1_plus'  />
+<br />
+    PARAM
+    <input type='button' value='-' id='param1_minus'  />
+    <input type='text' id='param1_current' value='9.75' />
+    <input type='button' value='+' id='param1_plus' />
+    
+    <input type='button' value='param1' id='button_param1' />
+    <input type='text' id='param1_calc' value='0.64' />
+<br />
+	    
+<br />
+    TSX
+    <input type='button' value='-' id='tsx_minus'  />
+    <input type='text' id='tsx_current' value='12900'/>
+    <input type='button' value='+' id='tsx_plus'  />
+<br />
+    PARAM
+    <input type='button' value='-' id='param_minus'  />
+    <input type='text' id='param_current' value='19000' />
+    <input type='button' value='+' id='param_plus' />
+    
+    <input type='button' value='param' id='button_param' />
+    <input type='text' id='param_calc' value='0.64' />
+<br />
+<div class="container my-4">
+  <form class="form-inline" onsubmit="return validate(this);">
+
+    <!-- skin 6 -->
+    <div class="num-block skin-6">
+      <div class="num-in">
+        <span class="minus dis">-</span>
+        <input type="text" name="price" class="in-num" value="1" readonly="">
+
+        <span class="plus">+</span>
+      </div>
+    </div>
+    <!-- / skin 6 -->
+
+    <!-- skin 7 -->
+    <div class="num-block skin-7">
+      <div class="num-in">
+        <span class="minus dis">-</span>
+        <input type="text" name="price1" class="in-num" value="1" readonly="">
+        <span class="plus">+</span>
+      </div>
+    </div>
+    <!-- / skin 7 -->
+    <button type="submit" class="btn btn-secondary">Submit</button>
+  </form>
+
+  <pre id="output" class="my-2 p-2 text-black invisible"></pre>
+</div>
+	    
+    <hr style="width:800px; height:0px; margin-left:0px;"/>
+<input type="button" value="Gee-Bgne =>" id="button_Gee_Bgne" style="background-color:lightgrey" />
+<input type="button" value="Bab-Mei =>" id="button_Bab_Mei" style="background-color:lightgrey" />
+<input type="button" value="Cei-Aig =>" id="button_Cei_Aig" style="background-color:lightgrey" />
+<input type="button" value="Dax-Sz =>" id="button_Dax_Sz" style="background-color:lightgrey" />
+<br />
+<input type="button" value="Kur-Bdx =>" id="button_Kur_Bdx" style="background-color:lightgrey" />
+<input type="button" value="Atm-Bdx =>" id="button_Atm_Bdx" style="background-color:lightgrey" />
+<br />
+<input type="button" value="Tcy-Gee =>" id="button_Tcy_Gee" style="background-color:lightgrey" />
+<input type="button" value="Aig-Png =>" id="button_Aig_Png" style="background-color:lightgrey" />
+<br />
+<div id="sector_sc_watch">	
+    <input type="button" id="race1Q" cat="pksc" value="ppp...kkk" />
+    <input type="button" id="race2Q" cat="pksc" value="ppp...kkk" />
+    <input type="button" id="race3Q" cat="pksc" value="ppp...kkk" />
+    <input type="button" id="race4Q" cat="pksc" value="ppp...kkk" />
+    <input type="button" id="race5Q" cat="pksc" value="ppp...kkk" />
+    <input type="button" id="race6Q" cat="pksc" value="ppp...kkk" />
+    <input type="button" id="race7Q" cat="pksc" value="ppp...kkk" />
+    <input type="button" id="race8Q" cat="pksc" value="ppp...kkk" />
+    <input type="button" id="race9Q" cat="pksc" value="ppp...kkk" />
+    <input type="button" id="race10Q" cat="pksc" value="ppp...kkk" />
+    <input type="button" id="race11Q" cat="pksc" value="ppp...kkk" />
+</div>  
+<br />
+  <button id="scpairsfromcloud">dnload sc pairs fm cloud</button> 
+<br />   
+<br />   
+<div id="sector_jsc_watch">	
+    <input type="button" id="race1J" cat="pkjsc" value="ppp...kkk" />
+    <input type="button" id="race2J" cat="pkjsc" value="ppp...kkk" />
+    <input type="button" id="race3J" cat="pkjsc" value="ppp...kkk" />
+    <input type="button" id="race4J" cat="pkjsc" value="ppp...kkk" />
+<br />
+    <input type="button" id="race5J" cat="pkjsc" value="ppp...kkk" />
+    <input type="button" id="race6J" cat="pkjsc" value="ppp...kkk" />
+    <input type="button" id="race7J" cat="pkjsc" value="ppp...kkk" />
+    <input type="button" id="race8J" cat="pkjsc" value="ppp...kkk" />
+<br />
+    <input type="button" id="race9J" cat="pkjsc" value="ppp...kkk" />
+    <input type="button" id="race10J" cat="pkjsc" value="ppp...kkk" />
+    <input type="button" id="race11J" cat="pkjsc" value="ppp...kkk" />
+<hr style="width:800px; height:0px; margin-left:0px;"/>
+    <input type="button" id="race1T" cat="pkjsc" value="ppp...kkk" />
+    <input type="button" id="race2T" cat="pkjsc" value="ppp...kkk" />
+    <input type="button" id="race3T" cat="pkjsc" value="ppp...kkk" />
+    <input type="button" id="race4T" cat="pkjsc" value="ppp...kkk" />
+<br />
+    <input type="button" id="race5T" cat="pkjsc" value="ppp...kkk" />
+    <input type="button" id="race6T" cat="pkjsc" value="ppp...kkk" />
+    <input type="button" id="race7T" cat="pkjsc" value="ppp...kkk" />
+    <input type="button" id="race8T" cat="pkjsc" value="ppp...kkk" />
+<br />
+    <input type="button" id="race9T" cat="pkjsc" value="ppp...kkk" />
+    <input type="button" id="race10T" cat="pkjsc" value="ppp...kkk" />
+    <input type="button" id="race11T" cat="pkjsc" value="ppp...kkk" />
+<hr style="width:800px; height:0px; margin-left:0px;"/>
+    <input type="button" id="race1F" cat="pkjsc" value="ppp...kkk" />
+    <input type="button" id="race2F" cat="pkjsc" value="ppp...kkk" />
+    <input type="button" id="race3F" cat="pkjsc" value="ppp...kkk" />
+    <input type="button" id="race4F" cat="pkjsc" value="ppp...kkk" />
+<br />
+    <input type="button" id="race5F" cat="pkjsc" value="ppp...kkk" />
+    <input type="button" id="race6F" cat="pkjsc" value="ppp...kkk" />
+    <input type="button" id="race7F" cat="pkjsc" value="ppp...kkk" />
+    <input type="button" id="race8F" cat="pkjsc" value="ppp...kkk" />
+<br />
+    <input type="button" id="race9F" cat="pkjsc" value="ppp...kkk" />
+    <input type="button" id="race10F" cat="pkjsc" value="ppp...kkk" />
+    <input type="button" id="race11F" cat="pkjsc" value="ppp...kkk" />
+</div>  
+<br />
+  <button id="scjpairsfromcloud">dnload sc co pairs fm cloud</button> 
+<br />  
+<script>
+    $('#tsx_plus').on('click', function() { $('#tsx_current').val(parseInt($('#tsx_current').val()) + 100); });
+    $('#tsx_minus').on('click', function() { $('#tsx_current').val(parseInt($('#tsx_current').val()) - 100); });
+    $('#param_plus').on('click', function() { $('#param_current').val(parseInt($('#param_current').val()) + 100); });
+    $('#param_minus').on('click', function() { $('#param_current').val(parseInt($('#param_current').val()) - 100); });
+    
+    $('#button_param').on('click', function() { $('#param_calc').val(parseFloat(parseInt($('#tsx_current').val()) / parseInt($('#param_current').val())).toFixed(3)); });
+
+/////// codepen.io/dmondma/pen/OJPpWwY ////////
+$("#tsx1_plus").on("click", function () {
+  $("#tsx1_current").val(parseFloat($("#tsx1_current").val()) + 0.025);
+  $("#tsx1_current").val(parseFloat($("#tsx1_current").val()).toFixed(3));
+});
+$("#tsx1_minus").on("click", function () {
+  $("#tsx1_current").val($("#tsx1_current").val() - 0.025);
+  $("#tsx1_current").val(parseFloat($("#tsx1_current").val()).toFixed(3));
+});
+$("#param1_plus").on("click", function () {
+  $("#param1_current").val(parseFloat($("#param1_current").val()) + 0.025);
+  $("#param1_current").val(parseFloat($("#param1_current").val()).toFixed(3));
+});
+$("#param1_minus").on("click", function () {
+  $("#param1_current").val($("#param1_current").val() - 0.025);
+  $("#param1_current").val(parseFloat($("#param1_current").val()).toFixed(3));
+});
+
+$("#button_param1").on("click", function () {
+  $("#param1_calc").val(
+    ($("#tsx1_current").val() / $("#param1_current").val()).toFixed(3)
+  );
+});
+
+</script>
+
 <br />
     <img id="img_dual" src="http://stockcharts.com/c-sc/sc?s=$gold:$one:cnxt&p=w&yr=9&i=0"  alt="Kenny g Breathless" width="440" height="400" border="0">
 
     <img id="img_dualplus" src="http://stockcharts.com/c-sc/sc?chart=$silver:cnxt,uu[460,a]wallyyay[dl][pb50!b200!f]&amp;r=0998" alt="Kenny g Breathless" border="0" height="550" width="550">
 
     <hr style="width:800px; height:0px; margin-left:0px;">
-    
-<br />
-</body>
-	
