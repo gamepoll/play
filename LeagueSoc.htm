@@ -1,0 +1,565 @@
+```html
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+    <title>All Major Leagues - Swap Function</title>
+    
+    <style>
+        :root {
+            --bg: #f2f2f7; 
+            --card-bg: #ffffff;
+            --text: #000000;
+            --secondary-text: #8e8e93;
+            --border: #c6c6c8;
+            --laliga-color: #ee2737;
+            --seriea-color: #004C99;
+            --ligue1-color: #163A8F;
+            --bundesliga-color: #D3000D;
+            
+            /* Highlight Color */
+            --highlight-bg: #ff3b30;
+            --highlight-text: #ffffff;
+        }
+
+        body { margin: 0; padding: env(safe-area-inset-top); background-color: var(--bg); color: var(--text); font-family: -apple-system, BlinkMacSystemFont, sans-serif; min-height: 100vh; transition: background-color 0.5s; }
+        .container { max-width: 600px; margin: 0 auto; padding-bottom: env(safe-area-inset-bottom); }
+
+        header { text-align: center; margin-top: 50px; margin-bottom: 20px; position: sticky; top: 0; z-index: 10; backdrop-filter: blur(10px); background: rgba(242, 242, 247, 0.95); border-bottom: 1px solid var(--border); padding-bottom: 15px;}
+        h1 { margin: 0 0 15px 0; font-size: 24px; font-weight: 800; color: var(--text); }
+        
+        .league-selector { display: grid; grid-template-columns: repeat(2, 1fr); gap: 10px; padding: 0 20px; }
+        .league-btn { border: none; padding: 15px 5px; border-radius: 12px; font-size: 14px; font-weight: 700; cursor: pointer; opacity: 0.5; transition: 0.2s; box-shadow: 0 2px 4px rgba(0,0,0,0.1); }
+        .league-btn.active { opacity: 1; transform: scale(1.02); box-shadow: 0 4px 10px rgba(0,0,0,0.2); }
+        .btn-bg { border-left: 6px solid transparent; border-top: 6px solid transparent; }
+
+        /* Controls */
+        .controls-row { display: flex; gap: 8px; justify-content: space-between; margin-bottom: 15px; padding: 0 10px; }
+        button.touch-btn { background-color: white; color: black; border: none; border-radius: 10px; padding: 10px; font-size: 13px; font-weight: 600; cursor: pointer; box-shadow: 0 2px 6px rgba(0,0,0,0.08); flex-grow: 1; text-align: center; white-space: nowrap; overflow: hidden; display: flex; align-items: center; justify-content: center; }
+        button.action-primary { background-color: var(--text); color: white; }
+        button.btn-save-cloud { background-color: #28a745; color: white; }
+        button.btn-load-cloud { background-color: #17a2b8; color: white; }
+        button.action-secondary { background-color: #e5e5ea; color: black; }
+
+        /* Input Card */
+        .input-card { background: white; border-radius: 14px; padding: 20px; box-shadow: 0 4px 12px rgba(0,0,0,0.08); display: none; animation: slideDown 0.3s ease; }
+        @keyframes slideDown { from { transform: translateY(-10px); opacity: 0; } to { transform: translateY(0); opacity: 1; } }
+        textarea.ios-input { width: 100%; height: 120px; padding: 12px; font-size: 16px; border: 2px solid var(--border); border-radius: 12px; box-sizing: border-box; resize: vertical; line-height: 1.5; }
+        .hint-text { display: block; margin-top: 8px; font-size: 12px; color: var(--secondary-text); }
+
+        /* List Items */
+        ul#matchList { padding: 0; margin: 0; }
+        li.match-card { 
+            background: var(--card-bg); 
+            border-radius: 12px; 
+            margin-bottom: 12px; 
+            padding: 16px; 
+            display: flex; 
+            flex-direction: column; 
+            align-items: flex-start; 
+            border-left: 6px solid transparent; 
+            box-shadow: 0 1px 3px rgba(0,0,0,0.05);
+            transition: transform 0.2s, box-shadow 0.2s;
+        }
+
+        @media(min-width: 480px) {
+            li.match-card { flex-direction: row; align-items: center; }
+            .stat-pill-container { margin-top: 0; margin-left: 15px; }
+            .icon-group { margin-left: 15px; }
+        }
+
+        .match-main h3 { margin: 0 0 5px 0; font-size: 16px; font-weight: 700; line-height: 1.3; }
+        .match-meta { display: flex; flex-wrap: wrap; gap: 5px; margin-bottom: 8px; align-items: baseline; }
+        
+        .badge { padding: 3px 8px; border-radius: 6px; font-size: 11px; font-weight: 600; color: white; text-transform: uppercase; }
+        .badge-date { background: #e5e5ea; color: #333; }
+        
+        .time-label {
+            display: flex;
+            align-items: center;
+            font-size: 11px;
+            font-weight: 600;
+            color: #666;
+            margin-right: 5px;
+        }
+        
+        .score-line {
+            display: flex;
+            gap: 6px;
+            margin-bottom: 4px;
+        }
+        
+        .pill-mini {
+            background: #f2f2f7;
+            padding: 2px 6px;
+            border-radius: 4px;
+            font-size: 10px;
+            font-weight: 600;
+            text-align: center;
+            border: 1px solid #d1d1d6;
+            min-width: 35px;
+        }
+
+        .stat-pill { background: #f2f2f7; padding: 6px 8px; border-radius: 8px; font-size: 12px; font-weight: 700; text-align: center; border: 1px solid #d1d1d6; display: flex; flex-direction: column; justify-content: center; }
+        .stat-pill span { font-size: 8px; color: #666; margin-bottom: 2px; }
+
+        /* --- INVERTED HIGHLIGHT STYLES --- */
+        .num-highlight {
+            color: #ffffff !important;
+            background-color: var(--highlight-bg) !important;
+            padding: 2px 4px;
+            border-radius: 4px;
+            display: inline-block;
+            font-weight: bold;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.2);
+            line-height: 1;
+        }
+
+        .btn-icon { font-size: 18px; background: transparent; border: none; padding: 5px; transition: color 0.2s; }
+        .btn-del:hover { color: red; }
+        .btn-edit:hover { color: #007bff; }
+        .btn-swap { color: #28a745; }
+        .btn-swap:hover { color: #1e7e34; }
+
+        .tools-footer { text-align: center; margin-top: 20px; color: var(--secondary-text); font-size: 12px; }
+
+        #cloudStatus { 
+            display: none; 
+            width: 100%;
+            text-align: center;
+            padding: 15px 20px;
+            border-radius: 12px;
+            margin: 0 10px 10px 10px;
+            font-weight: bold;
+            font-size: 14px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+        }
+        .status-success { background: #d4edda; color: #155724; border: 1px solid #c3e6cb; }
+        .status-error { background: #f8d7da; color: #721c24; border: 1px solid #f5c6cb; }
+        .status-loading { background: #cce5ff; color: #004085; border: 1px solid #b8daff; }
+
+        /* Modals */
+        #modalOverlay { position:fixed;top:0;left:0;width:100%;height:100%;background:rgba(0,0,0,0.4);display:none;z-index:999; }
+        #settingsModal { position:fixed;bottom:0;left:0;width:100%;background:white;border-radius:20px 20px 0 0;padding:25px;box-sizing:border-box;display:none;z-index:1000;box-shadow:0 -4px 10px rgba(0,0,0,0.2);animation:slideUp 0.3s; }
+        @keyframes slideUp { from{transform:translateY(100%);} to{transform:translateY(0);} }
+        
+        label {font-size:11px; font-weight:bold; color:#888; margin-bottom:4px; display:block; text-transform:uppercase;}
+        .ios-input-sm { width:100%; padding:10px; border-radius:8px; border:1px solid #ccc; box-sizing:border-box; margin-bottom:15px; font-size:16px; }
+
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <header id="headerEl">
+        <h1>League Tracker</h1>
+        
+        <div class="league-selector">
+            <button class="league-btn btn-bg" onclick="switchLeague('laliga')">LaLiga</button>
+            <button class="league-btn btn-bg" onclick="switchLeague('seriea')">Serie A</button>
+            <button class="league-btn btn-bg" onclick="switchLeague('bundesliga')">Bundesliga</button>
+            <button class="league-btn btn-bg" onclick="switchLeague('ligue1')">Ligue 1</button>
+        </div>
+    </header>
+
+    <!-- Controls -->
+    <div class="controls-row">
+        <button class="touch-btn action-primary" onclick="toggleInput()">+ New Match</button>
+        <button class="touch-btn btn-load-cloud" onclick="loadFromCloud()">Load Cloud</button>
+        <button class="touch-btn btn-save-cloud" onclick="saveToCloud()">Save Cloud</button>
+        <button class="touch-btn action-secondary" onclick="showCloudSettings()">Config ⚙</button>
+    </div>
+
+    <!-- Entry Form -->
+    <div id="inputSection" class="input-card">
+        <div style="background:#f2f2f7; padding:10px; border-radius:8px; font-family:monospace; font-size:13px; color:#333; text-align:center;">
+            Example: T2230nnnHomennnAwaynnnHT_CnnnFT_CnnnHT_SnnnFT_S
+        </div>
+        <textarea id="rawData" class="ios-input" placeholder="Example: T2230nnnRealMadridnnnAlavesnnn6nnn12nnn2nnn3"></textarea>
+        <span id="msgBox" class="hint-text"></span>
+        <button class="touch-btn action-primary" style="width:100%; margin-top:15px;" onclick="processEntry()">Confirm Save</button>
+    </div>
+
+    <!-- Matches List -->
+    <ul id="matchList"></ul>
+
+    <div id="cloudStatus"></div>
+
+    <div class="tools-footer">
+        <strong id="currLangLabel">CURRENT: LALIGA</strong><br>
+        One Config ID controls ALL leagues above.
+    </div>
+
+    <!-- Settings Modal -->
+    <div id="modalOverlay" onclick="closeSettings()"></div>
+    <div id="settingsModal">
+        <h3 style="margin:0 0 5px 0; text-align:center;">Cloud Sync Setup</h3>
+        <p style="font-size:13px;color:#666;text-align:center;margin-bottom:15px;">Enter JSONBin details below.</p>
+        
+        <label>BIN ID (Used for ALL leagues)</label>
+        <input type="text" id="cfgId" placeholder="Copy paste Project ID" class="ios-input-sm">
+        
+        <label>MASER KEY (Optional)</label>
+        <input type="password" id="cfgKey" placeholder="Leave blank for Read Only" class="ios-input-sm">
+        
+        <div class="controls-row">
+            <button class="touch-btn action-secondary" onclick="closeSettings()">Close</button>
+            <button class="touch-btn action-primary" onclick="saveConfig()">Save</button>
+        </div>
+    </div>
+</div>
+
+<script>
+    // --- STATE & CONFIGURATION ---
+    const leagues = ['laliga', 'seriea', 'bundesliga', 'ligue1'];
+    
+    const config = {
+        masterBinId: '',
+        masterKey: ''
+    };
+
+    let dbCollection = {};
+    let currentLeague = 'laliga';
+    let editId = null;
+
+    window.onload = function() {
+        loadData();
+        switchLeague(currentLeague);
+    };
+
+    // --- LEAGUE NAVIGATION ---
+    function switchLeague(name) {
+        currentLeague = name;
+        editId = null; 
+
+        document.querySelectorAll('.league-btn').forEach(btn => {
+            btn.classList.toggle('active', btn.getAttribute('onclick').includes(name));
+        });
+
+        const labels = { 'laliga': 'LaLiga', 'seriea': 'Serie A', 'bundesliga': 'Bundesliga', 'ligue1': 'Ligue 1' };
+        document.querySelector('h1').innerText = labels[name];
+        document.getElementById('currLangLabel').innerText = "CURRENT: " + labels[name].toUpperCase();
+        
+        document.getElementById('cfgId').value = config.masterBinId;
+        document.getElementById('cfgKey').value = config.masterKey;
+        render();
+    }
+
+    // --- FORM HANDLING ---
+    function toggleInput() {
+        const el = document.getElementById('inputSection');
+        el.style.display = el.style.display === 'block' ? 'none' : 'block';
+        if(el.style.display === 'block') document.getElementById('rawData').focus();
+    }
+
+    function showCloudSettings() { document.getElementById('settingsModal').style.display = 'block'; }
+    function closeSettings() { document.getElementById('settingsModal').style.display = 'none'; document.getElementById('modalOverlay').style.display = 'none'; }
+
+    function saveConfig() {
+        config.masterBinId = document.getElementById('cfgId').value.trim();
+        config.masterKey = document.getElementById('cfgKey').value.trim();
+        localStorage.setItem('cloud_id', config.masterBinId);
+        localStorage.setItem('cloud_key', config.masterKey);
+        closeSettings();
+    }
+
+    function processEntry() {
+        const raw = document.getElementById('rawData').value.trim();
+        const msg = document.getElementById('msgBox');
+        
+        try {
+            const parts = raw.split('nnn');
+            if(parts.length < 7) throw new Error("Format Error: Needs 6 'nnn' separators.");
+
+            const dateCodeRaw = parts[0].trim().toUpperCase();
+            const tA = parts[1].trim();
+            const tB = parts[2].trim();
+            const htCornerVal = parseFloat(parts[3]);
+            const ftCornerVal = parseFloat(parts[4]);
+            const htScoreVal = parseFloat(parts[5]);
+            const ftScoreVal = parseFloat(parts[6]);
+
+            // Robust Date Parsing
+            let ts = Date.now();
+            let finalLabel = dateCodeRaw;
+
+            // Logic: Check for T
+            if(dateCodeRaw.startsWith('T')) {
+                const digits = dateCodeRaw.substring(1).replace(/[^0-9]/g, '');
+                
+                if(digits.length >= 4) {
+                    const hh = parseInt(digits.substring(0, 2));
+                    const mm = parseInt(digits.substring(2, 4));
+                    
+                    if(hh >= 0 && hh <= 23 && mm >= 0 && mm <= 59) {
+                        const d = new Date();
+                        d.setHours(hh);
+                        d.setMinutes(mm);
+                        d.setSeconds(0);
+                        d.setMilliseconds(0);
+                        ts = d.getTime();
+                        finalLabel = `T${digits}`; 
+                    }
+                } 
+            } else if (dateCodeRaw === 'YAS') {
+                const d = new Date();
+                d.setDate(d.getDate() - 1);
+                d.setHours(0,0,0,0);
+                ts = d.getTime();
+                finalLabel = 'YAS';
+            } else if (dateCodeRaw === 'DBY') {
+                const d = new Date();
+                d.setDate(d.getDate() - 2);
+                d.setHours(0,0,0,0);
+                ts = d.getTime();
+                finalLabel = 'DBY';
+            }
+
+            const record = { 
+                id: editId || Date.now(), 
+                code: finalLabel, 
+                home: tA, 
+                away: tB, 
+                htC: isNaN(htCornerVal) ? 0 : htCornerVal, 
+                ftC: isNaN(ftCornerVal) ? 0 : ftCornerVal, 
+                htS: isNaN(htScoreVal) ? 0 : htScoreVal, 
+                ftS: isNaN(ftScoreVal) ? 0 : ftScoreVal,
+                ts 
+            };
+
+            if(editId) {
+                const idx = dbCollection[currentLeague].findIndex(x => x.id === editId);
+                if(idx !== -1) dbCollection[currentLeague][idx] = record;
+                editId = null;
+            } else {
+                if(!Array.isArray(dbCollection[currentLeague])) dbCollection[currentLeague] = [];
+                dbCollection[currentLeague].push(record);
+            }
+
+            render();
+            saveLocal();
+            resetForm();
+            msg.innerText = "✔ Saved"; msg.style.color = "green";
+
+        } catch(e) {
+            console.error(e);
+            msg.innerText = "✖ " + e.message; msg.style.color = "red";
+        }
+    }
+
+    function resetForm() {
+        document.getElementById('rawData').value = "";
+        toggleInput();
+    }
+
+    function deleteItem(id) {
+        if(confirm("Delete match?")) {
+            dbCollection[currentLeague] = dbCollection[currentLeague].filter(x => x.id !== id);
+            render();
+            saveLocal();
+        }
+    }
+
+    function editItem(id) {
+        const item = dbCollection[currentLeague].find(x => x.id === id);
+        if(item) {
+            editId = id;
+            const str = `${item.code}nnn${item.home}nnn${item.away}nnn${item.htC}nnn${item.ftC}nnn${item.htS}nnn${item.ftS}`;
+            document.getElementById('rawData').value = str;
+            toggleInput();
+        }
+    }
+
+    // --- NEW FUNCTION: SWAP TEAMS ---
+    function swapTeam(id) {
+        const item = dbCollection[currentLeague].find(x => x.id === id);
+        if(item) {
+            // Temporary variable for swapping
+            const temp = item.home;
+            item.home = item.away;
+            item.away = temp;
+            
+            render();
+            saveLocal();
+        }
+    }
+
+    // --- RENDER LOGIC ---
+    function render() {
+        const list = document.getElementById('matchList');
+        list.innerHTML = '';
+        const items = dbCollection[currentLeague] || []; 
+        
+        // Sort Chronological (Oldest First - Ascending)
+        items.sort((a,b) => a.ts - b.ts);
+
+        if(items.length === 0) {
+            list.innerHTML = '<li style="padding:40px; text-align:center; color:#aaa; border:none;">No matches recorded yet.<br><br>+ Enter New Match</li>';
+            return;
+        }
+
+        items.forEach(item => {
+            const d = new Date(item.ts);
+            const dayStr = d.toLocaleDateString(undefined, {month:'short', day:'numeric'});
+            const hour24 = d.getHours().toString().padStart(2, '0');
+            const minute = d.getMinutes().toString().padStart(2, '0');
+            
+            // Construct Time Display
+            let timeDisplay = "";
+            
+            if (/^T\d{4}$/.test(item.code)) {
+                const hh = item.code.substring(1, 3);
+                const mm = item.code.substring(3, 5);
+                timeDisplay = `${hh}:${mm}`;
+            } else if (/^T$/.test(item.code)) {
+                timeDisplay = `Today ${hour24}:${minute}`;
+            } else if (/^YAS$/.test(item.code)) {
+                timeDisplay = "Yesterday";
+            } else if (/^DBY$/.test(item.code)) {
+                timeDisplay = "Prev Day";
+            }
+
+            let borderColor = '#ccc';
+            if(currentLeague === 'laliga') borderColor = '#ee2737';
+            if(currentLeague === 'seriea') borderColor = '#004C99';
+            if(currentLeague === 'bundesliga') borderColor = '#D3000D';
+            if(currentLeague === 'ligue1') borderColor = '#163A8F';
+
+            // ALERT LOGIC
+            const highHTCorn = item.htC > 6;
+            const highFTCorn = item.ftC > 13;
+            const highHTScore = item.htS > 2;
+            const highFTScore = item.ftS > 4;
+
+            const formatNum = (val, isHigh) => {
+                if(isHigh) return `<span class="num-highlight">${val}</span>`;
+                return val.toString();
+            };
+
+            const htCFormatted = formatNum(item.htC, highHTCorn);
+            const ftCFormatted = formatNum(item.ftC, highFTCorn);
+            const htSFormatted = formatNum(item.htS, highHTScore);
+            const ftSFormatted = formatNum(item.ftS, highFTScore);
+
+            const li = document.createElement('li');
+            li.className = 'match-card';
+            li.style.borderLeftColor = borderColor;
+
+            li.innerHTML = `
+                <div class="match-main">
+                    <h3>${item.home} vs ${item.away}</h3>
+                    <div class="match-meta">
+                        <span class="badge" style="background:${borderColor}">${item.code}</span>
+                        ${timeDisplay ? `<span class="time-label">${timeDisplay}</span>` : ''}
+                        <span class="badge badge-date">${dayStr}</span>
+                    </div>
+                    
+                    <div class="score-line">
+                        <div class="pill-mini"><span>HT</span>${htSFormatted}</div>
+                        <div class="pill-mini"><span>FT</span>${ftSFormatted}</div>
+                    </div>
+                </div>
+                
+                <div class="stat-pill-container" style="display:flex;gap:8px;align-items:center;">
+                     <div class="stat-pill"><span>FT</span>${ftCFormatted}</div>
+                     <div class="stat-pill"><span>HT</span>${htCFormatted}</div>
+                </div>
+
+                <div class="icon-group" style="margin-left: 15px;">
+                    <button class="btn-icon btn-swap" onclick="swapTeam(${item.id})" title="Swap Teams">⇅</button>
+                    <button class="btn-icon btn-edit" onclick="editItem(${item.id})" title="Edit Match">✎</button>
+                    <button class="btn-icon btn-del" onclick="deleteItem(${item.id})" title="Delete Match">×</button>
+                </div>
+            `;
+            list.appendChild(li);
+        });
+    }
+
+    // --- STORAGE SYSTEMS ---
+    function saveLocal() {
+        localStorage.setItem('app_db', JSON.stringify(dbCollection));
+    }
+
+    function loadData() {
+        dbCollection = {};
+        leagues.forEach(l => dbCollection[l] = []);
+        
+        const s = localStorage.getItem('app_db');
+        if(s) {
+            try {
+                const saved = JSON.parse(s);
+                leagues.forEach(l => { if(Array.isArray(saved[l])) dbCollection[l] = saved[l]; });
+            } catch(e) {}
+        }
+        config.masterBinId = localStorage.getItem('cloud_id') || '';
+        config.masterKey = localStorage.getItem('cloud_key') || '';
+    }
+
+    // --- CLOUD SYNC ---
+    function setStatus(msg, type) {
+        const el = document.getElementById('cloudStatus');
+        el.className = `status-${type}`;
+        el.textContent = msg;
+        el.style.display = 'block';
+    }
+
+    function clearStatus() {
+        setTimeout(() => { document.getElementById('cloudStatus').style.display = 'none'; }, 4000);
+    }
+
+    async function saveToCloud() {
+        if(!config.masterBinId) {
+            alert("You must enter a Bin ID in Settings first.");
+            return;
+        }
+
+        setStatus("⏳ Uploading...", "loading");
+
+        try {
+            const url = `https://api.jsonbin.io/v3/b/${config.masterBinId}`;
+            const headers = {'Content-Type': 'application/json'};
+            if(config.masterKey) headers['X-Master-Key'] = config.masterKey;
+
+            await fetch(url, {method: 'PUT', headers: headers, body: JSON.stringify(dbCollection)});
+            
+            setStatus("✔ Successfully Saved!", "success");
+            clearStatus();
+        } catch(e) {
+            console.error(e);
+            setStatus("✖ Error: Check ID/Network", "error");
+            clearStatus();
+        }
+    }
+
+    async function loadFromCloud() {
+        if(!confirm("This will replace your current data.")) return;
+        
+        if(!config.masterBinId) return alert("Please configure Settings > BIN ID first.");
+        
+        try {
+            const url = `https://api.jsonbin.io/v3/b/${config.masterBinId}/latest`;
+            const res = await fetch(url);
+            if(!res.ok) throw new Error("Failed to fetch");
+            
+            const json = await res.json();
+            
+            if(json && json.record && typeof json.record === 'object') {
+                leagues.forEach(l => dbCollection[l] = []);
+                leagues.forEach(l => { if(Array.isArray(json.record[l])) dbCollection[l] = json.record[l]; });
+                
+                render();
+                saveLocal();
+                alert("Data loaded successfully!");
+            } else {
+                alert("Invalid data.");
+            }
+        } catch(e) {
+            alert("Load failed: " + e.message);
+        }
+    }
+</script>
+
+</body>
+</html>
+```
