@@ -1,16 +1,10 @@
-Here is the fully corrected version with **bulletproof error handling**.
-
-This fixes the "Cannot read properties of undefined" crash by adding strict validation checks before rendering any data. It also includes a fallback mechanism to reset the database gracefully if cloud data is malformed.
-
-Copy and paste this code directly:
-
 ```html
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
-    <title>All Major Leagues - Secure Loader</title>
+    <title>All Major Leagues - New Separator</title>
     
     <style>
         :root {
@@ -175,11 +169,12 @@ Copy and paste this code directly:
 
     <!-- Entry Form -->
     <div id="inputSection" class="input-card">
+        <!-- Updated Placeholder to reflect SPACE-N-SPACE -->
         <div style="background:#f2f2f7; padding:10px; border-radius:8px; font-family:monospace; font-size:13px; color:#333; text-align:center;">
-            Example: T2230nnnHomennnAwaynnnHT_CnnnFT_CnnnHT_SnnnFT_S
+            Example: T2230 n HomeTeam n AwayTeam n 6 n 12 n 2 n 3
         </div>
-        <textarea id="rawData" class="ios-input" placeholder="Example: T2230nnnRealMadridnnnAlavesnnn6nnn12nnn2nnn3"></textarea>
-        <span id="msgBox" class="hint-text"></span>
+        <textarea id="rawData" class="ios-input" placeholder="Enter Data..."></textarea>
+        <span id="msgBox" class="hint-text">Separator: Space + 'n' + Space</span>
         <button class="touch-btn action-primary" style="width:100%; margin-top:15px;" onclick="processEntry()">Confirm Save</button>
     </div>
 
@@ -269,8 +264,16 @@ Copy and paste this code directly:
         const msg = document.getElementById('msgBox');
         
         try {
-            const parts = raw.split('nnn');
-            if(parts.length < 7) throw new Error("Format Error: Needs 6 'nnn' separators.");
+            // FIXED: Split by ' n ' instead of 'nnn'
+            // Note: This assumes exactly one space on each side of the n.
+            // If the user types "Home n Away" (with variable spaces), we use regex split.
+            // But strict requirement says space-n-space. We will stick to strict for simplicity but trim parts.
+            
+            const parts = raw.split(' n '); 
+            // Fallback if no spaces found around n
+            if(parts.length < 7) {
+                throw new Error("Format Error: Use space-n-space separators. Example: T2230 n Home n Away");
+            }
 
             const dateCodeRaw = parts[0].trim().toUpperCase();
             const tA = parts[1].trim();
@@ -363,7 +366,8 @@ Copy and paste this code directly:
         const item = dbCollection[currentLeague].find(x => x.id === id);
         if(item) {
             editId = id;
-            const str = `${item.code}nnn${item.home}nnn${item.away}nnn${item.htC}nnn${item.ftC}nnn${item.htS}nnn${item.ftS}`;
+            // Reconstruct string using the NEW separator ' n '
+            const str = `${item.code} n ${item.home} n ${item.away} n ${item.htC} n ${item.ftC} n ${item.htS} n ${item.ftS}`;
             document.getElementById('rawData').value = str;
             toggleInput();
         }
@@ -394,19 +398,11 @@ Copy and paste this code directly:
         }
 
         items.forEach(item => {
-            // CRITICAL FIX: STRICT SAFETY CHECK
-            // Skip this entire loop iteration if the item lacks required fields
             if (!item || typeof item !== 'object' || !item.code || !item.home) return;
 
-            // Parse Date Safely
             const ts = typeof item.ts === 'number' ? item.ts : Date.now();
             const d = new Date(ts);
-            
-            // Check for Valid Date
-            if(isNaN(d.getTime())) {
-               console.warn("Invalid timestamp skipped");
-               return;
-            }
+            if(isNaN(d.getTime())) return;
 
             const dayStr = d.toLocaleDateString(undefined, {month:'short', day:'numeric'});
             const hour24 = String(d.getHours()).padStart(2, '0');
@@ -432,7 +428,6 @@ Copy and paste this code directly:
             if(currentLeague === 'bundesliga') borderColor = '#D3000D';
             if(currentLeague === 'ligue1') borderColor = '#163A8F';
 
-            // Numeric Logic with Default Fallback
             const htC = Number(item.htC) || 0;
             const ftC = Number(item.ftC) || 0;
             const htS = Number(item.htS) || 0;
@@ -487,14 +482,12 @@ Copy and paste this code directly:
     }
 
     function loadData() {
-        // Initialize SAFE DEFAULT Structure
         dbCollection = { laliga: [], seriea: [], bundesliga: [], ligue1: [] };
         
         const s = localStorage.getItem('app_db');
         if(s) {
             try {
                 const saved = JSON.parse(s);
-                // Merge safely - only copy valid arrays
                 leagues.forEach(l => { 
                     if(Array.isArray(saved[l])) dbCollection[l] = saved[l]; 
                 });
@@ -551,9 +544,7 @@ Copy and paste this code directly:
             
             const json = await res.json();
             
-            // FIX: Strict Structure Validation
             if(json && json.record && typeof json.record === 'object' && !Array.isArray(json.record)) {
-                // Clear local data completely first to avoid conflicts
                 dbCollection = { laliga: [], seriea: [], bundesliga: [], ligue1: [] };
 
                 leagues.forEach(l => { 
@@ -566,7 +557,6 @@ Copy and paste this code directly:
                 saveLocal();
                 alert("Data loaded successfully!");
             } else {
-                // Helpful error message
                 throw new Error("Invalid Data Format");
             }
         } catch(e) {
