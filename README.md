@@ -17,6 +17,21 @@ github.com/<your user name>/<your repo>/blob/master/index.htm
 
 rawgit.com/<your user name>/<your repo>/master/index.html
 
+/////////////////LeagueSoc.htm///////////////////////////////////////
+It is pre-configured to connect to **JSONBin.io**, which is the world's most popular free web-based JSON storage.
+
+### How to set it up (Free):
+1.  Go to [jsonbin.io](https://jsonbin.io0/) (it's free).
+2.  Click **"Create"** -> **"Public"**.
+3.  Copy the **Bin ID** (looks like `65...`). Paste it into the App's settings box.
+4.  (Optional) To enable **Write/Save** permissions: Create an Account on JSONBin, go to Profile -> **API Keys**. Copy your Master Key and paste it into the App's settings. If you leave the key blank, it will only allow *Read* from that bin (preventing accidents).
+
+
+
+
+
+////////////////////////////////////////////////////////////////////////////
+
 rios.org.br:9000
 frama????.o??
   
