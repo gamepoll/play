@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
-    <title>All Major Leagues - New Separator</title>
+    <title>All Major Leagues - Visual Dates</title>
     
     <style>
         :root {
@@ -46,7 +46,30 @@
         textarea.ios-input { width: 100%; height: 120px; padding: 12px; font-size: 16px; border: 2px solid var(--border); border-radius: 12px; box-sizing: border-box; resize: vertical; line-height: 1.5; }
         .hint-text { display: block; margin-top: 8px; font-size: 12px; color: var(--secondary-text); }
 
-        /* List Items */
+        /* Copy Button Styling */
+        .copy-area {
+            display: flex;
+            gap: 10px;
+            align-items: center;
+            margin-top: 10px;
+            justify-content: flex-end;
+        }
+        .btn-copy {
+            background-color: #f1f1f1;
+            color: #555;
+            font-size: 12px;
+            font-weight: 600;
+            padding: 8px 12px;
+            border: 1px solid #ccc;
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            gap: 4px;
+            transition: background 0.2s;
+        }
+        .btn-copy:active { background-color: #ddd; }
+
+        /* List Items - Visual Distinction */
         ul#matchList { padding: 0; margin: 0; }
         li.match-card { 
             background: var(--card-bg); 
@@ -61,6 +84,20 @@
             transition: transform 0.2s, box-shadow 0.2s;
         }
 
+        /* Visual Themes */
+        .card-today {
+            border-left-color: #2ecc71 !important;
+            background-color: #f9fffdf9; /* Very light green */
+        }
+        .card-yesterday {
+            border-left-color: #f39c12 !important;
+            background-color: #fffdf9; /* Very light orange */
+        }
+        .card-prev-day {
+            border-left-color: #3498db !important;
+            background-color: #faffff; /* Very light blue */
+        }
+
         @media(min-width: 480px) {
             li.match-card { flex-direction: row; align-items: center; }
             .stat-pill-container { margin-top: 0; margin-left: 15px; }
@@ -68,7 +105,7 @@
         }
 
         .match-main h3 { margin: 0 0 5px 0; font-size: 16px; font-weight: 700; line-height: 1.3; }
-        .match-meta { display: flex; flex-wrap: wrap; gap: 5px; margin-bottom: 8px; align-items: baseline; }
+        .match-meta { display: flex; flex-wrap: wrap; gap: 5px; margin-bottom: 8px; align-items: baseline; width: 100%; }
         
         .badge { padding: 3px 8px; border-radius: 6px; font-size: 11px; font-weight: 600; color: white; text-transform: uppercase; }
         .badge-date { background: #e5e5ea; color: #333; }
@@ -161,7 +198,7 @@
 
     <!-- Controls -->
     <div class="controls-row">
-        <button class="touch-btn action-primary" onclick="toggleInput()">+ New Match</button>
+        <button class="touch-btn action-primary" onclick="openEntryForm()">+ New Match</button>
         <button class="touch-btn btn-load-cloud" onclick="loadFromCloud()">Load Cloud</button>
         <button class="touch-btn btn-save-cloud" onclick="saveToCloud()">Save Cloud</button>
         <button class="touch-btn action-secondary" onclick="showCloudSettings()">Config ⚙</button>
@@ -169,12 +206,19 @@
 
     <!-- Entry Form -->
     <div id="inputSection" class="input-card">
-        <!-- Updated Placeholder to reflect SPACE-N-SPACE -->
         <div style="background:#f2f2f7; padding:10px; border-radius:8px; font-family:monospace; font-size:13px; color:#333; text-align:center;">
-            Example: T2230 n HomeTeam n AwayTeam n 6 n 12 n 2 n 3
+            Example: YAS2230 n HomeTeam n AwayTeam n 6 n 12 n 2 n 3
         </div>
-        <textarea id="rawData" class="ios-input" placeholder="Enter Data..."></textarea>
-        <span id="msgBox" class="hint-text">Separator: Space + 'n' + Space</span>
+        <textarea id="rawData" class="ios-input" placeholder="Paste data here..."></textarea>
+        <span id="msgBox" class="hint-text">Separator: Space-n-Space<br>Prefix: T, YAS, DBY + Optional Time (e.g. 2230)</span>
+        
+        <div class="copy-area">
+            <button class="btn-copy" onclick="copyCurrentText()" title="Copy Format String">
+                <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg>
+                Copy
+            </button>
+        </div>
+
         <button class="touch-btn action-primary" style="width:100%; margin-top:15px;" onclick="processEntry()">Confirm Save</button>
     </div>
 
@@ -242,10 +286,15 @@
         render();
     }
 
-    function toggleInput() {
+    function openEntryForm(isEdit = false) {
+        editId = isEdit ? editId : null;
         const el = document.getElementById('inputSection');
-        el.style.display = el.style.display === 'block' ? 'none' : 'block';
-        if(el.style.display === 'block') document.getElementById('rawData').focus();
+        el.style.display = 'block';
+        document.getElementById('rawData').focus();
+        
+        if (!isEdit) {
+             document.getElementById('rawData').value = "";
+        }
     }
 
     function showCloudSettings() { document.getElementById('settingsModal').style.display = 'block'; }
@@ -264,15 +313,9 @@
         const msg = document.getElementById('msgBox');
         
         try {
-            // FIXED: Split by ' n ' instead of 'nnn'
-            // Note: This assumes exactly one space on each side of the n.
-            // If the user types "Home n Away" (with variable spaces), we use regex split.
-            // But strict requirement says space-n-space. We will stick to strict for simplicity but trim parts.
-            
-            const parts = raw.split(' n '); 
-            // Fallback if no spaces found around n
+            const parts = raw.split(/[\s]+n[\s]*/gi); 
             if(parts.length < 7) {
-                throw new Error("Format Error: Use space-n-space separators. Example: T2230 n Home n Away");
+                throw new Error("Format Error: Needs separators.");
             }
 
             const dateCodeRaw = parts[0].trim().toUpperCase();
@@ -283,38 +326,50 @@
             const htScoreVal = parseFloat(parts[5]);
             const ftScoreVal = parseFloat(parts[6]);
 
-            let ts = Date.now();
-            let finalLabel = dateCodeRaw;
+            // --- SMART DATE PARSING LOGIC ---
+            let finalLabel = 'T';
+            let baseDaysOffset = 0; // 0 for Today, -1 for Yesterday, -2 for DBY
+            let targetHour = null;
+            let targetMinute = null;
 
-            if(dateCodeRaw.startsWith('T')) {
-                const digits = dateCodeRaw.substring(1).replace(/[^0-9]/g, '');
-                
-                if(digits.length >= 4) {
-                    const hh = parseInt(digits.substring(0, 2));
-                    const mm = parseInt(digits.substring(2, 4));
-                    
-                    if(hh >= 0 && hh <= 23 && mm >= 0 && mm <= 59) {
-                        const d = new Date();
-                        d.setHours(hh);
-                        d.setMinutes(mm);
-                        d.setSeconds(0);
-                        d.setMilliseconds(0);
-                        ts = d.getTime();
-                        finalLabel = `T${digits}`; 
-                    }
-                } 
-            } else if (dateCodeRaw === 'YAS') {
-                const d = new Date();
-                d.setDate(d.getDate() - 1);
-                d.setHours(0,0,0,0);
-                ts = d.getTime();
+            if (dateCodeRaw.startsWith('YAS')) {
+                baseDaysOffset = -1;
                 finalLabel = 'YAS';
-            } else if (dateCodeRaw === 'DBY') {
-                const d = new Date();
-                d.setDate(d.getDate() - 2);
-                d.setHours(0,0,0,0);
-                ts = d.getTime();
+            } else if (dateCodeRaw.startsWith('DBY')) {
+                baseDaysOffset = -2;
                 finalLabel = 'DBY';
+            } else if (dateCodeRaw.startsWith('T')) {
+                baseDaysOffset = 0;
+                finalLabel = 'T';
+            } else {
+                throw new Error("Invalid Date Prefix");
+            }
+
+            const prefixLen = baseDaysOffset === 0 ? 1 : 3; 
+            const suffix = dateCodeRaw.substring(prefixLen);
+            
+            if (/^\d{4}$/.test(suffix)) {
+                targetHour = parseInt(suffix.substring(0, 2));
+                targetMinute = parseInt(suffix.substring(2, 4));
+                finalLabel = `${finalLabel}${suffix}`;
+            } else {
+                finalLabel = `${finalLabel}${suffix || ''}`;
+            }
+
+            // Calculate Exact Timestamp using Millisecond Subtraction
+            const now = new Date();
+            const baseTimestamp = now.getTime() + (baseDaysOffset * 86400000);
+            
+            let targetDate = new Date(baseTimestamp);
+            
+            if (targetHour !== null && targetMinute !== null) {
+                targetDate.setHours(targetHour, targetMinute, 0, 0);
+            } else {
+                if (baseDaysOffset < 0) {
+                    targetDate.setHours(0, 0, 0, 0);
+                } else {
+                    targetDate = now;
+                }
             }
 
             const record = { 
@@ -326,7 +381,7 @@
                 ftC: isNaN(ftCornerVal) ? 0 : ftCornerVal, 
                 htS: isNaN(htScoreVal) ? 0 : htScoreVal, 
                 ftS: isNaN(ftScoreVal) ? 0 : ftScoreVal,
-                ts 
+                ts: Number(targetDate.getTime())
             };
 
             if(editId) {
@@ -351,7 +406,7 @@
 
     function resetForm() {
         document.getElementById('rawData').value = "";
-        toggleInput();
+        document.getElementById('inputSection').style.display = 'none';
     }
 
     function deleteItem(id) {
@@ -366,10 +421,38 @@
         const item = dbCollection[currentLeague].find(x => x.id === id);
         if(item) {
             editId = id;
-            // Reconstruct string using the NEW separator ' n '
             const str = `${item.code} n ${item.home} n ${item.away} n ${item.htC} n ${item.ftC} n ${item.htS} n ${item.ftS}`;
             document.getElementById('rawData').value = str;
-            toggleInput();
+            openEntryForm(true);
+        }
+    }
+
+    function copyCurrentText() {
+        const textarea = document.getElementById('rawData');
+        if (!textarea.value) return;
+
+        navigator.clipboard.writeText(textarea.value).then(() => {
+            showCopyFeedback(true);
+        }).catch(err => {
+            textarea.select();
+            document.execCommand('copy');
+            showCopyFeedback(true);
+        });
+    }
+
+    function showCopyFeedback(success) {
+        const btn = document.querySelector('.btn-copy');
+        const originalHTML = btn.innerHTML;
+        
+        if (success) {
+            btn.innerHTML = "Copied! ✓";
+            btn.style.backgroundColor = "#28a745";
+            btn.style.color = "white";
+            setTimeout(() => {
+                btn.innerHTML = originalHTML;
+                btn.style.backgroundColor = "";
+                btn.style.color = "";
+            }, 1000);
         }
     }
 
@@ -388,39 +471,77 @@
     function render() {
         const list = document.getElementById('matchList');
         list.innerHTML = '';
-        const items = dbCollection[currentLeague] || []; 
+        let items = dbCollection[currentLeague] || []; 
         
-        items.sort((a,b) => a.ts - b.ts);
+        const validItems = items.filter(item => {
+            return item && typeof item.ts === 'number' && !isNaN(item.ts);
+        });
 
-        if(items.length === 0) {
+        validItems.sort((a, b) => a.ts - b.ts);
+
+        if(validItems.length === 0) {
             list.innerHTML = '<li style="padding:40px; text-align:center; color:#aaa; border:none;">No matches recorded yet.<br><br>+ Enter New Match</li>';
             return;
         }
 
-        items.forEach(item => {
-            if (!item || typeof item !== 'object' || !item.code || !item.home) return;
-
-            const ts = typeof item.ts === 'number' ? item.ts : Date.now();
+        validItems.forEach(item => {
+            const ts = Number(item.ts);
             const d = new Date(ts);
-            if(isNaN(d.getTime())) return;
-
             const dayStr = d.toLocaleDateString(undefined, {month:'short', day:'numeric'});
             const hour24 = String(d.getHours()).padStart(2, '0');
             const minute = String(d.getMinutes()).padStart(2, '0');
             
             let timeDisplay = "";
             
-            if (/^T\d{4}$/.test(String(item.code))) {
-                const hh = item.code.substring(1, 3);
-                const mm = item.code.substring(3, 5);
-                timeDisplay = `${hh}:${mm}`;
-            } else if (/^T$/.test(String(item.code))) {
-                timeDisplay = `Today ${hour24}:${minute}`;
-            } else if (/^YAS$/.test(String(item.code))) {
-                timeDisplay = "Yesterday";
-            } else if (/^DBY$/.test(String(item.code))) {
-                timeDisplay = "Prev Day";
+            // Determine if specific time was given in code
+            const hasSuffix = /^\d{4}$/.test(item.code);
+            
+            // Extract Code Name
+            let cleanCode = '';
+            if(/^DBY\d{4}/.test(item.code)) cleanCode = 'DBY';
+            else if(/^YAS\d{4}/.test(item.code)) cleanCode = 'YAS';
+            else if(/^\d{4}/.test(item.code)) cleanCode = 'T';
+            else cleanCode = item.code.replace(/\d{4}$/, '');
+
+            if (/^\w{3}\d{4}$/.test(item.code)) {
+                timeDisplay = `${hour24}:${minute}`;
+            } else if (/^\w{3}$/.test(item.code)) {
+                if (cleanCode === 'T') timeDisplay = `Today`;
+                else if (cleanCode === 'YAS') timeDisplay = `Yesterday`;
+                else if (cleanCode === 'DBY') timeDisplay = `Prev Day`;
+            } else {
+                 timeDisplay = `${hour24}:${minute}`;
             }
+
+            // --- VISUAL THEME DETECTION ---
+            let cardClass = "";
+            const now = new Date();
+            const entryDate = new Date(ts);
+            
+            // Check Today (Match Year, Month, Day)
+            const isToday = entryDate.getFullYear() === now.getFullYear() &&
+                            entryDate.getMonth() === now.getMonth() &&
+                            entryDate.getDate() === now.getDate();
+
+            // Check Yesterday
+            const oneDayAgo = new Date();
+            oneDayAgo.setDate(now.getDate() - 1);
+            const isYest = entryDate.getFullYear() === oneDayAgo.getFullYear() &&
+                           entryDate.getMonth() === oneDayAgo.getMonth() &&
+                           entryDate.getDate() === oneDayAgo.getDate();
+
+            // Check Prev Day
+            const twoDaysAgo = new Date();
+            twoDaysAgo.setDate(now.getDate() - 2);
+            const isPrev = entryDate.getFullYear() === twoDaysAgo.getFullYear() &&
+                           entryDate.getMonth() === twoDaysAgo.getMonth() &&
+                           entryDate.getDate() === twoDaysAgo.getDate();
+
+            if (isToday) cardClass = "card-today";
+            else if (isYest) cardClass = "card-yesterday";
+            else if (isPrev) cardClass = "card-prev-day";
+
+            // --------------------------------
 
             let borderColor = '#ccc';
             if(currentLeague === 'laliga') borderColor = '#ee2737';
@@ -444,14 +565,14 @@
             };
 
             const li = document.createElement('li');
-            li.className = 'match-card';
+            li.className = `match-card ${cardClass}`;
             li.style.borderLeftColor = borderColor;
 
             li.innerHTML = `
                 <div class="match-main">
                     <h3>${item.home} vs ${item.away}</h3>
                     <div class="match-meta">
-                        <span class="badge" style="background:${borderColor}">${String(item.code)}</span>
+                        <span class="badge" style="background:${borderColor}">${cleanCode}</span>
                         ${timeDisplay ? `<span class="time-label">${timeDisplay}</span>` : ''}
                         <span class="badge badge-date">${dayStr}</span>
                     </div>
@@ -557,7 +678,7 @@
                 saveLocal();
                 alert("Data loaded successfully!");
             } else {
-                throw new Error("Invalid Data Format");
+                throw new Error("Invalid Data Format.");
             }
         } catch(e) {
             alert("Load failed: " + e.message);
