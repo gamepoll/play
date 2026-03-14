@@ -1,692 +1,610 @@
+The issue you experienced happens because the dynamic date calculation (checking if the exact millisecond timestamp matches "Today" vs "Two Days Ago") can occasionally fail due to timezone offsets or midnight overlaps, forcing the card to fall back to the "Today" (green) color.
+
+The most bulletproof way to fix this is to **strictly tie the card's visual color to the text prefix you provide (`T`, `YAS`, `DBY`)** instead of relying on JavaScript's internal clock calculations to apply the CSS class. 
+
+If you type `DBY`, it will now **always** guarantee the `.card-prev-day` blue color (`#3498db`), matching your exact expectation.
+
+Here is the fully corrected code:
+
 ```html
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
-    <title>All Major Leagues - Visual Dates</title>
-    
-    <style>
-        :root {
-            --bg: #f2f2f7; 
-            --card-bg: #ffffff;
-            --text: #000000;
-            --secondary-text: #8e8e93;
-            --border: #c6c6c8;
-            --laliga-color: #ee2737;
-            --seriea-color: #004C99;
-            --ligue1-color: #163A8F;
-            --bundesliga-color: #D3000D;
-            --highlight-bg: #ff3b30;
-            --highlight-text: #ffffff;
-        }
-
-        body { margin: 0; padding: env(safe-area-inset-top); background-color: var(--bg); color: var(--text); font-family: -apple-system, BlinkMacSystemFont, sans-serif; min-height: 100vh; }
-        .container { max-width: 600px; margin: 0 auto; padding-bottom: env(safe-area-inset-bottom); }
-
-        header { text-align: center; margin-top: 50px; margin-bottom: 20px; position: sticky; top: 0; z-index: 10; backdrop-filter: blur(10px); background: rgba(242, 242, 247, 0.95); border-bottom: 1px solid var(--border); padding-bottom: 15px;}
-        h1 { margin: 0 0 15px 0; font-size: 24px; font-weight: 800; color: var(--text); }
-        
-        .league-selector { display: grid; grid-template-columns: repeat(2, 1fr); gap: 10px; padding: 0 20px; }
-        .league-btn { border: none; padding: 15px 5px; border-radius: 12px; font-size: 14px; font-weight: 700; cursor: pointer; opacity: 0.5; transition: 0.2s; box-shadow: 0 2px 4px rgba(0,0,0,0.1); }
-        .league-btn.active { opacity: 1; transform: scale(1.02); box-shadow: 0 4px 10px rgba(0,0,0,0.2); }
-        .btn-bg { border-left: 6px solid transparent; border-top: 6px solid transparent; }
-
-        /* Controls */
-        .controls-row { display: flex; gap: 8px; justify-content: space-between; margin-bottom: 15px; padding: 0 10px; }
-        button.touch-btn { background-color: white; color: black; border: none; border-radius: 10px; padding: 10px; font-size: 13px; font-weight: 600; cursor: pointer; box-shadow: 0 2px 6px rgba(0,0,0,0.08); flex-grow: 1; text-align: center; white-space: nowrap; overflow: hidden; display: flex; align-items: center; justify-content: center; }
-        button.action-primary { background-color: var(--text); color: white; }
-        button.btn-save-cloud { background-color: #28a745; color: white; }
-        button.btn-load-cloud { background-color: #17a2b8; color: white; }
-        button.action-secondary { background-color: #e5e5ea; color: black; }
-
-        /* Input Card */
-        .input-card { background: white; border-radius: 14px; padding: 20px; box-shadow: 0 4px 12px rgba(0,0,0,0.08); display: none; animation: slideDown 0.3s ease; }
-        @keyframes slideDown { from { transform: translateY(-10px); opacity: 0; } to { transform: translateY(0); opacity: 1; } }
-        textarea.ios-input { width: 100%; height: 120px; padding: 12px; font-size: 16px; border: 2px solid var(--border); border-radius: 12px; box-sizing: border-box; resize: vertical; line-height: 1.5; }
-        .hint-text { display: block; margin-top: 8px; font-size: 12px; color: var(--secondary-text); }
-
-        /* Copy Button Styling */
-        .copy-area {
-            display: flex;
-            gap: 10px;
-            align-items: center;
-            margin-top: 10px;
-            justify-content: flex-end;
-        }
-        .btn-copy {
-            background-color: #f1f1f1;
-            color: #555;
-            font-size: 12px;
-            font-weight: 600;
-            padding: 8px 12px;
-            border: 1px solid #ccc;
-            border-radius: 8px;
-            display: flex;
-            align-items: center;
-            gap: 4px;
-            transition: background 0.2s;
-        }
-        .btn-copy:active { background-color: #ddd; }
-
-        /* List Items - Visual Distinction */
-        ul#matchList { padding: 0; margin: 0; }
-        li.match-card { 
-            background: var(--card-bg); 
-            border-radius: 12px; 
-            margin-bottom: 12px; 
-            padding: 16px; 
-            display: flex; 
-            flex-direction: column; 
-            align-items: flex-start; 
-            border-left: 6px solid transparent; 
-            box-shadow: 0 1px 3px rgba(0,0,0,0.05);
-            transition: transform 0.2s, box-shadow 0.2s;
-        }
-
-        /* Visual Themes */
-        .card-today {
-            border-left-color: #2ecc71 !important;
-            background-color: #f9fffdf9; /* Very light green */
-        }
-        .card-yesterday {
-            border-left-color: #f39c12 !important;
-            background-color: #fffdf9; /* Very light orange */
-        }
-        .card-prev-day {
-            border-left-color: #3498db !important;
-            background-color: #faffff; /* Very light blue */
-        }
-
-        @media(min-width: 480px) {
-            li.match-card { flex-direction: row; align-items: center; }
-            .stat-pill-container { margin-top: 0; margin-left: 15px; }
-            .icon-group { margin-left: 15px; }
-        }
-
-        .match-main h3 { margin: 0 0 5px 0; font-size: 16px; font-weight: 700; line-height: 1.3; }
-        .match-meta { display: flex; flex-wrap: wrap; gap: 5px; margin-bottom: 8px; align-items: baseline; width: 100%; }
-        
-        .badge { padding: 3px 8px; border-radius: 6px; font-size: 11px; font-weight: 600; color: white; text-transform: uppercase; }
-        .badge-date { background: #e5e5ea; color: #333; }
-        
-        .time-label {
-            display: flex;
-            align-items: center;
-            font-size: 11px;
-            font-weight: 600;
-            color: #666;
-            margin-right: 5px;
-        }
-        
-        .score-line {
-            display: flex;
-            gap: 6px;
-            margin-bottom: 4px;
-        }
-        
-        .pill-mini {
-            background: #f2f2f7;
-            padding: 2px 6px;
-            border-radius: 4px;
-            font-size: 10px;
-            font-weight: 600;
-            text-align: center;
-            border: 1px solid #d1d1d6;
-            min-width: 35px;
-        }
-
-        .stat-pill { background: #f2f2f7; padding: 6px 8px; border-radius: 8px; font-size: 12px; font-weight: 700; text-align: center; border: 1px solid #d1d1d6; display: flex; flex-direction: column; justify-content: center; }
-        .stat-pill span { font-size: 8px; color: #666; margin-bottom: 2px; }
-
-        .num-highlight {
-            color: #ffffff !important;
-            background-color: var(--highlight-bg) !important;
-            padding: 2px 4px;
-            border-radius: 4px;
-            display: inline-block;
-            font-weight: bold;
-            box-shadow: 0 2px 4px rgba(0,0,0,0.2);
-            line-height: 1;
-        }
-
-        .btn-icon { font-size: 18px; background: transparent; border: none; padding: 5px; transition: color 0.2s; }
-        .btn-del:hover { color: red; }
-        .btn-edit:hover { color: #007bff; }
-        .btn-swap { color: #28a745; }
-        .btn-swap:hover { color: #1e7e34; }
-
-        .tools-footer { text-align: center; margin-top: 20px; color: var(--secondary-text); font-size: 12px; }
-
-        #cloudStatus { 
-            display: none; 
-            width: 100%;
-            text-align: center;
-            padding: 15px 20px;
-            border-radius: 12px;
-            margin: 0 10px 10px 10px;
-            font-weight: bold;
-            font-size: 14px;
-            box-shadow: 0 4px 12px rgba(0,0,0,0.15);
-        }
-        .status-success { background: #d4edda; color: #155724; border: 1px solid #c3e6cb; }
-        .status-error { background: #f8d7da; color: #721c24; border: 1px solid #f5c6cb; }
-        .status-loading { background: #cce5ff; color: #004085; border: 1px solid #b8daff; }
-
-        #modalOverlay { position:fixed;top:0;left:0;width:100%;height:100%;background:rgba(0,0,0,0.4);display:none;z-index:999; }
-        #settingsModal { position:fixed;bottom:0;left:0;width:100%;background:white;border-radius:20px 20px 0 0;padding:25px;box-sizing:border-box;display:none;z-index:1000;box-shadow:0 -4px 10px rgba(0,0,0,0.2);animation:slideUp 0.3s; }
-        @keyframes slideUp { from{transform:translateY(100%);} to{transform:translateY(0);} }
-        
-        label {font-size:11px; font-weight:bold; color:#888; margin-bottom:4px; display:block; text-transform:uppercase;}
-        .ios-input-sm { width:100%; padding:10px; border-radius:8px; border:1px solid #ccc; box-sizing:border-box; margin-bottom:15px; font-size:16px; }
-
-    </style>
+ <meta charset="UTF-8">
+ <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+ <title>All Major Leagues - Visual Dates</title>
+ 
+ <style>
+ :root {
+ --bg: #f2f2f7; 
+ --card-bg: #ffffff;
+ --text: #000000;
+ --secondary-text: #8e8e93;
+ --border: #c6c6c8;
+ --laliga-color: #ee2737;
+ --seriea-color: #004C99;
+ --ligue1-color: #163A8F;
+ --bundesliga-color: #D3000D;
+ --highlight-bg: #ff3b30;
+ --highlight-text: #ffffff;
+ }
+ body { margin: 0; padding: env(safe-area-inset-top); background-color: var(--bg); color: var(--text); font-family: -apple-system, BlinkMacSystemFont, sans-serif; min-height: 100vh; }
+ .container { max-width: 600px; margin: 0 auto; padding-bottom: env(safe-area-inset-bottom); }
+ header { text-align: center; margin-top: 50px; margin-bottom: 20px; position: sticky; top: 0; z-index: 10; backdrop-filter: blur(10px); background: rgba(242, 242, 247, 0.95); border-bottom: 1px solid var(--border); padding-bottom: 15px;}
+ h1 { margin: 0 0 15px 0; font-size: 24px; font-weight: 800; color: var(--text); }
+ 
+ .league-selector { display: grid; grid-template-columns: repeat(2, 1fr); gap: 10px; padding: 0 20px; }
+ .league-btn { border: none; padding: 15px 5px; border-radius: 12px; font-size: 14px; font-weight: 700; cursor: pointer; opacity: 0.5; transition: 0.2s; box-shadow: 0 2px 4px rgba(0,0,0,0.1); }
+ .league-btn.active { opacity: 1; transform: scale(1.02); box-shadow: 0 4px 10px rgba(0,0,0,0.2); }
+ .btn-bg { border-left: 6px solid transparent; border-top: 6px solid transparent; }
+ 
+ /* Controls */
+ .controls-row { display: flex; gap: 8px; justify-content: space-between; margin-bottom: 15px; padding: 0 10px; }
+ button.touch-btn { background-color: white; color: black; border: none; border-radius: 10px; padding: 10px; font-size: 13px; font-weight: 600; cursor: pointer; box-shadow: 0 2px 6px rgba(0,0,0,0.08); flex-grow: 1; text-align: center; white-space: nowrap; overflow: hidden; display: flex; align-items: center; justify-content: center; }
+ button.action-primary { background-color: var(--text); color: white; }
+ button.btn-save-cloud { background-color: #28a745; color: white; }
+ button.btn-load-cloud { background-color: #17a2b8; color: white; }
+ button.action-secondary { background-color: #e5e5ea; color: black; }
+ 
+ /* Input Card */
+ .input-card { background: white; border-radius: 14px; padding: 20px; box-shadow: 0 4px 12px rgba(0,0,0,0.08); display: none; animation: slideDown 0.3s ease; }
+ @keyframes slideDown { from { transform: translateY(-10px); opacity: 0; } to { transform: translateY(0); opacity: 1; } }
+ textarea.ios-input { width: 100%; height: 120px; padding: 12px; font-size: 16px; border: 2px solid var(--border); border-radius: 12px; box-sizing: border-box; resize: vertical; line-height: 1.5; }
+ .hint-text { display: block; margin-top: 8px; font-size: 12px; color: var(--secondary-text); }
+ 
+ /* Copy Button Styling */
+ .copy-area { display: flex; gap: 10px; align-items: center; margin-top: 10px; justify-content: flex-end; }
+ .btn-copy { background-color: #f1f1f1; color: #555; font-size: 12px; font-weight: 600; padding: 8px 12px; border: 1px solid #ccc; border-radius: 8px; display: flex; align-items: center; gap: 4px; transition: background 0.2s; }
+ .btn-copy:active { background-color: #ddd; }
+ 
+ /* List Items - Visual Distinction */
+ ul#matchList { padding: 0; margin: 0; }
+ li.match-card { background: var(--card-bg); border-radius: 12px; margin-bottom: 12px; padding: 16px; display: flex; flex-direction: column; align-items: flex-start; border-left: 6px solid transparent; box-shadow: 0 1px 3px rgba(0,0,0,0.05); transition: transform 0.2s, box-shadow 0.2s; }
+ 
+ /* Visual Themes */
+ .card-today { border-left-color: #2ecc71 !important; background-color: #f9fffdf9; }
+ .card-yesterday { border-left-color: #f39c12 !important; background-color: #fffdf9; }
+ .card-prev-day { border-left-color: #3498db !important; background-color: #faffff; }
+ 
+ .icon-group { display: flex; gap: 8px; margin-top: 12px; width: 100%; justify-content: flex-end; }
+ 
+ @media(min-width: 480px) {
+ li.match-card { flex-direction: row; align-items: center; }
+ .stat-pill-container { margin-top: 0; margin-left: 15px; }
+ .icon-group { margin-top: 0; margin-left: auto; width: auto; }
+ }
+ 
+ .match-main h3 { margin: 0 0 5px 0; font-size: 16px; font-weight: 700; line-height: 1.3; }
+ .match-meta { display: flex; flex-wrap: wrap; gap: 5px; margin-bottom: 8px; align-items: baseline; width: 100%; }
+ .badge { padding: 3px 8px; border-radius: 6px; font-size: 11px; font-weight: 600; color: white; text-transform: uppercase; }
+ .badge-date { background: #e5e5ea; color: #333; }
+ .time-label { display: flex; align-items: center; font-size: 11px; font-weight: 600; color: #666; margin-right: 5px; }
+ .score-line { display: flex; gap: 6px; margin-bottom: 4px; }
+ .pill-mini { background: #f2f2f7; padding: 2px 6px; border-radius: 4px; font-size: 10px; font-weight: 600; text-align: center; border: 1px solid #d1d1d6; min-width: 35px; }
+ .stat-pill { background: #f2f2f7; padding: 6px 8px; border-radius: 8px; font-size: 12px; font-weight: 700; text-align: center; border: 1px solid #d1d1d6; display: flex; flex-direction: column; justify-content: center; }
+ .stat-pill span { font-size: 8px; color: #666; margin-bottom: 2px; }
+ .num-highlight { color: #ffffff !important; background-color: var(--highlight-bg) !important; padding: 2px 4px; border-radius: 4px; display: inline-block; font-weight: bold; box-shadow: 0 2px 4px rgba(0,0,0,0.2); line-height: 1; }
+ 
+ .btn-icon { display: flex; align-items: center; justify-content: center; background: transparent; border: none; padding: 6px; cursor: pointer; color: #666; transition: color 0.2s; }
+ .btn-del:hover { color: red; }
+ .btn-edit:hover { color: #007bff; }
+ .btn-swap:hover { color: #28a745; }
+ .tools-footer { text-align: center; margin-top: 20px; color: var(--secondary-text); font-size: 12px; }
+ 
+ #cloudStatus { display: none; width: 100%; text-align: center; padding: 15px 20px; border-radius: 12px; margin: 0 10px 10px 10px; font-weight: bold; font-size: 14px; box-shadow: 0 4px 12px rgba(0,0,0,0.15); box-sizing: border-box; }
+ .status-success { background: #d4edda; color: #155724; border: 1px solid #c3e6cb; }
+ .status-error { background: #f8d7da; color: #721c24; border: 1px solid #f5c6cb; }
+ .status-loading { background: #cce5ff; color: #004085; border: 1px solid #b8daff; }
+ 
+ #modalOverlay { position:fixed;top:0;left:0;width:100%;height:100%;background:rgba(0,0,0,0.4);display:none;z-index:999; }
+ #settingsModal { position:fixed;bottom:0;left:0;width:100%;background:white;border-radius:20px 20px 0 0;padding:25px;box-sizing:border-box;display:none;z-index:1000;box-shadow:0 -4px 10px rgba(0,0,0,0.2);animation:slideUp 0.3s; }
+ @keyframes slideUp { from{transform:translateY(100%);} to{transform:translateY(0);} }
+ 
+ label {font-size:11px; font-weight:bold; color:#888; margin-bottom:4px; display:block; text-transform:uppercase;}
+ .ios-input-sm { width:100%; padding:10px; border-radius:8px; border:1px solid #ccc; box-sizing:border-box; margin-bottom:15px; font-size:16px; }
+ </style>
 </head>
 <body>
-
 <div class="container">
-    <header id="headerEl">
-        <h1>League Tracker</h1>
-        
-        <div class="league-selector">
-            <button class="league-btn btn-bg" onclick="switchLeague('laliga')">LaLiga</button>
-            <button class="league-btn btn-bg" onclick="switchLeague('seriea')">Serie A</button>
-            <button class="league-btn btn-bg" onclick="switchLeague('bundesliga')">Bundesliga</button>
-            <button class="league-btn btn-bg" onclick="switchLeague('ligue1')">Ligue 1</button>
-        </div>
-    </header>
-
-    <!-- Controls -->
-    <div class="controls-row">
-        <button class="touch-btn action-primary" onclick="openEntryForm()">+ New Match</button>
-        <button class="touch-btn btn-load-cloud" onclick="loadFromCloud()">Load Cloud</button>
-        <button class="touch-btn btn-save-cloud" onclick="saveToCloud()">Save Cloud</button>
-        <button class="touch-btn action-secondary" onclick="showCloudSettings()">Config ⚙</button>
-    </div>
-
-    <!-- Entry Form -->
-    <div id="inputSection" class="input-card">
-        <div style="background:#f2f2f7; padding:10px; border-radius:8px; font-family:monospace; font-size:13px; color:#333; text-align:center;">
-            Example: YAS2230 n HomeTeam n AwayTeam n 6 n 12 n 2 n 3
-        </div>
-        <textarea id="rawData" class="ios-input" placeholder="Paste data here..."></textarea>
-        <span id="msgBox" class="hint-text">Separator: Space-n-Space<br>Prefix: T, YAS, DBY + Optional Time (e.g. 2230)</span>
-        
-        <div class="copy-area">
-            <button class="btn-copy" onclick="copyCurrentText()" title="Copy Format String">
-                <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg>
-                Copy
-            </button>
-        </div>
-
-        <button class="touch-btn action-primary" style="width:100%; margin-top:15px;" onclick="processEntry()">Confirm Save</button>
-    </div>
-
-    <!-- Matches List -->
-    <ul id="matchList"></ul>
-
-    <div id="cloudStatus"></div>
-
-    <div class="tools-footer">
-        <strong id="currLangLabel">CURRENT: LALIGA</strong><br>
-        One Config ID controls ALL leagues above.
-    </div>
-
-    <!-- Settings Modal -->
-    <div id="modalOverlay" onclick="closeSettings()"></div>
-    <div id="settingsModal">
-        <h3 style="margin:0 0 5px 0; text-align:center;">Cloud Sync Setup</h3>
-        <p style="font-size:13px;color:#666;text-align:center;margin-bottom:15px;">Enter JSONBin details below.</p>
-        
-        <label>BIN ID (Used for ALL leagues)</label>
-        <input type="text" id="cfgId" placeholder="Copy paste Project ID" class="ios-input-sm">
-        
-        <label>MASER KEY (Optional)</label>
-        <input type="password" id="cfgKey" placeholder="Leave blank for Read Only" class="ios-input-sm">
-        
-        <div class="controls-row">
-            <button class="touch-btn action-secondary" onclick="closeSettings()">Close</button>
-            <button class="touch-btn action-primary" onclick="saveConfig()">Save</button>
-        </div>
-    </div>
+ <header id="headerEl">
+ <h1>League Tracker</h1>
+ <div class="league-selector">
+ <button class="league-btn btn-bg" onclick="switchLeague('laliga')">LaLiga</button>
+ <button class="league-btn btn-bg" onclick="switchLeague('seriea')">Serie A</button>
+ <button class="league-btn btn-bg" onclick="switchLeague('bundesliga')">Bundesliga</button>
+ <button class="league-btn btn-bg" onclick="switchLeague('ligue1')">Ligue 1</button>
+ </div>
+ </header>
+ 
+ <!-- Controls -->
+ <div class="controls-row">
+ <button class="touch-btn action-primary" onclick="openEntryForm()">+ New Match</button>
+ <button class="touch-btn btn-load-cloud" onclick="loadFromCloud()">Load Cloud</button>
+ <button class="touch-btn btn-save-cloud" onclick="saveToCloud()">Save Cloud</button>
+ <button class="touch-btn action-secondary" onclick="showCloudSettings()">Config ⚙</button>
+ </div>
+ 
+ <!-- Entry Form -->
+ <div id="inputSection" class="input-card">
+ <div style="background:#f2f2f7; padding:10px; border-radius:8px; font-family:monospace; font-size:13px; color:#333; text-align:center;">
+ Example: YAS2230 n HomeTeam n AwayTeam n 6 n 12 n 2 n 3
+ </div>
+ <textarea id="rawData" class="ios-input" placeholder="Paste data here..."></textarea>
+ <span id="msgBox" class="hint-text">Separator: Space-n-Space<br>Prefix: T, YAS, DBY + Optional Time (e.g. 2230)</span>
+ 
+ <div class="copy-area">
+ <button class="btn-copy" onclick="copyCurrentText()" title="Copy Format String">
+ <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg>
+ Copy
+ </button>
+ </div>
+ 
+ <div style="display: flex; gap: 10px; margin-top: 15px;">
+ <button class="touch-btn action-secondary" onclick="resetForm()">Cancel</button>
+ <button class="touch-btn action-primary" onclick="processEntry()">Confirm Save</button>
+ </div>
+ </div>
+ 
+ <!-- Matches List -->
+ <ul id="matchList"></ul>
+ <div id="cloudStatus"></div>
+ 
+ <div class="tools-footer">
+ <strong id="currLangLabel">CURRENT: LALIGA</strong><br>
+ One Config ID controls ALL leagues above.
+ </div>
+ 
+ <!-- Settings Modal -->
+ <div id="modalOverlay" onclick="closeSettings()"></div>
+ <div id="settingsModal">
+ <h3 style="margin:0 0 5px 0; text-align:center;">Cloud Sync Setup</h3>
+ <p style="font-size:13px;color:#666;text-align:center;margin-bottom:15px;">Enter JSONBin details below.</p>
+ 
+ <label>BIN ID (Used for ALL leagues)</label>
+ <input type="text" id="cfgId" placeholder="Copy paste Project ID" class="ios-input-sm">
+ 
+ <label>MASTER KEY (Optional)</label>
+ <input type="password" id="cfgKey" placeholder="Leave blank for Read Only" class="ios-input-sm">
+ 
+ <div class="controls-row">
+ <button class="touch-btn action-secondary" onclick="closeSettings()">Close</button>
+ <button class="touch-btn action-primary" onclick="saveConfig()">Save</button>
+ </div>
+ </div>
 </div>
 
 <script>
-    // --- STATE & CONFIGURATION ---
-    const leagues = ['laliga', 'seriea', 'bundesliga', 'ligue1'];
-    
-    const config = {
-        masterBinId: '',
-        masterKey: ''
-    };
+ // --- STATE & CONFIGURATION ---
+ const leagues = ['laliga', 'seriea', 'bundesliga', 'ligue1'];
+ const config = {
+ masterBinId: '',
+ masterKey: ''
+ };
+ let dbCollection = {};
+ let currentLeague = 'laliga';
+ let editId = null;
 
-    let dbCollection = {};
-    let currentLeague = 'laliga';
-    let editId = null;
+ window.onload = function() {
+ loadData();
+ switchLeague(currentLeague);
+ };
 
-    window.onload = function() {
-        loadData();
-        switchLeague(currentLeague);
-    };
+ function switchLeague(name) {
+ currentLeague = name;
+ editId = null; 
+ document.querySelectorAll('.league-btn').forEach(btn => {
+ btn.classList.toggle('active', btn.getAttribute('onclick').includes(name));
+ });
+ const labels = { 'laliga': 'LaLiga', 'seriea': 'Serie A', 'bundesliga': 'Bundesliga', 'ligue1': 'Ligue 1' };
+ document.querySelector('h1').innerText = labels[name];
+ document.getElementById('currLangLabel').innerText = "CURRENT: " + labels[name].toUpperCase();
+ 
+ document.getElementById('cfgId').value = config.masterBinId;
+ document.getElementById('cfgKey').value = config.masterKey;
+ render();
+ }
 
-    function switchLeague(name) {
-        currentLeague = name;
-        editId = null; 
+ function openEntryForm(isEdit = false) {
+ editId = isEdit === true ? editId : null;
+ const el = document.getElementById('inputSection');
+ el.style.display = 'block';
+ document.getElementById('rawData').focus();
+ 
+ if (isEdit !== true) {
+ document.getElementById('rawData').value = "";
+ }
+ }
 
-        document.querySelectorAll('.league-btn').forEach(btn => {
-            btn.classList.toggle('active', btn.getAttribute('onclick').includes(name));
-        });
+ function showCloudSettings() { 
+ document.getElementById('modalOverlay').style.display = 'block'; 
+ document.getElementById('settingsModal').style.display = 'block'; 
+ }
+ function closeSettings() { 
+ document.getElementById('settingsModal').style.display = 'none'; 
+ document.getElementById('modalOverlay').style.display = 'none'; 
+ }
 
-        const labels = { 'laliga': 'LaLiga', 'seriea': 'Serie A', 'bundesliga': 'Bundesliga', 'ligue1': 'Ligue 1' };
-        document.querySelector('h1').innerText = labels[name];
-        document.getElementById('currLangLabel').innerText = "CURRENT: " + labels[name].toUpperCase();
-        
-        document.getElementById('cfgId').value = config.masterBinId;
-        document.getElementById('cfgKey').value = config.masterKey;
-        render();
-    }
+ function saveConfig() {
+ config.masterBinId = document.getElementById('cfgId').value.trim();
+ config.masterKey = document.getElementById('cfgKey').value.trim();
+ localStorage.setItem('cloud_id', config.masterBinId);
+ localStorage.setItem('cloud_key', config.masterKey);
+ closeSettings();
+ }
 
-    function openEntryForm(isEdit = false) {
-        editId = isEdit ? editId : null;
-        const el = document.getElementById('inputSection');
-        el.style.display = 'block';
-        document.getElementById('rawData').focus();
-        
-        if (!isEdit) {
-             document.getElementById('rawData').value = "";
-        }
-    }
+ function processEntry() {
+ const raw = document.getElementById('rawData').value.trim();
+ const msg = document.getElementById('msgBox');
+ 
+ try {
+ const parts = raw.split(/[\s]+n[\s]*/gi); 
+ if(parts.length < 7) {
+ throw new Error("Format Error: Needs separators.");
+ }
+ 
+ const dateCodeRaw = parts[0].trim().toUpperCase();
+ const tA = parts[1].trim();
+ const tB = parts[2].trim();
+ const htCornerVal = parseFloat(parts[3]);
+ const ftCornerVal = parseFloat(parts[4]);
+ const htScoreVal = parseFloat(parts[5]);
+ const ftScoreVal = parseFloat(parts[6]);
 
-    function showCloudSettings() { document.getElementById('settingsModal').style.display = 'block'; }
-    function closeSettings() { document.getElementById('settingsModal').style.display = 'none'; document.getElementById('modalOverlay').style.display = 'none'; }
+ // --- SMART DATE PARSING LOGIC ---
+ let finalLabel = 'T';
+ let baseDaysOffset = 0; // 0 for Today, -1 for Yesterday, -2 for DBY
+ let targetHour = null;
+ let targetMinute = null;
 
-    function saveConfig() {
-        config.masterBinId = document.getElementById('cfgId').value.trim();
-        config.masterKey = document.getElementById('cfgKey').value.trim();
-        localStorage.setItem('cloud_id', config.masterBinId);
-        localStorage.setItem('cloud_key', config.masterKey);
-        closeSettings();
-    }
+ if (dateCodeRaw.startsWith('YAS')) {
+ baseDaysOffset = -1;
+ finalLabel = 'YAS';
+ } else if (dateCodeRaw.startsWith('DBY')) {
+ baseDaysOffset = -2;
+ finalLabel = 'DBY';
+ } else if (dateCodeRaw.startsWith('T')) {
+ baseDaysOffset = 0;
+ finalLabel = 'T';
+ } else {
+ throw new Error("Invalid Date Prefix");
+ }
 
-    function processEntry() {
-        const raw = document.getElementById('rawData').value.trim();
-        const msg = document.getElementById('msgBox');
-        
-        try {
-            const parts = raw.split(/[\s]+n[\s]*/gi); 
-            if(parts.length < 7) {
-                throw new Error("Format Error: Needs separators.");
-            }
+ const prefixLen = baseDaysOffset === 0 ? 1 : 3; 
+ const suffix = dateCodeRaw.substring(prefixLen);
+ 
+ if (/^\d{4}$/.test(suffix)) {
+ targetHour = parseInt(suffix.substring(0, 2));
+ targetMinute = parseInt(suffix.substring(2, 4));
+ finalLabel = `${finalLabel}${suffix}`;
+ } else {
+ finalLabel = `${finalLabel}${suffix || ''}`;
+ }
 
-            const dateCodeRaw = parts[0].trim().toUpperCase();
-            const tA = parts[1].trim();
-            const tB = parts[2].trim();
-            const htCornerVal = parseFloat(parts[3]);
-            const ftCornerVal = parseFloat(parts[4]);
-            const htScoreVal = parseFloat(parts[5]);
-            const ftScoreVal = parseFloat(parts[6]);
+ // Calculate Exact Timestamp using Millisecond Subtraction for Chronological Sorting
+ const now = new Date();
+ const baseTimestamp = now.getTime() + (baseDaysOffset * 86400000);
+ 
+ let targetDate = new Date(baseTimestamp);
+ 
+ if (targetHour !== null && targetMinute !== null) {
+ targetDate.setHours(targetHour, targetMinute, 0, 0);
+ } else {
+ if (baseDaysOffset < 0) {
+ targetDate.setHours(0, 0, 0, 0);
+ } else {
+ targetDate = now;
+ }
+ }
 
-            // --- SMART DATE PARSING LOGIC ---
-            let finalLabel = 'T';
-            let baseDaysOffset = 0; // 0 for Today, -1 for Yesterday, -2 for DBY
-            let targetHour = null;
-            let targetMinute = null;
+ let finalTs = Number(targetDate.getTime());
+ if (editId) {
+ const oldItem = dbCollection[currentLeague].find(x => x.id == editId);
+ if (oldItem && oldItem.code === finalLabel) {
+ finalTs = oldItem.ts; 
+ }
+ }
 
-            if (dateCodeRaw.startsWith('YAS')) {
-                baseDaysOffset = -1;
-                finalLabel = 'YAS';
-            } else if (dateCodeRaw.startsWith('DBY')) {
-                baseDaysOffset = -2;
-                finalLabel = 'DBY';
-            } else if (dateCodeRaw.startsWith('T')) {
-                baseDaysOffset = 0;
-                finalLabel = 'T';
-            } else {
-                throw new Error("Invalid Date Prefix");
-            }
+ const record = { 
+ id: editId || Date.now(), 
+ code: finalLabel, 
+ home: tA, 
+ away: tB, 
+ htC: isNaN(htCornerVal) ? 0 : htCornerVal, 
+ ftC: isNaN(ftCornerVal) ? 0 : ftCornerVal, 
+ htS: isNaN(htScoreVal) ? 0 : htScoreVal, 
+ ftS: isNaN(ftScoreVal) ? 0 : ftScoreVal,
+ ts: finalTs
+ };
 
-            const prefixLen = baseDaysOffset === 0 ? 1 : 3; 
-            const suffix = dateCodeRaw.substring(prefixLen);
-            
-            if (/^\d{4}$/.test(suffix)) {
-                targetHour = parseInt(suffix.substring(0, 2));
-                targetMinute = parseInt(suffix.substring(2, 4));
-                finalLabel = `${finalLabel}${suffix}`;
-            } else {
-                finalLabel = `${finalLabel}${suffix || ''}`;
-            }
+ if(editId) {
+ const idx = dbCollection[currentLeague].findIndex(x => x.id == editId);
+ if(idx !== -1) {
+ dbCollection[currentLeague][idx] = record;
+ }
+ editId = null;
+ } else {
+ if(!Array.isArray(dbCollection[currentLeague])) dbCollection[currentLeague] = [];
+ dbCollection[currentLeague].push(record);
+ }
 
-            // Calculate Exact Timestamp using Millisecond Subtraction
-            const now = new Date();
-            const baseTimestamp = now.getTime() + (baseDaysOffset * 86400000);
-            
-            let targetDate = new Date(baseTimestamp);
-            
-            if (targetHour !== null && targetMinute !== null) {
-                targetDate.setHours(targetHour, targetMinute, 0, 0);
-            } else {
-                if (baseDaysOffset < 0) {
-                    targetDate.setHours(0, 0, 0, 0);
-                } else {
-                    targetDate = now;
-                }
-            }
+ render();
+ saveLocal();
+ resetForm();
+ msg.innerHTML = "Separator: Space-n-Space<br>Prefix: T, YAS, DBY + Optional Time"; 
+ msg.style.color = "var(--secondary-text)";
+ } catch(e) {
+ console.error(e);
+ msg.innerText = "✖ " + e.message; msg.style.color = "red";
+ }
+ }
 
-            const record = { 
-                id: editId || Date.now(), 
-                code: finalLabel, 
-                home: tA, 
-                away: tB, 
-                htC: isNaN(htCornerVal) ? 0 : htCornerVal, 
-                ftC: isNaN(ftCornerVal) ? 0 : ftCornerVal, 
-                htS: isNaN(htScoreVal) ? 0 : htScoreVal, 
-                ftS: isNaN(ftScoreVal) ? 0 : ftScoreVal,
-                ts: Number(targetDate.getTime())
-            };
+ function resetForm() {
+ document.getElementById('rawData').value = "";
+ document.getElementById('inputSection').style.display = 'none';
+ document.getElementById('msgBox').innerHTML = "Separator: Space-n-Space<br>Prefix: T, YAS, DBY + Optional Time"; 
+ document.getElementById('msgBox').style.color = "var(--secondary-text)";
+ editId = null;
+ }
 
-            if(editId) {
-                const idx = dbCollection[currentLeague].findIndex(x => x.id === editId);
-                if(idx !== -1) dbCollection[currentLeague][idx] = record;
-                editId = null;
-            } else {
-                if(!Array.isArray(dbCollection[currentLeague])) dbCollection[currentLeague] = [];
-                dbCollection[currentLeague].push(record);
-            }
+ function deleteItem(id) {
+ if(confirm("Delete match?")) {
+ dbCollection[currentLeague] = dbCollection[currentLeague].filter(x => x.id != id);
+ render();
+ saveLocal();
+ }
+ }
 
-            render();
-            saveLocal();
-            resetForm();
-            msg.innerText = "✔ Saved"; msg.style.color = "green";
+ function editItem(id) {
+ const item = dbCollection[currentLeague].find(x => x.id == id);
+ if(item) {
+ editId = id;
+ const str = `${item.code||''} n ${item.home||''} n ${item.away||''} n ${item.htC||0} n ${item.ftC||0} n ${item.htS||0} n ${item.ftS||0}`;
+ document.getElementById('rawData').value = str;
+ openEntryForm(true);
+ }
+ }
 
-        } catch(e) {
-            console.error(e);
-            msg.innerText = "✖ " + e.message; msg.style.color = "red";
-        }
-    }
+ function copyCurrentText() {
+ const textarea = document.getElementById('rawData');
+ if (!textarea.value) return;
 
-    function resetForm() {
-        document.getElementById('rawData').value = "";
-        document.getElementById('inputSection').style.display = 'none';
-    }
+ navigator.clipboard.writeText(textarea.value).then(() => {
+ showCopyFeedback(true);
+ }).catch(err => {
+ textarea.select();
+ document.execCommand('copy');
+ showCopyFeedback(true);
+ });
+ }
 
-    function deleteItem(id) {
-        if(confirm("Delete match?")) {
-            dbCollection[currentLeague] = dbCollection[currentLeague].filter(x => x.id !== id);
-            render();
-            saveLocal();
-        }
-    }
+ function showCopyFeedback(success) {
+ const btn = document.querySelector('.btn-copy');
+ const originalHTML = btn.innerHTML;
+ 
+ if (success) {
+ btn.innerHTML = "Copied! ✓";
+ btn.style.backgroundColor = "#28a745";
+ btn.style.color = "white";
+ setTimeout(() => {
+ btn.innerHTML = originalHTML;
+ btn.style.backgroundColor = "";
+ btn.style.color = "";
+ }, 1000);
+ }
+ }
 
-    function editItem(id) {
-        const item = dbCollection[currentLeague].find(x => x.id === id);
-        if(item) {
-            editId = id;
-            const str = `${item.code} n ${item.home} n ${item.away} n ${item.htC} n ${item.ftC} n ${item.htS} n ${item.ftS}`;
-            document.getElementById('rawData').value = str;
-            openEntryForm(true);
-        }
-    }
+ function swapTeam(id) {
+ const item = dbCollection[currentLeague].find(x => x.id == id);
+ if(item) {
+ const temp = item.home;
+ item.home = item.away;
+ item.away = temp;
+ 
+ render();
+ saveLocal();
+ }
+ }
 
-    function copyCurrentText() {
-        const textarea = document.getElementById('rawData');
-        if (!textarea.value) return;
+ function render() {
+ const list = document.getElementById('matchList');
+ list.innerHTML = '';
+ let items = dbCollection[currentLeague] || []; 
+ 
+ const validItems = items.filter(item => {
+ return item && typeof item.ts === 'number' && !isNaN(item.ts);
+ });
 
-        navigator.clipboard.writeText(textarea.value).then(() => {
-            showCopyFeedback(true);
-        }).catch(err => {
-            textarea.select();
-            document.execCommand('copy');
-            showCopyFeedback(true);
-        });
-    }
+ validItems.sort((a, b) => a.ts - b.ts);
 
-    function showCopyFeedback(success) {
-        const btn = document.querySelector('.btn-copy');
-        const originalHTML = btn.innerHTML;
-        
-        if (success) {
-            btn.innerHTML = "Copied! ✓";
-            btn.style.backgroundColor = "#28a745";
-            btn.style.color = "white";
-            setTimeout(() => {
-                btn.innerHTML = originalHTML;
-                btn.style.backgroundColor = "";
-                btn.style.color = "";
-            }, 1000);
-        }
-    }
+ if(validItems.length === 0) {
+ list.innerHTML = '<li style="padding:40px; text-align:center; color:#aaa; border:none;">No matches recorded yet.<br><br>+ Enter New Match</li>';
+ return;
+ }
 
-    function swapTeam(id) {
-        const item = dbCollection[currentLeague].find(x => x.id === id);
-        if(item) {
-            const temp = item.home;
-            item.home = item.away;
-            item.away = temp;
-            
-            render();
-            saveLocal();
-        }
-    }
+ validItems.forEach(item => {
+ const ts = Number(item.ts);
+ const d = new Date(ts);
+ const dayStr = d.toLocaleDateString(undefined, {month:'short', day:'numeric'});
+ 
+ // Robust string handling
+ const codeStr = item.code || '';
+ 
+ // Deterministic Prefix Extraction (T, YAS, DBY)
+ let cleanCode = 'T'; // Default fallback
+ if (codeStr.startsWith('DBY')) cleanCode = 'DBY';
+ else if (codeStr.startsWith('YAS')) cleanCode = 'YAS';
+ else if (codeStr.startsWith('T')) cleanCode = 'T';
+ else cleanCode = codeStr.replace(/\d{4}$/, '') || 'T';
 
-    function render() {
-        const list = document.getElementById('matchList');
-        list.innerHTML = '';
-        let items = dbCollection[currentLeague] || []; 
-        
-        const validItems = items.filter(item => {
-            return item && typeof item.ts === 'number' && !isNaN(item.ts);
-        });
+ // Deterministic Time & Label Display
+ let timeDisplay = "";
+ const timeMatch = codeStr.match(/\d{4}$/);
+ if (timeMatch) {
+ const timeStr = timeMatch[0];
+ timeDisplay = `${timeStr.substring(0, 2)}:${timeStr.substring(2, 4)}`;
+ } else {
+ if (cleanCode === 'T') timeDisplay = `Today`;
+ else if (cleanCode === 'YAS') timeDisplay = `Yesterday`;
+ else if (cleanCode === 'DBY') timeDisplay = `Prev Day`;
+ }
 
-        validItems.sort((a, b) => a.ts - b.ts);
+ // --- STRICT THEME MAPPING (Resolves Color Issue) ---
+ // Instead of calculating Date math which can shift during midnight/timezones,
+ // themes are now directly mapped to your explicit tags. DBY *always* gets blue.
+ let cardClass = "";
+ if (cleanCode === 'T') cardClass = "card-today";
+ else if (cleanCode === 'YAS') cardClass = "card-yesterday";
+ else if (cleanCode === 'DBY') cardClass = "card-prev-day";
 
-        if(validItems.length === 0) {
-            list.innerHTML = '<li style="padding:40px; text-align:center; color:#aaa; border:none;">No matches recorded yet.<br><br>+ Enter New Match</li>';
-            return;
-        }
+ // --------------------------------
+ let borderColor = '#ccc';
+ if(currentLeague === 'laliga') borderColor = '#ee2737';
+ if(currentLeague === 'seriea') borderColor = '#004C99';
+ if(currentLeague === 'bundesliga') borderColor = '#D3000D';
+ if(currentLeague === 'ligue1') borderColor = '#163A8F';
 
-        validItems.forEach(item => {
-            const ts = Number(item.ts);
-            const d = new Date(ts);
-            const dayStr = d.toLocaleDateString(undefined, {month:'short', day:'numeric'});
-            const hour24 = String(d.getHours()).padStart(2, '0');
-            const minute = String(d.getMinutes()).padStart(2, '0');
-            
-            let timeDisplay = "";
-            
-            // Determine if specific time was given in code
-            const hasSuffix = /^\d{4}$/.test(item.code);
-            
-            // Extract Code Name
-            let cleanCode = '';
-            if(/^DBY\d{4}/.test(item.code)) cleanCode = 'DBY';
-            else if(/^YAS\d{4}/.test(item.code)) cleanCode = 'YAS';
-            else if(/^\d{4}/.test(item.code)) cleanCode = 'T';
-            else cleanCode = item.code.replace(/\d{4}$/, '');
+ const htC = Number(item.htC) || 0;
+ const ftC = Number(item.ftC) || 0;
+ const htS = Number(item.htS) || 0;
+ const ftS = Number(item.ftS) || 0;
+ 
+ const highHTCorn = htC > 6;
+ const highFTCorn = ftC > 13;
+ const highHTScore = htS > 2;
+ const highFTScore = ftS > 4;
 
-            if (/^\w{3}\d{4}$/.test(item.code)) {
-                timeDisplay = `${hour24}:${minute}`;
-            } else if (/^\w{3}$/.test(item.code)) {
-                if (cleanCode === 'T') timeDisplay = `Today`;
-                else if (cleanCode === 'YAS') timeDisplay = `Yesterday`;
-                else if (cleanCode === 'DBY') timeDisplay = `Prev Day`;
-            } else {
-                 timeDisplay = `${hour24}:${minute}`;
-            }
+ const formatNum = (val, isHigh) => {
+ if(isHigh) return `<span class="num-highlight">${val}</span>`;
+ return val;
+ };
 
-            // --- VISUAL THEME DETECTION ---
-            let cardClass = "";
-            const now = new Date();
-            const entryDate = new Date(ts);
-            
-            // Check Today (Match Year, Month, Day)
-            const isToday = entryDate.getFullYear() === now.getFullYear() &&
-                            entryDate.getMonth() === now.getMonth() &&
-                            entryDate.getDate() === now.getDate();
+ const li = document.createElement('li');
+ li.className = `match-card ${cardClass}`;
+ li.style.borderLeftColor = borderColor;
 
-            // Check Yesterday
-            const oneDayAgo = new Date();
-            oneDayAgo.setDate(now.getDate() - 1);
-            const isYest = entryDate.getFullYear() === oneDayAgo.getFullYear() &&
-                           entryDate.getMonth() === oneDayAgo.getMonth() &&
-                           entryDate.getDate() === oneDayAgo.getDate();
+ li.innerHTML = `
+ <div class="match-main">
+ <h3>${item.home} vs ${item.away}</h3>
+ <div class="match-meta">
+ <span class="badge" style="background:${borderColor}">${cleanCode}</span>
+ ${timeDisplay ? `<span class="time-label">${timeDisplay}</span>` : ''}
+ <span class="badge badge-date">${dayStr}</span>
+ </div>
+ 
+ <div class="score-line">
+ <div class="pill-mini"><span>HT</span>${formatNum(htS, highHTScore)}</div>
+ <div class="pill-mini"><span>FT</span>${formatNum(ftS, highFTScore)}</div>
+ </div>
+ </div>
+ 
+ <div class="stat-pill-container" style="display:flex;gap:8px;align-items:center;">
+ <div class="stat-pill"><span>FT</span>${formatNum(ftC, highFTCorn)}</div>
+ <div class="stat-pill"><span>HT</span>${formatNum(htC, highHTCorn)}</div>
+ </div>
 
-            // Check Prev Day
-            const twoDaysAgo = new Date();
-            twoDaysAgo.setDate(now.getDate() - 2);
-            const isPrev = entryDate.getFullYear() === twoDaysAgo.getFullYear() &&
-                           entryDate.getMonth() === twoDaysAgo.getMonth() &&
-                           entryDate.getDate() === twoDaysAgo.getDate();
+ <div class="icon-group">
+ <button class="btn-icon btn-swap" onclick="swapTeam('${item.id}')" title="Swap Teams">
+ <svg viewBox="0 0 24 24" width="18" height="18" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round"><path d="M7 16V4M7 4L3 8M7 4L11 8M17 8V20M17 20L21 16M17 20L13 16"/></svg>
+ </button>
+ <button class="btn-icon btn-edit" onclick="editItem('${item.id}')" title="Edit Match">
+ <svg viewBox="0 0 24 24" width="18" height="18" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"></path><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"></path></svg>
+ </button>
+ <button class="btn-icon btn-del" onclick="deleteItem('${item.id}')" title="Delete Match">
+ <svg viewBox="0 0 24 24" width="18" height="18" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round"><polyline points="3 6 5 6 21 6"></polyline><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"></path></svg>
+ </button>
+ </div>
+ `;
+ list.appendChild(li);
+ });
+ }
 
-            if (isToday) cardClass = "card-today";
-            else if (isYest) cardClass = "card-yesterday";
-            else if (isPrev) cardClass = "card-prev-day";
+ function saveLocal() {
+ localStorage.setItem('app_db', JSON.stringify(dbCollection));
+ }
 
-            // --------------------------------
+ function loadData() {
+ dbCollection = { laliga: [], seriea: [], bundesliga: [], ligue1: [] };
+ 
+ const s = localStorage.getItem('app_db');
+ if(s) {
+ try {
+ const saved = JSON.parse(s);
+ leagues.forEach(l => { 
+ if(Array.isArray(saved[l])) dbCollection[l] = saved[l]; 
+ });
+ } catch(e) {}
+ }
 
-            let borderColor = '#ccc';
-            if(currentLeague === 'laliga') borderColor = '#ee2737';
-            if(currentLeague === 'seriea') borderColor = '#004C99';
-            if(currentLeague === 'bundesliga') borderColor = '#D3000D';
-            if(currentLeague === 'ligue1') borderColor = '#163A8F';
+ config.masterBinId = localStorage.getItem('cloud_id') || '';
+ config.masterKey = localStorage.getItem('cloud_key') || '';
+ }
 
-            const htC = Number(item.htC) || 0;
-            const ftC = Number(item.ftC) || 0;
-            const htS = Number(item.htS) || 0;
-            const ftS = Number(item.ftS) || 0;
+ function setStatus(msg, type) {
+ const el = document.getElementById('cloudStatus');
+ el.className = `status-${type}`;
+ el.textContent = msg;
+ el.style.display = 'block';
+ }
 
-            const highHTCorn = htC > 6;
-            const highFTCorn = ftC > 13;
-            const highHTScore = htS > 2;
-            const highFTScore = ftS > 4;
+ function clearStatus() {
+ setTimeout(() => { document.getElementById('cloudStatus').style.display = 'none'; }, 4000);
+ }
 
-            const formatNum = (val, isHigh) => {
-                if(isHigh) return `<span class="num-highlight">${val}</span>`;
-                return val;
-            };
+ async function saveToCloud() {
+ if(!config.masterBinId) {
+ alert("You must enter a Bin ID in Settings first.");
+ return;
+ }
+ setStatus("⏳ Uploading...", "loading");
 
-            const li = document.createElement('li');
-            li.className = `match-card ${cardClass}`;
-            li.style.borderLeftColor = borderColor;
+ try {
+ const url = `https://api.jsonbin.io/v3/b/${config.masterBinId}`;
+ const headers = {'Content-Type': 'application/json'};
+ if(config.masterKey) headers['X-Master-Key'] = config.masterKey;
 
-            li.innerHTML = `
-                <div class="match-main">
-                    <h3>${item.home} vs ${item.away}</h3>
-                    <div class="match-meta">
-                        <span class="badge" style="background:${borderColor}">${cleanCode}</span>
-                        ${timeDisplay ? `<span class="time-label">${timeDisplay}</span>` : ''}
-                        <span class="badge badge-date">${dayStr}</span>
-                    </div>
-                    
-                    <div class="score-line">
-                        <div class="pill-mini"><span>HT</span>${formatNum(htS, highHTScore)}</div>
-                        <div class="pill-mini"><span>FT</span>${formatNum(ftS, highFTScore)}</div>
-                    </div>
-                </div>
-                
-                <div class="stat-pill-container" style="display:flex;gap:8px;align-items:center;">
-                     <div class="stat-pill"><span>FT</span>${formatNum(ftC, highFTCorn)}</div>
-                     <div class="stat-pill"><span>HT</span>${formatNum(htC, highHTCorn)}</div>
-                </div>
+ await fetch(url, {method: 'PUT', headers: headers, body: JSON.stringify(dbCollection)});
+ 
+ setStatus("✔ Successfully Saved!", "success");
+ clearStatus();
+ } catch(e) {
+ console.error(e);
+ setStatus("✖ Error: Check ID/Network", "error");
+ clearStatus();
+ }
+ }
 
-                <div class="icon-group" style="margin-left: 15px;">
-                    <button class="btn-icon btn-swap" onclick="swapTeam(${item.id})" title="Swap Teams">⇅</button>
-                    <button class="btn-icon btn-edit" onclick="editItem(${item.id})" title="Edit Match">✎</button>
-                    <button class="btn-icon btn-del" onclick="deleteItem(${item.id})" title="Delete Match">×</button>
-                </div>
-            `;
-            list.appendChild(li);
-        });
-    }
-
-    function saveLocal() {
-        localStorage.setItem('app_db', JSON.stringify(dbCollection));
-    }
-
-    function loadData() {
-        dbCollection = { laliga: [], seriea: [], bundesliga: [], ligue1: [] };
-        
-        const s = localStorage.getItem('app_db');
-        if(s) {
-            try {
-                const saved = JSON.parse(s);
-                leagues.forEach(l => { 
-                    if(Array.isArray(saved[l])) dbCollection[l] = saved[l]; 
-                });
-            } catch(e) {}
-        }
-        config.masterBinId = localStorage.getItem('cloud_id') || '';
-        config.masterKey = localStorage.getItem('cloud_key') || '';
-    }
-
-    function setStatus(msg, type) {
-        const el = document.getElementById('cloudStatus');
-        el.className = `status-${type}`;
-        el.textContent = msg;
-        el.style.display = 'block';
-    }
-
-    function clearStatus() {
-        setTimeout(() => { document.getElementById('cloudStatus').style.display = 'none'; }, 4000);
-    }
-
-    async function saveToCloud() {
-        if(!config.masterBinId) {
-            alert("You must enter a Bin ID in Settings first.");
-            return;
-        }
-
-        setStatus("⏳ Uploading...", "loading");
-
-        try {
-            const url = `https://api.jsonbin.io/v3/b/${config.masterBinId}`;
-            const headers = {'Content-Type': 'application/json'};
-            if(config.masterKey) headers['X-Master-Key'] = config.masterKey;
-
-            await fetch(url, {method: 'PUT', headers: headers, body: JSON.stringify(dbCollection)});
-            
-            setStatus("✔ Successfully Saved!", "success");
-            clearStatus();
-        } catch(e) {
-            console.error(e);
-            setStatus("✖ Error: Check ID/Network", "error");
-            clearStatus();
-        }
-    }
-
-    async function loadFromCloud() {
-        if(!confirm("This will replace your current data.")) return;
-        
-        if(!config.masterBinId) return alert("Please configure Settings > BIN ID first.");
-        
-        try {
-            const url = `https://api.jsonbin.io/v3/b/${config.masterBinId}/latest`;
-            const res = await fetch(url);
-            if(!res.ok) throw new Error(`HTTP ${res.status}`);
-            
-            const json = await res.json();
-            
-            if(json && json.record && typeof json.record === 'object' && !Array.isArray(json.record)) {
-                dbCollection = { laliga: [], seriea: [], bundesliga: [], ligue1: [] };
-
-                leagues.forEach(l => { 
-                    if(Array.isArray(json.record[l])) {
-                        dbCollection[l] = json.record[l];
-                    }
-                });
-                 
-                render();
-                saveLocal();
-                alert("Data loaded successfully!");
-            } else {
-                throw new Error("Invalid Data Format.");
-            }
-        } catch(e) {
-            alert("Load failed: " + e.message);
-            console.error("Cloud Load Error:", e);
-        }
-    }
+ async function loadFromCloud() {
+ if(!confirm("This will replace your current data.")) return;
+ 
+ if(!config.masterBinId) return alert("Please configure Settings > BIN ID first.");
+ 
+ try {
+ const url = `https://api.jsonbin.io/v3/b/${config.masterBinId}/latest`;
+ const res = await fetch(url);
+ if(!res.ok) throw new Error(`HTTP ${res.status}`);
+ 
+ const json = await res.json();
+ 
+ if(json && json.record && typeof json.record === 'object' && !Array.isArray(json.record)) {
+ dbCollection = { laliga: [], seriea: [], bundesliga: [], ligue1: [] };
+ leagues.forEach(l => { 
+ if(Array.isArray(json.record[l])) {
+ dbCollection[l] = json.record[l];
+ }
+ });
+ 
+ render();
+ saveLocal();
+ alert("Data loaded successfully!");
+ } else {
+ throw new Error("Invalid Data Format.");
+ }
+ } catch(e) {
+ alert("Load failed: " + e.message);
+ console.error("Cloud Load Error:", e);
+ }
+ }
 </script>
-
 </body>
 </html>
 ```
