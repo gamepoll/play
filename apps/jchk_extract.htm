@@ -1,0 +1,284 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Horse Data Extractor Pro (Merged)</title>
+    <style>
+        :root {
+            --primary: #2563eb;
+            --secondary: #64748b;
+            --accent: #7c3aed;
+            --match: #db2777;
+            --success: #059669;
+            --bg: #f8fafc;
+            --card: #ffffff;
+            --text: #1e293b;
+            --border: #e2e8f0;
+        }
+
+        * { box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
+
+        body {
+            font-family: -apple-system, system-ui, sans-serif;
+            background-color: var(--bg);
+            color: var(--text);
+            margin: 0;
+            padding: 15px;
+            display: flex;
+            justify-content: center;
+        }
+
+        .wrapper {
+            width: 100%;
+            max-width: 750px;
+            background: var(--card);
+            padding: 20px;
+            border-radius: 12px;
+            box-shadow: 0 10px 15px -3px rgba(0,0,0,0.1);
+        }
+
+        h2 { margin-top: 0; font-size: 1.2rem; text-align: center; color: var(--primary); }
+
+        .field-label {
+            font-size: 0.75rem;
+            font-weight: 700;
+            color: var(--secondary);
+            text-transform: uppercase;
+            margin-bottom: 5px;
+            display: block;
+        }
+
+        textarea {
+            width: 100%;
+            height: 200px;
+            padding: 12px;
+            border: 2px solid var(--border);
+            border-radius: 8px;
+            font-family: 'Courier New', monospace;
+            font-size: 13px;
+            margin-bottom: 15px;
+            outline: none;
+            transition: border-color 0.2s;
+        }
+
+        textarea:focus { border-color: var(--primary); }
+
+        .btn-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 10px;
+            margin-bottom: 15px;
+        }
+
+        @media (min-width: 600px) {
+            .btn-grid { grid-template-columns: repeat(5, 1fr); }
+        }
+
+        button {
+            padding: 12px 5px;
+            border: none;
+            border-radius: 8px;
+            font-weight: 600;
+            font-size: 0.75rem;
+            cursor: pointer;
+            color: white;
+            transition: transform 0.1s, opacity 0.2s;
+            white-space: normal;
+            line-height: 1.2;
+        }
+
+        button:active { transform: scale(0.96); opacity: 0.9; }
+
+        #B1 { background-color: var(--primary); }
+        #B_Extract12 { background-color: #3b82f6; }
+        #B2 { background-color: var(--secondary); }
+        #B3 { background-color: var(--accent); }
+        #B5 { background-color: var(--match); }
+        #BCopy { background-color: var(--success); width: 100%; margin-top: 5px; }
+
+        #U2 { height: 250px; background-color: #f1f5f9; }
+
+        .status-ready { color: #22c55e; font-weight: bold; }
+    </style>
+</head>
+<body>
+
+<div class="wrapper">
+    <h2>Horse Data Extractor Pro</h2>
+
+    <label class="field-label">Input Window (U1)</label>
+    <textarea id="U1" placeholder="Paste HTML Table source or BrandNo lines here..."></textarea>
+
+    <div class="btn-grid">
+        <button id="B1" onclick="parseJockeyTable()">B1: Parse Jockey Table</button>
+        <button id="B_Extract12" onclick="processData(true)">Ext R1/R2</button>
+        <button id="B2" onclick="processData(false)">Ext Others</button>
+        <button id="B3" onclick="fetchPriceBS()">Load PriceBS</button>
+        <button id="B5" onclick="matchNames()">Match Names</button>
+    </div>
+
+    <label class="field-label">
+        Output Result (U2) 
+        <span id="jsonStatus" style="float:right; text-transform: none; font-weight: normal;"></span>
+    </label>
+    <textarea id="U2" readonly placeholder="Parsed results will appear here..."></textarea>
+    <button id="BCopy" onclick="copyToClipboard()">Copy Result to Clipboard</button>
+</div>
+
+<script>
+    let priceBSCache = null; 
+    const brandRegex = /BrandNo=([A-Z0-9]+)["']?>([^<]+)/i;
+
+    // --- NEW B1: PARSE JOCKEY TABLE LOGIC ---
+    function parseJockeyTable() {
+        const input = document.getElementById('U1').value;
+        const output = document.getElementById('U2');
+        
+        if (!input.trim()) {
+            output.value = "U1 is empty.";
+            return;
+        }
+
+        const parser = new DOMParser();
+        const doc = parser.parseFromString(input, 'text/html');
+        const rows = Array.from(doc.querySelectorAll('tr'));
+        
+        let raceMap = {};
+        let results = [];
+        let currentJockey = "";
+
+        // Identify Race Columns
+        rows.forEach(row => {
+            const cells = row.querySelectorAll('td');
+            cells.forEach((cell, idx) => {
+                const text = cell.innerText.trim();
+                const raceMatch = text.match(/第\s*(\d+)\s*場/);
+                if (raceMatch) {
+                    raceMap[idx] = `R${raceMatch[1]}`;
+                }
+            });
+        });
+
+        // Parse assignments
+        rows.forEach(row => {
+            const cells = Array.from(row.querySelectorAll('td'));
+            const jockeyLink = row.querySelector('a[href*="jid="]');
+            if (jockeyLink) currentJockey = jockeyLink.innerText.trim();
+
+            if (!currentJockey) return;
+
+            cells.forEach((cell, idx) => {
+                const horseLink = cell.querySelector('a[href*="BrandNo="]');
+                if (horseLink && horseLink.innerText.trim() !== "") {
+                    const horseName = horseLink.innerText.trim();
+                    const trainerLink = cell.querySelector('a[href*="sid="]');
+                    const trainerName = trainerLink ? trainerLink.innerText.trim() : "";
+                    const raceNo = raceMap[idx] || "R?";
+                    
+                    const horseNoMatch = cell.innerText.match(/^\s*(\d+)/);
+                    const horseNo = horseNoMatch ? horseNoMatch[1].padStart(2, '0') : "00";
+
+                    const oddsMatch = cell.innerText.match(/\(([^)]+)\)/);
+                    const odds = oddsMatch ? `(${oddsMatch[1]})` : "";
+
+                    results.push(`${horseName} ${raceNo}-${horseNo} ${currentJockey} ${trainerName} ${odds}`);
+                }
+            });
+        });
+
+        output.value = results.join('\n');
+    }
+
+    // --- ORIGINAL CODEX LOGIC ---
+    function processData(isB1Action) {
+        const input = document.getElementById('U1').value;
+        const lines = input.split(/\r?\n/);
+        const results = [];
+
+        lines.forEach(line => {
+            const trimmed = line.trim();
+            if (!trimmed) return;
+            const hasR = trimmed.includes('R1') || trimmed.includes('R2');
+            const hasBrand = trimmed.includes('BrandNo');
+            if (isB1Action) {
+                if (hasR && hasBrand) extract(trimmed, results);
+            } else {
+                if (!hasR && hasBrand) extract(trimmed, results);
+            }
+        });
+        document.getElementById('U2').value = results.join('\n');
+    }
+
+    function extract(line, resultsArray) {
+        const match = line.match(brandRegex);
+        if (match && match.length >= 3) {
+            resultsArray.push(`${match[2]}(${match[1]})`);
+        }
+    }
+
+    async function fetchPriceBS() {
+        const u2 = document.getElementById('U2');
+        const b3 = document.getElementById('B3');
+        const status = document.getElementById('jsonStatus');
+        const binId = "69f07dd036566621a8fe9042";
+        
+        b3.innerText = "Loading...";
+        u2.value = "Fetching JSON data...";
+
+        try {
+            const response = await fetch(`https://api.jsonbin.io/v3/b/${binId}/latest`);
+            if (!response.ok) throw new Error("Fetch failed.");
+            const data = await response.json();
+            const record = data.record || data;
+            priceBSCache = JSON.stringify(record); 
+            u2.value = JSON.stringify(record, null, 2);
+            b3.innerText = "Load PriceBS";
+            status.innerHTML = '<span class="status-ready">✓ Cache Ready</span>';
+        } catch (err) {
+            u2.value = "Error: " + err.message;
+            b3.innerText = "Load PriceBS";
+            status.innerHTML = '<span style="color:red">Cache Empty</span>';
+        }
+    }
+
+    function matchNames() {
+        if (!priceBSCache) {
+            alert("PriceBS Cache is empty. Click 'Load PriceBS' first.");
+            return;
+        }
+        const u2Content = document.getElementById('U2').value;
+        if (!u2Content || u2Content.startsWith('{') || u2Content.startsWith('[')) {
+            alert("Extract data to U2 before matching.");
+            return;
+        }
+        const lines = u2Content.split('\n');
+        const matchedResults = [];
+        lines.forEach(line => {
+            // Updated to handle both "HorseName(Code)" and "HorseName R1-01..." formats
+            const namePart = line.split(/[ \()]/)[0]; 
+            if (namePart && priceBSCache.includes(namePart)) {
+                matchedResults.push(line);
+            }
+        });
+        document.getElementById('U2').value = matchedResults.join('\n');
+        document.getElementById('jsonStatus').innerHTML = `<span class="status-ready">✓ Found ${matchedResults.length} Matches</span>`;
+    }
+
+    async function copyToClipboard() {
+        const output = document.getElementById('U2');
+        if (!output.value) return;
+        try {
+            await navigator.clipboard.writeText(output.value);
+            const btn = document.getElementById('BCopy');
+            const originalText = btn.innerText;
+            btn.innerText = "✓ Copied!";
+            setTimeout(() => btn.innerText = originalText, 2000);
+        } catch (err) {
+            alert("Copy failed.");
+        }
+    }
+</script>
+
+</body>
+</html>
