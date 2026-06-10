@@ -5,6 +5,7 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Main Page - Select Option</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
   <style>
     body {
       font-family: Arial, sans-serif;
@@ -61,6 +62,39 @@
     .pdf-btn:hover {
       background-color: #0056b3;
     }
+    
+    .menu-item {
+      display: flex;
+      align-items: center;
+      padding: 15px;
+      margin: 10px 0;
+      background-color: #f9f9f9;
+      border: 1px solid #ddd;
+      border-radius: 5px;
+      text-decoration: none;
+      color: #333;
+      transition: all 0.3s ease;
+    }
+  .menu-item:hover {
+      background-color: #e8f4f8;
+      border-color: #d32f2f;
+      box-shadow: 0 2px 8px rgba(211, 47, 47, 0.2);
+    }
+    .menu-item i {
+      font-size: 24px;
+      margin-right: 15px;
+      color: #d32f2f;
+    }
+    .menu-text h3 {
+      margin: 0 0 5px 0;
+      color: #333;
+    }
+    .menu-text p {
+      margin: 0;
+      font-size: 12px;
+      color: #666;
+    }
+    
   </style>
 </head>
 
@@ -73,9 +107,22 @@
 
     <!-- Bio 2026 -->
     <div>
+      <div class="url-display">Science-Chemistry note 2026</div>
+    <!-- Scribd Link -->
+    <a href="https://www.scribd.com/embeds/852656974/content" class="menu-item" target="_blank">
+      <i class="fas fa-book"></i>
+      <div class="menu-text">
+        <h3>View on Scribd</h3>
+        <p>View embedded document</p>
+      </div>
+    </a>
+    </div>
+    
+    <!-- Bio 2026 -->
+    <div>
       <div class="url-display">Science-Biology note 2026</div>
 
-      <a href="img/Scribd_bio_note_all.pdf" target="_blank" class="pdf-btn">View PDF</a>
+      <a href="https://raw.githubusercontent.com/gamepoll/play/1098/img/Scribd_bio_note_all.pdf" target="_blank" class="pdf-btn">View PDF</a>
     </div>
 
     <!-- English 2026 -->
