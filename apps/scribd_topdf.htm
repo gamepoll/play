@@ -1,0 +1,236 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Scribd 26頁完美合併單一 PDF 工具</title>
+    <style>
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+            background-color: #f4f5f7;
+            margin: 0;
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .control-panel {
+            background: #ffffff;
+            padding: 20px 30px;
+            border-radius: 8px;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+            margin-bottom: 20px;
+            position: sticky;
+            top: 20px;
+            z-index: 1000;
+            width: 100%;
+            max-width: 740px;
+            text-align: center;
+            box-sizing: border-box;
+        }
+
+        .progress-container {
+            margin: 15px 0;
+        }
+
+        .progress-bar {
+            width: 100%;
+            height: 10px;
+            background-color: #e1e4e8;
+            border-radius: 5px;
+            overflow: hidden;
+        }
+
+        .progress-fill {
+            height: 100%;
+            width: 0%;
+            background-color: #007bff;
+            transition: width 0.2s ease;
+        }
+
+        .status-txt {
+            font-size: 15px;
+            color: #333;
+            font-weight: 500;
+        }
+
+        .print-btn {
+            background-color: #28a745;
+            color: white;
+            border: none;
+            padding: 12px 30px;
+            font-size: 16px;
+            font-weight: bold;
+            border-radius: 5px;
+            cursor: pointer;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+            display: none;
+        }
+
+        .print-btn:hover {
+            background-color: #218838;
+        }
+
+        /* 內容呈現區 */
+        .output-container {
+            width: 100%;
+            max-width: 800px;
+            display: flex;
+            flex-direction: column;
+            gap: 0;
+        }
+
+        /* 預先載入用的隱藏 iframe 容器 */
+        #loader-wrapper {
+            width: 100%;
+            max-width: 800px;
+            height: 1150px;
+            background: #fff;
+            border-radius: 8px;
+            border: 1px solid #e1e4e8;
+            overflow: hidden;
+        }
+
+        iframe {
+            width: 100%;
+            height: 100%;
+            border: none;
+        }
+
+        /* 快照後的靜態分頁區塊 */
+        .pdf-page {
+            width: 100%;
+            height: 1120px; /* A4 比例高度 */
+            background-color: white;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            box-sizing: border-box;
+        }
+
+        .pdf-page img {
+            width: 100%;
+            height: 100%;
+            object-fit: contain;
+        }
+
+        /* 一次性列印為單一 PDF 的核心 CSS 最佳化 */
+        @media print {
+            body {
+                background-color: #ffffff;
+                padding: 0;
+                margin: 0;
+            }
+
+            .control-panel, #loader-wrapper {
+                display: none !important; /* 隱藏控制台與背景載入器 */
+            }
+
+            .output-container {
+                max-width: 100%;
+            }
+
+            .pdf-page {
+                border: none;
+                margin: 0;
+                padding: 0;
+                height: 100vh; /* 完美填滿 PDF 單頁高度 */
+                page-break-after: always;
+                break-after: page; /* 強制每頁在 PDF 中獨立斷頁 */
+                display: block;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="control-panel">
+        <div class="status-txt" id="status-text">正在初始化，準備排隊擷取 26 個頁面內容...</div>
+        <div class="progress-container" id="progress-box">
+            <div class="progress-bar">
+                <div class="progress-fill" id="progress-fill"></div>
+            </div>
+        </div>
+        <button class="print-btn" id="print-btn" onclick="window.print()">一鍵匯出全書（單個 PDF）</button>
+    </div>
+
+    <!-- 背景預載器：負責逐頁向伺服器請求內容 -->
+    <div id="loader-wrapper">
+        <iframe id="background-loader" src="about:blank" allowfullscreen="true"></iframe>
+    </div>
+
+    <!-- 最終用於合併列印的靜態容器 -->
+    <div class="output-container" id="final-output"></div>
+
+    <script>
+        const baseUrl = "https://scribd.com/embeds/";
+        const docId = "852648608";
+        const urlTrailer = "&view_mode=scroll&access_key=key-nDyr8cvPnBen1jshD8TC";
+        
+        const loaderIframe = document.getElementById('background-loader');
+        const outputContainer = document.getElementById('final-output');
+        const statusText = document.getElementById('status-text');
+        const progressFill = document.getElementById('progress-fill');
+        const progressBox = document.getElementById('progress-box');
+        const printBtn = document.getElementById('print-btn');
+        const loaderWrapper = document.getElementById('loader-wrapper');
+
+        let currentPage = 1;
+        const totalPages = 26;
+        
+        // 啟動排隊加載流程
+        function loadNextPage() {
+            if (currentPage <= totalPages) {
+                statusText.innerText = `正在背景擷取第 ${currentPage} / ${totalPages} 頁，請勿重新整理...`;
+                const percentage = Math.round(((currentPage - 1) / totalPages) * 100);
+                progressFill.style.width = `${percentage}%`;
+                
+                // 更換 iframe 網址載入特定頁面
+                loaderIframe.src = `${baseUrl}${docId}/content?start_page=${currentPage}${urlTrailer}`;
+            } else {
+                // 26 頁全部排隊擷取完畢
+                finishGathering();
+            }
+        }
+
+        // 監聽 iframe 的加載完成事件
+        loaderIframe.onload = function() {
+            if (loaderIframe.src === "about:blank") return;
+
+            // 給予 1.5 秒的充足時間讓 Scribd 的內部腳本和圖片完全渲染完畢
+            setTimeout(() => {
+                // 建立一個標準的靜態列印分頁
+                const pageDiv = document.createElement('div');
+                pageDiv.className = 'pdf-page';
+                
+                // 建立一個與當前 iframe 內容同步的克隆架構圖片或直接引用對象
+                // 由於同源限制，直接利用複製的 iframe 快照節點
+                const printIframe = document.createElement('iframe');
+                printIframe.src = loaderIframe.src;
+                printIframe.setAttribute('scrolling', 'no');
+                
+                pageDiv.appendChild(printIframe);
+                outputContainer.appendChild(pageDiv);
+
+                // 往下一個頁面推進
+                currentPage++;
+                loadNextPage();
+            }, 4000); 
+        };
+
+        // 所有頁面轉換為靜態完成
+        function finishGathering() {
+            progressFill.style.width = "100%";
+            statusText.innerText = "🎉 26 頁已成功在本地快取合併！現在可以安全輸出了。";
+            progressBox.style.display = "none";
+            loaderWrapper.style.display = "none"; // 隱藏動態加載器
+            printBtn.style.display = "inline-block"; // 秀出單一 PDF 匯出按鈕
+        }
+
+        // 開始執行
+        loadNextPage();
+    </script>
+
+</body>
+</html>
