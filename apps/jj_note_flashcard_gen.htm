@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Root Biology Interactive Tool</title>
+    <style>
+        body { font-family: sans-serif; line-height: 1.4; max-width: 800px; margin: 20px auto; padding: 20px; }
+        .term { background: #e0e0e0; cursor: pointer; padding: 2px 5px; border-radius: 4px; border: 1px solid #999; font-weight: bold; }
+        svg { display: block; margin: 20px 0; border: 1px solid #ccc; background: #fff; }
+        .label { cursor: pointer; font-size: 14px; font-family: Arial, sans-serif; fill: blue; text-decoration: underline; font-weight: bold; }
+        .bullet-point { display: flex; align-items: flex-start; margin: 5px 0; }
+        .bullet-point::before { content: "•"; margin-right: 10px; font-weight: bold; }
+        h2 { margin-top: 25px; border-bottom: 2px solid #333; padding-bottom: 5px; font-size: 1.2em; }
+    </style>
+</head>
+<body>
+
+    <h1>Root Structure and Function</h1>
+
+    <svg id="root-svg" width="500" height="200" viewBox="0 0 500 200">
+        <path d="M50,70 L50,140 L160,140 L160,120 L450,120 L450,80 L160,80 L160,70 Z" fill="none" stroke="black" stroke-width="2"/>
+        <ellipse cx="430" cy="100" rx="10" ry="5" fill="black" />
+        <line x1="80" y1="70" x2="100" y2="40" stroke="black" />
+        <text x="100" y="35" class="label" data-text="Cell wall" onclick="toggle(this)">CKKK</text>
+        <line x1="250" y1="120" x2="250" y2="150" stroke="black" />
+        <text x="235" y="165" class="label" data-text="Vacuole" onclick="toggle(this)">VKKK</text>
+        <line x1="430" y1="95" x2="430" y2="60" stroke="black" />
+        <text x="415" y="55" class="label" data-text="Nucleus" onclick="toggle(this)">NKKK</text>
+    </svg>
+
+    <div id="content-container"></div>
+
+    <script>
+        const content = [
+            { type: 'heading', text: "Root:" },
+            { type: 'point', content: [{ text: "Root is the " }, { term: "underground", text: " part of the plant." }] },
+            { type: 'point', content: [{ text: "Root hairs are tiny " }, { term: "extensions", text: " from the outer surface of plant-roots." }] },
+            { type: 'point', content: [{ text: "Special cells called as " }, { term: "root hair cells", text: " are present at the tip of the root hairs." }] },
+            { type: 'heading', text: "Structure of the root hair cell:" },
+            { type: 'point', content: [{ text: "The function of the root hair cell is to absorb " }, { term: "mineral salts", text: " and " }, { term: "water", text: " from the soil." }] },
+            { type: 'heading', text: "Adaptation of the root hair cell:" },
+            { type: 'point', content: [{ text: "The root hair cell has a large extension that increases the " }, { term: "surface area", text: " for " }, { term: "absorption", text: "." }] },
+            { type: 'point', content: [{ term: "Energy", text: " is needed by the roots for absorbing mineral salts, but no energy is needed for absorbing water." }] },
+            { type: 'point', content: [{ text: "Water is drawn naturally by a process called " }, { term: "transpiration pull", text: "." }] },
+            { type: 'point', content: [{ term: "Transpiration", text: " is a process that involves loss of water vapour through the " }, { term: "stomata", text: " of plants." }] }
+        ];
+
+        const container = document.getElementById('content-container');
+        
+        content.forEach(item => {
+            if (item.type === 'heading') {
+                const h2 = document.createElement('h2');
+                h2.innerText = item.text;
+                container.appendChild(h2);
+            } else {
+                const div = document.createElement('div');
+                div.className = 'bullet-point';
+                item.content.forEach(part => {
+                    if (part.term) {
+                        const span = document.createElement('span');
+                        span.className = 'term';
+                        span.textContent = part.term[0] + "KKK";
+                        span.dataset.text = part.term;
+                        span.onclick = function() { toggle(this); };
+                        div.appendChild(span);
+                    }
+                    if (part.text) div.appendChild(document.createTextNode(part.text));
+                });
+                container.appendChild(div);
+            }
+        });
+
+        function toggle(el) {
+            const original = el.dataset.text;
+            const current = el.textContent;
+            el.textContent = (current === original) ? original[0] + "KKK" : original;
+        }
+    </script>
+</body>
+</html>
