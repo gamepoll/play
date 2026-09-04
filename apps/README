@@ -1,4 +1,8 @@
 
 
+jjgen1.htm -- to generate htm file to toggle over biology photo for jj study .....
+
+
+==========================
 u ar a programmer .... develop a one page html web based fill-in-the-blank apps .... that allows being pasting an image with labels into box box1 ..... upon clicking button but1, scan image in box1, and mask off any labels found  in the image in box1, and assign new anonymous labels to original image and display new image into box box2 .... upon clicking button but2, create a html source code into box3, that list out all new assigned labels in image in box2, paired up with original corresponding labels in image of box1 ....
 
