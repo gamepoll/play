@@ -1,0 +1,1874 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Label Anonymiser — Fill-in-the-Blank Builder (standalone · v10)</title>
+<!-- ================================================================
+     LIVE edition · v10 — X/Y is ALWAYS the POINTED TIP of the label
+     arrow. "Points Right ▶" → arrowhead at (X,Y); the label TEXT
+     sits LEFT of the tip (e.g. tip 361/637 → text top-left ≈ 161/637).
+     "Points Left ◀" mirrors it with the text RIGHT of the tip.
+     v10 CodePen hardening:
+       · the live tip marker + ghost preview now live in their OWN
+         overlay (outside the grid layer) so they always draw over
+         box 2, even with the ⌗ grid toggled off;
+       · script double-execution is guarded — labels can never be
+         added twice / toggles never break in a re-run pen;
+       · console.log prints the version on boot.
+     CodePen: paste this ENTIRE file into the HTML pane ONLY (or
+     split: <style> → CSS pane, <script> → JS pane, rest → HTML).
+     Boots on DOM-ready; runtime errors surface in the status bar.
+     Backups: React app = backupv1 (src/), single-file pre-tip
+     version = jjgen1-backupv2.htm (public/).
+     ================================================================ -->
+<style>
+/* ============ Label Anonymiser · standalone CSS ============ */
+*{box-sizing:border-box}
+html,body{margin:0;padding:0}
+body{background:#eef2f7;color:#0f172a;font-family:ui-sans-serif,system-ui,-apple-system,"Segoe UI",Roboto,Arial,sans-serif;font-size:14px}
+button{font-family:inherit;cursor:pointer}
+input,select,textarea{font-family:inherit;font-size:13px;color:#0f172a}
+.inner{max-width:1500px;margin:0 auto;padding:0 18px}
+/* ---- header ---- */
+header.top{position:sticky;top:0;z-index:40;background:rgba(255,255,255,.96);border-bottom:1px solid #e2e8f0;box-shadow:0 1px 3px rgba(15,23,42,.06);backdrop-filter:blur(6px)}
+.abg{background:linear-gradient(90deg,#eef2ff,#fff 45%,#ecfdf5);border-bottom:1px solid #f1f5f9}
+.abar{display:flex;flex-wrap:wrap;gap:10px;align-items:center;padding:10px 0}
+.big{display:inline-flex;align-items:center;justify-content:center;gap:8px;border:0;border-radius:12px;padding:11px 18px;font-weight:800;color:#fff;font-size:15px;transition:.15s;box-shadow:0 4px 10px rgba(79,70,229,.15)}
+.big:active{transform:scale(.98)}
+.big:disabled{background:#cbd5e1 !important;color:#94a3b8 !important;box-shadow:none !important;cursor:not-allowed}
+.big.indigo{background:#4f46e5}
+.big.indigo:hover:not(:disabled){background:#4338ca}
+.big.green{background:#059669}
+.big.green:hover:not(:disabled){background:#047857}
+.big .sub{font-size:11px;font-weight:500;opacity:.85;display:none}
+@media(min-width:640px){.big .sub{display:inline}}
+.spin{display:inline-block;width:14px;height:14px;border:2px solid rgba(255,255,255,.4);border-top-color:#fff;border-radius:50%;animation:rot .8s linear infinite}
+@keyframes rot{to{transform:rotate(360deg)}}
+.pill{background:#fff;border:1px solid #e2e8f0;border-radius:999px;padding:4px 10px;font-size:11px;color:#64748b;margin-left:auto}
+.trow{display:flex;flex-wrap:wrap;align-items:center;gap:10px;padding:8px 0}
+.logo{width:34px;height:34px;border-radius:9px;display:flex;align-items:center;justify-content:center;font-size:16px;color:#fff;background:linear-gradient(135deg,#6366f1,#7c3aed);box-shadow:0 2px 6px rgba(99,102,241,.35)}
+.trow h1{margin:0;font-size:14px;font-weight:700}
+.trow p{margin:0;font-size:11px;color:#64748b}
+.sline{margin-left:auto;font-size:12px;color:#64748b;max-width:60%;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.sline.err{color:#e11d48;font-weight:600}
+/* ---- layout ---- */
+main.grid{max-width:1500px;margin:0 auto;padding:18px;display:grid;grid-template-columns:1fr;gap:16px}
+@media(min-width:1280px){main.grid{grid-template-columns:1fr 1fr}.span2{grid-column:1/-1}}
+.card{background:#fff;border:1px solid #e2e8f0;border-radius:16px;padding:16px;box-shadow:0 1px 3px rgba(15,23,42,.05)}
+.cardh{display:flex;flex-wrap:wrap;align-items:center;gap:8px;margin-bottom:12px}
+.cardh h2{margin:0;font-size:12px;font-weight:800;text-transform:uppercase;letter-spacing:.05em;color:#334155}
+.badge{background:#f1f5f9;color:#64748b;border-radius:999px;padding:2px 8px;font-size:11px}
+.badge.green{background:#ecfdf5;color:#047857;font-weight:700}
+.btn{border:1px solid #cbd5e1;background:#fff;border-radius:8px;padding:5px 10px;font-size:12px;font-weight:500;color:#334155;transition:.15s}
+.btn:hover:not(:disabled){background:#f8fafc;border-color:#94a3b8}
+.btn:disabled{opacity:.4;cursor:not-allowed}
+.btn.danger{color:#e11d48}
+.btn.danger:hover:not(:disabled){background:#fff1f2}
+.btn.on{border-color:#a5b4fc;background:#eef2ff;color:#4338ca;font-weight:700}
+.btn.tiny{padding:3px 8px;font-size:11px}
+.mla{margin-left:auto}
+/* ---- source stage ---- */
+.sbox{border:2px solid #e2e8f0;border-radius:12px;background:#f8fafc;overflow:auto;position:relative}
+.sbox.drag{border-color:#818cf8;background:#eef2ff}
+.sbox.dash{border-style:dashed}
+.sbox img{display:block;max-width:100%;height:auto;margin:0 auto;user-select:none;-webkit-user-drag:none}
+.stage{display:inline-block;position:relative;max-width:100%;margin:0 auto}
+.stage .layer{position:absolute;inset:0;touch-action:none}
+.empty{min-height:300px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:8px;cursor:pointer;color:#64748b;text-align:center;padding:20px}
+.empty .bigic{font-size:38px}
+.empty b{color:#334155;font-size:14px}
+.empty small{font-size:12px;color:#94a3b8}
+.det{position:absolute;border-radius:3px}
+.det .box{position:absolute;inset:0;border:1.5px solid rgba(7,89,133,.6);box-shadow:0 0 0 1px rgba(255,255,255,.8);border-radius:3px}
+.det.off .box{border:1px dashed #94a3b8;opacity:.6}
+.det.hov .box{border:2px solid #f43f5e}
+.det.sel .box{border:2px solid #4f46e5;background:rgba(99,102,241,.10);box-shadow:0 0 0 1.5px rgba(255,255,255,.95),0 0 0 5px rgba(99,102,241,.25)}
+.det .lbl{position:absolute;left:50%;transform:translateX(-50%);background:#0f172a;color:#fff;font-weight:800;border-radius:6px;padding:0 6px;white-space:nowrap;box-shadow:0 1px 3px rgba(0,0,0,.25);line-height:1.2}
+.det.sel .lbl,.det.hov .lbl{opacity:1 !important}
+.det .lbl.dim{opacity:.85}
+.drawprev{position:absolute;border:2px solid #6366f1;background:rgba(99,102,241,.25);border-radius:3px;pointer-events:none}
+.modechip{position:absolute;left:0;right:0;bottom:8px;display:flex;justify-content:center;pointer-events:none}
+.modechip span{background:rgba(79,70,229,.95);color:#fff;font-size:11px;font-weight:700;border-radius:999px;padding:5px 12px;box-shadow:0 4px 12px rgba(0,0,0,.2)}
+/* ---- option grids ---- */
+.opts{display:grid;grid-template-columns:repeat(auto-fit,minmax(170px,1fr));gap:10px;background:#f8fafc;border-radius:12px;padding:10px;margin-top:12px;font-size:12px}
+.opts label{display:flex;flex-direction:column;gap:4px;font-weight:600;color:#475569}
+.opts label.row{flex-direction:row;align-items:center;gap:6px;font-weight:500}
+.opts input[type=range]{accent-color:#4f46e5}
+.opts input[type=checkbox]{accent-color:#4f46e5;width:15px;height:15px;cursor:pointer}
+.opts select,.opts input[type=text]{border:1px solid #cbd5e1;border-radius:6px;background:#fff;padding:4px 6px;font-size:12px}
+.opts .pfx{width:52px}
+.seg{display:flex;border:1px solid #cbd5e1;border-radius:8px;overflow:hidden;background:#fff}
+.seg button{border:0;background:#fff;padding:6px 12px;font-size:12px;font-weight:700;color:#475569}
+.seg button.on{background:#4f46e5;color:#fff}
+/* ---- box 2 stage + grid ---- */
+.stage2wrap{background:#f8fafc;border:1px solid #e2e8f0;border-radius:12px;overflow:hidden;padding:8px}
+.stage2{position:relative;display:inline-block;max-width:100%;margin:0 auto;text-align:center}
+.stage2 img{display:block;max-width:100%;max-height:560px;height:auto;width:auto;margin:0 auto;user-select:none;-webkit-user-drag:none}
+.gridlayer{position:absolute;inset:0;cursor:crosshair;touch-action:none}
+.gridlayer svg{position:absolute;left:0;top:0;overflow:visible}
+#ghostSvg{position:absolute;left:0;top:0;pointer-events:none;overflow:visible;z-index:6}
+.ax{font-family:ui-monospace,Menlo,Consolas,monospace;font-size:10.5px;font-weight:700;fill:#0f172a;stroke:#fff;stroke-width:3px;paint-order:stroke}
+.rt{position:absolute;z-index:10;background:rgba(15,23,42,.95);color:#fff;border-radius:8px;padding:5px 9px;font-family:ui-monospace,Menlo,Consolas,monospace;font-size:10.5px;line-height:1.45;box-shadow:0 6px 16px rgba(0,0,0,.25);pointer-events:none}
+.rt b{color:#a5b4fc}
+.rt small{font-size:9px;color:#cbd5e1;display:block}
+.ghint{position:absolute;bottom:4px;left:6px;background:rgba(255,255,255,.88);border-radius:6px;padding:2px 7px;font-size:9.5px;font-weight:600;color:#64748b;pointer-events:none;box-shadow:0 1px 3px rgba(0,0,0,.12)}
+.phint{position:absolute;z-index:10;background:rgba(255,255,255,.95);border:1px solid #c7d2fe;color:#312e81;border-radius:8px;padding:3px 9px;font-size:11px;font-weight:700;pointer-events:none;box-shadow:0 2px 8px rgba(79,70,229,.2);white-space:nowrap}
+/* ---- manual add form ---- */
+.addform{border:1px solid #e0e7ff;background:#eef2ff66;border-radius:12px;padding:12px;margin-bottom:12px}
+.afhead{display:flex;flex-wrap:wrap;gap:8px;font-size:12px;margin-bottom:8px}
+.afhead .t{font-weight:800;color:#334155}
+.afhead small{color:#64748b}
+.afrow{display:flex;flex-wrap:wrap;gap:8px;align-items:flex-end}
+.afcell{display:flex;flex-direction:column;gap:4px;font-size:11px;font-weight:700;color:#475569}
+.afcell input{border:1px solid #cbd5e1;border-radius:8px;padding:6px 8px;font-size:13px;background:#fff}
+.afcell input:focus{outline:2px solid #c7d2fe;border-color:#818cf8}
+.afcell .c{min-width:200px;flex:1}
+.afcell .n{width:104px}
+.addbtn{background:#4f46e5;color:#fff;border:0;border-radius:8px;padding:8px 14px;font-size:12px;font-weight:800}
+.addbtn:hover{background:#4338ca}
+.afline{margin-top:7px;font-size:11px;min-height:15px;color:#64748b}
+.afline.err{color:#e11d48;font-weight:600}
+.afline b{color:#334155}
+/* ---- mapping table ---- */
+.mapwrap{border:1px solid #e2e8f0;border-radius:12px;overflow:auto;max-height:430px}
+table.maptable{width:100%;min-width:680px;border-collapse:collapse;font-size:13px}
+.maptable th{position:sticky;top:0;background:#f1f5f9;text-align:left;font-size:10.5px;text-transform:uppercase;letter-spacing:.05em;color:#64748b;padding:9px 10px;border-bottom:1px solid #e2e8f0;z-index:2}
+.maptable td{padding:7px 10px;border-bottom:1px solid #f1f5f9}
+.maptable tr{cursor:pointer}
+.maptable tbody tr:hover{background:#f8fafc}
+.maptable tr.sel{background:#eef2ff}
+.maptable tr.dis{opacity:.55}
+.maptable input.orig{width:100%;min-width:210px;border:1px solid transparent;background:transparent;border-radius:6px;padding:5px 8px;font-weight:600;font-size:13px}
+.maptable input.orig:hover{border-color:#e2e8f0}
+.maptable input.orig:focus{outline:none;border-color:#a5b4fc;background:#fff;box-shadow:0 0 0 3px #e0e7ff}
+.maptable input[type=checkbox]{accent-color:#4f46e5;width:16px;height:16px;cursor:pointer}
+.tagind{display:inline-flex;min-width:30px;align-items:center;justify-content:center;background:#4f46e5;color:#fff;font-weight:800;font-size:12px;border-radius:7px;padding:2px 8px}
+.tagoff{font-size:11px;font-style:italic;color:#94a3b8}
+.bchip{display:inline-block;border-radius:999px;padding:2px 8px;font-size:11px;font-weight:700}
+.bc-ok{background:#d1fae5;color:#047857}
+.bc-mid{background:#fef3c7;color:#b45309}
+.bc-lo{background:#ffe4e6;color:#be123c}
+.bc-dr{background:#fef3c7;color:#b45309}
+.delbtn{border:0;background:none;color:#f43f5e;font-size:13px;font-weight:800;border-radius:6px;padding:3px 7px}
+.delbtn:hover{background:#fff1f2}
+.flip{border:1px solid #cbd5e1;background:#fff;border-radius:6px;padding:2px 7px;font-size:12px;font-weight:800;color:#64748b;line-height:1.4}
+.flip:hover{border-color:#a5b4fc;color:#4f46e5}
+/* ---- box3 code ---- */
+#outArea textarea{width:100%;height:320px;border:1px solid #e2e8f0;border-radius:12px;background:#0f172a;color:#a7f3d0;font-family:ui-monospace,Menlo,Consolas,monospace;font-size:11.5px;line-height:1.55;padding:12px;resize:vertical;outline:none}
+#outArea iframe{width:100%;height:460px;border:1px solid #e2e8f0;border-radius:12px;background:#fff;display:block}
+.placeholder{border:2px dashed #cbd5e1;background:#f8fafc;border-radius:12px;padding:26px;text-align:center;color:#64748b;font-size:13px}
+.emptybox{display:flex;height:340px;align-items:center;justify-content:center;border:2px dashed #cbd5e1;border-radius:12px;background:#f8fafc;color:#64748b;font-size:13px;text-align:center;padding:16px}
+/* pairs chips */
+.pairs{margin-top:12px}
+.pairs .l{margin-bottom:6px;font-size:11px;color:#64748b;display:flex;gap:8px;flex-wrap:wrap;align-items:center}
+.pairchips{display:flex;flex-wrap:wrap;gap:6px}
+.pair{background:#f8fafc;border:1px solid #e2e8f0;border-radius:999px;padding:3px 9px;font-size:11px;display:inline-flex;align-items:center;gap:4px}
+.pair b{color:#be123c}
+.pair .eq{color:#94a3b8}
+.clue{border:1px dashed #94a3b8;background:none;border-radius:6px;padding:2px 7px;font-family:ui-monospace,Menlo,Consolas,monospace;font-size:10.5px;color:#475569;letter-spacing:.06em}
+.clue:hover{background:#e2e8f0}
+.clue.show{border:1px solid #10b981;background:#d1fae5;color:#065f46;font-weight:700;font-family:inherit;letter-spacing:0}
+/* toast + footer */
+#toast{position:fixed;bottom:20px;left:50%;transform:translateX(-50%);background:#0f172a;color:#fff;border-radius:999px;padding:9px 18px;font-size:13px;box-shadow:0 10px 30px rgba(0,0,0,.3);z-index:99;opacity:0;pointer-events:none;transition:.25s}
+#toast.show{opacity:1}
+footer{text-align:center;font-size:11px;color:#94a3b8;padding:0 18px 24px;grid-column:1/-1}
+::-webkit-scrollbar{width:9px;height:9px}
+::-webkit-scrollbar-thumb{background:#cbd5e1;border-radius:8px}
+</style>
+</head>
+<body>
+
+<header class="top">
+  <div class="abg"><div class="inner">
+    <div class="abar">
+      <button id="but1" class="big indigo"><span class="ic">🔍</span><span>BUT 1</span><span class="sub">Scan &amp; anonymise → box 2</span></button>
+      <button id="but2" class="big green"><span class="ic">📝</span><span>BUT 2</span><span class="sub">Generate HTML → box 3</span></button>
+      <span class="pill" id="statImg">no image yet</span>
+      <span class="pill" id="statCount">0 labels</span>
+    </div>
+  </div></div>
+  <div class="inner trow">
+    <div class="logo">🏷️</div>
+    <div>
+      <h1>Label Anonymiser — Fill-in-the-Blank Builder</h1>
+      <p>Paste a labelled image → mask the labels → export the answer-key HTML. Standalone edition · no build step · runs in Chrome / CodePen. <b style="color:#4f46e5">v10</b> — X/Y = the pointed arrow TIP; overlay preview always visible over box 2 (even with the grid off); CodePen double-run guarded.</p>
+    </div>
+    <div class="sline" id="status"></div>
+  </div>
+</header>
+
+<main class="grid">
+
+  <!-- ================= BOX 1 ================= -->
+  <section class="card">
+    <div class="cardh">
+      <h2>Box 1 · Source image</h2>
+      <span class="badge">paste / drop / choose</span>
+      <div class="mla" style="display:flex;gap:6px;flex-wrap:wrap">
+        <button class="btn" id="chooseBtn">Choose file</button>
+        <button class="btn" id="demoBtn">Demo image</button>
+        <button class="btn" id="drawBtn">Draw box</button>
+        <button class="btn danger" id="clearBtn" disabled>Clear</button>
+      </div>
+    </div>
+    <input type="file" id="fileInput" accept="image/*" hidden />
+
+    <div class="sbox dash" id="srcDrop">
+      <div class="empty" id="srcEmpty">
+        <div class="bigic">🖼️</div>
+        <div><b>Drop an image here</b> · paste it with <b>Ctrl/⌘ V</b> · or click to browse</div>
+        <small>PNG · JPG · WEBP — labels are found automatically by OCR</small>
+      </div>
+      <div class="stage" id="srcStage" style="display:none">
+        <img id="srcImg" alt="source" draggable="false"/>
+        <svg id="srcArrows" style="position:absolute;left:0;top:0;overflow:visible" aria-hidden="true"></svg>
+        <div class="layer" id="srcLayer"></div>
+        <div class="drawprev" id="drawPrev" style="display:none"></div>
+        <div class="modechip" id="srcHint" style="display:none"><span>✏️ Drag around the label text — release to name it</span></div>
+      </div>
+    </div>
+
+    <div class="opts">
+      <label>Min confidence: <span id="minConfV">55</span>%
+        <input type="range" id="minConf" min="0" max="95" value="55"/></label>
+      <label>OCR upscale: <span id="ocrScaleV">2</span>×
+        <input type="range" id="ocrScale" min="1" max="4" step="1" value="2"/></label>
+      <label class="row"><input type="checkbox" id="mergeWords" checked/> Merge words into phrases</label>
+      <label>Label scheme
+        <div style="display:flex;gap:6px">
+          <select id="scheme">
+            <option value="alpha">A, B, C…</option>
+            <option value="numeric">1, 2, 3…</option>
+            <option value="prefixNum">L1, L2, L3…</option>
+            <option value="roman">I, II, III…</option>
+          </select>
+          <input type="text" id="prefix" class="pfx" placeholder="pfx"/>
+        </div>
+      </label>
+    </div>
+  </section>
+
+  <!-- ================= BOX 2 ================= -->
+  <section class="card">
+    <div class="cardh">
+      <h2>Box 2 · Anonymised image</h2>
+      <span class="badge green" id="outCount">0 new labels</span>
+      <div class="mla" style="display:flex;gap:6px;flex-wrap:wrap">
+        <button class="btn" id="gridBtn" disabled>⌗ Grid off</button>
+        <button class="btn" id="dlPngBtn" disabled>Download PNG</button>
+      </div>
+    </div>
+
+    <div id="box2Empty" class="emptybox">The masked, re-labelled image appears here after BUT 1.</div>
+
+    <div id="box2StageWrap" style="display:none">
+      <div class="stage2wrap"><div class="stage2" id="box2Stage">
+        <img id="outImg" alt="anonymised" draggable="false"/>
+        <div class="gridlayer" id="gridLayer" style="display:none">
+          <svg id="gridSvg" aria-hidden="true"></svg>
+          <div class="rt" id="readout" style="display:none"></div>
+          <div class="phint" id="planHint" style="display:none"></div>
+          <div class="ghint">⌗ values in source px — click the FEATURE to place the arrow tip &amp; plan the label</div>
+        </div>
+        <!-- ghost overlay: lives OUTSIDE the grid layer so the live
+             tip marker + preview show even when the grid is toggled off -->
+        <svg id="ghostSvg" aria-hidden="true"></svg>
+      </div></div>
+    </div>
+
+    <div class="opts">
+      <label>Mask fill
+        <select id="maskFill">
+          <option value="sample">Match background</option>
+          <option value="white">White</option>
+          <option value="black">Black</option>
+        </select>
+      </label>
+      <label>Padding: <span id="padV">3</span>px
+        <input type="range" id="maskPad" min="0" max="12" value="3"/></label>
+      <label class="row"><input type="checkbox" id="drawLabels" checked/> Print new labels</label>
+      <label class="row"><input type="checkbox" id="outline" checked/> Outline blanks</label>
+    </div>
+  </section>
+
+  <!-- ================= LABEL MAP ================= -->
+  <section class="card span2">
+    <div class="cardh">
+      <h2>Label map (editable)</h2>
+      <span class="badge">new label ⇄ original label — fix any OCR slip before BUT 2</span>
+      <button class="btn danger mla" id="removeAllBtn" disabled>Remove all labels</button>
+    </div>
+
+    <div class="addform" id="addForm">
+      <div class="afhead">
+        <span class="t">➕ Add a missed label</span>
+        <small><b>X / Y = the pointed tip</b> of the label arrow on the image (the arrow END). <b>Points Right ▶</b> → the text sits LEFT of the tip (top-left ≈ X−gap−width); <b>Points Left ◀</b> → the text sits RIGHT of the tip (top-right ≈ X+gap+width). The text's top edge stays level with the tip row, and the arrow runs from the text's facing top corner to (X,Y). Click the ⌗ grid in box 2 on the feature (or draw a box in box 1), type the content, then Add.</small>
+      </div>
+      <div class="afrow">
+        <label class="afcell c">Label content (original text)
+          <input type="text" id="mfContent" placeholder="e.g. Sepal" autocomplete="off" spellcheck="false"/>
+        </label>
+        <label class="afcell n">Pointer tip X · 0–<span id="mfMaxX">0</span> px
+          <input type="number" id="mfX" min="0" value="" placeholder="tip x"/>
+        </label>
+        <label class="afcell n">Pointer tip Y · 0–<span id="mfMaxY">0</span> px
+          <input type="number" id="mfY" min="0" value="" placeholder="tip y"/>
+        </label>
+        <div class="afcell">
+          Points
+          <div class="seg">
+            <button type="button" id="ptLeft" title="Arrow points LEFT: the tip (X,Y) lies LEFT of the label text — leader leaves the text's top-LEFT corner, arrowhead at (X,Y)">◀ Left</button>
+            <button type="button" id="ptRight" class="on" title="Arrow points RIGHT: the tip (X,Y) lies RIGHT of the label text — leader leaves the text's top-RIGHT corner, arrowhead at (X,Y)">Right ▶</button>
+          </div>
+        </div>
+        <button type="button" class="addbtn" id="mfAdd">Add to box 2</button>
+      </div>
+      <div class="afline" id="mfLine"></div>
+    </div>
+
+    <div class="mapwrap"><table class="maptable">
+      <thead><tr>
+        <th style="width:36px">#</th><th style="width:120px">New label</th>
+        <th>Original label <span style="text-transform:none">(from OCR — editable)</span></th>
+        <th style="width:120px">Confidence</th><th style="width:56px;text-align:center">In key</th>
+        <th style="width:52px"></th>
+      </tr></thead>
+      <tbody id="mapBody"></tbody>
+    </table></div>
+    <div id="mapEmpty" style="display:none;padding:26px;text-align:center;color:#94a3b8;font-size:13px">
+      No labels yet — press <b style="color:#fff;background:#4f46e5;border-radius:6px;padding:2px 8px">BUT 1</b> to scan, draw a box, or use the form above.
+    </div>
+  </section>
+
+  <!-- ================= BOX 3 ================= -->
+  <section class="card span2">
+    <div class="cardh">
+      <h2>Box 3 · Generated HTML source</h2>
+      <input type="text" id="quizTitle" value="Fill-in-the-blank label key" style="border:1px solid #cbd5e1;border-radius:8px;padding:5px 9px;font-size:12px;width:220px"/>
+      <label class="row" style="font-size:12px;color:#475569;display:flex;gap:5px;align-items:center"><input type="checkbox" id="includeImage" checked style="width:15px;height:15px;accent-color:#4f46e5"/> embed box-2 image</label>
+      <label style="font-size:12px;color:#475569;display:flex;gap:5px;align-items:center"><input type="checkbox" id="standalone" checked style="width:15px;height:15px;accent-color:#4f46e5"/> full document</label>
+      <label style="font-size:12px;color:#475569;display:flex;gap:5px;align-items:center">clue letters <input type="number" id="clueLetters" min="0" max="6" value="2" style="width:54px;border:1px solid #cbd5e1;border-radius:6px;padding:3px 6px"/></label>
+      <label style="font-size:12px;color:#475569;display:flex;gap:5px;align-items:center">mask <input type="text" id="maskToken" value="XXX" style="width:58px;border:1px solid #cbd5e1;border-radius:6px;padding:3px 6px;font-family:monospace"/></label>
+      <div class="mla" style="display:flex;gap:6px;flex-wrap:wrap">
+        <button class="btn" id="previewBtn" disabled>Preview</button>
+        <button class="btn" id="copyBtn" disabled>Copy</button>
+        <button class="btn" id="dlHtmlBtn" disabled>Download .html</button>
+      </div>
+    </div>
+
+    <div id="outArea">
+      <div class="placeholder">Press <b>BUT 2</b> to write the HTML that pairs every new label in box 2 with its original label from box 1.</div>
+    </div>
+
+    <div class="pairs" id="pairsWrap" style="display:none">
+      <div class="l"><span>Preview of the pairs — click a clue to toggle the full spelling (same behaviour as the exported page).</span>
+        <button class="btn tiny" id="revealAllBtn">Reveal all</button></div>
+      <div class="pairchips" id="pairChips"></div>
+    </div>
+  </section>
+
+  <footer>Everything runs in your browser — the image never leaves this page. OCR by tesseract.js (loaded from CDN on first scan). Standalone single-file edition · <b>v10</b> — add-label X/Y = the <b>pointed arrow tip</b>, with the live preview overlay always drawn over box 2. Paste this whole file into the <b>CodePen HTML pane</b> (nothing else) or open it directly in Chrome. Pre-tip snapshot kept as <b>jjgen1-backupv2.htm</b>.</footer>
+</main>
+
+<div id="toast"></div>
+
+<script>
+"use strict";
+/* ================================================================
+   Label Anonymiser — standalone vanilla-JS edition (jjgen1)
+   Port of the React app. No modules, no build step.
+   ================================================================ */
+
+/* ------------------------------ state ------------------------------ */
+const S = {
+  srcUrl: null, srcCanvas: null,
+  detections: [], selectedId: null, drawMode: false,
+  scheme: "alpha", prefix: "", minConf: 55, mergeWords: true, ocrScale: 2,
+  mask: { fill: "sample", padding: 3, drawLabels: true, outline: true },
+  outUrl: null, html: "", showPreview: false,
+  quizTitle: "Fill-in-the-blank label key",
+  includeImage: true, standalone: true, clueLetters: 2, maskToken: "XXX",
+  revealed: {},
+  busy: false, status: "", error: null,
+  gridOn: true,
+  planPoint: null,   // {x,y,seq} from grid click
+  pendingRect: null, // {x,y,w,h,seq} from drawn box
+  pointing: "right",
+  drawing: null      // live drag rect in image coords
+};
+
+/* ------------------------------ helpers ----------------------------- */
+const $ = (id) => document.getElementById(id);
+const clamp = (v, a, b) => Math.max(a, Math.min(b, v));
+const uid = () => Math.random().toString(36).slice(2, 10);
+let toastTimer = null;
+function flash(msg) {
+  const t = $("toast"); t.textContent = msg; t.classList.add("show");
+  clearTimeout(toastTimer);
+  toastTimer = setTimeout(() => t.classList.remove("show"), 2200);
+}
+function setStatus(msg) { S.status = msg; S.error = null; paintStatus(); }
+function setError(msg) { S.error = msg; paintStatus(); }
+function paintStatus() {
+  const el = $("status");
+  el.textContent = S.error ?? S.status ?? "";
+  el.className = "sline" + (S.error ? " err" : "");
+  paintButtons();
+}
+function paintButtons() {
+  $("but1").disabled = S.busy || !S.srcCanvas;
+  $("but2").disabled = !S.detections.some(d => d.enabled);
+  const b1 = $("but1");
+  if (S.busy) b1.innerHTML = '<span class="spin"></span><span>BUT 1</span><span class="sub">scanning…</span>';
+  else b1.innerHTML = '<span>🔍</span><span>BUT 1</span><span class="sub">Scan &amp; anonymise → box 2</span>';
+  $("statImg").textContent = S.srcCanvas ? `image ${S.srcCanvas.width}×${S.srcCanvas.height}` : "no image yet";
+  const n = S.detections.filter(d => d.enabled).length;
+  $("statCount").textContent = n + " label" + (n === 1 ? "" : "s");
+  $("outCount").textContent = n + " new label" + (n === 1 ? "" : "s");
+  $("clearBtn").disabled = !S.srcUrl;
+  $("removeAllBtn").disabled = S.detections.length === 0;
+  $("gridBtn").disabled = !S.outUrl;
+  $("gridBtn").textContent = "⌗ Grid " + (S.gridOn ? "on" : "off");
+  $("gridBtn").classList.toggle("on", S.gridOn && !!S.outUrl);
+  $("dlPngBtn").disabled = !S.outUrl;
+  $("previewBtn").disabled = !S.html;
+  $("copyBtn").disabled = !S.html;
+  $("dlHtmlBtn").disabled = !S.html;
+}
+
+/* ------------------------------ label libs -------------------------- */
+const ROMAN = [[1000,"M"],[900,"CM"],[500,"D"],[400,"CD"],[100,"C"],[90,"XC"],[50,"L"],[40,"XL"],[10,"X"],[9,"IX"],[5,"V"],[4,"IV"],[1,"I"]];
+function toRoman(n) {
+  let v = Math.max(1, Math.floor(n)), out = "";
+  for (const [num, g] of ROMAN) while (v >= num) { out += g; v -= num; }
+  return out;
+}
+function fmtLabel(idx, scheme, prefix) {
+  const n = idx + 1;
+  if (scheme === "numeric") return String(n);
+  if (scheme === "prefixNum") { const p = prefix.trim(); return p ? p + n : String(n); }
+  if (scheme === "roman") return toRoman(n);
+  let v = n, s = "";
+  while (v > 0) { v -= 1; s = String.fromCharCode(65 + (v % 26)) + s; v = Math.floor(v / 26); }
+  return s;
+}
+function sortReadingOrder(items) {
+  const sorted = items.slice().sort((a, b) => a.y - b.y || a.x - b.x);
+  const lines = [];
+  for (const it of sorted) {
+    const cy = it.y + it.h / 2, tol = Math.max(7, it.h * 0.65);
+    const line = lines.find(l => Math.abs(l.cy - cy) <= tol);
+    if (line) { line.items.push(it); line.cy = line.cy + (cy - line.cy) / line.items.length; }
+    else lines.push({ items: [it], cy });
+  }
+  lines.forEach(l => l.items.sort((a, b) => a.x - b.x));
+  return lines.flatMap(l => l.items);
+}
+function assignLabels(items, scheme, prefix) {
+  const ordered = sortReadingOrder(items.filter(d => d.enabled));
+  const map = new Map();
+  ordered.forEach((d, i) => map.set(d.id, fmtLabel(i, scheme, prefix)));
+  return items.map(d => ({ ...d, newLabel: d.enabled ? (map.get(d.id) ?? "") : "" }));
+}
+function escapeHtml(s) {
+  return String(s).replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;").replace(/"/g,"&quot;");
+}
+function maskOriginal(full, clueLetters, maskToken) {
+  const text = String(full || "").trim();
+  const token = maskToken.length ? maskToken : "•";
+  if (!text) return token;
+  const keep = clamp(Math.floor(clueLetters) || 0, 0, Math.max(0, text.length - 1));
+  const head = text.slice(0, keep);
+  const rest = text.slice(keep);
+  return head + token.repeat(Math.ceil(rest.length / token.length)).slice(0, rest.length);
+}
+
+/* ------------------------------ canvas / mask ----------------------- */
+function imageToCanvas(img) {
+  const w = img.naturalWidth || img.width, h = img.naturalHeight || img.height;
+  const cv = document.createElement("canvas");
+  cv.width = w; cv.height = h;
+  const c = cv.getContext("2d");
+  if (c) { c.imageSmoothingQuality = "high"; c.drawImage(img, 0, 0); }
+  return cv;
+}
+const lum = c => 0.2126 * c.r + 0.7152 * c.g + 0.0722 * c.b;
+function sampleFill(ctx, x0, y0, x1, y1, pad) {
+  const W = ctx.canvas.width, H = ctx.canvas.height;
+  const ring = clamp(Math.round(Math.min(x1 - x0, y1 - y0) / 8), 2, 9);
+  const fx0 = Math.max(0, x0 - pad), fy0 = Math.max(0, y0 - pad);
+  const fx1 = Math.min(W, x1 + pad), fy1 = Math.min(H, y1 + pad);
+  const sx0 = Math.max(0, fx0 - ring), sy0 = Math.max(0, fy0 - ring);
+  const sx1 = Math.min(W, fx1 + ring), sy1 = Math.min(H, fy1 + ring);
+  let r = 0, g = 0, b = 0, n = 0;
+  try {
+    const img = ctx.getImageData(sx0, sy0, sx1 - sx0, sy1 - sy0), d = img.data;
+    for (let y = 0; y < sy1 - sy0; y++) for (let x = 0; x < sx1 - sx0; x++) {
+      const px = sx0 + x, py = sy0 + y;
+      if (px >= fx0 && px < fx1 && py >= fy0 && py < fy1) continue;
+      const i = (y * (sx1 - sx0) + x) * 4;
+      r += d[i]; g += d[i + 1]; b += d[i + 2]; n++;
+    }
+  } catch (e) { n = 0; }
+  if (n > 0) return "rgb(" + Math.round(r / n) + "," + Math.round(g / n) + "," + Math.round(b / n) + ")";
+  try {
+    const img = ctx.getImageData(fx0, fy0, fx1 - fx0, fy1 - fy0), d = img.data, tot = d.length / 4;
+    for (let i = 0; i < d.length; i += 4) { r += d[i]; g += d[i + 1]; b += d[i + 2]; }
+    if (tot > 0) return "rgb(" + Math.round(r / tot) + "," + Math.round(g / tot) + "," + Math.round(b / tot) + ")";
+  } catch (e) {}
+  return "#f8fafc";
+}
+/* ---- pointer-tip geometry (v9) -------------------------------------
+   X/Y is ALWAYS the pointed TIP of the label arrow — the exact spot
+   on the image the arrowhead touches. The choice "◀ Left / Right ▶"
+   describes the DIRECTION the arrow points:
+     · "Right ▶" → arrowhead at the tip (X,Y); the label text
+                   (chip + blank) sits to the LEFT of the tip, its TOP
+                   edge level with the tip row. The arrow is ~150-200px
+                   long, so for tip (361,637) the blank's top-left sits
+                   ≈ (161,637) — exactly the user's test case.
+     · "Left ◀"  → arrowhead at the tip (X,Y); the label text sits to
+                   the RIGHT of the tip (blank's left edge ≈ X+150).
+   Reads: [chip][kkk] ───────▶ ●(X,Y)        (Right ▶)
+          ●(X,Y) ◀─────── [kkk][chip]        (Left ◀)
+   Flipping keeps the tip fixed and hops the text to the other side
+   (drawn boxes keep their box and swing the tip).                   */
+
+/** Arrow length placed between the text and the tip — long enough to
+    read clearly as "the label arrow". */
+function arrowLen(h) { return clamp(Math.round(h * 6.9), 150, 210); }
+
+/** Default tip for a blank (used when a box is drawn, or as fallback):
+    straight out on the pointed side, level with the box TOP. */
+function tipFromBlank(rect, dir, imgW) {
+  const len = arrowLen(rect.h);
+  const ty = Math.round(rect.y);
+  const tx = dir === "right"
+    ? Math.min(Math.max(1, imgW - 1), Math.round(rect.x + rect.w) + len)
+    : Math.max(1, Math.round(rect.x) - len);
+  return { x: tx, y: ty };
+}
+
+/** Place the blank on the side OPPOSITE the arrow direction, with its
+    TOP edge level with the tip row:
+      Right ▶ → text LEFT of the tip:  blank.x = tipX − arrow − width
+      Left  ◀ → text RIGHT of the tip: blank.x = tipX + arrow          */
+function blankFromTip(tx, ty, bw, bh, dir, imgW, imgH) {
+  const L = arrowLen(bh);
+  const x = dir === "right"
+    ? clamp(tx - L - bw, 2, Math.max(2, imgW - bw - 2))
+    : clamp(tx + L, 2, Math.max(2, imgW - bw - 2));
+  const y = clamp(Math.round(ty), 2, Math.max(2, imgH - bh - 2));
+  return { x: Math.round(x), y: y };
+}
+
+/** Place the letter chip in the same coordinate space as `rect`
+    (image px or display px). The chip sits OUTSIDE the blank, on the
+    side pointing AWAY from the tip (the blank's far side), so the
+    reading order is chip → blank → arrow → tip and the X/Y reference
+    point is clearly the arrow's END. Falls back to above-centre when
+    the outer side has no room. */
+function chipPos(rect, manual, pointing, W, H, pw, ph) {
+  if (manual && pointing && rect.w > 2 && rect.h > 2) {
+    const cy = rect.y + rect.h / 2;
+    const cx = pointing === "right" ? rect.x - pw - 3 : rect.x + rect.w + 3;
+    if (cx >= 2 && cx + pw <= W - 2) {
+      return { x: Math.round(cx), y: clamp(Math.round(cy - ph / 2), 2, Math.max(2, H - ph - 2)) };
+    }
+  }
+  const x = clamp(Math.round(rect.x + rect.w / 2 - pw / 2), 2, Math.max(2, W - pw - 2));
+  let y;
+  if (rect.y - ph - 3 >= 2) y = Math.round(rect.y - ph - 3);
+  else if (rect.y + rect.h + 3 + ph <= H - 2) y = Math.round(rect.y + rect.h + 3);
+  else y = clamp(Math.round(rect.y + rect.h / 2 - ph / 2), 2, Math.max(2, H - ph - 2));
+  return { x: x, y: y };
+}
+
+/** Line from the label box's TOP corner on the tip-facing side to the
+    exact tip point; arrowhead at the tip. "Right ▶" leaves the box's
+    top-RIGHT corner (the box sits left of the tip); "Left ◀" leaves
+    the box's top-LEFT corner (the box sits right of the tip). */
+function arrowGeom(d, imgW) {
+  if (!d.manual || !d.pointing || d.w < 2 || d.h < 2) return null;
+  let tipX = d.tipX, tipY = d.tipY;
+  if (tipX == null || tipY == null) {
+    const t = tipFromBlank(d, d.pointing, imgW);
+    tipX = t.x; tipY = t.y;
+  }
+  const dirRight = d.pointing === "right"; /* tip lies right of the box */
+  const baseX = dirRight ? d.x + d.w : d.x;
+  const baseY = d.y; /* top corner of the tip-facing side */
+  const ok = dirRight ? tipX - baseX >= 4 : baseX - tipX >= 4;
+  if (!ok) return null;
+  const head = clamp(Math.round(d.h * 0.5), 9, 16);
+  return { baseX: baseX, baseY: baseY, tipX: tipX, tipY: tipY, head: head };
+}
+function roundRect(ctx, x, y, w, h, r) {
+  const rr = Math.min(r, w / 2, h / 2);
+  ctx.beginPath();
+  ctx.moveTo(x + rr, y); ctx.arcTo(x + w, y, x + w, y + h, rr);
+  ctx.arcTo(x + w, y + h, x, y + h, rr); ctx.arcTo(x, y + h, x, y, rr);
+  ctx.arcTo(x, y, x + w, y, rr); ctx.closePath();
+}
+function drawTag(ctx, d, W, H) {
+  if (!d.newLabel) return;
+  const size = clamp(Math.round(Math.max(d.h * 0.85, 12)), 11, 21);
+  ctx.save();
+  ctx.font = "800 " + size + "px Arial, sans-serif";
+  const tw = ctx.measureText(d.newLabel).width;
+  const pw = Math.ceil(tw + 14), ph = size + 9;
+  const p = chipPos(d, d.manual, d.pointing, W, H, pw, ph);
+  ctx.fillStyle = "rgba(15,23,42,0.92)";
+  roundRect(ctx, p.x, p.y, pw, ph, 6); ctx.fill();
+  ctx.fillStyle = "#fff"; ctx.textAlign = "center"; ctx.textBaseline = "middle";
+  ctx.fillText(d.newLabel, p.x + pw / 2, p.y + ph / 2 + 1);
+  ctx.restore();
+}
+function drawArrow(ctx, g, color) {
+  ctx.save();
+  ctx.strokeStyle = color; ctx.fillStyle = color; ctx.lineWidth = 2; ctx.lineCap = "round";
+  ctx.beginPath(); ctx.moveTo(g.baseX, g.baseY); ctx.lineTo(g.tipX, g.tipY); ctx.stroke();
+  const dx = g.tipX - g.baseX, dy = g.tipY - g.baseY;
+  const L = Math.hypot(dx, dy) || 1;
+  const ux = dx / L, uy = dy / L;
+  const hx = g.tipX - ux * g.head, hy = g.tipY - uy * g.head;
+  const px = -uy * g.head * 0.62, py = ux * g.head * 0.62;
+  ctx.beginPath();
+  ctx.moveTo(g.tipX, g.tipY);
+  ctx.lineTo(hx + px, hy + py);
+  ctx.lineTo(hx - px, hy - py);
+  ctx.closePath(); ctx.fill();
+  ctx.restore();
+}
+function eraseAndLabel(ctx, d, mask) {
+  const W = ctx.canvas.width, H = ctx.canvas.height;
+  const pad = clamp(Math.round(mask.padding), 0, 16);
+  const x0 = Math.min(W - 1, Math.max(0, Math.floor(d.x)));
+  const y0 = Math.min(H - 1, Math.max(0, Math.floor(d.y)));
+  const x1 = Math.min(W, Math.max(1, Math.ceil(d.x + d.w)));
+  const y1 = Math.min(H, Math.max(1, Math.ceil(d.y + d.h)));
+  const fx0 = Math.max(0, x0 - pad), fy0 = Math.max(0, y0 - pad);
+  const fx1 = Math.min(W, x1 + pad), fy1 = Math.min(H, y1 + pad);
+  let fill;
+  if (mask.fill === "white") fill = "#ffffff";
+  else if (mask.fill === "black") fill = "#101014";
+  else fill = sampleFill(ctx, x0, y0, x1, y1, pad);
+  ctx.save();
+  ctx.fillStyle = fill; ctx.fillRect(fx0, fy0, fx1 - fx0, fy1 - fy0);
+  const m = fill.match(/rgb\((\d+),\s*(\d+),\s*(\d+)\)/);
+  const dark = m ? lum({ r: +m[1], g: +m[2], b: +m[3] }) < 150 : fill.length < 8;
+  const lineColor = dark ? "rgba(226,232,240,0.92)" : "rgba(51,65,85,0.92)";
+  if (mask.outline && x1 - x0 > 1 && y1 - y0 > 1) {
+    ctx.strokeStyle = lineColor; ctx.lineWidth = 1.6; ctx.setLineDash([5, 4]);
+    ctx.strokeRect(x0 + 0.8, y0 + 0.8, Math.max(1, x1 - x0 - 1.6), Math.max(1, y1 - y0 - 1.6));
+    ctx.setLineDash([]);
+  }
+  if (d.manual && d.pointing) {
+    const g = arrowGeom(d, W);
+    if (g) drawArrow(ctx, g, lineColor);
+  }
+  if (mask.drawLabels) drawTag(ctx, d, W, H);
+  ctx.restore();
+}
+function renderAnonymised(src, detections, mask) {
+  const cv = document.createElement("canvas");
+  cv.width = src.width; cv.height = src.height;
+  const ctx = cv.getContext("2d");
+  if (!ctx) return src.toDataURL("image/png");
+  ctx.drawImage(src, 0, 0);
+  detections.forEach(d => { if (d.enabled) eraseAndLabel(ctx, d, mask); });
+  return cv.toDataURL("image/png");
+}
+function estimateLabelRegion(text, imageHeight) {
+  const t = String(text || "").trim();
+  const fs = clamp(Math.round((imageHeight || 640) * 0.028), 11, 36);
+  let tw = t.length * fs * 0.62;
+  try {
+    const probe = document.createElement("canvas").getContext("2d");
+    if (probe) { probe.font = "700 " + fs + "px Arial, sans-serif"; tw = probe.measureText(t).width; }
+  } catch (e) {}
+  const pad = clamp(Math.round(fs * 0.2), 2, 6);
+  return { w: Math.max(8, Math.ceil(tw) + pad * 2), h: Math.round(fs * 1.28) };
+}
+
+/* ------------------------------ demo image -------------------------- */
+function makeDemoImage() {
+  const W = 900, H = 640, CX = 430, CY = 250;
+  const LABELS = [
+    { text: "Petal", x: 58, y: 96, tx: 328, ty: 250 },
+    { text: "Leaf", x: 58, y: 300, tx: 300, ty: 440 },
+    { text: "Ovary", x: 58, y: 360, tx: 428, ty: 352 },
+    { text: "Stem", x: 86, y: 505, tx: 432, ty: 490 },
+    { text: "Stigma", x: 630, y: 52, tx: 430, ty: 128 },
+    { text: "Style", x: 660, y: 150, tx: 430, ty: 170 },
+    { text: "Anther", x: 680, y: 250, tx: 449, ty: 227 },
+    { text: "Root", x: 610, y: 580, tx: 465, ty: 600 }
+  ];
+  const cv = document.createElement("canvas");
+  cv.width = W; cv.height = H;
+  const ctx = cv.getContext("2d");
+  ctx.fillStyle = "#ffffff"; ctx.fillRect(0, 0, W, H);
+  const petal = (x, y, a) => {
+    ctx.save(); ctx.translate(x, y); ctx.rotate(a);
+    ctx.beginPath(); ctx.ellipse(0, 0, 40, 26, 0, 0, Math.PI * 2);
+    ctx.fillStyle = "#f9a8d4"; ctx.fill();
+    ctx.strokeStyle = "#ec4899"; ctx.lineWidth = 2.5; ctx.stroke();
+    ctx.restore();
+  };
+  const ell = (x, y, rx, ry, rot, fill, stroke) => {
+    ctx.save(); ctx.translate(x, y); ctx.rotate(rot);
+    ctx.beginPath(); ctx.ellipse(0, 0, rx, ry, 0, 0, Math.PI * 2);
+    ctx.fillStyle = fill; ctx.fill();
+    ctx.strokeStyle = stroke; ctx.lineWidth = 2; ctx.stroke();
+    ctx.restore();
+  };
+  for (let i = 0; i < 10; i++) {
+    const a = (-90 + i * 36) * Math.PI / 180;
+    petal(CX + Math.cos(a) * 72, CY + Math.sin(a) * 72, a);
+  }
+  ctx.fillStyle = "#4ade80"; ctx.fillRect(CX - 8, 372, 16, 566 - 372);
+  ell(362, 452, 76, 24, -0.6, "#4ade80", "#16a34a");
+  ell(498, 452, 76, 24, 0.6, "#4ade80", "#16a34a");
+  ell(412, 363, 16, 8, -0.5, "#86efac", "#15803d");
+  ell(450, 362, 16, 8, 0.5, "#86efac", "#15803d");
+  ell(CX, 352, 28, 22, 0, "#86efac", "#16a34a");
+  ctx.strokeStyle = "#4ade80"; ctx.lineWidth = 5; ctx.lineCap = "round";
+  ctx.beginPath(); ctx.moveTo(CX, 138); ctx.lineTo(CX, 232); ctx.stroke();
+  ctx.beginPath(); ctx.arc(CX, 128, 10, 0, Math.PI * 2);
+  ctx.fillStyle = "#22c55e"; ctx.fill();
+  ctx.strokeStyle = "#15803d"; ctx.lineWidth = 2.5; ctx.stroke();
+  const anthers = [[400, 239], [412, 224], [CX, 218], [453, 227], [461, 242]];
+  ctx.strokeStyle = "#65a30d"; ctx.lineWidth = 2;
+  anthers.forEach(([ax, ay]) => { ctx.beginPath(); ctx.moveTo(CX, CY); ctx.lineTo(ax, ay); ctx.stroke(); });
+  anthers.forEach(([ax, ay]) => {
+    ctx.beginPath(); ctx.arc(ax, ay, 5.5, 0, Math.PI * 2);
+    ctx.fillStyle = "#fb923c"; ctx.fill();
+    ctx.strokeStyle = "#c2410c"; ctx.lineWidth = 1.6; ctx.stroke();
+  });
+  ctx.strokeStyle = "#a16207"; ctx.lineWidth = 3.5;
+  [[CX, 568, 388, 614], [CX, 568, 424, 630], [CX, 568, 470, 610]].forEach(([x0, y0, x1, y1]) => {
+    ctx.beginPath(); ctx.moveTo(x0, y0);
+    ctx.quadraticCurveTo((x0 + x1) / 2 + (x1 > x0 ? -6 : 6), (y0 + y1) / 2 + 12, x1, y1);
+    ctx.stroke();
+  });
+  ctx.strokeStyle = "#cbd5e1"; ctx.lineWidth = 2;
+  ctx.beginPath(); ctx.moveTo(70, 566); ctx.lineTo(830, 566); ctx.stroke();
+  ctx.font = "700 17px Arial, sans-serif";
+  ctx.textBaseline = "top"; ctx.textAlign = "left";
+  LABELS.forEach(l => {
+    const tw = ctx.measureText(l.text).width;
+    const fromLeft = l.tx > l.x;
+    const sx = fromLeft ? l.x + tw + 10 : l.x - 10, sy = l.y + 8;
+    ctx.strokeStyle = "#64748b"; ctx.lineWidth = 1.6;
+    ctx.beginPath(); ctx.moveTo(sx, sy); ctx.lineTo(l.tx, l.ty); ctx.stroke();
+    ctx.beginPath(); ctx.arc(l.tx, l.ty, 4, 0, Math.PI * 2);
+    ctx.fillStyle = "#334155"; ctx.fill();
+    ctx.lineWidth = 2; ctx.strokeStyle = "rgba(255,255,255,0.9)"; ctx.stroke();
+    ctx.fillStyle = "#0f172a"; ctx.fillText(l.text, l.x, l.y);
+  });
+  return cv.toDataURL("image/png");
+}
+
+/* ------------------------------ loading ----------------------------- */
+function loadFromUrl(url) {
+  const img = new Image();
+  img.crossOrigin = "anonymous";
+  img.onload = () => {
+    const canvas = imageToCanvas(img);
+    S.srcCanvas = canvas; S.srcUrl = url;
+    S.detections = []; S.selectedId = null; S.outUrl = null; S.html = "";
+    S.planPoint = null; S.pendingRect = null;
+    $("mfX").value = ""; $("mfY").value = ""; $("mfContent").value = "";
+    setStatus("Loaded " + canvas.width + " × " + canvas.height + "px — now press BUT 1 to scan it.");
+    refreshAll();
+    $("srcStage").style.display = "inline-block";
+    $("srcEmpty").style.display = "none";
+    const simg = $("srcImg");
+    simg.onload = () => { layoutOverlay(); paintOverlay(); };
+    simg.src = url;
+    requestAnimationFrame(layoutOverlay);
+  };
+  img.onerror = () => setError("That image could not be loaded — try another file.");
+  img.src = url;
+}
+function loadFromFile(file) {
+  const rd = new FileReader();
+  rd.onload = () => loadFromUrl(String(rd.result));
+  rd.readAsDataURL(file);
+}
+
+/* ------------------------------ OCR --------------------------------- */
+let workerPromise = null;
+function loadTesseract() {
+  return new Promise((res, rej) => {
+    if (window.Tesseract) return res();
+    const s = document.createElement("script");
+    s.src = "https://cdn.jsdelivr.net/npm/tesseract.js@5.1.1/dist/tesseract.min.js";
+    s.onload = () => res();
+    s.onerror = () => rej(new Error("Could not load the OCR engine (tesseract.js) from the CDN — check your connection."));
+    document.head.appendChild(s);
+  });
+}
+function getWorker() {
+  if (!workerPromise) {
+    workerPromise = loadTesseract().then(() =>
+      Tesseract.createWorker("eng", 1, {
+        logger: m => {
+          const p = m.progress || 0;
+          if (m.status === "recognizing text") setStatus("Reading text — " + Math.round(p * 100) + "%");
+          else setStatus("Loading OCR engine — " + Math.round((0.04 + p * 0.16) * 100) + "%");
+        }
+      })
+    ).catch(err => { workerPromise = null; throw err; });
+  }
+  return workerPromise;
+}
+async function ocrImage(source, scale) {
+  const worker = await getWorker();
+  let target = source;
+  if (scale > 1) {
+    target = document.createElement("canvas");
+    target.width = source.width * scale; target.height = source.height * scale;
+    const c = target.getContext("2d");
+    c.imageSmoothingEnabled = true; c.imageSmoothingQuality = "high";
+    c.scale(scale, scale); c.drawImage(source, 0, 0);
+  }
+  const { data } = await worker.recognize(target);
+  const out = [];
+  (data.words || []).forEach(w => {
+    const text = String(w.text || "").trim();
+    if (!text || !w.bbox) return;
+    out.push({
+      text, confidence: Math.round((w.confidence || 0) * 10) / 10,
+      x0: w.bbox.x0 / scale, y0: w.bbox.y0 / scale,
+      x1: w.bbox.x1 / scale, y1: w.bbox.y1 / scale
+    });
+  });
+  return out;
+}
+function mergeWordsIntoLabels(words) {
+  const sorted = words.slice().sort((a, b) => a.y0 - b.y0 || a.x0 - b.x0);
+  const rows = [];
+  sorted.forEach(w => {
+    const cy = (w.y0 + w.y1) / 2;
+    const row = rows.find(r => {
+      const rep = r[0], repCy = (rep.y0 + rep.y1) / 2;
+      const tol = Math.max(5, Math.max(rep.y1 - rep.y0, w.y1 - w.y0) * 0.62);
+      return Math.abs(repCy - cy) <= tol;
+    });
+    if (row) row.push(w); else rows.push([w]);
+  });
+  const out = [];
+  rows.forEach(row => {
+    row.sort((a, b) => a.x0 - b.x0);
+    let cur = null;
+    row.forEach(w => {
+      if (!cur) { cur = { ...w }; return; }
+      const gap = w.x0 - cur.x1;
+      const hAvg = (cur.y1 - cur.y0 + (w.y1 - w.y0)) / 2;
+      if (gap >= 0 && gap <= Math.max(6, hAvg * 0.9)) {
+        cur = {
+          text: cur.text + " " + w.text,
+          confidence: Math.min(cur.confidence, w.confidence),
+          x0: Math.min(cur.x0, w.x0), y0: Math.min(cur.y0, w.y0),
+          x1: Math.max(cur.x1, w.x1), y1: Math.max(cur.y1, w.y1)
+        };
+      } else { out.push(cur); cur = { ...w }; }
+    });
+    if (cur) out.push(cur);
+  });
+  return out;
+}
+
+/* ------------------------------ BUT 1 ------------------------------- */
+async function runScan() {
+  if (!S.srcCanvas) { setError("Paste an image into box 1 first."); return; }
+  S.busy = true; setStatus("Loading OCR engine…"); paintButtons();
+  try {
+    const words = await ocrImage(S.srcCanvas, S.ocrScale);
+    const items = S.mergeWords ? mergeWordsIntoLabels(words) : words;
+    const kept = items.filter(w =>
+      w.confidence >= S.minConf && /[A-Za-z0-9]/.test(w.text) &&
+      w.x1 - w.x0 >= 5 && w.y1 - w.y0 >= 6);
+    const manual = S.detections.filter(d => d.manual);
+    const fresh = kept.map(w => ({
+      id: uid(), x: w.x0, y: w.y0, w: w.x1 - w.x0, h: w.y1 - w.y0,
+      original: w.text, confidence: w.confidence, enabled: true,
+      manual: false, newLabel: "", pointing: undefined
+    }));
+    const all = assignLabels(manual.concat(fresh), S.scheme, S.prefix);
+    S.detections = all;
+    setStatus(fresh.length
+      ? "Found " + fresh.length + " label" + (fresh.length === 1 ? "" : "s") + " — masked and re-labelled in box 2."
+      : "No text passed the confidence filter. Lower the threshold, or add labels manually.");
+    refreshAll();
+  } catch (err) {
+    setError(err && err.message ? err.message : "OCR failed — check your connection (the engine loads from a CDN on first use).");
+  } finally {
+    S.busy = false; paintButtons();
+  }
+}
+
+/* ------------------------------ BUT 2 ------------------------------- */
+const KEY_CSS = ".lk{max-width:880px;margin:0 auto;padding:24px 16px 48px;font-family:ui-sans-serif,system-ui,-apple-system,'Segoe UI',Roboto,Arial,sans-serif;color:#0f172a;line-height:1.5}.lk-title{font-size:22px;font-weight:800;margin:0 0 4px}.lk-hint{font-size:13px;color:#64748b;margin:0 0 18px}.lk-figure{margin:0 0 20px}.lk-figure img{max-width:100%;height:auto;border:1px solid #e2e8f0;border-radius:14px}.lk-figure figcaption{font-size:12px;color:#94a3b8;margin-top:6px;text-align:center}.lk-list{list-style:none;margin:0;padding:0;display:grid;grid-template-columns:repeat(auto-fill,minmax(250px,1fr));gap:10px}.lk-item{display:flex;align-items:center;gap:10px;background:#f8fafc;border:1px solid #e2e8f0;border-radius:10px;padding:8px 12px}.lk-tag{min-width:30px;height:24px;padding:0 6px;display:inline-flex;align-items:center;justify-content:center;background:#4f46e5;color:#fff;font-size:13px;font-weight:800;border-radius:7px}.lk-eq{color:#cbd5e1;font-weight:700}.lk-blank{font:inherit;font-weight:700;letter-spacing:.05em;color:#475569;background:transparent;border:0;border-bottom:2px dashed #94a3b8;min-width:110px;padding:2px 8px;text-align:center;cursor:pointer;border-radius:6px;transition:background .15s}.lk-blank:hover{background:#eef2ff}.lk-blank.is-open{color:#047857;border-bottom-style:solid;border-color:#10b981;background:#ecfdf5}.lk-foot{font-size:12px;color:#94a3b8;margin-top:22px;text-align:center}";
+const KEY_JS = "(function(){var b=document.querySelectorAll('.lk-blank');for(var i=0;i<b.length;i++){(function(btn){btn.addEventListener('click',function(){var open=btn.classList.toggle('is-open');btn.textContent=open?btn.getAttribute('data-full'):btn.getAttribute('data-clue');});})(b[i]);}})();";
+function buildHtml(dets, o) {
+  const title = escapeHtml((o.title || "").trim() || "Fill-in-the-blank label key");
+  const pairs = sortReadingOrder(dets.filter(d => d.enabled));
+  const rows = pairs.map(d => {
+    const full = (d.original || "").trim() || "(blank)";
+    const clue = maskOriginal(full, o.clueLetters, o.maskToken);
+    return '<li class="lk-item"><span class="lk-tag">' + escapeHtml(d.newLabel) +
+      '</span><span class="lk-eq">=</span><button type="button" class="lk-blank" data-clue="' +
+      escapeHtml(clue) + '" data-full="' + escapeHtml(full) + '">' + escapeHtml(clue) + '</button></li>';
+  }).join("\n");
+  const figure = (o.includeImage && o.imageDataUrl)
+    ? '<figure class="lk-figure"><img src="' + o.imageDataUrl + '" alt="Anonymised figure with new labels"/><figcaption>Anonymised figure — each original label was replaced by its new label.</figcaption></figure>'
+    : "";
+  const content = '<main class="lk"><h1 class="lk-title">' + title + '</h1><p class="lk-hint">Look at the figure, then write the original label for every new label. Click a blank to reveal or hide the answer.</p>\n' +
+    figure + '\n<ol class="lk-list">\n' + rows + '\n</ol>\n<p class="lk-foot">' + pairs.length + ' label' + (pairs.length === 1 ? "" : "s") + ' · generated by the Label Anonymiser</p></main>';
+  if (o.standalone) {
+    return '<!doctype html>\n<html lang="en"><head><meta charset="utf-8"/><meta name="viewport" content="width=device-width, initial-scale=1"/><title>' + title + '</title><style>' + KEY_CSS + '</style></head>\n<body style="margin:0;background:#f1f5f9">\n' + content + '\n<script>' + KEY_JS + '<\/script>\n</body></html>';
+  }
+  return '<!-- Label Anonymiser fragment — paste this anywhere (LMS, Notion, docs…) -->\n<style>' + KEY_CSS + '</style>\n' + content + '\n<script>' + KEY_JS + '<\/script>';
+}
+function runGenerateHtml() {
+  const active = S.detections.filter(d => d.enabled);
+  if (!active.length) { setError("There are no labels to list yet — run BUT 1 first."); return; }
+  setError(null);
+  S.html = buildHtml(S.detections, {
+    title: S.quizTitle, includeImage: S.includeImage,
+    imageDataUrl: S.outUrl || undefined, standalone: S.standalone,
+    clueLetters: S.clueLetters, maskToken: S.maskToken
+  });
+  S.showPreview = false;
+  setStatus("Generated HTML for " + active.length + " label pair" + (active.length === 1 ? "" : "s") + ".");
+  paintBox3();
+}
+
+/* ------------------------------ view helpers ------------------------ */
+function detKey() {
+  return S.detections.map(d => d.id + ":" + Math.round(d.x) + "," + Math.round(d.y) + "," + Math.round(d.w) + "," + Math.round(d.h) + ":" + d.enabled + ":" + d.newLabel + ":" + (d.manual ? (d.pointing || "r") : "-") + ":" + (d.tipX != null ? d.tipX : "") + "," + (d.tipY != null ? d.tipY : "")).join("|");
+}
+let lastKey = "";
+function refreshOut() {
+  const key = detKey() + "|" + JSON.stringify(S.mask);
+  if (!S.srcCanvas) {
+    S.outUrl = null;
+    $("box2Empty").style.display = "flex";
+    $("box2StageWrap").style.display = "none";
+    lastKey = key; paintButtons(); return;
+  }
+  if (key !== lastKey) {
+    S.outUrl = S.detections.length ? renderAnonymised(S.srcCanvas, S.detections, S.mask) : S.srcCanvas.toDataURL("image/png");
+    lastKey = key;
+  }
+  $("box2Empty").style.display = "none";
+  $("box2StageWrap").style.display = "block";
+  const img = $("outImg");
+  if (img.src !== S.outUrl) {
+    img.onload = () => { buildGrid(); paintGhost(); };
+    img.src = S.outUrl;
+    /* re-sync the overlay once layout settles (font loads, layout shifts) */
+    requestAnimationFrame(() => requestAnimationFrame(paintGhost));
+  } else {
+    buildGrid();
+  }
+  paintGhost();
+  paintButtons();
+}
+function refreshAll() {
+  refreshOut();
+  requestAnimationFrame(layoutOverlay);
+  paintOverlay();
+  paintTable();
+  paintPairs();
+  paintForm();
+  paintButtons();
+}
+
+/* ------------------------------ box 1 overlay ----------------------- */
+function imgScale(imgEl, imgW) {
+  const r = imgEl.getBoundingClientRect();
+  return r.width > 0 && imgW > 0 ? r.width / imgW : 0;
+}
+function layoutOverlay() {
+  if (!S.srcCanvas) return;
+  const img = $("srcImg");
+  const sc = imgScale(img, S.srcCanvas.width);
+  if (sc <= 0) return;
+  const svg = $("srcArrows");
+  svg.setAttribute("width", img.clientWidth);
+  svg.setAttribute("height", img.clientHeight);
+  svg.setAttribute("viewBox", "0 0 " + S.srcCanvas.width + " " + S.srcCanvas.height);
+  let arrowHtml = "";
+  S.detections.forEach(d => {
+    if (!d.enabled || !d.manual || !d.pointing) return;
+    const g = arrowGeom(d, S.srcCanvas.width);
+    if (!g) return;
+    const dx = g.tipX - g.baseX, dy = g.tipY - g.baseY;
+    const L = Math.hypot(dx, dy) || 1;
+    const ux = dx / L, uy = dy / L;
+    const hx = g.tipX - ux * g.head, hy = g.tipY - uy * g.head;
+    const px = -uy * g.head * 0.62, py = ux * g.head * 0.62;
+    const r1 = v => Math.round(v * 10) / 10;
+    arrowHtml += '<line x1="' + r1(g.baseX) + '" y1="' + r1(g.baseY) + '" x2="' + r1(g.tipX) + '" y2="' + r1(g.tipY) + '" stroke="#475569" stroke-width="2.2" stroke-linecap="round" opacity="0.9"/>' +
+      '<polygon points="' + r1(g.tipX) + ',' + r1(g.tipY) + ' ' + r1(hx + px) + ',' + r1(hy + py) + ' ' + r1(hx - px) + ',' + r1(hy - py) + '" fill="#334155" opacity="0.9"/>';
+    /* red anchor dot marking the EXACT arrow-end (the X/Y point);
+       the callout sits OUTSIDE the label, on the far side of the tip */
+    arrowHtml += '<circle cx="' + r1(g.tipX) + '" cy="' + r1(g.tipY) + '" r="3.4" fill="#e11d48" stroke="#ffffff" stroke-width="1.6"/>';
+    if (d.id === S.selectedId) {
+      const tipRight = g.tipX >= d.x + d.w / 2;
+      const tx = tipRight ? g.tipX + 7 : g.tipX - 7;
+      arrowHtml += '<text x="' + r1(tx) + '" y="' + r1(g.tipY - 8) + '" text-anchor="' + (tipRight ? "start" : "end") + '" font-family="ui-monospace,Menlo,Consolas,monospace" font-size="11.5" font-weight="800" fill="#be123c" stroke="#fff" stroke-width="3" paint-order="stroke">tip (' + Math.round(g.tipX) + ', ' + Math.round(g.tipY) + ')</text>';
+    }
+  });
+  svg.innerHTML = arrowHtml;
+}
+function paintOverlay() {
+  const layer = $("srcLayer");
+  if (!S.srcCanvas || !S.detections.length) { layer.innerHTML = ""; return; }
+  const img = $("srcImg");
+  const sc = imgScale(img, S.srcCanvas.width);
+  if (sc <= 0) return;
+  const dispW = img.clientWidth, dispH = img.clientHeight;
+  const parts = [];
+  S.detections.forEach(d => {
+    const cls = ["det"];
+    if (!d.enabled) cls.push("off");
+    if (d.id === S.selectedId) cls.push("sel");
+    const fs = clamp(Math.round(d.h * sc * 0.5), 10, 14);
+    /* display-space box of the detection */
+    const dr = { x: d.x * sc, y: d.y * sc, w: d.w * sc, h: d.h * sc };
+    let chipHtml = "";
+    if (d.enabled && d.newLabel) {
+      const pw = Math.ceil(fs * 0.62 * d.newLabel.length) + 14;
+      const ph = fs + 9;
+      const p = chipPos(dr, d.manual, d.pointing, dispW, dispH, pw, ph);
+      /* position relative to the .det element (which sits at dr.x/dr.y) */
+      const rx = p.x - dr.x, ry = p.y - dr.y;
+      chipHtml = '<span class="lbl' + (d.id === S.selectedId ? "" : " dim") + '" style="font-size:' + fs + "px;left:" + Math.round(rx) + "px;top:" + Math.round(ry) + "px;transform:none\">" + escapeHtml(d.newLabel) + "</span>";
+    }
+    parts.push('<div class="' + cls.join(" ") + '" data-id="' + d.id + '" style="left:' + (d.x * sc) + "px;top:" + (d.y * sc) + "px;width:" + Math.max(2, d.w * sc) + "px;height:" + Math.max(2, d.h * sc) + 'px" title="' + escapeHtml(d.original || "blank label") + '">' +
+      '<div class="box"></div>' +
+      chipHtml +
+      "</div>");
+  });
+  layer.innerHTML = parts.join("");
+}
+function hitTest(x, y) {
+  let best = null, bestArea = Infinity;
+  S.detections.forEach(d => {
+    if (x >= d.x && x <= d.x + d.w && y >= d.y && y <= d.y + d.h) {
+      const a = d.w * d.h;
+      if (a < bestArea) { bestArea = a; best = d.id; }
+    }
+  });
+  return best;
+}
+function markHover(id) {
+  document.querySelectorAll(".det.hov").forEach(el => el.classList.remove("hov"));
+  if (id) {
+    const el = document.querySelector('.det[data-id="' + id + '"]');
+    if (el) el.classList.add("hov");
+  }
+}
+function toImgCoords(e) {
+  const img = $("srcImg");
+  const r = img.getBoundingClientRect();
+  return {
+    x: clamp((e.clientX - r.left) / r.width * S.srcCanvas.width, 0, S.srcCanvas.width),
+    y: clamp((e.clientY - r.top) / r.height * S.srcCanvas.height, 0, S.srcCanvas.height)
+  };
+}
+
+/* ------------------------------ box 2 grid -------------------------- */
+function niceStep(range, target) {
+  const raw = Math.max(1, range) / (target || 10);
+  const mag = Math.pow(10, Math.floor(Math.log10(raw)));
+  const norm = raw / mag;
+  const f = norm < 1.5 ? 1 : norm < 3.5 ? 2 : norm < 7.5 ? 5 : 10;
+  return f * mag;
+}
+function buildGrid() {
+  const layer = $("gridLayer"), svg = $("gridSvg");
+  if (!S.outUrl || !S.gridOn) { layer.style.display = "none"; return; }
+  const img = $("outImg");
+  const r = img.getBoundingClientRect();
+  if (r.width <= 0) return;
+  const w = r.width, h = r.height;
+  layer.style.display = "block";
+  svg.setAttribute("width", w); svg.setAttribute("height", h);
+  svg.setAttribute("viewBox", "0 0 " + w + " " + h);
+  const step = niceStep(Math.max(w, h), 10);
+  let html = "";
+  const xs = [], ys = [];
+  for (let x = 0; x < w; x += step) xs.push({ px: x, v: Math.round(x / w * S.srcCanvas.width) });
+  for (let y = 0; y < h; y += step) ys.push({ py: y, v: Math.round(y / h * S.srcCanvas.height) });
+  xs.forEach(({ px }) => {
+    html += '<line x1="' + px + '" y1="0" x2="' + px + '" y2="' + h + '" stroke="#64748b" stroke-opacity="' + (px === 0 ? 0.85 : 0.38) + '" stroke-width="' + (px === 0 ? 1.4 : 1) + '"/>';
+  });
+  ys.forEach(({ py }) => {
+    html += '<line x1="0" y1="' + py + '" x2="' + w + '" y2="' + py + '" stroke="#64748b" stroke-opacity="' + (py === 0 ? 0.85 : 0.38) + '" stroke-width="' + (py === 0 ? 1.4 : 1) + '"/>';
+  });
+  xs.forEach(({ px, v }) => {
+    const len = String(v).length * 5.8 + 4;
+    const an = px + len > w - 4 ? "end" : px - len / 2 < 4 ? "start" : "middle";
+    html += '<text class="ax" x="' + (px === 0 ? 4 : px) + '" y="13" text-anchor="' + an + '">' + v + "</text>";
+  });
+  ys.filter(({ py }) => py > 16).forEach(({ py, v }) => {
+    html += '<text class="ax" x="5" y="' + (py + 3.5) + '">' + v + "</text>";
+  });
+  html += '<g id="crsX"><line x1="0" y1="0" x2="0" y2="0" stroke="#4f46e5" stroke-opacity="0.8" stroke-width="1" stroke-dasharray="4 3"/></g>';
+  html += '<g id="crsY"><line x1="0" y1="0" x2="0" y2="0" stroke="#4f46e5" stroke-opacity="0.8" stroke-width="1" stroke-dasharray="4 3"/></g>';
+  html += '<circle id="crsDot" cx="0" cy="0" r="3" fill="#4f46e5" stroke="#fff" stroke-width="1.2" opacity="0"/>';
+  html += '<g id="planMark" opacity="0"><circle cx="0" cy="0" r="10" fill="none" stroke="#4f46e5" stroke-opacity="0.35" stroke-width="1.6"/><circle cx="0" cy="0" r="3.5" fill="#4f46e5" stroke="#fff" stroke-width="1.4"/><text class="ax" id="planTxt" x="0" y="0">planned</text></g>';
+  html += '<g id="tipMarks"></g>';
+  svg.innerHTML = html;
+  const ph = $("planHint");
+  if (S.planPoint) {
+    const g = toDisplay(S.planPoint.x, S.planPoint.y, r);
+    paintPlanMark(g.dx, g.dy, S.planPoint.x, S.planPoint.y);
+  } else ph.style.display = "none";
+  paintTipMarks();
+}
+function toDisplay(ix, iy, rect) {
+  const img = $("outImg");
+  const r = rect || img.getBoundingClientRect();
+  return { dx: ix / S.srcCanvas.width * r.width, dy: iy / S.srcCanvas.height * r.height };
+}
+function paintPlanMark(dx, dy, ix, iy) {
+  const svg = $("gridSvg"), g = svg.querySelector("#planMark"), ph = $("planHint");
+  if (!g) return;
+  g.setAttribute("opacity", 1);
+  const cs = g.querySelectorAll("circle");
+  cs[0].setAttribute("cx", dx); cs[0].setAttribute("cy", dy);
+  cs[1].setAttribute("cx", dx); cs[1].setAttribute("cy", dy);
+  g.querySelector("#planTxt").setAttribute("x", dx + 12);
+  g.querySelector("#planTxt").setAttribute("y", dy - 9);
+  g.querySelector("#planTxt").textContent = "tip (" + ix + ", " + iy + ")";
+  ph.textContent = "⌖ arrow tip (" + ix + ", " + iy + ") — blank will face it";
+  ph.style.left = (dx + 10) + "px"; ph.style.top = (dy - 26) + "px";
+  ph.style.display = "block";
+}
+function hidePlanMark() {
+  const svg = $("gridSvg");
+  const g = svg && svg.querySelector("#planMark");
+  if (g) g.setAttribute("opacity", 0);
+  const ph = $("planHint");
+  if (ph) ph.style.display = "none";
+}
+
+/* Red anchor dot at the SELECTED manual label's stored tip, drawn on
+   the box-2 grid so the user sees that (x,y) is the arrow's end. */
+function paintTipMarks() {
+  const svg = $("gridSvg");
+  const g = svg && svg.querySelector("#tipMarks");
+  if (!g) return;
+  if (!S.outUrl || !S.gridOn || !S.srcCanvas) { g.innerHTML = ""; return; }
+  const d = S.detections.find(x => x.id === S.selectedId && x.manual && x.tipX != null && x.tipY != null && x.enabled);
+  g.innerHTML = "";
+  if (!d) return;
+  const img = $("outImg");
+  const r = img.getBoundingClientRect();
+  if (r.width <= 0) return;
+  const p = toDisplay(d.tipX, d.tipY, r);
+  const R = v => Math.round(v * 10) / 10;
+  const tipRight = d.tipX >= d.x + d.w / 2;
+  g.innerHTML =
+    '<circle cx="' + R(p.dx) + '" cy="' + R(p.dy) + '" r="4" fill="#e11d48" stroke="#ffffff" stroke-width="1.6"/>' +
+    '<text x="' + R(tipRight ? p.dx + 8 : p.dx - 8) + '" y="' + R(Math.max(14, p.dy - 9)) + '" text-anchor="' + (tipRight ? "start" : "end") + '" font-family="ui-monospace,Menlo,Consolas,monospace" font-size="11" font-weight="800" fill="#be123c" stroke="#fff" stroke-width="3" paint-order="stroke">tip (' + Math.round(d.tipX) + ', ' + Math.round(d.tipY) + ')</text>';
+}
+
+/* -------------------------------------------------- live ghost preview
+   While the user plans a manual label, box 2 shows exactly what will
+   be added: the dashed blank (auto-placed facing the tip, or the box
+   the user drew), the arrow from the blank's edge to the tip, the
+   letter that will be assigned, and the tip coordinates.            */
+
+function ghostGeom() {
+  if (!S.srcCanvas) return null;
+  const imgW = S.srcCanvas.width, imgH = S.srcCanvas.height;
+  const content = $("mfContent").value.trim();
+  const xv = $("mfX").value, yv = $("mfY").value;
+  const hasTip = xv !== "" && yv !== "" && isFinite(+xv) && isFinite(+yv);
+  const tipX = hasTip ? clamp(Math.round(+xv), 0, imgW - 1) : null;
+  const tipY = hasTip ? clamp(Math.round(+yv), 0, imgH - 1) : null;
+
+  let blank;
+  if (S.pendingRect) {
+    blank = {
+      x: clamp(Math.round(S.pendingRect.x), 0, Math.max(0, imgW - S.pendingRect.w)),
+      y: clamp(Math.round(S.pendingRect.y), 0, Math.max(0, imgH - S.pendingRect.h)),
+      w: S.pendingRect.w, h: S.pendingRect.h
+    };
+  } else if (content && hasTip) {
+    const est = estimateLabelRegion(content, imgH);
+    blank = blankFromTip(tipX, tipY, est.w, est.h, S.pointing, imgW, imgH);
+  }
+  if (!blank) return null;
+
+  /* the tip must lie on the pointed side of the blank (Right ▶ → tip
+     right of the blank; Left ◀ → tip left of the blank) */
+  let baseX = null;
+  if (hasTip) {
+    baseX = S.pointing === "right" ? blank.x + blank.w : blank.x;
+    const ok = S.pointing === "right" ? tipX - baseX >= 4 : baseX - tipX >= 4;
+    if (!ok) return null;
+  }
+
+  /* which letter will this label get? simulate the full reassignment */
+  const cand = { id: "__ghost__", x: blank.x, y: blank.y, w: blank.w, h: blank.h, enabled: true };
+  const sim = assignLabels(S.detections.concat([cand]), S.scheme, S.prefix);
+  const letter = (sim.find(d => d.id === "__ghost__") || {}).newLabel || "";
+  return { blank: blank, tipX: tipX, tipY: tipY, baseX: baseX, letter: letter };
+}
+
+function paintGhost() {
+  const gs = $("ghostSvg");
+  if (!gs) return;
+  if (!S.srcCanvas || !S.outUrl) { gs.innerHTML = ""; return; }
+  const img = $("outImg");
+  const r = img.getBoundingClientRect();
+  if (r.width <= 0 || r.height <= 0) { gs.innerHTML = ""; return; }
+  gs.setAttribute("width", r.width);
+  gs.setAttribute("height", r.height);
+  gs.setAttribute("viewBox", "0 0 " + r.width + " " + r.height);
+  const sx = r.width / S.srcCanvas.width, sy = r.height / S.srcCanvas.height;
+  const R = v => Math.round(v * 10) / 10;
+  const fmono = "ui-monospace,Menlo,Consolas,monospace";
+  const xv = $("mfX").value, yv = $("mfY").value;
+  const hasTip = xv !== "" && yv !== "" && isFinite(+xv) && isFinite(+yv);
+  const tipX = hasTip ? clamp(Math.round(+xv), 0, S.srcCanvas.width - 1) : null;
+  const tipY = hasTip ? clamp(Math.round(+yv), 0, S.srcCanvas.height - 1) : null;
+
+  const g = ghostGeom();
+  let html = "";
+
+  if (g) {
+    const b = g.blank;
+    const bx = b.x * sx, by = b.y * sy, bw = Math.max(2, b.w * sx), bh = Math.max(2, b.h * sy);
+    const topY = by; /* the leader anchor sits on the box's TOP edge */
+    html += '<rect x="' + R(bx) + '" y="' + R(by) + '" width="' + R(bw) + '" height="' + R(bh) +
+      '" rx="4" fill="rgba(79,70,229,0.10)" stroke="#4f46e5" stroke-width="1.6" stroke-dasharray="6 4"/>';
+    if (g.letter) {
+      /* chip preview matches the final output: outside the blank on the
+         side opposite the tip (chipPos fallback = above-centre) */
+      const fsD = clamp(Math.round(Math.max(bh * 0.85, 11)), 11, 21);
+      const pwD = Math.ceil(fsD * 0.66 * g.letter.length) + 14;
+      const phD = fsD + 9;
+      const cp = chipPos({ x: bx, y: by, w: bw, h: bh }, true, S.pointing, r.width, r.height, pwD, phD);
+      html += '<rect x="' + R(cp.x) + '" y="' + R(cp.y) + '" width="' + pwD + '" height="' + phD + '" rx="5" fill="rgba(15,23,42,0.92)"/>' +
+        '<text x="' + R(cp.x + pwD / 2) + '" y="' + R(cp.y + phD / 2 + 1) + '" text-anchor="middle" font-family="' + fmono + '" font-size="' + fsD + '" font-weight="800" fill="#ffffff">' + escapeHtml(g.letter) + "</text>";
+    }
+    if (g.tipX != null && g.baseX != null) {
+      const tx = g.tipX * sx, ty = g.tipY * sy, baseX = g.baseX * sx;
+      /* leader from the box's TOP corner on the side facing the tip */
+      html += '<line x1="' + R(baseX) + '" y1="' + R(topY) + '" x2="' + R(tx) + '" y2="' + R(ty) +
+        '" stroke="#4f46e5" stroke-width="1.8" opacity="0.9"/>';
+      const dx = tx - baseX, dy = ty - topY, L = Math.hypot(dx, dy) || 1;
+      const ux = dx / L, uy = dy / L, hd = 11;
+      const hx = tx - ux * hd, hy = ty - uy * hd;
+      const px = -uy * hd * 0.6, py = ux * hd * 0.6;
+      html += '<polygon points="' + R(tx) + ',' + R(ty) + ' ' + R(hx + px) + ',' + R(hy + py) + ' ' + R(hx - px) + ',' + R(hy - py) + '" fill="#4f46e5"/>';
+    }
+  }
+
+  /* RED TIP MARKER — always drawn while X/Y are filled, at EXACTLY the
+     planned (X,Y): a crosshair, a red dot (the arrowhead point) and a
+     "tip (x, y)" callout. Even before content is typed the marker shows
+     where the arrow will END. */
+  if (tipX != null && tipY != null) {
+    const tx = tipX * sx, ty = tipY * sy;
+    html += '<line x1="' + R(Math.max(0, tx - 16)) + '" y1="' + R(ty) + '" x2="' + R(Math.min(r.width, tx + 16)) + '" y2="' + R(ty) + '" stroke="#e11d48" stroke-width="1" stroke-dasharray="3 3" opacity="0.9"/>' +
+      '<line x1="' + R(tx) + '" y1="' + R(Math.max(0, ty - 16)) + '" x2="' + R(tx) + '" y2="' + R(Math.min(r.height, ty + 16)) + '" stroke="#e11d48" stroke-width="1" stroke-dasharray="3 3" opacity="0.9"/>' +
+      '<circle cx="' + R(tx) + '" cy="' + R(ty) + '" r="4.2" fill="#e11d48" stroke="#ffffff" stroke-width="1.6"/>' +
+      '<text x="' + R(tx + 10) + '" y="' + R(Math.max(15, ty - 10)) + '" font-family="' + fmono + '" font-size="11.5" font-weight="800" fill="#be123c" stroke="#fff" stroke-width="3" paint-order="stroke">tip (' + tipX + ', ' + tipY + ')</text>';
+  }
+  gs.innerHTML = html;
+}
+function clearCrosshair() {
+  const svg = $("gridSvg");
+  if (!svg) return;
+  const cX = svg.querySelector("#crsX line"), cY = svg.querySelector("#crsY line"), dot = svg.querySelector("#crsDot");
+  if (cX) { cX.setAttribute("x1", 0); cX.setAttribute("x2", 0); }
+  if (cY) { cY.setAttribute("y1", 0); cY.setAttribute("y2", 0); }
+  if (dot) dot.setAttribute("opacity", 0);
+  $("readout").style.display = "none";
+}
+function gridPointer(e) {
+  if (!S.outUrl || !S.gridOn) return;
+  const layer = $("gridLayer");
+  const r = layer.getBoundingClientRect();
+  const dx = e.clientX - r.left, dy = e.clientY - r.top;
+  const ix = clamp(Math.round(dx / r.width * S.srcCanvas.width), 0, S.srcCanvas.width - 1);
+  const iy = clamp(Math.round(dy / r.height * S.srcCanvas.height), 0, S.srcCanvas.height - 1);
+  const svg = $("gridSvg");
+  const cX = svg.querySelector("#crsX line"), cY = svg.querySelector("#crsY line"), dot = svg.querySelector("#crsDot");
+  if (cX) { cX.setAttribute("x1", dx); cX.setAttribute("x2", dx); cX.setAttribute("y1", 0); cX.setAttribute("y2", r.height); }
+  if (cY) { cY.setAttribute("y1", dy); cY.setAttribute("y2", dy); cY.setAttribute("x1", 0); cY.setAttribute("x2", r.width); }
+  if (dot) { dot.setAttribute("opacity", 1); dot.setAttribute("cx", dx); dot.setAttribute("cy", dy); }
+  const rt = $("readout");
+  rt.innerHTML = "x <b>" + ix + "</b> · y <b>" + iy + "</b><small>" + (S.planPoint ? "hovering · tip stays put" : "click → plan the arrow tip") + "</small>";
+  rt.style.display = "block";
+  rt.style.left = clamp(dx + 14, 8, r.width - 140) + "px";
+  rt.style.top = clamp(dy + 16, 8, r.height - 52) + "px";
+}
+function planAt(e) {
+  if (!S.outUrl || !S.gridOn) return;
+  const layer = $("gridLayer");
+  const r = layer.getBoundingClientRect();
+  const dx = e.clientX - r.left, dy = e.clientY - r.top;
+  const ix = clamp(Math.round(dx / r.width * S.srcCanvas.width), 0, S.srcCanvas.width - 1);
+  const iy = clamp(Math.round(dy / r.height * S.srcCanvas.height), 0, S.srcCanvas.height - 1);
+  S.planPoint = { x: ix, y: iy, seq: (S.planPoint ? S.planPoint.seq : 0) + 1 };
+  paintPlanMark(dx, dy, ix, iy);
+  $("mfX").value = ix; $("mfY").value = iy;
+  paintForm();
+  flash("Pointer tip (" + ix + ", " + iy + ") planned — type the label content below");
+  const f = $("addForm");
+  f.scrollIntoView({ behavior: "smooth", block: "nearest" });
+  $("mfContent").focus({ preventScroll: true });
+}
+
+/* ------------------------------ table ------------------------------- */
+function paintTable() {
+  const body = $("mapBody");
+  const dets = sortReadingOrder(S.detections);
+  $("mapEmpty").style.display = dets.length ? "none" : "block";
+  if (!dets.length) { body.innerHTML = ""; return; }
+  const rows = dets.map((d, i) => {
+    const conf = d.manual
+      ? '<span style="display:inline-flex;align-items:center;gap:6px"><span class="bchip bc-dr">manual</span>' +
+        '<button class="flip" data-act="flip" title="Arrow tip at (' + (d.tipX != null ? d.tipX : "–") + ', ' + (d.tipY != null ? d.tipY : "–") + ') — click to move the label to the other side of the tip">' + (d.pointing === "left" ? "◀ L" : "R ▶") + "</button></span>"
+      : '<span class="bchip ' + (d.confidence >= 90 ? "bc-ok" : d.confidence >= 70 ? "bc-mid" : "bc-lo") + '">' + Math.round(d.confidence) + "%</span>";
+    return '<tr data-id="' + d.id + '" class="' + (d.id === S.selectedId ? "sel" : "") + (d.enabled ? "" : " dis") + '">' +
+      '<td style="font-family:monospace;color:#94a3b8;font-size:12px">' + (i + 1) + "</td>" +
+      '<td>' + (d.newLabel ? '<span class="tagind">' + escapeHtml(d.newLabel) + "</span>" : '<span class="tagoff">turned off</span>') + "</td>" +
+      '<td><input class="orig" data-act="orig" value="' + escapeHtml(d.original) + '" placeholder="(blank — type the original label)" spellcheck="false"/></td>' +
+      "<td>" + conf + "</td>" +
+      '<td style="text-align:center"><input type="checkbox" data-act="en" ' + (d.enabled ? "checked" : "") + "/></td>" +
+      '<td style="text-align:right"><button class="delbtn" data-act="del" title="Remove this label">✕</button></td></tr>';
+  }).join("");
+  body.innerHTML = rows;
+  body.querySelectorAll("tr[data-id]").forEach(tr => {
+    const id = tr.dataset.id;
+    const orig = tr.querySelector('input[data-act="orig"]');
+    orig.addEventListener("input", () => patchOrig(id, orig.value));
+  });
+}
+/* table events (delegation) */
+$("mapBody").addEventListener("click", e => {
+  const act = e.target.closest("[data-act]");
+  const tr = e.target.closest("tr[data-id]");
+  if (!tr) return;
+  const id = tr.dataset.id;
+  if (!act) { selectLabel(id); return; }
+  const a = act.dataset.act;
+  if (a === "del") removeLabel(id);
+  else if (a === "en") toggleEnabled(id, act.checked);
+  else if (a === "flip") flipPointing(id);
+  else if (a === "orig") e.stopPropagation();
+});
+function patchOrig(id, value) {
+  const d = S.detections.find(x => x.id === id);
+  if (d) { d.original = value; paintPairs(); }
+}
+function commit(list) {
+  S.detections = assignLabels(list, S.scheme, S.prefix);
+  refreshAll();
+}
+function removeLabel(id) { commit(S.detections.filter(d => d.id !== id)); if (S.selectedId === id) S.selectedId = null; }
+function toggleEnabled(id, on) { commit(S.detections.map(d => d.id === id ? { ...d, enabled: on } : d)); }
+function flipPointing(id) {
+  if (!S.srcCanvas) return;
+  const imgW = S.srcCanvas.width, imgH = S.srcCanvas.height;
+  S.detections = S.detections.map(d => {
+    if (d.id !== id) return d;
+    const nd = { ...d, pointing: d.pointing === "left" ? "right" : "left" };
+
+    if (nd.tipX == null || nd.tipY == null) {
+      /* no explicit tip stored — derive one on the new side */
+      const t = tipFromBlank(nd, nd.pointing, imgW);
+      nd.tipX = t.x; nd.tipY = t.y;
+      return nd;
+    }
+
+    /* Does the tip lie on the POINTED side of the box for this arrow
+       direction? Right ▶ → tip right of the box; Left ◀ → tip left. */
+    const validSide = b => {
+      const openX = nd.pointing === "right" ? b.x + b.w : b.x;
+      return nd.pointing === "right" ? nd.tipX - openX >= 2 : openX - nd.tipX >= 2;
+    };
+
+    if (nd.pinnedBox) {
+      /* box was drawn around existing text → keep the box where it is
+         and swing the tip to the pointed side (tipY stays on the box's
+         top row so the marker never sits at its middle) */
+      const t = tipFromBlank(nd, nd.pointing, imgW);
+      nd.tipX = t.x; nd.tipY = t.y;
+      return nd;
+    }
+
+    /* tip was typed / grid-clicked → THE FEATURE POINT (X,Y) STAYS
+       FIXED and the label text hops to the other side of it:
+         Right ▶ → text LEFT of the tip (blank's top edge on the tip
+                   row; arrow from the blank's top-right corner)
+         Left  ◀ → text RIGHT of the tip (arrow from the blank's
+                   top-left corner) */
+    const b = blankFromTip(nd.tipX, nd.tipY, nd.w, nd.h, nd.pointing, imgW, imgH);
+    if (validSide(b)) {
+      nd.x = b.x; nd.y = b.y;
+      nd.tipY = nd.y; /* keep level with the box's top row */
+      return nd;
+    }
+    /* image-edge case: text cannot hop → swing the tip to the pointed
+       side of the current box instead */
+    const t = tipFromBlank(nd, nd.pointing, imgW);
+    nd.tipX = t.x; nd.tipY = t.y;
+    return nd;
+  });
+  commit(S.detections);
+  const d2 = S.detections.find(x => x.id === id);
+  const dir = d2 && d2.pointing === "right" ? "▶" : "◀";
+  const sideWord = d2 && d2.pointing === "right" ? "LEFT" : "RIGHT";
+  flash("Arrow " + dir + " — text now " + sideWord + " of the fixed tip; arrow updated in box 1 & box 2");
+}
+function selectLabel(id) {
+  S.selectedId = id;
+  paintOverlay();
+  layoutOverlay();   /* refreshes the red tip anchor + "tip (x,y)" label */
+  paintTable();
+  paintTipMarks();
+}
+
+/* ------------------------------ manual add -------------------------- */
+function addManual(pending) {
+  const content = $("mfContent").value.trim();
+  if (!S.srcCanvas) { line("Load an image into box 1 first — the tip coordinates are source-image pixels.", true); return; }
+  const imgW = S.srcCanvas.width, imgH = S.srcCanvas.height;
+  if (!content) { line("Type the label content first — this is the original text shown in the key.", true); return; }
+  const xv = $("mfX").value, yv = $("mfY").value;
+  if (xv === "" || yv === "" || !isFinite(+xv) || !isFinite(+yv)) {
+    line("Enter the pointer tip X and Y (0–" + imgW + ", 0–" + imgH + ") — or click the ⌗ grid in box 2 on the feature.", true);
+    return;
+  }
+  const tipX = clamp(Math.round(+xv), 0, imgW - 1);
+  const tipY = clamp(Math.round(+yv), 0, imgH - 1);
+  const dirWord = S.pointing === "left" ? "◀ Left" : "Right ▶";
+
+  /* the blank: drawn box (exact text position) or auto-placed on the chosen side of the tip */
+  let blank;
+  if (pending) {
+    blank = {
+      x: clamp(Math.round(pending.x), 0, Math.max(0, imgW - pending.w)),
+      y: clamp(Math.round(pending.y), 0, Math.max(0, imgH - pending.h)),
+      w: pending.w, h: pending.h
+    };
+  } else {
+    const est = estimateLabelRegion(content, imgH);
+    blank = blankFromTip(tipX, tipY, est.w, est.h, S.pointing, imgW, imgH);
+  }
+
+  /* the tip must lie on the pointed side of the blank */
+  const openX = S.pointing === "right" ? blank.x + blank.w : blank.x;
+  const ok = S.pointing === "right" ? tipX - openX >= 4 : openX - tipX >= 4;
+  if (!ok) {
+    line("Points " + dirWord + ": the tip (X/Y) must be " + (S.pointing === "right" ? "to the RIGHT of" : "to the LEFT of") + " the label text — move the tip out, or switch the arrow direction.", true);
+    return;
+  }
+
+  const det = {
+    id: uid(),
+    x: blank.x, y: blank.y, w: blank.w, h: blank.h,
+    tipX: tipX, tipY: tipY,
+    original: content, confidence: 100, enabled: true, manual: true,
+    pinnedBox: !!pending, /* drawn over existing text → box must not hop */
+    pointing: S.pointing, newLabel: ""
+  };
+  commit(S.detections.concat([det]));
+  S.selectedId = det.id;
+  S.planPoint = null; S.pendingRect = null; hidePlanMark();
+  $("mfContent").value = ""; $("mfX").value = ""; $("mfY").value = "";
+  line("");
+  paintGhost();
+  flash("Manual label “" + content + "” added — arrow tip at (" + tipX + ", " + tipY + "), blank placed in box 2");
+  const el = document.querySelector('.det[data-id="' + det.id + '"]');
+  if (el) el.scrollIntoView({ behavior: "smooth", block: "nearest" });
+}
+function line(msg, isErr) {
+  const el = $("mfLine");
+  el.textContent = msg || "";
+  el.className = "afline" + (isErr ? " err" : "");
+}
+function paintForm() {
+  const hasImg = !!S.srcCanvas;
+  if (hasImg) {
+    $("mfMaxX").textContent = S.srcCanvas.width;
+    $("mfMaxY").textContent = S.srcCanvas.height;
+  }
+  let msg = "", isErr = false;
+  if (!hasImg) {
+    msg = "Load an image into box 1 first — the tip coordinates are source-image pixels.";
+  } else {
+    const t = $("mfContent").value.trim();
+    const imgW = S.srcCanvas.width, imgH = S.srcCanvas.height;
+    if (!t) {
+      msg = "Type the label content, then set its pointer tip — or click the ⌗ grid in box 2 on the feature.";
+    } else {
+      const xv = $("mfX").value, yv = $("mfY").value;
+      if (xv === "" || yv === "") {
+        msg = "Enter the pointer tip X and Y — the arrow will end exactly at that point.";
+      } else {
+        const tipX = clamp(Math.round(+xv), 0, imgW - 1), tipY = clamp(Math.round(+yv), 0, imgH - 1);
+        const est = estimateLabelRegion(t, imgH);
+        const dirWord = S.pointing === "left" ? "◀ Left" : "Right ▶";
+        const blank = S.pendingRect
+          ? {
+              x: clamp(Math.round(S.pendingRect.x), 0, Math.max(0, imgW - S.pendingRect.w)),
+              y: clamp(Math.round(S.pendingRect.y), 0, Math.max(0, imgH - S.pendingRect.h)),
+              w: S.pendingRect.w, h: S.pendingRect.h
+            }
+          : blankFromTip(tipX, tipY, est.w, est.h, S.pointing, imgW, imgH);
+        const openX = S.pointing === "right" ? blank.x + blank.w : blank.x;
+        const ok = S.pointing === "right" ? tipX - openX >= 4 : openX - tipX >= 4;
+        if (!ok) {
+          msg = "Points " + dirWord + ": the tip (X/Y) must be " + (S.pointing === "right" ? "to the RIGHT of" : "to the LEFT of") + " the label text — move the tip out, or switch the arrow direction.";
+          isErr = true;
+        } else {
+          msg = S.pendingRect
+            ? "Blank stays where drawn at (" + blank.x + ", " + blank.y + ") · arrow " + dirWord + " to tip (" + tipX + ", " + tipY + ")."
+            : "Points " + dirWord + ": tip (" + tipX + ", " + tipY + ") → text sits " + (S.pointing === "right" ? "LEFT" : "RIGHT") + " of it: blank auto-placed at (" + blank.x + ", " + blank.y + ") as a " + est.w + "×" + est.h + "px box (top edge level with the tip), arrow from its " + (S.pointing === "right" ? "top-right corner" : "top-left corner") + " to the tip. The letter is assigned in reading order.";
+        }
+      }
+    }
+  }
+  line(msg, isErr);
+  paintGhost();
+}
+
+/* ------------------------------ pairs ------------------------------- */
+function paintPairs() {
+  const pairs = sortReadingOrder(S.detections.filter(d => d.enabled));
+  const wrap = $("pairsWrap");
+  if (!pairs.length) { wrap.style.display = "none"; return; }
+  wrap.style.display = "block";
+  const chips = pairs.map(d => {
+    const full = (d.original || "").trim() || "(blank)";
+    const shown = !!S.revealed[d.id];
+    return '<span class="pair"><b>' + escapeHtml(d.newLabel) + '</b><span class="eq">=</span>' +
+      '<button class="clue' + (shown ? " show" : "") + '" data-pid="' + d.id + '" data-full="' + escapeHtml(full) + '" title="Click to show / hide the full spelling">' +
+      (shown ? escapeHtml(full) : escapeHtml(maskOriginal(full, S.clueLetters, S.maskToken))) + "</button></span>";
+  }).join("");
+  $("pairChips").innerHTML = chips;
+  const anyHidden = pairs.some(d => !S.revealed[d.id]);
+  $("revealAllBtn").textContent = anyHidden ? "Reveal all" : "Hide all";
+  $("pairChips").querySelectorAll(".clue").forEach(btn => {
+    btn.addEventListener("click", () => {
+      const id = btn.dataset.pid;
+      S.revealed[id] = !S.revealed[id];
+      paintPairs();
+    });
+  });
+}
+
+/* ------------------------------ box 3 pane -------------------------- */
+function paintBox3() {
+  const area = $("outArea");
+  if (!S.html) {
+    area.innerHTML = '<div class="placeholder">Press <b>BUT 2</b> to write the HTML that pairs every new label in box 2 with its original label from box 1.</div>';
+    return;
+  }
+  if (S.showPreview) {
+    area.innerHTML = '<iframe title="preview" srcdoc=""></iframe>';
+    const fr = area.querySelector("iframe");
+    fr.srcdoc = S.html;
+  } else {
+    area.innerHTML = '<textarea readonly spellcheck="false"></textarea>';
+    area.querySelector("textarea").value = S.html;
+  }
+  paintButtons();
+}
+
+/* ------------------------------ download/copy ----------------------- */
+function download(dataUrl, name) {
+  const a = document.createElement("a");
+  a.href = dataUrl; a.download = name;
+  document.body.appendChild(a); a.click(); a.remove();
+}
+function copyText(text, what) {
+  const done = () => flash(what + " copied to clipboard");
+  const fail = () => {
+    const ta = document.createElement("textarea");
+    ta.value = text;
+    ta.style.position = "fixed"; ta.style.opacity = "0";
+    document.body.appendChild(ta);
+    ta.select();
+    try { document.execCommand("copy"); done(); } catch (e2) { setError("Clipboard blocked by the browser — select the text manually."); }
+    ta.remove();
+  };
+  if (navigator.clipboard && window.isSecureContext) {
+    navigator.clipboard.writeText(text).then(done).catch(fail);
+  } else fail();
+}
+
+/* ------------------------------ events ------------------------------ */
+function bindEvents() {
+  /* CodePen can execute this script more than once (e.g. if the same
+     content lands in both the HTML and JS panes). Double-binding would
+     add every label twice and break toggles — so bind only once. */
+  if (window.__LA_BOUND) return;
+  window.__LA_BOUND = true;
+
+  /* BUT 1 / BUT 2 */
+  $("but1").addEventListener("click", runScan);
+  $("but2").addEventListener("click", runGenerateHtml);
+
+  /* file / demo / clear / draw */
+  $("chooseBtn").addEventListener("click", () => $("fileInput").click());
+  $("srcEmpty").addEventListener("click", () => $("fileInput").click());
+  $("fileInput").addEventListener("change", e => {
+    const f = e.target.files && e.target.files[0];
+    if (f) loadFromFile(f);
+    e.target.value = "";
+  });
+  $("demoBtn").addEventListener("click", () => loadFromUrl(makeDemoImage()));
+  $("clearBtn").addEventListener("click", () => {
+    S.srcUrl = null; S.srcCanvas = null; S.detections = []; S.outUrl = null; S.html = "";
+    S.selectedId = null; S.planPoint = null; S.pendingRect = null;
+    S.status = ""; S.error = null;
+    $("srcStage").style.display = "none";
+    $("srcEmpty").style.display = "flex";
+    $("mfX").value = ""; $("mfY").value = ""; $("mfContent").value = "";
+    refreshAll();
+  });
+  $("drawBtn").addEventListener("click", () => {
+    S.drawMode = !S.drawMode;
+    $("drawBtn").textContent = S.drawMode ? "Drawing… click to stop" : "Draw box";
+    $("drawBtn").classList.toggle("on", S.drawMode);
+    $("srcHint").style.display = S.drawMode ? "flex" : "none";
+    $("srcStage").style.cursor = S.drawMode ? "crosshair" : "";
+  });
+
+  /* global paste */
+  document.addEventListener("paste", e => {
+    const items = e.clipboardData && e.clipboardData.items;
+    if (!items) return;
+    for (const item of Array.from(items)) {
+      if (item.type.startsWith("image/")) {
+        const f = item.getAsFile();
+        if (f) { e.preventDefault(); loadFromFile(f); flash("Image pasted into box 1"); }
+        return;
+      }
+    }
+  });
+
+  /* drag & drop onto box 1 */
+  const drop = $("srcDrop");
+  drop.addEventListener("dragover", e => { e.preventDefault(); drop.classList.add("drag"); });
+  drop.addEventListener("dragleave", () => drop.classList.remove("drag"));
+  drop.addEventListener("drop", e => {
+    e.preventDefault(); drop.classList.remove("drag");
+    if (e.dataTransfer.files && e.dataTransfer.files.length) loadFromFile(e.dataTransfer.files[0]);
+  });
+
+  /* scan options */
+  $("minConf").addEventListener("input", e => { S.minConf = +e.target.value; $("minConfV").textContent = S.minConf; });
+  $("ocrScale").addEventListener("input", e => { S.ocrScale = +e.target.value; $("ocrScaleV").textContent = S.ocrScale; });
+  $("mergeWords").addEventListener("change", e => { S.mergeWords = e.target.checked; });
+  $("scheme").addEventListener("change", e => {
+    S.scheme = e.target.value;
+    commit(S.detections.map(d => ({ ...d })));
+  });
+  $("prefix").addEventListener("input", e => {
+    S.prefix = e.target.value;
+    const prev = S.detections;
+    S.detections = assignLabels(prev, S.scheme, S.prefix);
+    refreshAll();
+  });
+
+  /* mask options */
+  $("maskFill").addEventListener("change", e => { S.mask.fill = e.target.value; refreshOut(); });
+  $("maskPad").addEventListener("input", e => { S.mask.padding = +e.target.value; $("padV").textContent = S.mask.padding; refreshOut(); });
+  $("drawLabels").addEventListener("change", e => { S.mask.drawLabels = e.target.checked; refreshOut(); });
+  $("outline").addEventListener("change", e => { S.mask.outline = e.target.checked; refreshOut(); });
+
+  /* box 2 buttons */
+  $("gridBtn").addEventListener("click", () => {
+    S.gridOn = !S.gridOn;
+    if (!S.gridOn) { $("gridLayer").style.display = "none"; }
+    else refreshOut(); /* ends by (re)building the grid */
+    paintButtons();
+  });
+  $("dlPngBtn").addEventListener("click", () => S.outUrl && download(S.outUrl, "anonymised.png"));
+
+  /* grid pointer events */
+  const gl = $("gridLayer");
+  gl.addEventListener("pointermove", gridPointer);
+  gl.addEventListener("pointerleave", () => { clearCrosshair(); });
+  gl.addEventListener("click", planAt);
+
+  /* manual add */
+  $("ptLeft").addEventListener("click", () => setPt("left"));
+  $("ptRight").addEventListener("click", () => setPt("right"));
+  $("mfAdd").addEventListener("click", () => addManual(S.pendingRect));
+  ["mfContent", "mfX", "mfY"].forEach(id => $(id).addEventListener("input", () => { line(""); paintForm(); }));
+
+  /* box 1 overlay pointer logic */
+  const layer = $("srcLayer");
+  let drag = null, dragEl = null;
+  layer.addEventListener("pointerdown", e => {
+    if (!S.srcCanvas) return;
+    layer.setPointerCapture(e.pointerId);
+    const p = toImgCoords(e);
+    if (S.drawMode) {
+      drag = { x0: p.x, y0: p.y, x1: p.x, y1: p.y };
+      dragEl = $("drawPrev"); dragEl.style.display = "block";
+      return;
+    }
+    const hit = hitTest(p.x, p.y);
+    selectLabel(hit);
+  });
+  layer.addEventListener("pointermove", e => {
+    if (!S.srcCanvas) return;
+    const p = toImgCoords(e);
+    if (drag) {
+      drag.x1 = clamp(p.x, 0, S.srcCanvas.width); drag.y1 = clamp(p.y, 0, S.srcCanvas.height);
+      const sc = imgScale($("srcImg"), S.srcCanvas.width);
+      const x = Math.min(drag.x0, drag.x1) * sc, y = Math.min(drag.y0, drag.y1) * sc;
+      dragEl.style.left = x + "px"; dragEl.style.top = y + "px";
+      dragEl.style.width = Math.max(2, Math.abs(drag.x1 - drag.x0) * sc) + "px";
+      dragEl.style.height = Math.max(2, Math.abs(drag.y1 - drag.y0) * sc) + "px";
+      return;
+    }
+    if (!S.drawMode) markHover(hitTest(p.x, p.y));
+  });
+  layer.addEventListener("pointerup", () => {
+    if (drag) {
+      const r = {
+        x: Math.min(drag.x0, drag.x1), y: Math.min(drag.y0, drag.y1),
+        w: Math.abs(drag.x1 - drag.x0), h: Math.abs(drag.y1 - drag.y0)
+      };
+      drag = null;
+      if (dragEl) { dragEl.style.display = "none"; dragEl = null; }
+      if (r.w >= 6 && r.h >= 6) {
+        S.pendingRect = { ...r, seq: (S.pendingRect ? S.pendingRect.seq : 0) + 1 };
+        S.planPoint = null; hidePlanMark();
+        const t = tipFromBlank(r, S.pointing, S.srcCanvas.width);
+        $("mfX").value = t.x; $("mfY").value = t.y;
+        $("mfContent").value = "";
+        line("Box drawn at (" + Math.round(r.x) + ", " + Math.round(r.y) + ") — the arrow tip (X/Y) is pre-filled at (" + t.x + ", " + t.y + "); move it onto the feature if needed, type the content, then press Add to box 2");
+        const f = $("addForm");
+        f.scrollIntoView({ behavior: "smooth", block: "nearest" });
+        $("mfContent").focus({ preventScroll: true });
+        paintGhost();
+      }
+    }
+  });
+
+  /* box 3 options */
+  $("quizTitle").addEventListener("input", e => { S.quizTitle = e.target.value; });
+  $("includeImage").addEventListener("change", e => { S.includeImage = e.target.checked; });
+  $("standalone").addEventListener("change", e => { S.standalone = e.target.checked; });
+  $("clueLetters").addEventListener("input", e => { S.clueLetters = clamp(Math.round(+e.target.value || 0), 0, 6); paintPairs(); });
+  $("maskToken").addEventListener("input", e => { S.maskToken = e.target.value; paintPairs(); });
+  $("previewBtn").addEventListener("click", () => { S.showPreview = !S.showPreview; $("previewBtn").textContent = S.showPreview ? "Show code" : "Preview"; paintBox3(); });
+  $("copyBtn").addEventListener("click", () => S.html && copyText(S.html, "HTML"));
+  $("dlHtmlBtn").addEventListener("click", () => S.html && download("data:text/html;charset=utf-8," + encodeURIComponent(S.html), "label-key.html"));
+
+  /* pairs reveal-all */
+  $("revealAllBtn").addEventListener("click", () => {
+    const pairs = sortReadingOrder(S.detections.filter(d => d.enabled));
+    const anyHidden = pairs.some(d => !S.revealed[d.id]);
+    const next = {};
+    pairs.forEach(d => { next[d.id] = anyHidden; });
+    S.revealed = next;
+    paintPairs();
+  });
+
+  /* remove all — two-step inline confirm (window.confirm is blocked in
+     sandboxed CodePen frames, so we never rely on it) */
+  $("removeAllBtn").addEventListener("click", () => {
+    if (!S.detections.length) return;
+    if (S.removeArmed) {
+      S.removeArmed = false;
+      $("removeAllBtn").textContent = "Remove all labels";
+      S.detections = []; S.selectedId = null; refreshAll();
+      flash("All labels removed");
+      return;
+    }
+    S.removeArmed = true;
+    $("removeAllBtn").textContent = "Click again to confirm";
+    $("removeAllBtn").classList.add("danger");
+    setTimeout(() => {
+      S.removeArmed = false;
+      $("removeAllBtn").textContent = "Remove all labels";
+    }, 2600);
+  });
+
+  /* resize → relayout */
+  window.addEventListener("resize", () => {
+    if (S.srcCanvas) { layoutOverlay(); paintOverlay(); }
+    if (S.outUrl) { buildGrid(); paintGhost(); }
+  });
+}
+function setPt(dir) {
+  S.pointing = dir;
+  $("ptLeft").classList.toggle("on", dir === "left");
+  $("ptRight").classList.toggle("on", dir === "right");
+  /* a drawn box stays where it is, but the X/Y (the arrow tip) must end
+     up on the pointed side of it for the chosen arrow direction */
+  if (S.pendingRect && S.srcCanvas) {
+    const xv = $("mfX").value, yv = $("mfY").value;
+    if (xv !== "" && yv !== "" && isFinite(+xv) && isFinite(+yv)) {
+      const pr = S.pendingRect;
+      const openX = dir === "right" ? pr.x + pr.w : pr.x;
+      const ok = dir === "right" ? +xv - openX >= 4 : openX - +xv >= 4;
+      if (!ok) {
+        const t = tipFromBlank(pr, dir, S.srcCanvas.width);
+        $("mfX").value = t.x; $("mfY").value = t.y;
+        line("Arrow direction flipped — X/Y re-set to the new tip (" + t.x + ", " + t.y + "); move it onto the feature if needed.");
+      }
+    }
+  }
+  paintForm();
+}
+
+/* ------------------------------ init -------------------------------- */
+/* CodePen-safe boot: when the whole file is pasted into CodePen the
+   script can run before the pasted markup exists, so we wait for the
+   DOM to be ready before binding anything. */
+function boot() {
+  try {
+    bindEvents();
+  } catch (err) {
+    console.error("Label Anonymiser: failed to bind events", err);
+  }
+  paintButtons();
+  paintStatus();
+  paintBox3();
+  paintGhost();
+  try {
+    console.log("Label Anonymiser standalone v10 — if you still see old behaviour, replace the ENTIRE pen content with this file (HTML pane only).");
+  } catch (_) {}
+}
+if (document.readyState === "loading") {
+  document.addEventListener("DOMContentLoaded", boot);
+} else {
+  boot();
+}
+/* surface any later runtime error in the status bar instead of dying
+   silently (helps debugging inside CodePen's iframe) */
+window.addEventListener("error", e => {
+  try { setError("Runtime error: " + (e.message || "unknown")); } catch (_) {}
+});
+window.addEventListener("unhandledrejection", e => {
+  try {
+    const r = e.reason;
+    setError("Async error: " + (r && r.message ? r.message : String(r)));
+  } catch (_) {}
+});
+</script>
+</body>
+</html>
