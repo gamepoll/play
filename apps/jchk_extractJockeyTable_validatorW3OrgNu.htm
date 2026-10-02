@@ -1,0 +1,994 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#f2f2eb">
+  <title>Jockey Table Source Extractor</title>
+  <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
+  <style>
+    :root {
+      color-scheme: light;
+      --paper: #f2f2eb;
+      --ink: #17211d;
+      --muted: #69736d;
+      --rule: #d5d9d0;
+      --green: #1f694d;
+      --green-deep: #174c3a;
+      --lime: #d9ed9a;
+      --panel: #111c19;
+      --panel-top: #172420;
+      --panel-line: #293833;
+      --code: #d8e2dc;
+      --code-dim: #82938a;
+    }
+
+    * { box-sizing: border-box; }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      min-width: 320px;
+      min-height: 100vh;
+      margin: 0;
+      background: var(--paper);
+      color: var(--ink);
+      font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    button, a { -webkit-tap-highlight-color: transparent; }
+
+    .page-shell {
+      width: min(100% - 64px, 1280px);
+      margin-inline: auto;
+    }
+
+    .topbar {
+      min-height: 86px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      border-bottom: 1px solid var(--rule);
+    }
+
+    .brand {
+      display: inline-flex;
+      align-items: center;
+      gap: 12px;
+      color: var(--ink);
+      text-decoration: none;
+    }
+
+    .brand-mark {
+      width: 36px;
+      height: 36px;
+      display: grid;
+      place-items: center;
+      background: var(--green);
+      color: #f6f7ef;
+      font: 700 15px/1 ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+      letter-spacing: -0.08em;
+    }
+
+    .brand-title {
+      display: block;
+      font-size: 13px;
+      line-height: 1.1;
+      font-weight: 750;
+      letter-spacing: -0.035em;
+    }
+
+    .brand-subtitle {
+      display: block;
+      margin-top: 4px;
+      color: var(--muted);
+      font: 10px/1 ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+    }
+
+    .topbar-meta {
+      display: flex;
+      align-items: center;
+      gap: 18px;
+      color: var(--muted);
+      font: 10px/1 ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+    }
+
+    .topbar-meta::before {
+      width: 5px;
+      height: 5px;
+      content: "";
+      border-radius: 50%;
+      background: var(--green);
+      box-shadow: 0 0 0 4px rgb(31 105 77 / 10%);
+    }
+
+    main { padding: 54px 0 50px; }
+
+    .intro {
+      display: flex;
+      align-items: flex-end;
+      justify-content: space-between;
+      gap: 40px;
+      margin-bottom: 34px;
+      animation: lift-in 520ms cubic-bezier(.2,.72,.2,1) both;
+    }
+
+    .intro-copy { max-width: 760px; }
+
+    .eyebrow {
+      margin: 0 0 14px;
+      color: var(--green);
+      font: 700 10px/1.3 ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+      letter-spacing: 0.16em;
+      text-transform: uppercase;
+    }
+
+    h1 {
+      display: flex;
+      align-items: baseline;
+      flex-wrap: wrap;
+      gap: 17px;
+      margin: 0;
+      color: var(--ink);
+      font-size: clamp(42px, 5.2vw, 68px);
+      line-height: 0.98;
+      font-weight: 690;
+      letter-spacing: -0.075em;
+    }
+
+    .title-range {
+      padding-left: 18px;
+      border-left: 1px solid #b6c0b5;
+      color: var(--green);
+      font: 500 clamp(18px, 2vw, 24px)/1 ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+      letter-spacing: -0.07em;
+      white-space: nowrap;
+    }
+
+    .intro-description {
+      max-width: 610px;
+      margin: 17px 0 0;
+      color: #5d6861;
+      font-size: 14px;
+      line-height: 1.65;
+    }
+
+    .intro-actions {
+      display: flex;
+      flex-direction: column;
+      align-items: flex-end;
+      gap: 11px;
+      flex: 0 0 auto;
+    }
+
+    .extract-button {
+      min-height: 52px;
+      position: relative;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 14px;
+      overflow: hidden;
+      padding: 0 19px 0 21px;
+      border: 0;
+      border-radius: 3px;
+      background: var(--green);
+      color: white;
+      cursor: pointer;
+      font: 750 11px/1 ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+      letter-spacing: 0.09em;
+      text-transform: uppercase;
+      transition: background 180ms ease, transform 180ms ease, box-shadow 180ms ease;
+    }
+
+    .extract-button::after {
+      position: absolute;
+      inset: 0 auto 0 -55%;
+      width: 35%;
+      content: "";
+      transform: skewX(-22deg);
+      background: linear-gradient(90deg, transparent, rgb(255 255 255 / 18%), transparent);
+      transition: left 440ms ease;
+    }
+
+    .extract-button:hover:not(:disabled) {
+      transform: translateY(-2px);
+      background: var(--green-deep);
+      box-shadow: 0 8px 18px rgb(23 76 58 / 15%);
+    }
+
+    .extract-button:hover:not(:disabled)::after { left: 130%; }
+    .extract-button:active:not(:disabled) { transform: translateY(0); }
+    .extract-button:focus-visible, .copy-button:focus-visible, a:focus-visible { outline: 3px solid #9abf59; outline-offset: 3px; }
+    .extract-button:disabled { cursor: progress; opacity: 0.82; }
+
+    .button-icon {
+      display: grid;
+      width: 21px;
+      height: 21px;
+      place-items: center;
+      border: 1px solid rgb(255 255 255 / 38%);
+      border-radius: 50%;
+    }
+
+    .button-icon svg { width: 11px; height: 11px; }
+
+    .button-spinner {
+      display: none;
+      width: 14px;
+      height: 14px;
+      border: 1.5px solid rgb(255 255 255 / 35%);
+      border-top-color: white;
+      border-radius: 50%;
+      animation: spin 750ms linear infinite;
+    }
+
+    .extract-button.is-loading .button-spinner { display: inline-block; }
+    .extract-button.is-loading .button-icon { display: none; }
+
+    .action-note {
+      margin: 0;
+      color: #7b837c;
+      font: 10px/1.4 ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+      letter-spacing: 0.04em;
+    }
+
+    .source-address {
+      display: flex;
+      align-items: center;
+      gap: 11px;
+      min-width: 0;
+      margin: 0 0 21px;
+      color: #7c857d;
+      font: 10px/1.4 ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+      letter-spacing: 0.04em;
+    }
+
+    .source-address-label {
+      flex: 0 0 auto;
+      color: #9aa29a;
+      letter-spacing: 0.13em;
+      text-transform: uppercase;
+    }
+
+    .source-address a {
+      min-width: 0;
+      overflow: hidden;
+      color: #56625b;
+      text-decoration-color: #b9c0b7;
+      text-underline-offset: 3px;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+      transition: color 150ms ease;
+    }
+
+    .source-address a:hover { color: var(--green); }
+
+    .output-panel {
+      overflow: hidden;
+      border: 1px solid #2a3b34;
+      border-radius: 6px;
+      background: var(--panel);
+      box-shadow: 0 18px 44px rgb(30 39 32 / 11%);
+    }
+
+    .panel-toolbar {
+      min-height: 67px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 16px;
+      padding: 0 19px;
+      border-bottom: 1px solid var(--panel-line);
+      background: var(--panel-top);
+    }
+
+    .panel-identity {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      min-width: 0;
+    }
+
+    .box-id {
+      width: 32px;
+      height: 32px;
+      display: grid;
+      flex: 0 0 auto;
+      place-items: center;
+      border: 1px solid #4b6759;
+      color: var(--lime);
+      font: 700 11px/1 ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+    }
+
+    .panel-title-wrap { min-width: 0; }
+
+    .panel-kicker {
+      margin: 0 0 5px;
+      color: #93a198;
+      font: 9px/1 ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+      letter-spacing: 0.13em;
+      text-transform: uppercase;
+    }
+
+    .panel-title {
+      margin: 0;
+      color: #edf2ec;
+      font-size: 13px;
+      font-weight: 650;
+      letter-spacing: -0.02em;
+    }
+
+    .toolbar-tools {
+      display: flex;
+      align-items: center;
+      gap: 21px;
+    }
+
+    .status {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      color: #9daaa1;
+      font: 9px/1 ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      white-space: nowrap;
+    }
+
+    .status-dot {
+      width: 7px;
+      height: 7px;
+      position: relative;
+      flex: 0 0 auto;
+      border-radius: 50%;
+      background: #718078;
+    }
+
+    .status-dot.is-ready { background: #9bbd6a; }
+    .status-dot.is-success { background: #b0d474; }
+    .status-dot.is-error { background: #d08c74; }
+    .status-dot.is-busy { background: #e5ca74; }
+
+    .status-dot.is-busy::after {
+      position: absolute;
+      inset: -4px;
+      content: "";
+      border: 1px solid rgb(229 202 116 / 48%);
+      border-radius: 50%;
+      animation: status-pulse 1.35s ease-out infinite;
+    }
+
+    .copy-button {
+      min-height: 32px;
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 0 10px;
+      border: 1px solid #3a4c42;
+      border-radius: 3px;
+      background: transparent;
+      color: #d5dfd6;
+      cursor: pointer;
+      font: 650 10px/1 ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+      transition: background 160ms ease, border-color 160ms ease, color 160ms ease;
+    }
+
+    .copy-button:hover:not(:disabled) { border-color: #79917f; background: #22332c; color: white; }
+    .copy-button:disabled { cursor: not-allowed; opacity: 0.42; }
+    .copy-button svg { width: 13px; height: 13px; }
+
+    .code-viewport {
+      height: min(52vh, 510px);
+      min-height: 285px;
+      overflow: auto;
+      overscroll-behavior: contain;
+      padding: 17px 0 20px;
+      color: var(--code);
+      font: 12px/1.75 ui-monospace, SFMono-Regular, Menlo, Consolas, "Liberation Mono", monospace;
+      scrollbar-color: #506258 #172420;
+      scrollbar-width: thin;
+      tab-size: 2;
+    }
+
+    .code-viewport:focus-visible { outline: 2px solid #a8c877; outline-offset: -3px; }
+
+    .empty-state {
+      min-height: 100%;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      padding: 30px 22px;
+      text-align: center;
+    }
+
+    .empty-mark {
+      width: 39px;
+      height: 39px;
+      display: grid;
+      place-items: center;
+      margin-bottom: 16px;
+      border: 1px solid #304139;
+      color: #9aaa9e;
+    }
+
+    .empty-mark svg { width: 16px; height: 16px; }
+
+    .empty-label {
+      margin: 0 0 7px;
+      color: #c6d1c9;
+      font: 650 10px/1.3 ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+    }
+
+    .empty-copy {
+      max-width: 370px;
+      margin: 0;
+      color: #829189;
+      font-size: 12px;
+      line-height: 1.6;
+    }
+
+    .code-line {
+      width: max-content;
+      min-width: 100%;
+      display: grid;
+      grid-template-columns: 58px max-content;
+      min-height: 21px;
+      white-space: pre;
+    }
+
+    .code-line.is-new { animation: row-in 260ms ease-out both; animation-delay: calc(var(--row) * 7ms); }
+
+    .code-line:hover { background: rgb(217 237 154 / 4%); }
+
+    .line-number {
+      position: sticky;
+      left: 0;
+      z-index: 1;
+      padding-right: 15px;
+      border-right: 1px solid #283833;
+      background: #111c19;
+      color: var(--code-dim);
+      text-align: right;
+      user-select: none;
+    }
+
+    .code-line:hover .line-number { background: #17241f; }
+
+    .line-source {
+      display: block;
+      min-width: 0;
+      padding-left: 17px;
+      color: var(--code);
+      white-space: pre;
+    }
+
+    .panel-footer {
+      min-height: 48px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 16px;
+      padding: 0 19px;
+      border-top: 1px solid var(--panel-line);
+      background: #14201c;
+    }
+
+    .output-info {
+      min-width: 0;
+      overflow: hidden;
+      margin: 0;
+      color: #91a096;
+      font: 9px/1.4 ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+      letter-spacing: 0.08em;
+      text-overflow: ellipsis;
+      text-transform: uppercase;
+      white-space: nowrap;
+    }
+
+    .source-open {
+      flex: 0 0 auto;
+      color: #c4d3c5;
+      font: 9px/1 ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+      letter-spacing: 0.09em;
+      text-decoration-color: #60736a;
+      text-underline-offset: 4px;
+      text-transform: uppercase;
+      transition: color 150ms ease;
+    }
+
+    .source-open:hover { color: var(--lime); }
+
+    .page-footer {
+      display: flex;
+      justify-content: space-between;
+      gap: 24px;
+      padding-top: 18px;
+      color: #869087;
+      font: 9px/1.5 ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+    }
+
+    .page-footer p { margin: 0; }
+
+    @keyframes lift-in {
+      from { opacity: 0; transform: translateY(12px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    @keyframes row-in {
+      from { opacity: 0.35; transform: translateY(3px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    @keyframes status-pulse {
+      0% { opacity: 0.8; transform: scale(0.7); }
+      100% { opacity: 0; transform: scale(1.8); }
+    }
+
+    @keyframes spin { to { transform: rotate(360deg); } }
+
+    @media (max-width: 760px) {
+      .page-shell { width: min(100% - 36px, 620px); }
+      .topbar { min-height: 72px; }
+      .topbar-meta { gap: 10px; font-size: 8px; letter-spacing: 0.06em; }
+      main { padding-top: 39px; }
+      .intro { align-items: flex-start; flex-direction: column; gap: 22px; margin-bottom: 27px; }
+      .intro-actions { align-items: flex-start; }
+      .extract-button { min-height: 48px; }
+      .source-address { margin-bottom: 15px; }
+      .panel-toolbar { padding-inline: 13px; }
+      .toolbar-tools { gap: 12px; }
+      .status { max-width: 118px; font-size: 8px; letter-spacing: 0.05em; }
+      .copy-button { min-height: 30px; padding-inline: 8px; }
+      .code-viewport { height: min(56vh, 470px); min-height: 245px; font-size: 11px; }
+      .panel-footer { padding-inline: 13px; }
+      .page-footer { flex-direction: column; gap: 5px; }
+    }
+
+    @media (max-width: 430px) {
+      .page-shell { width: min(100% - 28px, 620px); }
+      .brand-mark { width: 32px; height: 32px; }
+      .topbar-meta { max-width: 126px; text-align: right; line-height: 1.5; }
+      h1 { gap: 12px; font-size: 43px; }
+      .title-range { padding-left: 12px; font-size: 17px; }
+      .panel-toolbar { min-height: 62px; gap: 8px; }
+      .panel-identity { gap: 8px; }
+      .box-id { width: 29px; height: 29px; }
+      .panel-kicker { font-size: 8px; }
+      .panel-title { font-size: 12px; }
+      .toolbar-tools { gap: 8px; }
+      .status { max-width: 78px; overflow: hidden; text-overflow: ellipsis; }
+      .copy-button { gap: 5px; font-size: 9px; }
+      .copy-button svg { display: none; }
+      .output-info { font-size: 8px; letter-spacing: 0.035em; }
+      .source-open { font-size: 8px; letter-spacing: 0.04em; }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      *, *::before, *::after {
+        scroll-behavior: auto !important;
+        animation-duration: 0.01ms !important;
+        animation-iteration-count: 1 !important;
+        transition-duration: 0.01ms !important;
+      }
+    }
+  </style>
+</head>
+<body class="min-h-screen">
+  <div class="page-shell">
+    <header class="topbar">
+      <a class="brand" href="#top" aria-label="Source Desk home">
+        <span class="brand-mark" aria-hidden="true">SD</span>
+        <span>
+          <span class="brand-title">Source Desk</span>
+          <span class="brand-subtitle">Analyst tools / 01</span>
+        </span>
+      </a>
+      <div class="topbar-meta">Read-only source capture</div>
+    </header>
+
+    <main id="top">
+      <section class="intro" aria-labelledby="page-title">
+        <div class="intro-copy">
+          <p class="eyebrow">HK Horse Database / Jockey results</p>
+          <h1 id="page-title">Jockey table <span class="title-range">lines 55-78</span></h1>
+          <p class="intro-description">Retrieve the original page source and place this fixed line window into output box U1.</p>
+        </div>
+        <div class="intro-actions">
+          <button class="extract-button" id="extractBtn" type="button">
+            <span id="buttonLabel">Extract jockey table</span>
+            <span class="button-spinner" aria-hidden="true"></span>
+            <span class="button-icon" aria-hidden="true">
+              <svg viewBox="0 0 16 16" fill="none"><path d="M3 8h9M8 3l5 5-5 5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+            </span>
+          </button>
+          <p class="action-note">Fetches the latest published source.</p>
+        </div>
+      </section>
+
+      <p class="source-address">
+        <span class="source-address-label">Target</span>
+        <a href="https://www.hkhorsedb.com/cseh/c_rjockey.php" target="_blank" rel="noopener noreferrer">www.hkhorsedb.com/cseh/c_rjockey.php</a>
+      </p>
+
+      <section class="output-panel" aria-labelledby="output-title">
+        <div class="panel-toolbar">
+          <div class="panel-identity">
+            <span class="box-id" aria-hidden="true">U1</span>
+            <div class="panel-title-wrap">
+              <p class="panel-kicker">Output box U1</p>
+              <h2 class="panel-title" id="output-title">Raw source lines</h2>
+            </div>
+          </div>
+          <div class="toolbar-tools">
+            <div class="status" aria-live="polite" aria-atomic="true">
+              <span class="status-dot is-ready" id="statusDot" aria-hidden="true"></span>
+              <span id="statusText">Ready to extract</span>
+            </div>
+            <button class="copy-button" id="copyBtn" type="button" disabled aria-label="Copy extracted lines">
+              <svg viewBox="0 0 16 16" fill="none" aria-hidden="true"><rect x="5" y="4" width="8" height="10" rx="1" stroke="currentColor" stroke-width="1.2"/><path d="M10 2H3.8a.8.8 0 0 0-.8.8V11" stroke="currentColor" stroke-width="1.2" stroke-linecap="round"/></svg>
+              <span id="copyLabel">Copy lines</span>
+            </button>
+          </div>
+        </div>
+
+        <div class="code-viewport" id="U1" role="region" aria-label="Source code lines 55 through 78" tabindex="0">
+          <div class="empty-state" id="emptyState">
+            <span class="empty-mark" aria-hidden="true">
+              <svg viewBox="0 0 20 20" fill="none"><path d="M6.5 5.5 2.8 10l3.7 4.5M13.5 5.5l3.7 4.5-3.7 4.5M11.3 3.6 8.7 16.4" stroke="currentColor" stroke-width="1.35" stroke-linecap="round" stroke-linejoin="round"/></svg>
+            </span>
+            <p class="empty-label">U1 / Awaiting source</p>
+            <p class="empty-copy">Select Extract jockey table to load source lines 55 through 78 here.</p>
+          </div>
+        </div>
+
+        <div class="panel-footer">
+          <p class="output-info" id="outputInfo">Lines 55-78 / no source loaded</p>
+          <a class="source-open" href="https://www.hkhorsedb.com/cseh/c_rjockey.php" target="_blank" rel="noopener noreferrer">Open original source</a>
+        </div>
+      </section>
+
+      <footer class="page-footer">
+        <p>Source Desk / Read-only extraction</p>
+        <p>Line window 55-78 / External source</p>
+      </footer>
+    </main>
+  </div>
+
+  <script>
+    (() => {
+      const SOURCE_URL = 'https://www.hkhorsedb.com/cseh/c_rjockey.php';
+      const NU_ENDPOINT = 'https://validator.w3.org/nu/';
+      const FIRST_VALIDATOR_URL = 'https://validator.w3.org/nu/?parser=html&showsource=yes&filter=ZZZQQQ&doc=https://www.hkhorsedb.com/cseh/c_rjockey.php';
+      const FIRST_LINE = 55;
+      const LAST_LINE = 78;
+
+      const extractButton = document.getElementById('extractBtn');
+      const buttonLabel = document.getElementById('buttonLabel');
+      const output = document.getElementById('U1');
+      const emptyState = document.getElementById('emptyState');
+      const statusText = document.getElementById('statusText');
+      const statusDot = document.getElementById('statusDot');
+      const outputInfo = document.getElementById('outputInfo');
+      const copyButton = document.getElementById('copyBtn');
+      const copyLabel = document.getElementById('copyLabel');
+
+      let currentLines = [];
+      let isBusy = false;
+      let copyResetTimer;
+
+      function setStatus(state, message) {
+        statusText.textContent = message;
+        statusDot.className = `status-dot is-${state}`;
+      }
+
+      function makeValidatorUrl(outputType = 'json', callbackName = '') {
+        const url = new URL(NU_ENDPOINT);
+        url.searchParams.set('parser', 'html');
+        url.searchParams.set('showsource', 'yes');
+        url.searchParams.set('doc', SOURCE_URL);
+        url.searchParams.set('out', outputType);
+        if (callbackName) url.searchParams.set('callback', callbackName);
+        return url.toString();
+      }
+
+      function splitSource(source) {
+        if (typeof source !== 'string') return null;
+        const normalized = source.replace(/^\uFEFF/, '').replace(/\r\n?/g, '\n');
+        const lines = normalized.split('\n');
+        if (lines.length < LAST_LINE) return null;
+        return lines.slice(FIRST_LINE - 1, LAST_LINE).map((text, index) => ({
+          number: FIRST_LINE + index,
+          text
+        }));
+      }
+
+      function sourceFromValidatorJson(text) {
+        try {
+          const payload = JSON.parse(text.replace(/^\uFEFF/, '').trim());
+          return payload && payload.source && typeof payload.source.code === 'string'
+            ? payload.source.code
+            : null;
+        } catch (_) {
+          return null;
+        }
+      }
+
+      function getCandidateSourceText(element) {
+        if (element.matches('textarea, input')) return element.value || '';
+        const rows = Array.from(element.children).filter((child) => child.tagName === 'LI');
+        if (rows.length >= LAST_LINE) return rows.map((row) => row.textContent || '').join('\n');
+        const code = element.querySelector('pre, code');
+        if (code) return code.textContent || '';
+        return element.textContent || '';
+      }
+
+      function sourceFromValidatorHtml(markup) {
+        const embeddedJson = sourceFromValidatorJson(markup);
+        if (embeddedJson) return embeddedJson;
+
+        const parsed = new DOMParser().parseFromString(markup, 'text/html');
+        const selectors = [
+          '#source', '#source-code', '#source-view', '#document-source',
+          'pre.source', 'ol.source', '.source-code', '.source-view'
+        ];
+        for (const selector of selectors) {
+          for (const element of parsed.querySelectorAll(selector)) {
+            const source = getCandidateSourceText(element);
+            if (splitSource(source)) return source;
+          }
+        }
+        return null;
+      }
+
+      function decodeSource(bytes, contentType = '', defaultEncoding = 'utf-8') {
+        const charset = contentType.match(/charset\s*=\s*["']?([^;"'\s]+)/i)?.[1] || defaultEncoding;
+        try {
+          return new TextDecoder(charset).decode(bytes);
+        } catch (_) {
+          return new TextDecoder('utf-8').decode(bytes);
+        }
+      }
+
+      async function fetchText(url, timeoutMs) {
+        const controller = new AbortController();
+        const timeout = window.setTimeout(() => controller.abort(), timeoutMs);
+        try {
+          const response = await fetch(url, {
+            method: 'GET',
+            mode: 'cors',
+            credentials: 'omit',
+            cache: 'no-store',
+            redirect: 'follow',
+            signal: controller.signal
+          });
+          if (!response.ok) throw new Error('Request unavailable');
+          return await response.text();
+        } finally {
+          window.clearTimeout(timeout);
+        }
+      }
+
+      async function fetchSourceBytes(url, timeoutMs) {
+        const controller = new AbortController();
+        const timeout = window.setTimeout(() => controller.abort(), timeoutMs);
+        try {
+          const response = await fetch(url, {
+            method: 'GET',
+            mode: 'cors',
+            credentials: 'omit',
+            cache: 'no-store',
+            redirect: 'follow',
+            signal: controller.signal
+          });
+          if (!response.ok) throw new Error('Source unavailable');
+          const bytes = await response.arrayBuffer();
+          return decodeSource(bytes, response.headers.get('content-type') || '', 'big5');
+        } finally {
+          window.clearTimeout(timeout);
+        }
+      }
+
+      function fetchValidatorJsonp(timeoutMs = 10000) {
+        return new Promise((resolve, reject) => {
+          const callbackName = `__sourceDeskNu_${Date.now()}_${Math.random().toString(36).slice(2)}`;
+          const script = document.createElement('script');
+          let settled = false;
+          let timer;
+
+          const cleanup = () => {
+            window.clearTimeout(timer);
+            script.onload = null;
+            script.onerror = null;
+            script.remove();
+            try { delete window[callbackName]; } catch (_) { window[callbackName] = undefined; }
+          };
+
+          const fail = () => {
+            if (settled) return;
+            settled = true;
+            cleanup();
+            reject(new Error('Validator source unavailable'));
+          };
+
+          window[callbackName] = (payload) => {
+            if (settled) return;
+            settled = true;
+            cleanup();
+            resolve(payload);
+          };
+
+          script.async = true;
+          script.referrerPolicy = 'no-referrer';
+          script.onerror = fail;
+          script.onload = () => {
+            if (!settled) fail();
+          };
+          script.src = makeValidatorUrl('json', callbackName);
+          timer = window.setTimeout(fail, timeoutMs);
+          document.head.appendChild(script);
+        });
+      }
+
+      async function attemptExactValidator() {
+        const markup = await fetchText(FIRST_VALIDATOR_URL, 8500);
+        const source = sourceFromValidatorHtml(markup);
+        return source && splitSource(source) ? { source, method: 'Nu show-source' } : null;
+      }
+
+      async function attemptDirectSource() {
+        const source = await fetchSourceBytes(SOURCE_URL, 6000);
+        return splitSource(source) ? { source, method: 'direct source' } : null;
+      }
+
+      async function attemptValidatorJson() {
+        const response = await fetchText(makeValidatorUrl('json'), 8500);
+        const source = sourceFromValidatorJson(response);
+        return source && splitSource(source) ? { source, method: 'Nu JSON' } : null;
+      }
+
+      async function attemptValidatorJsonp() {
+        const payload = await fetchValidatorJsonp();
+        const source = payload && payload.source && payload.source.code;
+        return typeof source === 'string' && splitSource(source) ? { source, method: 'Nu JSONP' } : null;
+      }
+
+      async function attemptRawRelay() {
+        const relayUrl = `https://api.allorigins.win/raw?url=${encodeURIComponent(SOURCE_URL)}`;
+        const source = await fetchSourceBytes(relayUrl, 8500);
+        return splitSource(source) ? { source, method: 'raw-source relay' } : null;
+      }
+
+      function renderEmptyState() {
+        output.replaceChildren(emptyState);
+        emptyState.hidden = false;
+      }
+
+      function renderLines(lines) {
+        const fragment = document.createDocumentFragment();
+        lines.forEach((line, index) => {
+          const row = document.createElement('div');
+          row.className = 'code-line is-new';
+          row.style.setProperty('--row', String(index));
+
+          const number = document.createElement('span');
+          number.className = 'line-number';
+          number.textContent = String(line.number);
+          number.setAttribute('aria-hidden', 'true');
+
+          const source = document.createElement('code');
+          source.className = 'line-source';
+          source.textContent = line.text;
+
+          row.append(number, source);
+          fragment.append(row);
+        });
+        output.replaceChildren(fragment);
+        output.scrollTop = 0;
+        output.scrollLeft = 0;
+      }
+
+      function setBusy(busy) {
+        isBusy = busy;
+        extractButton.disabled = busy;
+        extractButton.classList.toggle('is-loading', busy);
+        extractButton.setAttribute('aria-busy', String(busy));
+        buttonLabel.textContent = busy ? 'Extracting source' : 'Extract jockey table';
+      }
+
+      async function extractJockeyTable() {
+        if (isBusy) return;
+        setBusy(true);
+        currentLines = [];
+        copyButton.disabled = true;
+        copyLabel.textContent = 'Copy lines';
+        renderEmptyState();
+        outputInfo.textContent = 'Trying W3C source view';
+        setStatus('busy', 'Contacting source');
+
+        const attempts = [
+          { label: 'Trying direct source', run: attemptDirectSource },
+          { label: 'Reading structured source', run: attemptValidatorJson },
+          { label: 'Using browser-safe checker route', run: attemptValidatorJsonp },
+          { label: 'Trying alternate source route', run: attemptRawRelay }
+        ];
+
+        try {
+          let result = null;
+          try {
+            result = await attemptExactValidator();
+          } catch (_) {}
+
+          for (const attempt of attempts) {
+            if (result) break;
+            outputInfo.textContent = attempt.label;
+            try {
+              result = await attempt.run();
+            } catch (_) {}
+          }
+
+          if (!result) throw new Error('Source unavailable');
+
+          currentLines = splitSource(result.source);
+          renderLines(currentLines);
+          copyButton.disabled = false;
+          outputInfo.textContent = `${currentLines.length} lines / 55-78 / ${result.method}`;
+          setStatus('success', 'Source captured');
+        } catch (_) {
+          outputInfo.textContent = 'No source loaded / open the original page to try directly';
+          setStatus('error', 'Source unavailable');
+        } finally {
+          setBusy(false);
+        }
+      }
+
+      async function copyLines() {
+        if (!currentLines.length) return;
+        const text = currentLines.map((line) => line.text).join('\n');
+        let copied = false;
+
+        try {
+          if (navigator.clipboard && window.isSecureContext) {
+            await navigator.clipboard.writeText(text);
+            copied = true;
+          }
+        } catch (_) {}
+
+        if (!copied) {
+          const temporary = document.createElement('textarea');
+          temporary.value = text;
+          temporary.setAttribute('readonly', '');
+          temporary.style.position = 'fixed';
+          temporary.style.opacity = '0';
+          document.body.appendChild(temporary);
+          temporary.select();
+          try { copied = document.execCommand('copy'); } catch (_) {}
+          temporary.remove();
+        }
+
+        if (copied) {
+          window.clearTimeout(copyResetTimer);
+          copyLabel.textContent = 'Copied';
+          copyResetTimer = window.setTimeout(() => { copyLabel.textContent = 'Copy lines'; }, 1500);
+        } else {
+          copyLabel.textContent = 'Copy unavailable';
+          window.setTimeout(() => { copyLabel.textContent = 'Copy lines'; }, 1500);
+        }
+      }
+
+      extractButton.addEventListener('click', extractJockeyTable);
+      copyButton.addEventListener('click', copyLines);
+    })();
+  </script>
+</body>
+</html>
