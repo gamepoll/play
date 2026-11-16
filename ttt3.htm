@@ -2,11 +2,12 @@
 
 
 
+
 <!doctype html>
 <html lang="en">
 <head>
   <meta charset="utf-8">
-  <title>jChart1 1.7 - Default functionality</title>
+  <title>jChart1 1.6.0 - Default functionality</title>
   <link rel="stylesheet" href="//code.jquery.com/ui/1.11.4/themes/smoothness/jquery-ui.css">
   <script src="//code.jquery.com/jquery-1.10.2.js"></script>
   <script src="//code.jquery.com/ui/1.11.4/jquery-ui.js"></script>
@@ -19,7 +20,8 @@
   <!-- https://github.com/kangax/fabric.js/blob/master/dist/fabric.js -->
   <!--script src="https://rawgit.com/kangax/fabric.js/master/dist/fabric.js"></script-->
   <!--script src="https://rawgit.com/kangax/fabric.js/ff21b07be46796037ef89717773443920051acc2/dist/fabric.js"></script-->
-  <script src="https://raw.githack.com/kangax/fabric.js/ff21b07be46796037ef89717773443920051acc2/dist/fabric.js"></script>
+  <!--script src="https://raw.githack.com/kangax/fabric.js/ff21b07be46796037ef89717773443920051acc2/dist/fabric.js"></script-->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/fabric.js/5.3.1/fabric.min.js"></script>
   <script>
   $(function() {
     $( "#slider" ).slider();
@@ -1219,7 +1221,9 @@ String.prototype.replaceAll = function (strTarget, strSubString, caseSensitive) 
 </div>  
 <br />
   <button id="scjpairsfromcloud">dnload sc co pairs fm cloud</button> 
-<br />  
+
+
+<br />
 <script>
     $('#tsx_plus').on('click', function() { $('#tsx_current').val(parseInt($('#tsx_current').val()) + 100); });
     $('#tsx_minus').on('click', function() { $('#tsx_current').val(parseInt($('#tsx_current').val()) - 100); });
@@ -1348,6 +1352,16 @@ ______________________________________<input type="button" value="X<->Y =>" id="
     </script>
 </div>
 <!-- 透明懸浮計算器結束 -->
+<!-- Floating control box -->
+<div id="ctrlBox" style="position: fixed; bottom: 110px; right: 20px; z-index: 9999; background: rgba(255, 255, 255, 0.2); backdrop-filter: blur(10px); -webkit-backdrop-filter: blur(10px); border: 1px solid rgba(255, 255, 255, 0.3); padding: 15px; border-radius: 12px; box-shadow: 0 8px 32px rgba(0,0,0,0.15); display: flex; align-items: center; gap: 15px; width: 300px; font-family: system-ui, -apple-system, sans-serif;">
+  <select id="LEG5" aria-label="LEG5" style="width: 40%; background: rgba(255, 255, 255, 0.5); border: 1px solid rgba(0,0,0,0.1); padding: 8px; border-radius: 6px; font-size: 14px; outline: none;">
+    <option>$one</option>
+    <option>sqqq</option>
+    <option>seth</option>
+    <option>stsm</option>
+  </select>
+  <label><input id="DIA2" type="checkbox" checked> LunesA</label>
+</div>
 
 		
 <br />
@@ -1392,10 +1406,30 @@ __________<select id="dropdown">
 <input type="button" value="2400/354Soft <=" id="button_2024econ" />
 <input type="button" value="2498AILdr/9880AIRobot <=" id="button_ai" />
 <input type="button" value="2198Vacc/9866Nio <=" id="button_shot" />
+<br />
+__________<select id="dropdown">
+</select>
 <input type="button" value="9926/1952NewForm<=" id="button_shot1" />
 <input type="button" value="6181/9992Ip <=" id="button_ip" />
-
+<input type="button" value="6082/9903Ai <=" id="button_ai1" />
+<input type="button" value="3986/6809Ai <=" id="button_ai2" />
+<input type="button" value="7709/6869Ai <=" id="button_ai3" />
 <br />
+__________<select id="dropdown">
+</select>
+<input type="button" value="0100/2513LLM<=" id="button_llm1" />
+<input type="button" value="6869/1888Ip <=" id="button_compo1" />
+<input type="button" value="6082/9903Ai <=" id="button_ai1" />
+<input type="button" value="3986/6809Ai <=" id="button_ai2" />
+<input type="button" value="7709/6869Ai <=" id="button_ai3" />
+<br />兆易創新 GigaDevice (03986.HK)  Flash 記憶體及 MCU 供應商
+<br />壁仞科技	06082.HK	國產 GPU 龍頭，GPU 與記憶體互連技術
+<br />天數智芯	09903.HK	AI 算力晶片廠商，GPU 與記憶體互連技術
+<br />瀾起科技 Montage Tech (06809.HK)  伺服器記憶體模組
+<br /> (02476.HK) (06166.HK)
+<br />PMRTY pop mart
+<br />PSTR star 50 ssh
+<br />lnvgy lenovo
 <input type="button" value="285 <=" id="button_285" />(12/8/15)
 <input type="button" value="611 <=" id="button_611" />(12/3/15)
 <input type="button" value="300 <=" id="button_300" />(IPO 2025)
@@ -1592,7 +1626,13 @@ $('#button_ai').on('click', function() { $('#text3').val("2498"); $('#text3a').v
 $('#button_shot').on('click', function() { $('#text3').val("9866"); $('#text3a').val("2197");shineall();});
 $('#button_shot1').on('click', function() { $('#text3').val("9926"); $('#text3a').val("1952");shineall();});
 $('#button_ip').on('click', function() { $('#text3').val("6181"); $('#text3a').val("9992");shineall();});
+$('#button_ai1').on('click', function() { $('#text3').val("6082"); $('#text3a').val("9903");shineall();});
+$('#button_ai2').on('click', function() { $('#text3').val("3986"); $('#text3a').val("6809");shineall();});
+$('#button_ai3').on('click', function() { $('#text3').val("7709"); $('#text3a').val("6869");shineall();});
 
+$('#button_llm1').on('click', function() { $('#text3').val("0100"); $('#text3a').val("2513");shineall();});
+$('#button_compo1').on('click', function() { $('#text3').val("1888"); $('#text3a').val("6869");shineall();});
+	
 $('#button_285').on('click', function() { $('#text3').val("285");shineall(); });
 $('#button_611').on('click', function() { $('#text3').val("611");shineall(); });
 $('#button_300').on('click', function() { $('#text3').val("300");shineall(); });
@@ -1636,7 +1676,7 @@ $("#pairsfromcloud").click(function () {
   // console.log("myvalue=",$(this).val());
   // jsonblob.com/api/jsonBlob/c64ff3aa-f2cc-11ea-8070-6b11b868133b
   // https://api.jsonstorage.net/v1/json/00000000-0000-0000-0000-000000000000/010833c9-ba3e-4e09-a9ad-0a4a4a808e8f	
-  $.getJSON("https://api.jsonstorage.net/v1/json/e4902282-fc69-4719-8ba4-b5d8349931d7/5db0627e-f1f4-465c-9a72-a2b3c95da7e3?apiKey=16410691-1717-428e-b081-d4ab59a744de",
+  $.getJSON("https://api.jsonstorage.net/v1/json/791f0322-eb90-4955-a457-865b3303a204/b0920a99-cb2f-454e-b873-0af2a44567a5",
     function (posts) {
       for (var i = 2; i < posts.queue.length; i++) {
         $('input[cat="pk"]').each(function () {
@@ -1654,7 +1694,7 @@ $("#pairsfromcloud").click(function () {
 $("#scpairsfromcloud").click(function () {
   // console.log("myvalue=",$(this).val());
   $.getJSON(
-    "https://api.jsonstorage.net/v1/json/e4902282-fc69-4719-8ba4-b5d8349931d7/5db0627e-f1f4-465c-9a72-a2b3c95da7e3?apiKey=16410691-1717-428e-b081-d4ab59a744de",
+    "https://api.jsonstorage.net/v1/json/791f0322-eb90-4955-a457-865b3303a204/b0920a99-cb2f-454e-b873-0af2a44567a5",
     function (posts) {
       for (var i = 2; i < posts.queue.length; i++) {
         $('input[cat="pksc"]').each(function () {
@@ -1680,7 +1720,7 @@ $("#sector_sc_watch").on("click", "input", function () {
 $("#scjpairsfromcloud").click(function () {
   //   console.log("myvalue=",$(this).val());
   $.getJSON(
-    "https://api.jsonstorage.net/v1/json/e4902282-fc69-4719-8ba4-b5d8349931d7/573eec50-837c-4640-8eec-e3aee36109fa?apiKey=16410691-1717-428e-b081-d4ab59a744de",
+    "https://api.jsonstorage.net/v1/json/791f0322-eb90-4955-a457-865b3303a204/711f2928-66c6-4c24-835a-634b71b967d0",
     function (posts) {
       for (var i = 2; i < posts.queue.length; i++) {
         $('input[cat="pkjsc"]').each(function () {
@@ -2029,20 +2069,20 @@ ________________mon_fd:8008:1686__bdx:2018________________________ <=> !!!!!
     <br>
 <img id="img_fdxxx" src="http://stockcharts.com/c-sc/sc?chart=udn:Aacay,uu[660,500]daclyyay[dc][pb50!b200!f]&a=168&r=13"  alt="Kenny g Breathless" width="440" height="400" border="0">
 
-<img id="img_fdmon3" src="http://charts.megahubhk.com/servlets/MHImageChart?sid=6160&mChart2=11&m2p1=7&cmode=1&vol=1&intTech1=1&it1p1=50&it1p5=200&tstyle=2&fsize=10&&cr=106&cwidth=499&cheight=375&lang=1&cperiod=1000305&ctype=1&wm=13&"  alt="Kenny g Breathless" width="340" height="300" border="0">
+<img id="img_fdmon3" src="http://charts.megahubhk.com/servlets/MHImageChart?sid=2018&mChart2=11&m2p1=7&cmode=1&vol=1&intTech1=1&it1p1=50&it1p5=200&tstyle=2&fsize=10&&cr=106&cwidth=499&cheight=375&lang=1&cperiod=1000305&ctype=1&wm=13&"  alt="Kenny g Breathless" width="340" height="300" border="0">
 
-<img id="img_fdmon3-1" src="https://charts.megahubhk.com/servlets/MHImageChart?sid=6160&cmode=1&vol=1&intTech1=1&it1p1=50&it1p5=200&tstyle=2&fsize=9&&cr=106&cwidth=275&cheight=175&lang=1&cperiod=1010003&ctype=1&wm=16&"  alt="Kenny g Breathless" width="275" height="215" border="0">
+<img id="img_fdmon3-1" src="https://charts.megahubhk.com/servlets/MHImageChart?sid=2018&cmode=1&vol=1&intTech1=1&it1p1=50&it1p5=200&tstyle=2&fsize=9&&cr=106&cwidth=275&cheight=175&lang=1&cperiod=1010003&ctype=1&wm=16&"  alt="Kenny g Breathless" width="275" height="215" border="0">
 
 <br />	
 	<button>Click Me</button>
 <br />
 
     <br>
-<img id="img_fdxxx" src="http://stockcharts.com/c-sc/sc?chart=udn:lly,uu[660,500]daclyyay[dc][pb50!b200!f]&a=168&r=13"  alt="Kenny g Breathless" width="440" height="400" border="0">
+<img id="img_fdxxx" src="http://stockcharts.com/c-sc/sc?chart=udn:cgg.to,uu[660,500]daclyyay[dc][pb50!b200!f]&a=168&r=13"  alt="Kenny g Breathless" width="440" height="400" border="0">
 
-<img id="img_fdmon4" src="http://charts.megahubhk.com/servlets/MHImageChart?sid=1801&mChart2=11&m2p1=7&cmode=1&vol=1&intTech1=1&it1p1=50&it1p5=200&tstyle=2&fsize=10&&cr=106&cwidth=499&cheight=375&lang=1&cperiod=1000305&ctype=1&wm=13&"  alt="Kenny g Breathless" width="340" height="300" border="0">
+<img id="img_fdmon4" src="http://charts.megahubhk.com/servlets/MHImageChart?sid=2099&mChart2=11&m2p1=7&cmode=1&vol=1&intTech1=1&it1p1=50&it1p5=200&tstyle=2&fsize=10&&cr=106&cwidth=499&cheight=375&lang=1&cperiod=1000305&ctype=1&wm=13&"  alt="Kenny g Breathless" width="340" height="300" border="0">
 
-<img id="img_fdmon4-1" src="https://charts.megahubhk.com/servlets/MHImageChart?sid=1801&cmode=1&vol=1&intTech1=1&it1p1=50&it1p5=200&tstyle=2&fsize=9&&cr=106&cwidth=275&cheight=175&lang=1&cperiod=1010003&ctype=1&wm=16&"  alt="Kenny g Breathless" width="275" height="215" border="0">
+<img id="img_fdmon4-1" src="https://charts.megahubhk.com/servlets/MHImageChart?sid=2099&cmode=1&vol=1&intTech1=1&it1p1=50&it1p5=200&tstyle=2&fsize=9&&cr=106&cwidth=275&cheight=175&lang=1&cperiod=1010003&ctype=1&wm=16&"  alt="Kenny g Breathless" width="275" height="215" border="0">
 
 
     <br>
@@ -2101,9 +2141,9 @@ ________________mon_fd:8008:1686__bdx:2018________________________ <=> !!!!!
     <img id="img_fdxxx" src="http://stockcharts.com/c-sc/sc?chart=udn:fca,uu[660,500]daclyyay[dc][pb50!b200!f]&a=168&r=13"  alt="Kenny g Breathless" width="440" height="400" border="0">
     <p>---2.1 ^^ 1.1 ^^ 0.98</p>
 </div>
-<img id="img_fdmon15" src="http://charts.megahubhk.com/servlets/MHImageChart?sid=1177&mChart2=11&m2p1=7&cmode=1&vol=1&intTech1=1&it1p1=50&it1p5=200&tstyle=2&fsize=10&&cr=106&cwidth=499&cheight=375&lang=1&cperiod=1000305&ctype=1&wm=13&"  alt="Kenny g Breathless" width="340" height="300" border="0">
+<img id="img_fdmon15" src="http://charts.megahubhk.com/servlets/MHImageChart?sid=2269&mChart2=11&m2p1=7&cmode=1&vol=1&intTech1=1&it1p1=50&it1p5=200&tstyle=2&fsize=10&&cr=106&cwidth=499&cheight=375&lang=1&cperiod=1000305&ctype=1&wm=13&"  alt="Kenny g Breathless" width="340" height="300" border="0">
 
-<img id="img_fdmon15-1" src="https://charts.megahubhk.com/servlets/MHImageChart?sid=1177&cmode=1&vol=1&intTech1=1&it1p1=50&it1p5=200&tstyle=2&fsize=9&&cr=106&cwidth=275&cheight=175&lang=1&cperiod=1010003&ctype=1&wm=16&"  alt="Kenny g Breathless" width="275" height="215" border="0">
+<img id="img_fdmon15-1" src="https://charts.megahubhk.com/servlets/MHImageChart?sid=2269&cmode=1&vol=1&intTech1=1&it1p1=50&it1p5=200&tstyle=2&fsize=9&&cr=106&cwidth=275&cheight=175&lang=1&cperiod=1010003&ctype=1&wm=16&"  alt="Kenny g Breathless" width="275" height="215" border="0">
 
     <br>
 <img id="img_fdxxx" src="http://stockcharts.com/c-sc/sc?chart=udn:gelyf,uu[660,500]daclyyay[dc][pb50!b200!f]&a=168&r=13"  alt="Kenny g Breathless" width="440" height="400" border="0">
@@ -2144,11 +2184,11 @@ ________________mon_fd:8008:1686__bdx:2018________________________ <=> !!!!!
 <img id="img_fdmon10-1" src="https://charts.megahubhk.com/servlets/MHImageChart?sid=268&cmode=1&vol=1&intTech1=1&it1p1=50&it1p5=200&tstyle=2&fsize=9&&cr=106&cwidth=275&cheight=175&lang=1&cperiod=1010003&ctype=1&wm=16&"  alt="Kenny g Breathless" width="275" height="215" border="0">
 	
     <br>
-<img id="img_fdxxx" src="http://charts.megahubhk.com/servlets/MHImageChart?sid=3888&mChart2=11&m2p1=7&cmode=1&vol=1&intTech1=1&it1p1=50&it1p5=200&tstyle=2&fsize=10&&cr=106&cwidth=499&cheight=375&lang=1&cperiod=1010006&ctype=1&wm=13&"  alt="Kenny g Breathless" width="440" height="400" border="0">
+<img id="img_fdxxx" src="http://stockcharts.com/c-sc/sc?chart=udn:kc,uu[660,500]daclyyay[dc][pb50!b200!f]&a=168&r=13"  alt="Kenny g Breathless" width="440" height="400" border="0">
 
-<img id="img_fdmon11" src="http://charts.megahubhk.com/servlets/MHImageChart?sid=3888&mChart2=11&m2p1=7&cmode=1&vol=1&intTech1=1&it1p1=50&it1p5=200&tstyle=2&fsize=10&&cr=106&cwidth=499&cheight=375&lang=1&cperiod=1000305&ctype=1&wm=13&"  alt="Kenny g Breathless" width="340" height="300" border="0">
+<img id="img_fdmon11" src="http://charts.megahubhk.com/servlets/MHImageChart?sid=3896&mChart2=11&m2p1=7&cmode=1&vol=1&intTech1=1&it1p1=50&it1p5=200&tstyle=2&fsize=10&&cr=106&cwidth=499&cheight=375&lang=1&cperiod=1000305&ctype=1&wm=13&"  alt="Kenny g Breathless" width="340" height="300" border="0">
 
-<img id="img_fdmon11-1" src="https://charts.megahubhk.com/servlets/MHImageChart?sid=3888&cmode=1&vol=1&intTech1=1&it1p1=50&it1p5=200&tstyle=2&fsize=9&&cr=106&cwidth=275&cheight=175&lang=1&cperiod=1010003&ctype=1&wm=16&"  alt="Kenny g Breathless" width="275" height="215" border="0">
+<img id="img_fdmon11-1" src="https://charts.megahubhk.com/servlets/MHImageChart?sid=3896&cmode=1&vol=1&intTech1=1&it1p1=50&it1p5=200&tstyle=2&fsize=9&&cr=106&cwidth=275&cheight=175&lang=1&cperiod=1010003&ctype=1&wm=16&"  alt="Kenny g Breathless" width="275" height="215" border="0">
 
     <br>
 <img id="img_fdxxx" src="http://charts.megahubhk.com/servlets/MHImageChart?sid=696&mChart2=11&m2p1=7&cmode=1&vol=1&intTech1=1&it1p1=50&it1p5=200&tstyle=2&fsize=10&&cr=106&cwidth=499&cheight=375&lang=1&cperiod=1010006&ctype=1&wm=13&"  alt="Kenny g Breathless" width="440" height="400" border="0">
@@ -2230,9 +2270,9 @@ ________________mon_bdx:8008:1686__bdx:2018________________________ <=> !!!!!
 <br />
 
     <br>
-<img id="img_xxx" src="http://stockcharts.com/c-sc/sc?s=bdx:$one:ewy&yr=16&p=w&i=0&a=168&r=pang"  alt="Kenny g Breathless" width="440" height="400" border="0">
+<img id="img_xxx" src="http://stockcharts.com/c-sc/sc?s=nvda:$one:smsn.l&yr=16&p=w&i=0&a=168&r=pang"  alt="Kenny g Breathless" width="440" height="400" border="0">
 
-<img id="img_mon7" src="http://charts.megahubhk.com/servlets/MHImageChart?sid=7709&mChart2=11&m2p1=7&cmode=1&vol=1&intTech1=1&it1p1=50&it1p5=200&tstyle=2&fsize=10&&cr=106&cwidth=499&cheight=375&lang=1&cperiod=1010009&ctype=1&wm=13&"  alt="Kenny g Breathless" width="340" height="300" border="0">
+<img id="img_mon7" src="http://charts.megahubhk.com/servlets/MHImageChart?sid=7747&mChart2=11&m2p1=7&cmode=1&vol=1&intTech1=1&it1p1=50&it1p5=200&tstyle=2&fsize=10&&cr=106&cwidth=499&cheight=375&lang=1&cperiod=1010009&ctype=1&wm=13&"  alt="Kenny g Breathless" width="340" height="300" border="0">
 
     <br>
 <img id="img_xxx" src="http://stockcharts.com/c-sc/sc?s=tcehy:$one:gelyf&yr=16&p=w&i=0&a=168&r=pang"  alt="Kenny g Breathless" width="440" height="400" border="0">
@@ -2943,15 +2983,23 @@ $("#button_xy").on("click", function () {
   var text4val = text4.val();
   var text4aval = $("#text4a").val();
   var text4bval = $("#text4b").val();
+  
+  var Leg5  = document.getElementById('LEG5').value;     // selected option
+  var Dia2 = document.getElementById('DIA2').checked;  // true / false
 	
   var text2 = $('#text2');
 	
   // var staticstring2 ="http://stockcharts.com/c-sc/sc?s=bang&p=D&&yr=3&i=p40545395733&r=pang";
   var staticstring2 ="http://stockcharts.com/c-sc/sc?chart=bang,uu[520,a]waclyyay[dj][pb50!b200!f]&r=pang";
 
+  if (Dia2) {
+  text4.val(staticstring2.replaceAll("bang", text1val + ":" + Leg5
+                                     , true));
+  text4.val(text4.val().replaceAll("pang", Math.floor(Math.random() * (100 + 1) + 0), true));
+  } else {
   text4.val(staticstring2.replaceAll("bang", text1val + ":$one:" + text4val, true));
   text4.val(text4.val().replaceAll("pang", Math.floor(Math.random() * (100 + 1) + 0), true));
-
+  } 
   document.getElementById("img_dual").src = text4.val();
 
   //        var staticstring2 = "http://stockcharts.com/c-sc/sc?s=bdx:bang&p=w&yr=20&i=0&a=168&r=pang";
@@ -2965,9 +3013,13 @@ text2.val(text4.val());
   // var staticstring2 ="http://stockcharts.com/c-sc/sc?s=bang&p=D&&yr=1&i=p40545395733&r=pang";
   var staticstring2 ="http://stockcharts.com/c-sc/sc?chart=bang,uu[480,a]daclyyay[dc][pb50!b200!f]&r=pang";
 
+  if (Dia2) {
+  text4.val(staticstring2.replaceAll("bang", text1val + ":" + Leg5, true));
+  text4.val(text4.val().replaceAll("pang", Math.floor(Math.random() * (100 + 1) + 0), true));     
+  } else {
   text4.val(staticstring2.replaceAll("bang", text1val + ":$one:" + text4val, true));
   text4.val(text4.val().replaceAll("pang", Math.floor(Math.random() * (100 + 1) + 0), true));
-
+  }
   document.getElementById("img_dual_raw").src = text4.val();
 
   //        var staticstring2 = "http://stockcharts.com/c-sc/sc?s=bdx:bang&p=d&i=0&a=168&r=pang";
@@ -3026,7 +3078,7 @@ $('#sector_mon').on('click', 'button', function () {
 	document.getElementById('img_mon4_1').src="http://charts.megahubhk.com/servlets/MHImageChart?sid=9988&mChart2=11&m2p1=7&cmode=1&vol=1&intTech1=1&it1p1=50&it1p5=200&tstyle=2&fsize=10&&cr=106&cwidth=499&cheight=375&lang=1&cperiod=1010009&ctype=1&wm=13&p=" + Math.floor(Math.random() * (100 + 1) + 0);
 	document.getElementById('img_mon5').src="http://charts.megahubhk.com/servlets/MHImageChart?sid=1299&mChart2=11&m2p1=7&cmode=1&vol=1&intTech1=1&it1p1=50&it1p5=200&tstyle=2&fsize=10&&cr=106&cwidth=499&cheight=375&lang=1&cperiod=1010009&ctype=1&wm=13&p=" + Math.floor(Math.random() * (100 + 1) + 0);
 	document.getElementById('img_mon6').src="http://charts.megahubhk.com/servlets/MHImageChart?sid=7262&mChart2=11&m2p1=7&cmode=1&vol=1&intTech1=1&it1p1=50&it1p5=200&tstyle=2&fsize=10&&cr=106&cwidth=499&cheight=375&lang=1&cperiod=1010009&ctype=1&wm=13&p=" + Math.floor(Math.random() * (100 + 1) + 0);
-	document.getElementById('img_mon7').src="http://charts.megahubhk.com/servlets/MHImageChart?sid=7709&mChart2=11&m2p1=7&cmode=1&vol=1&intTech1=1&it1p1=50&it1p5=200&tstyle=2&fsize=10&&cr=106&cwidth=499&cheight=375&lang=1&cperiod=1010009&ctype=1&wm=13&p=" + Math.floor(Math.random() * (100 + 1) + 0);
+	document.getElementById('img_mon7').src="http://charts.megahubhk.com/servlets/MHImageChart?sid=7747&mChart2=11&m2p1=7&cmode=1&vol=1&intTech1=1&it1p1=50&it1p5=200&tstyle=2&fsize=10&&cr=106&cwidth=499&cheight=375&lang=1&cperiod=1010009&ctype=1&wm=13&p=" + Math.floor(Math.random() * (100 + 1) + 0);
 	document.getElementById('img_mon8').src="http://charts.megahubhk.com/servlets/MHImageChart?sid=0175&mChart2=11&m2p1=7&cmode=1&vol=1&intTech1=1&it1p1=50&it1p5=200&tstyle=2&fsize=10&&cr=106&cwidth=499&cheight=375&lang=1&cperiod=1010009&ctype=1&wm=13&p=" + Math.floor(Math.random() * (100 + 1) + 0);
 	document.getElementById('img_mon8a').src="http://charts.megahubhk.com/servlets/MHImageChart?sid=0700&mChart2=11&m2p1=7&cmode=1&vol=1&intTech1=1&it1p1=50&it1p5=200&tstyle=2&fsize=10&&cr=106&cwidth=499&cheight=375&lang=1&cperiod=1010009&ctype=1&wm=13&p=" + Math.floor(Math.random() * (100 + 1) + 0);
 	document.getElementById('img_mon9').src="http://charts.megahubhk.com/servlets/MHImageChart?sid=2318&mChart2=11&m2p1=7&cmode=1&vol=1&intTech1=1&it1p1=50&it1p5=200&tstyle=2&fsize=10&&cr=106&cwidth=499&cheight=375&lang=1&cperiod=1010009&ctype=1&wm=13&p=" + Math.floor(Math.random() * (100 + 1) + 0);
@@ -3047,8 +3099,8 @@ $('#sector_fd').on('click', 'button', function () {
 	document.getElementById('img_fdmon2-1').src="https://charts.megahubhk.com/servlets/MHImageChart?sid=2812&cmode=1&vol=1&intTech1=1&it1p1=50&it1p5=200&tstyle=2&fsize=9&&cr=106&cwidth=275&cheight=175&lang=1&cperiod=1010003&ctype=1&wm=16&" + Math.floor(Math.random() * (100 + 1) + 0);
 	document.getElementById('img_fdmon3').src="http://charts.megahubhk.com/servlets/MHImageChart?sid=2018&mChart2=11&m2p1=7&cmode=1&vol=1&intTech1=1&it1p1=50&it1p5=200&tstyle=2&fsize=10&&cr=106&cwidth=499&cheight=375&lang=1&cperiod=1000305&ctype=1&wm=13&p=" + Math.floor(Math.random() * (100 + 1) + 0);
 	document.getElementById('img_fdmon3-1').src="https://charts.megahubhk.com/servlets/MHImageChart?sid=2018&cmode=1&vol=1&intTech1=1&it1p1=50&it1p5=200&tstyle=2&fsize=9&&cr=106&cwidth=275&cheight=175&lang=1&cperiod=1010003&ctype=1&wm=16&" + Math.floor(Math.random() * (100 + 1) + 0);
-	document.getElementById('img_fdmon4').src="http://charts.megahubhk.com/servlets/MHImageChart?sid=1801&mChart2=11&m2p1=7&cmode=1&vol=1&intTech1=1&it1p1=50&it1p5=200&tstyle=2&fsize=10&&cr=106&cwidth=499&cheight=375&lang=1&cperiod=1000305&ctype=1&wm=13&p=" + Math.floor(Math.random() * (100 + 1) + 0);
-	document.getElementById('img_fdmon4-1').src="https://charts.megahubhk.com/servlets/MHImageChart?sid=1801&cmode=1&vol=1&intTech1=1&it1p1=50&it1p5=200&tstyle=2&fsize=9&&cr=106&cwidth=275&cheight=175&lang=1&cperiod=1010003&ctype=1&wm=16&" + Math.floor(Math.random() * (100 + 1) + 0);
+	document.getElementById('img_fdmon4').src="http://charts.megahubhk.com/servlets/MHImageChart?sid=2099&mChart2=11&m2p1=7&cmode=1&vol=1&intTech1=1&it1p1=50&it1p5=200&tstyle=2&fsize=10&&cr=106&cwidth=499&cheight=375&lang=1&cperiod=1000305&ctype=1&wm=13&p=" + Math.floor(Math.random() * (100 + 1) + 0);
+	document.getElementById('img_fdmon4-1').src="https://charts.megahubhk.com/servlets/MHImageChart?sid=2099&cmode=1&vol=1&intTech1=1&it1p1=50&it1p5=200&tstyle=2&fsize=9&&cr=106&cwidth=275&cheight=175&lang=1&cperiod=1010003&ctype=1&wm=16&" + Math.floor(Math.random() * (100 + 1) + 0);
 	document.getElementById('img_fdmon5').src="http://charts.megahubhk.com/servlets/MHImageChart?sid=1299&mChart2=11&m2p1=7&cmode=1&vol=1&intTech1=1&it1p1=50&it1p5=200&tstyle=2&fsize=10&&cr=106&cwidth=499&cheight=375&lang=1&cperiod=1000305&ctype=1&wm=13&p=" + Math.floor(Math.random() * (100 + 1) + 0);
 	document.getElementById('img_fdmon5-1').src="https://charts.megahubhk.com/servlets/MHImageChart?sid=1299&cmode=1&vol=1&intTech1=1&it1p1=50&it1p5=200&tstyle=2&fsize=9&&cr=106&cwidth=275&cheight=175&lang=1&cperiod=1010003&ctype=1&wm=16&" + Math.floor(Math.random() * (100 + 1) + 0);
 	document.getElementById('img_fdmon6').src="http://charts.megahubhk.com/servlets/MHImageChart?sid=1093&mChart2=11&m2p1=7&cmode=1&vol=1&intTech1=1&it1p1=50&it1p5=200&tstyle=2&fsize=10&&cr=106&cwidth=499&cheight=375&lang=1&cperiod=1000305&ctype=1&wm=13&p=" + Math.floor(Math.random() * (100 + 1) + 0);
