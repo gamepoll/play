@@ -80,8 +80,11 @@
   .muted { color:var(--slate-300); }
   footer.app { margin-top:48px; border-top:1px solid var(--slate-200); padding-top:24px; text-align:center; font-size:12px; color:var(--slate-400); }
   .badge { display:inline-block; font-size:10px; background:var(--slate-200); color:var(--slate-600); border-radius:6px; padding:1px 6px; margin-left:6px; font-family:ui-monospace,monospace; }
-  .live-url-banner { display:flex; flex-wrap:wrap; align-items:center; gap:10px; margin:-8px 0 24px;
-    background:var(--slate-900); color:#fff; border-radius:12px; padding:12px 16px; }
+  .hosting-stack { display:grid; gap:10px; margin:0 0 24px; }
+  .arena-url-banner, .live-url-banner { display:flex; flex-wrap:wrap; align-items:center; gap:10px;
+    color:#fff; border-radius:12px; padding:12px 16px; }
+  .arena-url-banner { background:linear-gradient(135deg,#4c1d95,#6d28d9); }
+  .live-url-banner { margin:0; background:var(--slate-900); }
   .live-dot { width:9px; height:9px; border-radius:50%; background:#22c55e; box-shadow:0 0 0 0 rgba(34,197,94,.7);
     animation:pulse 1.8s infinite; flex:none; }
   @keyframes pulse { 0%{box-shadow:0 0 0 0 rgba(34,197,94,.6);} 70%{box-shadow:0 0 0 8px rgba(34,197,94,0);} 100%{box-shadow:0 0 0 0 rgba(34,197,94,0);} }
@@ -89,6 +92,33 @@
   .live-url { font-family:ui-monospace,monospace; font-size:13px; color:#6ee7b7; text-decoration:none;
     word-break:break-all; font-weight:600; }
   .live-url:hover { text-decoration:underline; }
+  .arena-dot { width:9px; height:9px; border-radius:50%; background:#fbbf24; flex:none; }
+  .arena-dot.is-live { background:#22c55e; box-shadow:0 0 0 0 rgba(34,197,94,.7); animation:pulse 1.8s infinite; }
+  .arena-label { font-size:13px; color:#ddd6fe; }
+  .arena-url { font-family:ui-monospace,monospace; font-size:13px; color:#fff; text-decoration:none; word-break:break-all; font-weight:700; }
+  .arena-url:hover { text-decoration:underline; }
+  .arena-status { font-size:12px; color:#fde68a; }
+  .arena-action { color:#ede9fe; border:1px solid rgba(255,255,255,.28); border-radius:7px; padding:4px 9px;
+    font-size:11px; font-weight:700; text-decoration:none; white-space:nowrap; }
+  .arena-action:hover { background:rgba(255,255,255,.12); }
+  .arena-action-public { color:#fff; background:rgba(5,150,105,.75); border-color:rgba(110,231,183,.55); }
+  .arena-action-public:hover { background:#047857; }
+  .expiry-badge { font-size:11px; color:#fef3c7; background:rgba(245,158,11,.17); border:1px solid rgba(251,191,36,.35); border-radius:7px; padding:3px 8px; }
+  .public-host-controls { width:100%; display:grid; grid-template-columns:auto auto minmax(220px,1fr); gap:8px 10px;
+    align-items:center; margin-top:3px; padding-top:10px; border-top:1px solid rgba(255,255,255,.14); }
+  .public-create { background:#059669; color:#fff; border:1px solid #34d399; border-radius:8px; padding:8px 12px;
+    font-size:12px; font-weight:700; cursor:pointer; transition:background .15s,transform .1s,opacity .1s; }
+  .public-create:hover { background:#047857; }
+  .public-create:active { transform:scale(.97); opacity:.9; }
+  .public-create:disabled { opacity:.6; cursor:wait; }
+  .public-history-label { color:#cbd5e1; font-size:11px; font-weight:600; }
+  .public-history-select { min-width:0; width:100%; border:1px solid rgba(255,255,255,.25); border-radius:8px;
+    background:#1e293b; color:#fff; padding:7px 9px; font-size:11px; outline:none; }
+  .public-history-select:focus { border-color:#34d399; box-shadow:0 0 0 2px rgba(52,211,153,.2); }
+  @media (max-width:760px){
+    .public-host-controls { grid-template-columns:1fr; }
+    .public-history-label { margin-top:2px; }
+  }
   .live-copy { margin-left:auto; background:rgba(255,255,255,.12); border:1px solid rgba(255,255,255,.25);
     color:#fff; font-size:12px; padding:5px 12px; border-radius:8px; font-weight:600; }
   .live-copy:hover { background:rgba(255,255,255,.22); }
@@ -147,6 +177,31 @@
 </head>
 <body>
 <div class="wrap">
+  <!-- Hosting URLs: Arena first, current public static host directly below -->
+  <div class="hosting-stack" aria-label="Application hosting URLs">
+    <div class="arena-url-banner" id="arenaUrlBanner">
+      <span class="arena-dot" id="arenaStatusDot"></span>
+      <span class="arena-label">Arena-hosted URL:</span>
+      <a class="arena-url" id="arenaUrlLink" href="#" target="_blank" rel="noopener" hidden></a>
+      <span class="arena-status" id="arenaUrlStatus">Checking Arena deployment…</span>
+      <a class="arena-action" id="arenaCodeLink" href="https://arena.ai/" target="_blank" rel="noopener">Open Arena Code</a>
+      <a class="arena-action arena-action-public" id="arenaPublicFallback" href="#" target="_blank" rel="noopener">Use public mirror</a>
+      <button class="live-copy" id="btnCopyArenaUrl" type="button" hidden>Copy Arena URL</button>
+    </div>
+    <div class="live-url-banner" id="liveUrlBanner">
+      <span class="live-dot"></span>
+      <span class="live-label">Current public hosted URL:</span>
+      <a class="live-url" id="liveUrlLink" href="#" target="_blank" rel="noopener"></a>
+      <span class="expiry-badge" id="publicExpiry">Expires: December 1, 2026</span>
+      <button class="live-copy" id="btnCopyUrl" type="button">Copy URL</button>
+      <div class="public-host-controls">
+        <button class="public-create" id="btnCreatePublicUrl" type="button" title="Publish a fresh standalone copy of this app to a new token-free HTTPS URL, replace the active public URL above, and retain the latest six generated URLs with their expiry dates in this browser.">Create new public URL</button>
+        <label class="public-history-label" for="publicHostHistory">Last 6 replaced URLs:</label>
+        <select class="public-history-select" id="publicHostHistory" title="Choose one of the latest six public deployments. Each option includes its expiry date."></select>
+      </div>
+    </div>
+  </div>
+
   <header class="app">
     <span class="logo">🐎</span>
     <div>
@@ -154,14 +209,6 @@
       <p class="subtitle">Parse, structure, store &amp; export horse-racing data from raw text or HTML — 100% standalone (runs offline, saves to your browser).</p>
     </div>
   </header>
-
-  <!-- Live hosted URL banner -->
-  <div class="live-url-banner" id="liveUrlBanner">
-    <span class="live-dot"></span>
-    <span class="live-label">Hosted &amp; running at:</span>
-    <a class="live-url" id="liveUrlLink" href="#" target="_blank" rel="noopener"></a>
-    <button class="live-copy" id="btnCopyUrl" type="button">Copy URL</button>
-  </div>
 
   <!-- Workflow toolbar -->
   <section class="card toolbar">
@@ -1139,6 +1186,18 @@ async function attemptHostedTrainerSource(){
   const lines=splitJockeySource(payload.source);
   return lines?{lines,method:"hosted trainer source relay"}:null;
 }
+async function attemptTrainerCorsTools(){
+  const proxy="https://cors.tools/proxy?url="+encodeURIComponent(TRAINER_SOURCE_URL);
+  const source=await fetchSourceBytes(proxy,12000);
+  const lines=splitJockeySource(source);
+  return lines?{lines,method:"cors.tools Big5 relay"}:null;
+}
+async function attemptTrainerCorsDev(){
+  const proxy="https://proxy.cors.dev/"+TRAINER_SOURCE_URL;
+  const source=await fetchSourceBytes(proxy,12000);
+  const lines=splitJockeySource(source);
+  return lines?{lines,method:"cors.dev Big5 relay"}:null;
+}
 async function attemptExactTrainerValidator(){
   const markup=await fetchSourceText(FIRST_TRAINER_VALIDATOR_URL,8500);
   const source=sourceFromValidatorHtml(markup);
@@ -1182,6 +1241,8 @@ async function extractTrainerTable(){
 
   const attempts=[
     {label:"Trying hosted Big5 trainer relay",run:attemptHostedTrainerSource},
+    {label:"Trying public CORS-safe Big5 relay",run:attemptTrainerCorsTools},
+    {label:"Trying alternate CORS-safe Big5 relay",run:attemptTrainerCorsDev},
     {label:"Trying W3C Nu trainer show-source",run:attemptExactTrainerValidator},
     {label:"Trying direct Big5 trainer source",run:attemptDirectTrainerSource},
     {label:"Reading Nu trainer structured source",run:attemptTrainerValidatorJson},
@@ -1569,18 +1630,200 @@ $("btnDownloadU2").addEventListener("click",()=>{
   download("u2_output.txt", $("outputArea").value, "text/plain");
 });
 
-/* Live URL banner */
-(function initLiveUrl(){
-  var injected="__LIVE_URL__";
-  var url = (injected.indexOf("LIVE_URL")===-1 && injected) ? injected : (window.location.origin || window.location.href);
-  var link=$("liveUrlLink");
-  link.textContent=url;
-  link.href=url;
-  $("btnCopyUrl").addEventListener("click",function(){
-    var done=function(){ var b=$("btnCopyUrl"); var t=b.textContent; b.textContent="Copied!"; setTimeout(function(){b.textContent=t;},1500); };
-    if(navigator.clipboard&&navigator.clipboard.writeText){ navigator.clipboard.writeText(url).then(done,done); }
-    else { var ta=document.createElement("textarea"); ta.value=url; document.body.appendChild(ta); ta.select(); try{document.execCommand("copy");}catch(e){} document.body.removeChild(ta); done(); }
+/* Hosting URL banners + self-publishing history */
+(function initHostingUrls(){
+  var HISTORY_KEY="horse_public_host_history_v1";
+  var DEPLOY_TARGET="https://ship.page/deploy";
+  var DEPLOY_PROXY="https://cors.tools/proxy?url="+encodeURIComponent(DEPLOY_TARGET);
+  var hostEntries=[];
+  var publicInjected="__PUBLIC_HOSTED_URL__";
+  var onPublicStaticHost=/(^|\.)ship\.place$/i.test(window.location.hostname);
+  var publicUrl=resolved(publicInjected)||(onPublicStaticHost?(window.location.origin+"/"):"https://playful-bike-v75xo.ship.place/");
+
+  function resolved(value){ return value && value.indexOf("__")!==0 ? value : ""; }
+  function cleanUrl(value){
+    try{ var url=new URL(String(value)); return /^https:$/.test(url.protocol)?(url.origin+"/"):""; }
+    catch(e){ return ""; }
+  }
+  function normalizeEntry(entry){
+    var url=cleanUrl(entry&&entry.url);
+    if(!url) return null;
+    return {
+      url:url,
+      expiresAt:entry.expiresAt||entry.expires_at||"",
+      createdAt:entry.createdAt||new Date().toISOString()
+    };
+  }
+  function formatExpiry(value){
+    if(!value) return "Expiry unavailable";
+    if(/^\d{4}-\d{2}-\d{2}$/.test(String(value))){
+      var parts=String(value).split("-");
+      var dateOnly=new Date(Date.UTC(Number(parts[0]),Number(parts[1])-1,Number(parts[2])));
+      return "Expires: "+dateOnly.toLocaleDateString("en-GB",{timeZone:"UTC",day:"2-digit",month:"short",year:"numeric"});
+    }
+    var date=new Date(value);
+    if(Number.isNaN(date.getTime())) return "Expires: "+String(value);
+    return "Expires: "+date.toLocaleString("en-GB",{
+      timeZone:"UTC",day:"2-digit",month:"short",year:"numeric",hour:"2-digit",minute:"2-digit",hour12:false
+    }).replace(",","")+" UTC";
+  }
+  function mergeEntries(entries){
+    var merged=[];
+    (entries||[]).forEach(function(raw){
+      var entry=normalizeEntry(raw);
+      if(!entry||merged.some(function(item){return item.url===entry.url;})) return;
+      merged.push(entry);
+    });
+    hostEntries=merged.slice(0,6);
+  }
+  function loadStoredEntries(){
+    try{ var parsed=JSON.parse(localStorage.getItem(HISTORY_KEY)||"[]"); return Array.isArray(parsed)?parsed:[]; }
+    catch(e){ return []; }
+  }
+  function saveEntries(){
+    try{ localStorage.setItem(HISTORY_KEY,JSON.stringify(hostEntries.slice(0,6))); }catch(e){}
+  }
+  function readTransferredEntries(){
+    var match=window.location.hash.match(/^#hostHistory=(.*)$/);
+    if(!match) return [];
+    try{
+      var parsed=JSON.parse(decodeURIComponent(match[1]));
+      if(window.history&&window.history.replaceState) window.history.replaceState(null,"",window.location.pathname+window.location.search);
+      return Array.isArray(parsed)?parsed:[];
+    }catch(e){ return []; }
+  }
+  function historyTransferUrl(url){
+    var encoded=encodeURIComponent(JSON.stringify(hostEntries.slice(0,6)));
+    return cleanUrl(url)+"#hostHistory="+encoded;
+  }
+  function renderHistory(){
+    var select=$("publicHostHistory");
+    select.innerHTML="";
+    hostEntries.forEach(function(entry,index){
+      var option=document.createElement("option");
+      option.value=entry.url;
+      option.textContent=(index+1)+". "+entry.url+" — "+formatExpiry(entry.expiresAt);
+      select.appendChild(option);
+    });
+    select.disabled=hostEntries.length===0;
+    if(hostEntries.some(function(entry){return entry.url===publicUrl;})) select.value=publicUrl;
+  }
+  function setActivePublic(entry){
+    entry=normalizeEntry(entry);
+    if(!entry) return;
+    publicUrl=entry.url;
+    var transfer=historyTransferUrl(publicUrl);
+    var link=$("liveUrlLink");
+    link.textContent=publicUrl;
+    link.href=transfer;
+    $("arenaPublicFallback").href=transfer;
+    $("publicExpiry").textContent=formatExpiry(entry.expiresAt);
+    var select=$("publicHostHistory");
+    if(select) select.value=publicUrl;
+  }
+  function bindCopy(buttonId,getUrl,successLabel){
+    var button=$(buttonId);
+    button.addEventListener("click",function(){
+      var url=typeof getUrl==="function"?getUrl():getUrl;
+      var original=button.textContent;
+      var done=function(){ button.textContent=successLabel; setTimeout(function(){button.textContent=original;},1500); };
+      if(navigator.clipboard&&navigator.clipboard.writeText){
+        navigator.clipboard.writeText(url).then(done,function(){
+          var ta=document.createElement("textarea"); ta.value=url; document.body.appendChild(ta); ta.select();
+          try{document.execCommand("copy");}catch(e){} document.body.removeChild(ta); done();
+        });
+      }else{
+        var ta=document.createElement("textarea"); ta.value=url; document.body.appendChild(ta); ta.select();
+        try{document.execCommand("copy");}catch(e){} document.body.removeChild(ta); done();
+      }
+    });
+  }
+  function standaloneSnapshot(){
+    var clone=document.documentElement.cloneNode(true);
+    ["rawInput","outputArea"].forEach(function(id){
+      var textarea=clone.querySelector("#"+id);
+      if(textarea){ textarea.textContent=""; textarea.removeAttribute("value"); }
+    });
+    ["errorMsg","statusMsg","jsonStatus"].forEach(function(id){
+      var node=clone.querySelector("#"+id); if(node) node.textContent="";
+    });
+    var create=clone.querySelector("#btnCreatePublicUrl");
+    if(create){ create.disabled=false; create.textContent="Create new public URL"; create.removeAttribute("aria-busy"); }
+    var select=clone.querySelector("#publicHostHistory"); if(select) select.innerHTML="";
+    return "<!DOCTYPE html>\n"+clone.outerHTML;
+  }
+  async function createPublicUrl(){
+    var button=$("btnCreatePublicUrl");
+    var original=button.textContent;
+    button.disabled=true; button.setAttribute("aria-busy","true"); button.textContent="Publishing…";
+    showError("");
+    showStatus("Creating a new token-free public deployment…");
+    try{
+      var response=await fetch(DEPLOY_PROXY,{
+        method:"POST",
+        headers:{"Content-Type":"text/html"},
+        body:standaloneSnapshot(),
+        credentials:"omit",
+        cache:"no-store"
+      });
+      var text=await response.text();
+      var payload;
+      try{ payload=JSON.parse(text); }catch(e){ throw new Error("Invalid deployment response"); }
+      if(!response.ok||!payload.url||!payload.expires_at) throw new Error(payload.error||"Deployment unavailable");
+      var entry=normalizeEntry({url:payload.url,expiresAt:payload.expires_at,createdAt:new Date().toISOString()});
+      if(!entry) throw new Error("Deployment returned an invalid URL");
+      mergeEntries([entry].concat(hostEntries));
+      saveEntries();
+      renderHistory();
+      setActivePublic(entry);
+      button.textContent="✓ Public URL created";
+      showStatus("New public URL created and selected. "+formatExpiry(entry.expiresAt)+".",true);
+    }catch(error){
+      button.textContent="Publish failed";
+      showError("Could not create a new public URL. The anonymous hosting service or CORS relay is temporarily unavailable.");
+      showStatus("Public URL creation failed");
+    }finally{
+      setTimeout(function(){ button.textContent=original; button.disabled=false; button.removeAttribute("aria-busy"); },1800);
+    }
+  }
+
+  var transferred=readTransferredEntries();
+  mergeEntries(transferred.concat(loadStoredEntries()));
+  if(!hostEntries.some(function(entry){return entry.url===publicUrl;})){
+    hostEntries.unshift({url:publicUrl,expiresAt:"2026-12-01",createdAt:new Date().toISOString()});
+    hostEntries=hostEntries.slice(0,6);
+  }
+  saveEntries();
+  renderHistory();
+  setActivePublic(hostEntries.find(function(entry){return entry.url===publicUrl;})||hostEntries[0]);
+  bindCopy("btnCopyUrl",function(){return publicUrl;},"Copied!");
+  $("publicHostHistory").addEventListener("change",function(){
+    var selected=hostEntries.find(function(entry){return entry.url===$("publicHostHistory").value;});
+    if(selected) setActivePublic(selected);
   });
+  $("btnCreatePublicUrl").addEventListener("click",createPublicUrl);
+
+  // Arena previews enforce their own gateway and are externally restricted to
+  // arena.ai. Only call the Arena URL active when this document has actually
+  // loaded on an arena.site hostname; otherwise direct users to the mirror.
+  var arenaInjected="__ARENA_HOSTED_URL__";
+  var configuredArenaUrl=resolved(arenaInjected);
+  var runningOnArena=/(^|\.)arena\.site$/i.test(window.location.hostname);
+  var arenaUrl=runningOnArena?(window.location.origin+"/"):"";
+  var arenaLink=$("arenaUrlLink");
+  var arenaStatus=$("arenaUrlStatus");
+  var arenaCopy=$("btnCopyArenaUrl");
+  if(arenaUrl){
+    arenaLink.textContent=arenaUrl; arenaLink.href=arenaUrl; arenaLink.hidden=false;
+    arenaStatus.textContent="Arena deployment active inside Arena Code";
+    $("arenaStatusDot").classList.add("is-live");
+    arenaCopy.hidden=false;
+    bindCopy("btnCopyArenaUrl",arenaUrl,"Copied!");
+  }else if(configuredArenaUrl){
+    arenaStatus.textContent="Arena preview is restricted to arena.ai. Use Arena Code or the public mirror.";
+  }else{
+    arenaStatus.textContent="Arena preview requires Arena Code access. Use the public mirror for unrestricted access.";
+  }
 })();
 
 /* Init */
