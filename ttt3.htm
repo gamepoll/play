@@ -1357,7 +1357,7 @@ ______________________________________<input type="button" value="X<->Y =>" id="
 <!-- Floating control box -->
 <div id="ctrlBox" style="position: fixed; bottom: 110px; right: 20px; z-index: 9999; background: rgba(255, 255, 255, 0.2); backdrop-filter: blur(10px); -webkit-backdrop-filter: blur(10px); border: 1px solid rgba(255, 255, 255, 0.3); padding: 15px; border-radius: 12px; box-shadow: 0 8px 32px rgba(0,0,0,0.15); display: flex; align-items: center; gap: 15px; width: 300px; font-family: system-ui, -apple-system, sans-serif;">
   <select id="LEG5" aria-label="LEG5" style="width: 40%; background: rgba(255, 255, 255, 0.5); border: 1px solid rgba(0,0,0,0.1); padding: 8px; border-radius: 6px; font-size: 14px; outline: none;">
-<option value="$one">---</option>
+<option value="---">---</option>
     <option>sqqq</option>
     <option>seth</option>
     <option>biti</option>
@@ -1365,12 +1365,13 @@ ______________________________________<input type="button" value="X<->Y =>" id="
     <option>fxp</option>
     <option>zsl</option>
     <option>gll</option>
-<option value="$one">---</option>
+<option value="---">---</option>
     <option>nvds</option>
     <option>stsm</option>
     <option>tsls</option>
   </select>
   <label><input id="DIA2" type="checkbox" checked> LunesA</label>
+  <input type="text" id="BX" placeholder="Enter custom leg" />
 </div>
 
 		
@@ -3002,6 +3003,10 @@ $("#button_xy").on("click", function () {
   // var staticstring2 ="http://stockcharts.com/c-sc/sc?s=bang&p=D&&yr=3&i=p40545395733&r=pang";
   var staticstring2 ="http://stockcharts.com/c-sc/sc?chart=bang,uu[520,a]waclyyay[dj][pb50!b200!f]&r=pang";
 
+  if (Leg5 == "---") {
+    Leg5 = document.getElementById('BX').value;
+  }
+	
   if (Dia2) {
   text4.val(staticstring2.replaceAll("bang", text1val + ":" + Leg5
                                      , true));
